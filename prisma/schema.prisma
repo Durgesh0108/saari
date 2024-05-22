@@ -1,0 +1,585 @@
+// generator client {
+//   provider        = "prisma-client-js"
+//   previewFeatures = ["fullTextSearch", "fullTextIndex"]
+// }
+
+// datasource db {
+//   provider = "mysql"
+//   url      = env("DATABASE_URL")
+// }
+
+// model User {
+//   id             String    @id @default(uuid())
+//   // id             String    @id @default(auto()) @map("_id") @db.ObjectId
+//   name           String    @db.Text
+//   phone_number   String
+//   email          String    @unique
+//   password       String
+//   address        String?   @db.Text
+//   GSTNO          String?   @db.Text
+//   serviceAddress String?   @db.Text
+//   role           String    @default("user")
+//   expired        Boolean?  @default(true)
+//   expiryDate     DateTime?
+
+//   testimonial                  Testimonial[]
+//   advertisements               Advertisement[]
+//   createdAt                    DateTime                    @default(now())
+//   updatedAt                    DateTime                    @updatedAt
+//   Order                        Order[]
+//   Brands                       Brands[]
+//   MemberSubscription           MemberSubscription[]
+//   AdvertisementSubscription    AdvertisementSubscription[]
+//   ProductEnquiryEmailSender    ProductEnquiryEmail[]       @relation("ProductEnquiryEmailSender")
+//   ProductEnquiryEmailRecipient ProductEnquiryEmail[]       @relation("ProductEnquiryEmailRecipient")
+//   Service                      Service[]
+//   ServiceSubcategory           ServiceSubcategory[]
+//   ServiceEnquiryEmailSender    ServiceEnquiryEmail[]       @relation("ServiceEnquiryEmailSender")
+//   ServiceEnquiryEmailRecipient ServiceEnquiryEmail[]       @relation("ServiceEnquiryEmailRecipient")
+
+//   @@fulltext([name])
+//   @@fulltext([serviceAddress])
+// }
+
+// model MemberSubscription {
+//   id         String    @id @default(uuid())
+//   // id         String    @id @default(auto()) @map("_id") @db.ObjectId
+//   userId     String?
+//   user       User?     @relation(fields: [userId], references: [id])
+//   email      String?
+//   expired    Boolean?  @default(false)
+//   expiryDate DateTime?
+//   createdAt  DateTime  @default(now())
+//   updatedAt  DateTime  @updatedAt
+// }
+
+// model Category {
+//   id             String           @id @default(uuid())
+//   // id             String           @id @default(auto()) @map("_id") @db.ObjectId
+//   name           String           @db.Text
+//   subcategory    Subcategory[]    @relation("CategoryToSubcategory")
+//   subsubcategory Subsubcategory[] @relation("CategoryToSubsubCategory")
+//   brands         Brands[]         @relation("CategoryToBrand")
+//   size           Size[]           @relation("CategoryToSize")
+//   products       Product[]        @relation("CategoryToProduct")
+//   Material       Material[]
+//   Pattern        Pattern[]
+//   ProductType    ProductType[]
+//   createdAt      DateTime         @default(now())
+//   updatedAt      DateTime         @updatedAt
+
+//   @@fulltext([name])
+// }
+
+// model Subcategory {
+//   id             String           @id @default(uuid())
+//   // id             String           @id @default(auto()) @map("_id") @db.ObjectId
+//   name           String           @db.Text
+//   categoryId     String
+//   category       Category         @relation("CategoryToSubcategory", fields: [categoryId], references: [id], onDelete: Cascade)
+//   subsubcategory Subsubcategory[] @relation("SubcategoryToSubsubCategory")
+//   brands         Brands[]         @relation("SubcategoryToBrand")
+//   products       Product[]        @relation("SubCategoryToProduct")
+//   createdAt      DateTime         @default(now())
+//   updatedAt      DateTime         @updatedAt
+
+//   @@fulltext([name])
+// }
+
+// model Subsubcategory {
+//   id            String      @id @default(uuid())
+//   // id            String      @id @default(auto()) @map("_id") @db.ObjectId
+//   name          String      @db.Text
+//   categoryId    String
+//   category      Category    @relation("CategoryToSubsubCategory", fields: [categoryId], references: [id], onDelete: Cascade)
+//   subcategoryId String
+//   subcategory   Subcategory @relation("SubcategoryToSubsubCategory", fields: [subcategoryId], references: [id], onDelete: Cascade)
+//   brands        Brands[]    @relation("SubsubcategoryToBrand")
+//   products      Product[]   @relation("SubsubCategoryToProduct")
+//   createdAt     DateTime    @default(now())
+//   updatedAt     DateTime    @updatedAt
+
+//   @@fulltext([name])
+// }
+
+// model Testimonial {
+//   id          String   @id @default(uuid())
+//   // id          String   @id @default(auto()) @map("_id") @db.ObjectId
+//   userId      String
+//   review      String   @db.Text
+//   companyName String?
+//   isPending   Boolean  @default(true)
+//   isApproved  Boolean  @default(false)
+//   show        Boolean  @default(false)
+//   user        User     @relation(fields: [userId], references: id, onDelete: Cascade)
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
+// }
+
+// model AdvertisementSubscription {
+//   id              String         @id @default(uuid())
+//   // id              String         @id @default(auto()) @map("_id") @db.ObjectId
+//   userId          String?
+//   user            User?          @relation(fields: [userId], references: [id])
+//   advertisementId String?
+//   advertisement   Advertisement? @relation(fields: [advertisementId], references: [id])
+//   expired         Boolean        @default(false)
+//   expiryDate      DateTime?
+//   createdAt       DateTime       @default(now())
+//   updatedAt       DateTime       @updatedAt
+// }
+
+// model Advertisement {
+//   id                        String                      @id @default(uuid())
+//   // id                        String                      @id @default(auto()) @map("_id") @db.ObjectId
+//   userId                    String
+//   user                      User                        @relation(fields: [userId], references: id, onDelete: Cascade)
+//   price                     Int
+//   imageUrl                  String                      @db.Text
+//   AdpositionId              String
+//   AdPosition                Adposition                  @relation(fields: [AdpositionId], references: [id])
+//   AdbannerId                String
+//   AdBanner                  Adbanner                    @relation(fields: [AdbannerId], references: [id])
+//   AdDurationId              String
+//   AdDuration                Adduration                  @relation(fields: [AdDurationId], references: [id])
+//   AdSizeId                  String
+//   AdSize                    Adsize                      @relation(fields: [AdSizeId], references: [id])
+//   AdTypeId                  String
+//   AdType                    Adtype                      @relation(fields: [AdTypeId], references: [id])
+//   createdAt                 DateTime                    @default(now())
+//   updatedAt                 DateTime                    @updatedAt
+//   AdvertisementSubscription AdvertisementSubscription[]
+// }
+
+// model Adposition {
+//   id            String          @id @default(uuid())
+//   // id            String          @id @default(auto()) @map("_id") @db.ObjectId
+//   name          String          @db.Text
+//   AdPrice       AdPrice[]       @relation("AdPositionToAdPrice")
+//   advertisement Advertisement[]
+//   createdAt     DateTime        @default(now())
+//   updatedAt     DateTime        @updatedAt
+// }
+
+// model Adbanner {
+//   id            String          @id @default(uuid())
+//   // id            String          @id @default(auto()) @map("_id") @db.ObjectId
+//   name          String          @db.Text
+//   AdSize        Adsize[]        @relation("AdBannerToAdSize")
+//   AdType        Adtype[]        @relation("AdbannerToAdType")
+//   AdPrice       AdPrice[]       @relation("AdBannerToAdPrice")
+//   advertisement Advertisement[]
+//   createdAt     DateTime        @default(now())
+//   updatedAt     DateTime        @updatedAt
+// }
+
+// model Adduration {
+//   id            String          @id @default(uuid())
+//   // id            String          @id @default(auto()) @map("_id") @db.ObjectId
+//   name          String          @db.Text
+//   value         Int
+//   AdPrice       AdPrice[]       @relation("AdDurationToAdPrice")
+//   advertisement Advertisement[]
+//   createdAt     DateTime        @default(now())
+//   updatedAt     DateTime        @updatedAt
+// }
+
+// model Adsize {
+//   id            String          @id @default(uuid())
+//   // id            String          @id @default(auto()) @map("_id") @db.ObjectId
+//   height        Int
+//   width         Int
+//   AdBannerId    String
+//   AdBanner      Adbanner        @relation("AdBannerToAdSize", fields: [AdBannerId], references: [id], onDelete: Cascade)
+//   AdPrice       AdPrice[]       @relation("AdSizeToAdPrice")
+//   advertisement Advertisement[]
+//   createdAt     DateTime        @default(now())
+//   updatedAt     DateTime        @updatedAt
+// }
+
+// model Adtype {
+//   id            String          @id @default(uuid())
+//   // id            String          @id @default(auto()) @map("_id") @db.ObjectId
+//   name          String          @db.Text
+//   AdbannerId    String
+//   AdBanner      Adbanner        @relation("AdbannerToAdType", fields: [AdbannerId], references: [id], onDelete: Cascade)
+//   AdPrice       AdPrice[]       @relation("AdTypeToAdPrice")
+//   advertisement Advertisement[]
+//   createdAt     DateTime        @default(now())
+//   updatedAt     DateTime        @updatedAt
+// }
+
+// model AdPrice {
+//   id           String     @id @default(uuid())
+//   // id           String     @id @default(auto()) @map("_id") @db.ObjectId
+//   price        Int
+//   AdpositionId String
+//   AdPosition   Adposition @relation("AdPositionToAdPrice", fields: [AdpositionId], references: [id], onDelete: Cascade)
+//   AdbannerId   String
+//   AdBanner     Adbanner   @relation("AdBannerToAdPrice", fields: [AdbannerId], references: [id], onDelete: Cascade)
+//   AdDurationId String
+//   AdDuration   Adduration @relation("AdDurationToAdPrice", fields: [AdDurationId], references: [id], onDelete: Cascade)
+//   AdSizeId     String
+//   AdSize       Adsize     @relation("AdSizeToAdPrice", fields: [AdSizeId], references: [id], onDelete: Cascade)
+//   AdTypeId     String
+//   AdType       Adtype     @relation("AdTypeToAdPrice", fields: [AdTypeId], references: [id], onDelete: Cascade)
+//   // advertisement Advertisement[]
+//   createdAt    DateTime   @default(now())
+//   updatedAt    DateTime   @updatedAt
+// }
+
+// model Brands {
+//   id                  String                @id @default(uuid())
+//   // id                  String                @id @default(auto()) @map("_id") @db.ObjectId
+//   name                String?               @db.Text
+//   imageUrl            String?               @db.Text
+//   userId              String?
+//   user                User?                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+//   categoryId          String?
+//   category            Category?             @relation("CategoryToBrand", fields: [categoryId], references: [id], onDelete: Cascade)
+//   subcategoryId       String?
+//   subcategory         Subcategory?          @relation("SubcategoryToBrand", fields: [subcategoryId], references: [id], onDelete: Cascade)
+//   subsubcategoryId    String?
+//   subsubcategory      Subsubcategory?       @relation("SubsubcategoryToBrand", fields: [subsubcategoryId], references: [id], onDelete: Cascade)
+//   serviceAddress      String?               @db.LongText
+//   // serviceAddress      String?               @default("Borivali") @db.LongText
+//   Product             Product[]
+//   createdAt           DateTime              @default(now())
+//   updatedAt           DateTime              @updatedAt
+//   ProductEnquiryEmail ProductEnquiryEmail[]
+
+//   @@fulltext([name])
+//   @@fulltext([serviceAddress])
+// }
+
+// model Colors {
+//   id        String    @id @default(uuid())
+//   // id        String    @id @default(auto()) @map("_id") @db.ObjectId
+//   name      String
+//   hexcode   String
+//   Product   Product[]
+//   createdAt DateTime  @default(now())
+//   updatedAt DateTime  @updatedAt
+
+//   @@fulltext([name])
+// }
+
+// model Size {
+//   id         String    @id @default(uuid())
+//   // id         String    @id @default(auto()) @map("_id") @db.ObjectId
+//   name       String
+//   categoryId String
+//   category   Category  @relation("CategoryToSize", fields: [categoryId], references: [id], onDelete: Cascade)
+//   Product    Product[]
+//   createdAt  DateTime  @default(now())
+//   updatedAt  DateTime  @updatedAt
+
+//   @@fulltext([name])
+// }
+
+// model Product {
+//   id               String          @id @default(uuid())
+//   // id               String          @id @default(auto()) @map("_id") @db.ObjectId
+//   categoryId       String
+//   category         Category        @relation("CategoryToProduct", fields: [categoryId], references: [id])
+//   subcategoryId    String
+//   subcategory      Subcategory     @relation("SubCategoryToProduct", fields: [subcategoryId], references: [id])
+//   subsubcategoryId String
+//   subsubcategory   Subsubcategory  @relation("SubsubCategoryToProduct", fields: [subsubcategoryId], references: [id])
+//   brandId          String
+//   brand            Brands          @relation(fields: [brandId], references: [id], onDelete: Cascade)
+//   name             String          @db.Text
+//   qty              Int
+//   price            Int
+//   Discount         Discount?       @relation(fields: [discountId], references: [id])
+//   discountId       String?
+//   offer_price      Int?
+//   sizeId           String?
+//   size             Size?           @relation(fields: [sizeId], references: [id])
+//   size_value       Int?
+//   shortDescription String
+//   features         String
+//   color            Colors?         @relation(fields: [colorId], references: [id])
+//   colorId          String?
+//   PersonCategory   PersonCategory? @relation(fields: [personCategoryId], references: [id])
+//   personCategoryId String?
+//   Material         Material?       @relation(fields: [materialId], references: [id])
+//   materialId       String?
+//   Pattern          Pattern?        @relation(fields: [patternId], references: [id])
+//   patternId        String?
+//   // Area             Area?           @relation(fields: [areaId], references: [id])
+//   // areaId           String?
+//   ProductType      ProductType?    @relation(fields: [productTypeId], references: [id])
+//   productTypeId    String?
+//   images           Image[]
+//   description      Description[]
+//   OrderItem        OrderItem[]
+//   // location         String          @default("Borivali") @db.LongText
+//   createdAt        DateTime        @default(now())
+//   updatedAt        DateTime        @updatedAt
+
+//   // @@fulltext([location])
+//   @@fulltext([name])
+// }
+
+// model Image {
+//   id        String   @id @default(uuid())
+//   // id        String   @id @default(auto()) @map("_id") @db.ObjectId
+//   productId String
+//   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+//   url       String   @db.Text
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
+
+// model Description {
+//   id        String   @id @default(uuid())
+//   // id        String   @id @default(auto()) @map("_id") @db.ObjectId
+//   productId String
+//   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+//   key       String
+//   value     String   @db.Text
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
+
+// model PersonCategory {
+//   id        String    @id @default(uuid())
+//   // id        String    @id @default(auto()) @map("_id") @db.ObjectId
+//   name      String
+//   Product   Product[]
+//   createdAt DateTime  @default(now())
+//   updatedAt DateTime  @updatedAt
+// }
+
+// model Material {
+//   id         String    @id @default(uuid())
+//   // id         String    @id @default(auto()) @map("_id") @db.ObjectId
+//   name       String
+//   categoryId String
+//   category   Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+//   Product    Product[]
+//   createdAt  DateTime  @default(now())
+//   updatedAt  DateTime  @updatedAt
+// }
+
+// model Pattern {
+//   id         String    @id @default(uuid())
+//   // id         String    @id @default(auto()) @map("_id") @db.ObjectId
+//   name       String
+//   categoryId String
+//   category   Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+//   Product    Product[]
+//   createdAt  DateTime  @default(now())
+//   updatedAt  DateTime  @updatedAt
+// }
+
+// model ProductType {
+//   id         String    @id @default(uuid())
+//   // id         String    @id @default(auto()) @map("_id") @db.ObjectId
+//   name       String
+//   categoryId String
+//   category   Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+//   Product    Product[]
+//   createdAt  DateTime  @default(now())
+//   updatedAt  DateTime  @updatedAt
+// }
+
+// model Discount {
+//   id        String    @id @default(uuid())
+//   // id        String    @id @default(auto()) @map("_id") @db.ObjectId
+//   discount  Int
+//   Product   Product[]
+//   createdAt DateTime  @default(now())
+//   updatedAt DateTime  @updatedAt
+// }
+
+// model ServiceCategory {
+//   id                 String               @id @default(uuid())
+//   // id                 String               @id @default(auto()) @map("_id") @db.ObjectId
+//   name               String
+//   servicesubcategory ServiceSubcategory[] @relation("ServiceCategoryToServiceSubcategory")
+//   Service            Service[]
+//   createdAt          DateTime             @default(now())
+//   updatedAt          DateTime             @updatedAt
+// }
+
+// model ServiceSubcategory {
+//   id                String          @id @default(uuid())
+//   // id                String          @id @default(auto()) @map("_id") @db.ObjectId
+//   name              String
+//   userId            String?
+//   user              User?           @relation(fields: [userId], references: [id])
+//   servicecategoryId String
+//   servicecategory   ServiceCategory @relation("ServiceCategoryToServiceSubcategory", onDelete: Cascade, fields: [servicecategoryId], references: [id])
+//   Service           Service[]
+//   createdAt         DateTime        @default(now())
+//   updatedAt         DateTime        @updatedAt
+// }
+
+// model Service {
+//   id                  String                @id @default(uuid())
+//   // id                  String                @id @default(auto()) @map("_id") @db.ObjectId
+//   name                String                @db.Text
+//   userId              String?
+//   user                User?                 @relation(fields: [userId], references: [id])
+//   s_categoryId        String
+//   serviceCategory     ServiceCategory       @relation(fields: [s_categoryId], references: [id], onDelete: Cascade)
+//   s_subcategoryId     String
+//   serviceSubCategory  ServiceSubcategory    @relation(fields: [s_subcategoryId], references: [id], onDelete: Cascade)
+//   logo                String?               @db.Text
+//   images              String?               @db.Text
+//   description         String?               @db.LongText
+//   mapUrl              String?               @db.Text
+//   EnquiryService      EnquiryService[]
+//   ServiceFeatures     ServiceFeatures[]
+//   ServiceContactForm  ServiceContactForm[]
+//   createdAt           DateTime              @default(now())
+//   updatedAt           DateTime              @updatedAt
+//   ServiceEnquiryEmail ServiceEnquiryEmail[]
+// }
+
+// model EnquiryService {
+//   id          String   @id @default(uuid())
+//   // id          String   @id @default(auto()) @map("_id") @db.ObjectId
+//   name        String?
+//   images      String?  @db.Text
+//   description String?  @db.Text
+//   email       String?  @db.Text
+//   serviceId   String?
+//   Service     Service? @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
+// }
+
+// model ServiceFeatures {
+//   id          String   @id @default(uuid())
+//   // id          String   @id @default(auto()) @map("_id") @db.ObjectId
+//   description String?  @db.Text
+//   serviceId   String?
+//   Service     Service? @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
+// }
+
+// model ServiceContactForm {
+//   id          String   @id @default(uuid())
+//   // id          String   @id @default(auto()) @map("_id") @db.ObjectId
+//   address     String?  @db.Text
+//   phoneNumber String?
+//   email       String?
+//   websiteLink String?  @db.Text
+//   serviceId   String?
+//   Service     Service? @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
+// }
+
+// model Order {
+//   id        String      @id @default(uuid())
+//   // id        String      @id @default(auto()) @map("_id") @db.ObjectId
+//   OrderItem OrderItem[]
+//   userId    String?
+//   user      User?       @relation(fields: [userId], references: [id])
+//   amount    Int
+//   isPaid    Boolean     @default(false)
+//   phone     String      @default("")
+//   address   String      @default("")
+//   paymentId String      @default("")
+// }
+
+// model OrderItem {
+//   id        String  @id @default(uuid())
+//   // id        String  @id @default(auto()) @map("_id") @db.ObjectId
+//   orderId   String
+//   order     Order   @relation(fields: [orderId], references: [id])
+//   productId String
+//   product   Product @relation(fields: [productId], references: [id])
+// }
+
+// model State {
+//   id   String @id @default(uuid())
+//   // id   String @id @default(auto()) @map("_id") @db.ObjectId
+//   name String @db.Text
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//   City      City[]
+
+//   @@fulltext([name])
+// }
+
+// model City {
+//   id        String     @id @default(uuid())
+//   // id        String     @id @default(auto()) @map("_id") @db.ObjectId
+//   name      String     @db.Text
+//   stateId   String
+//   state     State      @relation(fields: [stateId], references: [id], onDelete: Cascade)
+//   createdAt DateTime   @default(now())
+//   updatedAt DateTime   @updatedAt
+//   District  District[]
+
+//   @@fulltext([name])
+// }
+
+// model District {
+//   id     String  @id @default(uuid())
+//   // id     String  @id @default(auto()) @map("_id") @db.ObjectId
+//   name   String? @db.Text
+//   cityId String
+//   city   City    @relation(fields: [cityId], references: [id], onDelete: Cascade)
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   @@fulltext([name])
+// }
+
+// model ProductEnquiryEmail {
+//   id          String   @id @default(uuid())
+//   // id          String   @id @default(auto()) @map("_id") @db.ObjectId
+//   sender      User     @relation("ProductEnquiryEmailSender", fields: [senderId], references: [id])
+//   senderId    String
+//   recipient   User     @relation("ProductEnquiryEmailRecipient", fields: [recipientId], references: [id])
+//   recipientId String
+//   brandId     String
+//   brand       Brands   @relation(fields: [brandId], references: [id])
+//   productName String
+//   productQty  Int
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
+// }
+
+// model ServiceEnquiryEmail {
+//   id          String   @id @default(uuid())
+//   // id          String   @id @default(auto()) @map("_id") @db.ObjectId
+//   sender      User     @relation("ServiceEnquiryEmailSender", fields: [senderId], references: [id])
+//   senderId    String
+//   email       String?
+//   recipient   User?    @relation("ServiceEnquiryEmailRecipient", fields: [recipientId], references: [id])
+//   recipientId String?
+//   serviceId   String
+//   service     Service  @relation(fields: [serviceId], references: [id])
+//   ServiceName String
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
+// }
+
+// // ***********************************************
+
+generator client {
+  provider = "prisma-client-js"
+  // previewFeatures = ["fullTextSearch", "fullTextIndex"]
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Occassion {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String   @db.String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
