@@ -1,152 +1,279 @@
 "use client";
 
-import getTestimonials from "@/actions/FRONTEND/get-testimonial";
-import { Testimonial } from "@prisma/client";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import { Pagination, Navigation, Autoplay } from "swiper/modules";
 
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { Card } from "../ui/Card";
-import { getShowingTestimonials } from "@/actions/server/TESTIMONIAL/Showing/showingTestimonail";
-import LoaderCard from "./LoaderCard";
+const data = {
+	testimonials: [
+		{
+			rating: 5,
+			title: "Variety of Styles!",
+			description:
+				"Fantastic shop! Great selection, fair prices, and friendly staff. Highly recommended. The quality of the products is exceptional, and the prices are very reasonable!",
+			name: "Lisa K.",
+			date: "August 13, 2024",
+		},
+		{
+			rating: 5,
+			title: "Variety of Styles!",
+			description:
+				"Fantastic shop! Great selection, fair prices, and friendly staff. Highly recommended. The quality of the products is exceptional, and the prices are very reasonable!",
+			name: "Lisa K.",
+			date: "August 13, 2024",
+		},
+		{
+			rating: 5,
+			title: "Quality of Clothing!",
+			description:
+				"Anvouges fashion collection is a game-changer! Their unique and trendy pieces have completely transformed my style. Its comfortable, stylish, and always on-trend.",
+			name: "Elizabeth A.",
+			date: "August 13, 2024",
+		},
+		{
+			rating: 5,
+			title: "Customer Service!",
+			description:
+				"I absolutely love this shop! The products are high-quality and the customer service is excellent. I always leave with exactly what I need and a smile on my face.",
+			name: "Christin H.",
+			date: "August 13, 2024",
+		},
+		{
+			rating: 5,
+			title: "Quality of Clothing!",
+			description:
+				"I cant get enough of Anvouges high-quality clothing. Its comfortable, stylish, and always on-trend. The products are high-quality and the customer service is excellent.",
+			name: "Emily G.",
+			date: "August 13, 2024",
+		},
+		{
+			rating: 5,
+			title: "Customer Service!",
+			description:
+				"I love this shop! The products are always top-quality, and the staff is incredibly friendly and helpful. They go out of their way to make sure that Im satisfied my purchase.",
+			name: "Carolina C.",
+			date: "August 13, 2024",
+		},
+	],
+};
 
-export default function Testimonials() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  useEffect(() => {
-    const fetchTestimonial = async () => {
-      const testimonial = await getShowingTestimonials();
-      await setTestimonials(testimonial);
-      setIsLoading(false);
-    };
-    fetchTestimonial();
-  }, []);
-
-  const settings = {
-    dots: true,
-    infinite: true,
-    lazyLoaded: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 2000,
-    initialSlide: 4,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          infinite: true,
-          dots: true,
-          slidesToShow: 3,
-          slidesToScroll: 1,
-          initialSlide: 4,
-        },
-      },
-      {
-        breakpoint: 900,
-        settings: {
-          infinite: true,
-          dots: true,
-          slidesToShow: 2,
-          slidesToScroll: 1,
-          initialSlide: 3,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          initialSlide: 3,
-          infinite: true,
-          dots: true,
-        },
-      },
-    ],
-  };
-
-  if (isLoading) {
-    return (
-      <div>
-        <h1 className="py-4 font-medium text-[18px] w-fit">
-          <span>TESTIMONIALS</span>
-          <hr className="w-3/4 mt-2 border-[1px] border-[#00aecd]" />
-        </h1>
-        <div className="grid grid-cols-1 md:hidden gap-4 h-fit">
-          {[{}].map((brand, index) => (
-            <LoaderCard key={index} />
-          ))}
-        </div>
-        <div className="hidden lg:hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 h-fit">
-          {[{}, {}].map((brand, index) => (
-            <LoaderCard key={index} />
-          ))}
-        </div>
-        <div className="hidden lg:grid lg:grid-cols-3 gap-4 h-fit">
-          {[{}, {}, {}].map((brand, index) => (
-            <LoaderCard key={index} />
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div>
-      <h1 className="py-4 font-medium text-[18px] w-fit">
-        <span>Testimonial</span>
-        <hr className="w-3/4 mt-2 border-[1px] border-[#00aecd]" />
-      </h1>
-
-      <div className="carousel-container">
-        <Slider {...settings}>
-          {testimonials.map((testimonail) => (
-            <div key={testimonail?.id} className="carousel-item">
-              <Card
-                className="h-full p-4 flex flex-col items-center justify-between "
-                key={testimonail.id}
-              >
-                <div className="carousel-card">
-                  <div>{testimonail.review}</div>
-                  <div className="flex gadiv-2 items-center">
-                    <div className="font-semibold text-lg text-center">
-                      {/* @ts-ignore */}
-                      {testimonail?.user?.name}
+const Testimonials = () => {
+	return (
+		<div>
+			<div className="testimonial-block md:pt-20 md:pb-16 pt-10 pb-8 md:mt-20 mt-10 bg-surface">
+				<div className="container">
+					<div className="heading3 text-center">
+						What People Are Saying
+					</div>
+					<div className="list-testimonial pagination-mt40 md:mt-10 mt-6">
+						<div className="swiper swiper-list-testimonial h-full relative">
+							<div className="swiper-wrapper">
+								<Swiper
+									slidesPerView={3}
+									spaceBetween={30}
+									loop={true}
+									pagination={{
+										dynamicBullets: true,
+										clickable: true,
+									}}
+									autoplay={{
+										delay: 2000,
+										disableOnInteraction: false,
+									}}
+									modules={[Pagination, Navigation, Autoplay]}
+									className="w-full h-full"
+								>
+									{data.testimonials.map((test, index) => (
+										<SwiperSlide
+											className="h-full hover:"
+											key={index}
+										>
+											<div className="swiper-slide">
+												<div className="testimonial-item style-one h-full">
+													<div className="testimonial-main bg-white p-8 rounded-2xl h-full">
+														<div className="flex items-center gap-1">
+															<i className="ph-fill ph-star text-yellow" />
+															<i className="ph-fill ph-star text-yellow" />
+															<i className="ph-fill ph-star text-yellow" />
+															<i className="ph-fill ph-star text-yellow" />
+															<i className="ph-fill ph-star text-yellow" />
+														</div>
+														<div className="heading6 title mt-4">
+															{test.title}
+														</div>
+														<div className="desc mt-2">
+															{test.description}
+														</div>
+														<div className="text-button name mt-4">
+															{test.name}
+														</div>
+														<div className="caption2 date text-secondary2 mt-1">
+															{test.date}
+														</div>
+													</div>
+												</div>
+											</div>
+										</SwiperSlide>
+									))}
+									{/* 
+                  <SwiperSlide className="h-full">
+                    <div className="swiper-slide">
+                      <div className="testimonial-item style-one h-full">
+                        <div className="testimonial-main bg-white p-8 rounded-2xl h-full">
+                          <div className="flex items-center gap-1">
+                            <i className="ph-fill ph-star text-yellow" />
+                            <i className="ph-fill ph-star text-yellow" />
+                            <i className="ph-fill ph-star text-yellow" />
+                            <i className="ph-fill ph-star text-yellow" />
+                            <i className="ph-fill ph-star text-yellow" />
+                          </div>
+                          <div className="heading6 title mt-4">
+                            Variety of Styles!
+                          </div>
+                          <div className="desc mt-2">
+                            Fantastic shop! Great selection, fair prices, and
+                            friendly staff. Highly recommended. The quality of
+                            the products is exceptional, and the prices are very
+                            reasonable!
+                          </div>
+                          <div className="text-button name mt-4">Lisa K.</div>
+                          <div className="caption2 date text-secondary2 mt-1">
+                            August 13, 2024
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <span> - </span>
-                    <div className="font-semibold text-lg text-[#00aedc]">
-                      {testimonail.companyName}
+                  </SwiperSlide>
+                  <SwiperSlide className="h-full">
+                    <div className="swiper-slide">
+                      <div className="testimonial-item style-one h-full">
+                        <div className="testimonial-main bg-white p-8 rounded-2xl h-full">
+                          <div className="flex items-center gap-1">
+                            <i className="ph-fill ph-star text-yellow" />
+                            <i className="ph-fill ph-star text-yellow" />
+                            <i className="ph-fill ph-star text-yellow" />
+                            <i className="ph-fill ph-star text-yellow" />
+                            <i className="ph-fill ph-star text-yellow" />
+                          </div>
+                          <div className="heading6 title mt-4">
+                            Quality of Clothing!
+                          </div>
+                          <div className="desc mt-2">
+                            Anvouges fashion collection is a game-changer! Their
+                            unique and trendy pieces have completely transformed
+                            my style. Its comfortable, stylish, and always
+                            on-trend.
+                          </div>
+                          <div className="text-button name mt-4">
+                            Elizabeth A.
+                          </div>
+                          <div className="caption2 date text-secondary2 mt-1">
+                            August 13, 2024
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              </Card>
-            </div>
-          ))}
-        </Slider>
-      </div>
-      <style jsx>{`
-        .carousel-container {
-          margin: 0 -10px; /* Adjust the margin as needed */
-        }
-        .carousel-item {
-          padding: 0 10px; /* Adjust the padding as needed */
-          height: 200px;
-          // border: 2px solid black;
-          // width:350px;
-          /* Set the fixed height for each card */
-        }
-        .carousel-card {
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          align-items: center;
-          justify-items: center;
-          // border: 2px solid red;
-        }
-      `}</style>
-    </div>
-  );
-}
+                  </SwiperSlide>
+                  <SwiperSlide>
+                    <div className="swiper-slide">
+                      <div className="testimonial-item style-one h-full">
+                        <div className="testimonial-main bg-white p-8 rounded-2xl h-full">
+                          <div className="flex items-center gap-1">
+                            <i className="ph-fill ph-star text-yellow" />
+                            <i className="ph-fill ph-star text-yellow" />
+                            <i className="ph-fill ph-star text-yellow" />
+                            <i className="ph-fill ph-star text-yellow" />
+                            <i className="ph-fill ph-star text-yellow" />
+                          </div>
+                          <div className="heading6 title mt-4">
+                            Customer Service!
+                          </div>
+                          <div className="desc mt-2">
+                            I absolutely love this shop! The products are
+                            high-quality and the customer service is excellent.
+                            I always leave with exactly what I need and a smile
+                            on my face.
+                          </div>
+                          <div className="text-button name mt-4">
+                            Christin H.
+                          </div>
+                          <div className="caption2 date text-secondary2 mt-1">
+                            August 13, 2024
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </SwiperSlide>
+                  <SwiperSlide>
+                    <div className="swiper-slide">
+                      <div className="testimonial-item style-one h-full">
+                        <div className="testimonial-main bg-white p-8 rounded-2xl h-full">
+                          <div className="flex items-center gap-1">
+                            <i className="ph-fill ph-star text-yellow" />
+                            <i className="ph-fill ph-star text-yellow" />
+                            <i className="ph-fill ph-star text-yellow" />
+                            <i className="ph-fill ph-star text-yellow" />
+                            <i className="ph-fill ph-star text-yellow" />
+                          </div>
+                          <div className="heading6 title mt-4">
+                            Quality of Clothing!
+                          </div>
+                          <div className="desc mt-2">
+                            I cant get enough of Anvouges high-quality clothing.
+                            Its comfortable, stylish, and always on-trend. The
+                            products are high-quality and the customer service
+                            is excellent.
+                          </div>
+                          <div className="text-button name mt-4">Emily G.</div>
+                          <div className="caption2 date text-secondary2 mt-1">
+                            August 13, 2024
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </SwiperSlide>
+                  <SwiperSlide>
+                    <div className="swiper-slide">
+                      <div className="testimonial-item style-one h-full">
+                        <div className="testimonial-main bg-white p-8 rounded-2xl h-full">
+                          <div className="flex items-center gap-1">
+                            <i className="ph-fill ph-star text-yellow" />
+                            <i className="ph-fill ph-star text-yellow" />
+                            <i className="ph-fill ph-star text-yellow" />
+                            <i className="ph-fill ph-star text-yellow" />
+                            <i className="ph-fill ph-star text-yellow" />
+                          </div>
+                          <div className="heading6 title mt-4">
+                            Customer Service!
+                          </div>
+                          <div className="desc mt-2">
+                            I love this shop! The products are always
+                            top-quality, and the staff is incredibly friendly
+                            and helpful. They go out of their way to make sure
+                            that Im satisfied my purchase.
+                          </div>
+                          <div className="text-button name mt-4">
+                            Carolina C.
+                          </div>
+                          <div className="caption2 date text-secondary2 mt-1">
+                            August 13, 2024
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </SwiperSlide> */}
+								</Swiper>
+							</div>
+							<div className="swiper-pagination" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+};
+
+export default Testimonials;

@@ -244,10 +244,10 @@ export default function Sidebar() {
                     loading="lazy"
                   />
                 </Link>
-                <h1 className="mb-2">{role?.toUpperCase()}</h1>
+                <h1 className="mb-2">Admin</h1>
                 {/* <ToggleTheme /> */}
               </div>
-              <h1 className="font-bold text-[0.75rem] my-4 ">{user}</h1>
+              <h1 className="font-bold text-[0.75rem] my-4 ">Durgesh</h1>
               <div className="flex flex-col gap-2 h-full pb-16">
                 <div className="flex flex-col justify-between gap-4">
                   <div className="">
