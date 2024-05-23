@@ -21,11 +21,14 @@ import toast from "react-hot-toast";
 import { useAuthMiddleware } from "@/app/middleware";
 import { cookieHandler } from "@/lib/cookieHandler";
 
-
 const sideBarList = [
   {
     title: "Master",
     paths: [
+      {
+        name: "Category",
+        location: "/admin/master/Category",
+      },
       {
         name: "Occassion",
         location: "/admin/master/occasion",
@@ -35,12 +38,12 @@ const sideBarList = [
         location: "/admin/master/Pattern",
       },
       {
-        name: "Advertisement",
-        location: "/admin/master/advertisement_master",
+        name: "Type",
+        location: "/admin/master/Type",
       },
       {
-        name: "Location",
-        location: "/admin/master/location",
+        name: "Color",
+        location: "/admin/master/Color",
       },
     ],
   },
@@ -49,7 +52,7 @@ const sideBarList = [
     paths: [
       {
         name: "Products",
-        location: "/admin/website/products",
+        location: "/admin/website/product",
       },
       {
         name: "Services",
@@ -158,16 +161,16 @@ export default function Sidebar() {
   };
 
   // useFrontAuthMiddleware();
-  useAuthMiddleware();
+  // useAuthMiddleware();
   let admin = true;
 
-  if (role !== "admin") {
-    admin = false;
-    cookieHandler.remove("token");
-    cookieHandler.remove("user");
-    cookieHandler.remove("userId");
-    cookieHandler.remove("role");
-  }
+  // if (role !== "admin") {
+  //   admin = false;
+  //   cookieHandler.remove("token");
+  //   cookieHandler.remove("user");
+  //   cookieHandler.remove("userId");
+  //   cookieHandler.remove("role");
+  // }
 
   const [sideBarIsOpen, setSideBarIsOpen] = useState(false);
 

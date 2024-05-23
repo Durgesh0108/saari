@@ -6,7 +6,7 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    const requiredFields = ["name", "imageUrl"];
+    const requiredFields = ["name", "hexCode"];
 
     for (const field of requiredFields) {
       if (!body[field]) {
@@ -14,13 +14,13 @@ export async function POST(req: Request) {
       }
     }
 
-    const occassion = await prismadb.occassion.create({
+    const color = await prismadb.color.create({
       data: {
         ...body,
       },
     });
     revalidatePath("/", "layout");
-    return NextResponse.json(occassion);
+    return NextResponse.json(color);
   } catch (error) {
     return new NextResponse("Internal Error", { status: 500 });
   }
@@ -28,12 +28,12 @@ export async function POST(req: Request) {
 
 export async function GET(req: Request) {
   try {
-    const categories = await prismadb.occassion.findMany({
+    const Color = await prismadb.color.findMany({
       orderBy: {
         name: "asc",
       },
     });
-    return NextResponse.json(categories);
+    return NextResponse.json(Color);
   } catch (error) {
     return new NextResponse("Internal Error", { status: 500 });
   }

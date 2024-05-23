@@ -30,7 +30,7 @@ const formSchema = z.object({
 
 type CategoryFormValues = z.infer<typeof formSchema>;
 
-export default function OccassionForm() {
+export default function CategoryForm() {
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -48,11 +48,13 @@ export default function OccassionForm() {
   const onSubmit = async (data: CategoryFormValues) => {
     try {
       setLoading(true);
-      const response = await axios.post(`/api/occassion`, data);
+      console.log(data);
+      const response = await axios.post(`/api/category`, data);
       toggleEdit();
       location.reload();
-      toast.success("Occassion Created Successfully");
+      toast.success("Category Created Successfully");
     } catch (error: any) {
+      console.log(error);
       toast.error("Something Went Wrong");
     } finally {
       setLoading(false);
@@ -62,7 +64,7 @@ export default function OccassionForm() {
     <Card className="p-8">
       <div className="flex flex-col gap-8">
         <div className="flex justify-between items-center">
-          <Header>Occassion</Header>
+          <Header>Category</Header>
           {!isEditing && (
             <Button className="flex" onClick={() => setIsEditing(true)}>
               <Plus />
@@ -87,7 +89,7 @@ export default function OccassionForm() {
                         <FormControl>
                           <Input
                             disabled={loading}
-                            placeholder="Occassion name"
+                            placeholder="Pattern name"
                             {...field}
                           />
                         </FormControl>

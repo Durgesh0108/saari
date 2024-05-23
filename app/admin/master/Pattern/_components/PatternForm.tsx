@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/Card";
 
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -28,13 +28,17 @@ const formSchema = z.object({
   imageUrl: z.string().min(2),
 });
 
-type CategoryFormValues = z.infer<typeof formSchema>;
+type PatternFormValues = z.infer<typeof formSchema>;
 
-export default function OccassionForm() {
+export default function PatternForm() {
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [SelectedCategory, setSelectedCategory] = useState<string | undefined>(
+    ""
+  );
 
-  const form = useForm<CategoryFormValues>({
+  const form = useForm<PatternFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
@@ -45,24 +49,44 @@ export default function OccassionForm() {
     setIsEditing(!isEditing);
   };
 
-  const onSubmit = async (data: CategoryFormValues) => {
+  const onSubmit = async (values: PatternFormValues) => {
+    const data = {
+      name: values.name,
+      imageUrl: values.imageUrl,
+      categoryId: SelectedCategory,
+    };
     try {
       setLoading(true);
-      const response = await axios.post(`/api/occassion`, data);
+      const response = await axios.post(`/api/pattern`, data);
       toggleEdit();
       location.reload();
-      toast.success("Occassion Created Successfully");
+      toast.success("Pattern Created Successfully");
     } catch (error: any) {
       toast.error("Something Went Wrong");
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const fetchCategory = async () => {
+      const categoryRes = await fetch(`/api/category`);
+      const Category = await categoryRes.json();
+      setCategories(Category);
+    };
+
+    fetchCategory();
+  }, []);
+
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+      setSelectedCategory(e.target.value);
+  };
+
   return (
     <Card className="p-8">
       <div className="flex flex-col gap-8">
         <div className="flex justify-between items-center">
-          <Header>Occassion</Header>
+          <Header>Pattern</Header>
           {!isEditing && (
             <Button className="flex" onClick={() => setIsEditing(true)}>
               <Plus />
@@ -77,6 +101,30 @@ export default function OccassionForm() {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-4 w-full"
               >
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <select
+                    name="category"
+                    id="category"
+                    // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800"
+                    className="p-2 border-black border-[1px] rounded-lg"
+                    onChange={handleCategoryChange}
+                  >
+                    {categories.length === 0 ? (
+                      <option>No Category Available</option>
+                    ) : (
+                      <option>Please Select A Category</option>
+                    )}
+                    {categories.map((category) => (
+                      <option
+                        value={category.id}
+                        key={category.id}
+                        className="px-4 py-1"
+                      >
+                        {category.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
                 <div className="md:grid gap-8">
                   <FormField
                     control={form.control}
@@ -87,7 +135,7 @@ export default function OccassionForm() {
                         <FormControl>
                           <Input
                             disabled={loading}
-                            placeholder="Occassion name"
+                            placeholder="Pattern name"
                             {...field}
                           />
                         </FormControl>

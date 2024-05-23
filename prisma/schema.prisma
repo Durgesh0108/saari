@@ -577,9 +577,94 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Category {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  name      String    @db.String
+  imageUrl  String?   @db.String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Pattern   Pattern[]
+  Type      Type[]
+  Product   Product[]
+}
+
 model Occassion {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  name      String    @db.String
+  imageUrl  String?   @db.String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Product   Product[]
+}
+
+model Pattern {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  name       String    @db.String
+  imageUrl   String?   @db.String
+  categoryId String?   @db.ObjectId
+  category   Category? @relation(fields: [categoryId], references: [id])
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  Product    Product[]
+}
+
+model Color {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  name      String    @db.String
+  hexCode   String    @db.String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Product   Product[]
+}
+
+model Type {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  name       String    @db.String
+  imageUrl   String?   @db.String
+  categoryId String?   @db.ObjectId
+  category   Category? @relation(fields: [categoryId], references: [id])
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  Product    Product[]
+}
+
+model Product {
+  id               String        @id @default(auto()) @map("_id") @db.ObjectId
+  name             String        @db.String
+  images           Image[]
+  description      Description[]
+  shortDescription String?       @db.String
+  qty              Int
+  price            Int
+  categoryId       String?       @db.ObjectId
+  category         Category?     @relation(fields: [categoryId], references: [id])
+  occassionId      String?       @db.ObjectId
+  occassion        Occassion?    @relation(fields: [occassionId], references: [id])
+  patternId        String?       @db.ObjectId
+  pattern          Pattern?      @relation(fields: [patternId], references: [id])
+  typeId           String?       @db.ObjectId
+  type             Type?         @relation(fields: [typeId], references: [id])
+  colorId          String?       @db.ObjectId
+  color            Color?        @relation(fields: [colorId], references: [id])
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+}
+
+model Image {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String   @db.String
+  productId String   @db.ObjectId
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url       String   @db.String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Description {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  productId String   @db.ObjectId
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  key       String
+  value     String   @db.String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

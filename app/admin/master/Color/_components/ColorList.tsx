@@ -10,12 +10,12 @@ import axios from "axios";
 import { Pencil, Trash } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { UpdateOccassionForm } from "./UpdateOccassionForm";
-import { Occassion } from "@prisma/client";
+import { Color } from "@prisma/client";
 import Image from "next/image";
+import { UpdateColorForm } from "./UpdateColorForm";
 
-export default function OccassionList() {
-  const [occassion, setOccassion] = useState<Occassion[]>([]);
+export default function ColorList() {
+  const [Color, setColor] = useState<Color[]>([]);
 
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -23,15 +23,16 @@ export default function OccassionList() {
   const [deleteId, setDeleteId] = useState<string>("");
   const [EditId, setEditId] = useState<string>("");
   const [name, setName] = useState<string>("");
-  const [imageUrl, setImageUrl] = useState<string>("");
+  const [hexCode, sethexCode] = useState<string>("");
 
   const handleDelete = async (id: string) => {
     try {
       setLoading(true);
-      await axios.delete(`/api/occassion/${id}`);
+      await axios.delete(`/api/color/${id}`);
       location.reload();
-      toast.success("Occassion Deleted Successfully");
+      toast.success("Color Deleted Successfully");
     } catch (error: any) {
+      console.log(error);
       toast.error("Something went wrong.");
     } finally {
       setLoading(false);
@@ -40,16 +41,16 @@ export default function OccassionList() {
   };
 
   useEffect(() => {
-    const fetchOccassion = async () => {
-      const brandRes = await fetch(`/api/occassion/`, {
+    const fetchcolor = async () => {
+      const colorRes = await fetch(`/api/color`, {
         next: { revalidate: 60 },
       });
 
-      const brand = await brandRes.json();
-      setOccassion(brand);
+      const Colors = await colorRes.json();
+      setColor(Colors);
     };
 
-    fetchOccassion();
+    fetchcolor();
   }, []);
 
   return (
@@ -63,10 +64,9 @@ export default function OccassionList() {
       <div className="flex flex-col gap-2">
         {isUpdating && (
           <>
-            <UpdateOccassionForm
-              initialData={occassion}
+            <UpdateColorForm
               name={name}
-              imageUrl={imageUrl}
+              hexCode={hexCode}
               EditId={EditId}
               onCancel={() => {
                 setIsUpdating(false);
@@ -75,19 +75,16 @@ export default function OccassionList() {
             />
           </>
         )}
-        {occassion.length === 0 && <p>No Occassion Available</p>}
-        {occassion.map((occass) => (
+        {Color.length === 0 && <p>No Color Available</p>}
+        {Color.map((col) => (
           <>
-            <ListCard key={occass.id} className={"group flex items-center"}>
+            <ListCard key={col.id} className={"group flex items-center"}>
               <div className="flex gap-4 items-center">
-                <Image
-                  src={occass.imageUrl}
-                  width={40}
-                  height={30}
-                  alt={occass.name}
-                  loading="lazy"
-                />
-                <div>{occass.name}</div>
+                <div
+                  className="rounded-full w-6 h-6 border-black border-2"
+                  style={{ backgroundColor: `${col.hexCode}` }}
+                ></div>
+                <div>{col.name}</div>
               </div>
               {!isUpdating && (
                 <>
@@ -98,9 +95,9 @@ export default function OccassionList() {
                       size="sm"
                       onClick={() => {
                         setIsUpdating(true);
-                        setEditId(occass.id);
-                        setName(occass.name);
-                        setImageUrl(occass.imageUrl);
+                        setEditId(col.id);
+                        setName(col.name);
+                        sethexCode(col.hexCode);
                       }}
                     >
                       <Pencil className="h-4 w-4" />
@@ -111,7 +108,7 @@ export default function OccassionList() {
                       size="sm"
                       onClick={() => {
                         setOpen(true);
-                        setDeleteId(occass.id);
+                        setDeleteId(col.id);
                       }}
                     >
                       <Trash className="h-4 w-4" />

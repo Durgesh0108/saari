@@ -10,12 +10,13 @@ import axios from "axios";
 import { Pencil, Trash } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { UpdateOccassionForm } from "./UpdateOccassionForm";
-import { Occassion } from "@prisma/client";
 import Image from "next/image";
+import { Pattern } from "@prisma/client";
+import { UpdatePatternForm } from "./UpdatePatternForm";
+import { UpdateCategoryForm } from "./UpdateCategoryForm";
 
-export default function OccassionList() {
-  const [occassion, setOccassion] = useState<Occassion[]>([]);
+export default function CategoryList() {
+  const [Categories, setCategories] = useState<Category[]>([]);
 
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -28,10 +29,11 @@ export default function OccassionList() {
   const handleDelete = async (id: string) => {
     try {
       setLoading(true);
-      await axios.delete(`/api/occassion/${id}`);
+      await axios.delete(`/api/category/${id}`);
       location.reload();
-      toast.success("Occassion Deleted Successfully");
+      toast.success("Category Deleted Successfully");
     } catch (error: any) {
+      console.log(error);
       toast.error("Something went wrong.");
     } finally {
       setLoading(false);
@@ -40,16 +42,16 @@ export default function OccassionList() {
   };
 
   useEffect(() => {
-    const fetchOccassion = async () => {
-      const brandRes = await fetch(`/api/occassion/`, {
+    const fetchPattern = async () => {
+      const categoryRes = await fetch(`/api/category`, {
         next: { revalidate: 60 },
       });
 
-      const brand = await brandRes.json();
-      setOccassion(brand);
+      const Categories = await categoryRes.json();
+      setCategories(Categories);
     };
 
-    fetchOccassion();
+    fetchPattern();
   }, []);
 
   return (
@@ -63,8 +65,7 @@ export default function OccassionList() {
       <div className="flex flex-col gap-2">
         {isUpdating && (
           <>
-            <UpdateOccassionForm
-              initialData={occassion}
+            <UpdateCategoryForm
               name={name}
               imageUrl={imageUrl}
               EditId={EditId}
@@ -75,19 +76,19 @@ export default function OccassionList() {
             />
           </>
         )}
-        {occassion.length === 0 && <p>No Occassion Available</p>}
-        {occassion.map((occass) => (
+        {Categories.length === 0 && <p>No Categories Available</p>}
+        {Categories.map((category) => (
           <>
-            <ListCard key={occass.id} className={"group flex items-center"}>
+            <ListCard key={category.id} className={"group flex items-center"}>
               <div className="flex gap-4 items-center">
                 <Image
-                  src={occass.imageUrl}
+                  src={category.imageUrl}
                   width={40}
                   height={30}
-                  alt={occass.name}
+                  alt={category.name}
                   loading="lazy"
                 />
-                <div>{occass.name}</div>
+                <div>{category.name}</div>
               </div>
               {!isUpdating && (
                 <>
@@ -98,9 +99,9 @@ export default function OccassionList() {
                       size="sm"
                       onClick={() => {
                         setIsUpdating(true);
-                        setEditId(occass.id);
-                        setName(occass.name);
-                        setImageUrl(occass.imageUrl);
+                        setEditId(category.id);
+                        setName(category.name);
+                        setImageUrl(category.imageUrl);
                       }}
                     >
                       <Pencil className="h-4 w-4" />
@@ -111,7 +112,7 @@ export default function OccassionList() {
                       size="sm"
                       onClick={() => {
                         setOpen(true);
-                        setDeleteId(occass.id);
+                        setDeleteId(category.id);
                       }}
                     >
                       <Trash className="h-4 w-4" />

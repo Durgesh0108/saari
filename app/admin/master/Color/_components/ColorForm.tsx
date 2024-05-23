@@ -21,23 +21,23 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Header from "@/components/ui/header";
 import { toast } from "react-hot-toast";
-import ImageUpload from "@/components/ui/image-upload";
 
 const formSchema = z.object({
   name: z.string().min(2),
-  imageUrl: z.string().min(2),
+  hexCode: z.string().min(2),
 });
 
-type CategoryFormValues = z.infer<typeof formSchema>;
+type ColorFormValues = z.infer<typeof formSchema>;
 
-export default function OccassionForm() {
+export default function ColorForm() {
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
-  const form = useForm<CategoryFormValues>({
+  const form = useForm<ColorFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
+      hexCode: "",
     },
   });
 
@@ -45,14 +45,16 @@ export default function OccassionForm() {
     setIsEditing(!isEditing);
   };
 
-  const onSubmit = async (data: CategoryFormValues) => {
+  const onSubmit = async (data: ColorFormValues) => {
     try {
       setLoading(true);
-      const response = await axios.post(`/api/occassion`, data);
+      console.log(data);
+      const response = await axios.post(`/api/color`, data);
       toggleEdit();
       location.reload();
-      toast.success("Occassion Created Successfully");
+      toast.success("Color Created Successfully");
     } catch (error: any) {
+      console.log(error);
       toast.error("Something Went Wrong");
     } finally {
       setLoading(false);
@@ -62,7 +64,7 @@ export default function OccassionForm() {
     <Card className="p-8">
       <div className="flex flex-col gap-8">
         <div className="flex justify-between items-center">
-          <Header>Occassion</Header>
+          <Header>Color</Header>
           {!isEditing && (
             <Button className="flex" onClick={() => setIsEditing(true)}>
               <Plus />
@@ -87,7 +89,7 @@ export default function OccassionForm() {
                         <FormControl>
                           <Input
                             disabled={loading}
-                            placeholder="Occassion name"
+                            placeholder="Color name"
                             {...field}
                           />
                         </FormControl>
@@ -99,16 +101,15 @@ export default function OccassionForm() {
                 <div className="md:grid gap-8">
                   <FormField
                     control={form.control}
-                    name="imageUrl"
+                    name="hexCode"
                     render={({ field }) => (
                       <FormItem>
-                        {/* <FormLabel>Name</FormLabel> */}
+                        <FormLabel>Hex Code</FormLabel>
                         <FormControl>
-                          <ImageUpload
-                            value={field.value ? [field.value] : []}
+                          <Input
                             disabled={loading}
-                            onChange={(url) => field.onChange(url)}
-                            onRemove={() => field.onChange("")}
+                            placeholder="Color Code (#000000)"
+                            {...field}
                           />
                         </FormControl>
                         <FormMessage />

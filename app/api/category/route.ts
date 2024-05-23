@@ -14,13 +14,13 @@ export async function POST(req: Request) {
       }
     }
 
-    const occassion = await prismadb.occassion.create({
+    const category = await prismadb.category.create({
       data: {
         ...body,
       },
     });
     revalidatePath("/", "layout");
-    return NextResponse.json(occassion);
+    return NextResponse.json(category);
   } catch (error) {
     return new NextResponse("Internal Error", { status: 500 });
   }
@@ -28,7 +28,7 @@ export async function POST(req: Request) {
 
 export async function GET(req: Request) {
   try {
-    const categories = await prismadb.occassion.findMany({
+    const categories = await prismadb.category.findMany({
       orderBy: {
         name: "asc",
       },
