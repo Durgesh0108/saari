@@ -55,8 +55,8 @@ const sideBarList = [
         location: "/admin/website/product",
       },
       {
-        name: "Services",
-        location: "/admin/website/services",
+        name: "Sliders",
+        location: "/admin/website/sliders",
       },
       {
         name: "Testimonial",
