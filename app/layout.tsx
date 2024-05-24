@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/Provider/theme-provider";
 import { ToastProvider } from "@/Provider/toast-provider";
 import { ModalProvider } from "@/Provider/modal-provider";
 import Script from "next/script";
+import { cn } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,9 +26,9 @@ export default function RootLayout({
           <link rel="stylesheet" href="assets/css/swiper-bundle.min.css" />
           <link rel="stylesheet" href="assets/css/style.css" />
           <link rel="stylesheet" href="dist/output-scss.css" />
-          <link rel="stylesheet" href="dist/output-tailwind.css" />
+          {/* <link rel="stylesheet" href="dist/output-tailwind.css" /> */}
         </head>
-        <body className={inter.className}>
+        <body className={cn("font-serif") }>
           <ThemeProvider
             attribute="class"
             defaultTheme="light"

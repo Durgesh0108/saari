@@ -46,6 +46,15 @@ export async function GET(req: Request) {
       orderBy: {
         name: "asc",
       },
+      include: {
+        category: true,
+        color: true,
+        description: true,
+        images: true,
+        occassion: true,
+        pattern: true,
+        type: true,
+      },
     });
     return NextResponse.json(product);
   } catch (error) {

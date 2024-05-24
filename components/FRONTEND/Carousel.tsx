@@ -6,74 +6,86 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Pagination, Navigation, Autoplay } from "swiper/modules";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Sliders } from "@prisma/client";
 
 const data = {
-	slides: [
-		{
-			textSubDisplay: "Sale! Up To 50% Off!",
-			textDisplay: "Summer Sale Collections",
-			href: "shop-breadcrumb-img.html",
-			buttonText: "Shop Now",
-			imgSrc: "/assets/images/new-banner/banner-1.jpg",
-			altText: "bg1-1",
-			width: 1000,
-			height: 1,
-		},
-		{
-			textSubDisplay: "Sale! Up To 50% Off!",
-			textDisplay: "Fashion for Every Occasion",
-			href: "shop-breadcrumb-img.html",
-			buttonText: "Shop Now",
-			imgSrc: "/assets/images/new-banner/banner-2.jpg",
-			altText: "bg1-1",
-			width: 1000,
-			height: 1,
-		},
-		{
-			textSubDisplay: "Sale! Up To 50% Off!",
-			textDisplay: "Stylish Looks for Any Season",
-			href: "shop-breadcrumb-img.html",
-			buttonText: "Shop Now",
-			imgSrc: "/assets/images/new-banner/banner-3.jpg",
-			altText: "bg1-1",
-			width: 1000,
-			height: 1,
-		},
-		{
-			textSubDisplay: "Sale! Up To 50% Off!",
-			textDisplay: "Stylish Looks for Any Season",
-			href: "shop-breadcrumb-img.html",
-			buttonText: "Shop Now",
-			imgSrc: "/assets/images/new-banner/banner-4.jpg",
-			altText: "bg1-1",
-			width: 1000,
-			height: 1,
-		},
-	],
+  slides: [
+    {
+      textSubDisplay: "Sale! Up To 50% Off!",
+      textDisplay: "Summer Sale Collections",
+      href: "shop-breadcrumb-img.html",
+      buttonText: "Shop Now",
+      imgSrc: "/assets/images/new-banner/banner-1.jpg",
+      altText: "bg1-1",
+      width: 1000,
+      height: 1,
+    },
+    {
+      textSubDisplay: "Sale! Up To 50% Off!",
+      textDisplay: "Fashion for Every Occasion",
+      href: "shop-breadcrumb-img.html",
+      buttonText: "Shop Now",
+      imgSrc: "/assets/images/new-banner/banner-2.jpg",
+      altText: "bg1-1",
+      width: 1000,
+      height: 1,
+    },
+    {
+      textSubDisplay: "Sale! Up To 50% Off!",
+      textDisplay: "Stylish Looks for Any Season",
+      href: "shop-breadcrumb-img.html",
+      buttonText: "Shop Now",
+      imgSrc: "/assets/images/new-banner/banner-3.jpg",
+      altText: "bg1-1",
+      width: 1000,
+      height: 1,
+    },
+    {
+      textSubDisplay: "Sale! Up To 50% Off!",
+      textDisplay: "Stylish Looks for Any Season",
+      href: "shop-breadcrumb-img.html",
+      buttonText: "Shop Now",
+      imgSrc: "/assets/images/new-banner/banner-4.jpg",
+      altText: "bg1-1",
+      width: 1000,
+      height: 1,
+    },
+  ],
 };
 
 export default function CarouselSlider() {
-	return (
-		<div className=" slider-block  style-one bg-linear xl:h-[860px] lg:h-[800px] md:h-[580px] sm:h-[500px] h-[350px] max-[420px]:h-[320px] w-full ">
-			<Swiper
-				slidesPerView={1}
-				spaceBetween={30}
-				loop={true}
-				pagination={{
-					dynamicBullets: true,
-					clickable: true,
-				}}
-				autoplay={{
-					delay: 2000,
-					disableOnInteraction: false,
-				}}
-				modules={[Pagination, Navigation, Autoplay]}
-				className="w-full h-full"
-			>
-				{data.slides.map((slide, index) => (
-					<SwiperSlide className="h-full " key={index}>
-						{/* <div className="h-full ">
+  const [sliders, setSliders] = useState<Sliders[]>([]);
+
+  useEffect(() => {
+    const fetchSliders = async () => {
+      const sliderRes = await fetch(`/api/website/slider`);
+      const slider = await sliderRes.json();
+      setSliders(slider);
+    };
+    fetchSliders();
+  }, []);
+
+  return (
+    <div className=" slider-block  style-one bg-linear  md:h-[500px] sm:h-[500px] h-[350px] max-[420px]:h-[320px] w-full ">
+      <Swiper
+        slidesPerView={1}
+        spaceBetween={30}
+        loop={true}
+        pagination={{
+          dynamicBullets: true,
+          clickable: true,
+        }}
+        autoplay={{
+          delay: 2000,
+          disableOnInteraction: false,
+        }}
+        modules={[Pagination, Navigation, Autoplay]}
+        className="w-full h-full"
+      >
+        {sliders.map((slide, index) => (
+          <SwiperSlide className="h-full " key={index}>
+            {/* <div className="h-full ">
               <div className="slider-item h-full w-full relative ">
                 <div className="container w-full h-full flex items-center relative ">
                   <div className="text-content basis-1/2">
@@ -99,18 +111,18 @@ export default function CarouselSlider() {
                 </div>
               </div>
             </div> */}
-						<div className="h-full w-full">
-							<Image
-								src={slide.imgSrc}
-								alt={slide.altText}
-								width={1000}
-								height={1}
-								className="h-full w-full"
-							/>
-						</div>
-					</SwiperSlide>
-				))}
-				{/* <SwiperSlide className="h-full ">
+            <div className="h-full w-full">
+              <Image
+                src={slide.imageUrl}
+                alt={slide.id}
+                width={1000}
+                height={1}
+                className="h-full w-full"
+              />
+            </div>
+          </SwiperSlide>
+        ))}
+        {/* <SwiperSlide className="h-full ">
 					<div className="h-full ">
 						<div className="slider-item h-full w-full relative ">
 							<div className="container w-full h-full flex items-center relative ">
@@ -203,7 +215,7 @@ export default function CarouselSlider() {
 						</div>
 					</div>
 				</SwiperSlide> */}
-			</Swiper>
-		</div>
-	);
+      </Swiper>
+    </div>
+  );
 }

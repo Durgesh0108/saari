@@ -456,56 +456,20 @@ const ProductsListPage: React.FC = () => {
                     >
                       {col.value === "name" && product.name
                         ? product.name
-                        : // @ts-ignore
-                        col.value === "category" && product?.category
-                        ? // @ts-ignore
-                          product?.category.name
-                        : // @ts-ignore
-                        col.value === "subcategory" && product?.subcategory
-                        ? // @ts-ignore
-                          product?.subcategory.name
-                        : // @ts-ignore
-                        col.value === "subsubcategory" &&
-                          // @ts-ignore
-                          product?.subsubcategory
-                        ? // @ts-ignore
-                          product?.subsubcategory.name
-                        : // @ts-ignore
-                        col.value === "brand" && product?.brand
-                        ? // @ts-ignore
-                          product?.brand.name
-                        : col.value === "price" && product.price
-                        ? product.price
+                        : col.value === "category" && product?.category
+                        ? product?.category.name
+                        : col.value === "occassion" && product?.occassion
+                        ? product?.occassion.name
+                        : col.value === "pattern" && product?.pattern
+                        ? product?.pattern.name
+                        : col.value === "type" && product?.type
+                        ? product?.type.name
+                        : col.value === "color" && product?.color
+                        ? product?.color?.name
                         : col.value === "qty" && product.qty
                         ? product.qty
-                        : col.value === "material" && product?.Material
-                        ? // @ts-ignore
-                          product?.Material?.name
-                        : // @ts-ignore
-                        col.value === "discount" && product?.Discount
-                        ? // @ts-ignore
-                          product?.Discount?.discount
-                        : // @ts-ignore
-                        col.value === "pattern" && product?.Pattern
-                        ? // @ts-ignore
-                          product?.Pattern?.name
-                        : col.value === "personCategory" &&
-                          // @ts-ignore
-                          product?.PersonCategory
-                        ? // @ts-ignore
-                          product?.PersonCategory?.name
-                        : // @ts-ignore
-                        col.value === "productType" && product?.ProductType
-                        ? // @ts-ignore
-                          product?.ProductType?.name
-                        : // @ts-ignore
-                        col.value === "color" && product?.color
-                        ? // @ts-ignore
-                          product?.color?.name
-                        : // @ts-ignore
-                        col.value === "size" && product?.size
-                        ? // @ts-ignore
-                          `${product.size_value} ${product?.size.name}`
+                        : col.value === "price" && product.price
+                        ? product.price
                         : col.value === "createdAt"
                         ? new Date(product.createdAt).toLocaleDateString()
                         : col.value === "updatedAt"

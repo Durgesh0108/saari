@@ -100,7 +100,7 @@ export default function ProductFormPage() {
       console.log("input", data);
       const response = await axios.post(`/api/website/product`, data);
       toast.success("Product Added Successfully");
-      router.push(`/admin/website/products/${response.data.id}`);
+      router.push(`/admin/website/product/${response.data.id}`);
     } catch (error: any) {
       console.log(error);
       toast.error("Something went wrong");
