@@ -4,9 +4,9 @@ import {Card} from "@/components/ui/Card";
 import React from "react";
 import ProductFormPage from "./_components/productForm";
 import prismadb from "@/lib/prisma";
-// import ProductList from "./_components/ProductList";
+import ProductList from "./_components/ProductList";
 import {useAuthMiddleware} from "@/app/middleware";
-// import ProductsListPage from "./_components/ProductList";
+import ProductsListPage from "./_components/ProductList";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -24,7 +24,7 @@ export default async function ProductsPage() {
 					<ProductFormPage />
 				</Card>
 				<Card className={"p-8"}>
-					{/* <ProductsListPage /> */}
+					<ProductsListPage />
 				</Card>
 			</div>
 		</div>

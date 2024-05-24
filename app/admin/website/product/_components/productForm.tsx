@@ -79,8 +79,8 @@ export default function ProductFormPage() {
         categoryId: selectedCategory === null ? null : selectedCategory,
         occassionId: selectedOccassion === null ? null : selectedOccassion,
         patternId: selectedPattern === null ? null : selectedPattern,
-        typeId: selectedType === null ? null : selectedDiscount,
-        colorId: selectedColor === null ? null : selectedDiscount,
+        typeId: selectedType === null ? null : selectedType,
+        colorId: selectedColor === null ? null : selectedColor,
         name: values.name,
         qty: values.qty,
         price: price,
@@ -98,9 +98,9 @@ export default function ProductFormPage() {
         // patternId: selectedPattern === null ? null : selectedPattern,
       };
       console.log("input", data);
-      // const response = await axios.post(`/api/website/product`, data);
-      // toast.success("Product Added Successfully");
-      // router.push(`/admin/website/products/${response.data.id}`);
+      const response = await axios.post(`/api/website/product`, data);
+      toast.success("Product Added Successfully");
+      router.push(`/admin/website/products/${response.data.id}`);
     } catch (error: any) {
       console.log(error);
       toast.error("Something went wrong");

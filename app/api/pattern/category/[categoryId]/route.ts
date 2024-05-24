@@ -12,6 +12,7 @@ export async function GET(
         categoryId: params.categoryId,
       },
     });
+
     return NextResponse.json(patterns);
   } catch (error) {
     return new NextResponse("Internal Error", { status: 500 });

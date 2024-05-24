@@ -2,19 +2,6 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Plus } from "lucide-react";
 
 import React, { useEffect, useState } from "react";
-import {
-  PersonCategory,
-  Brands,
-  Category,
-  Colors,
-  Discount,
-  ProductType,
-  Material,
-  Pattern,
-  Size,
-  Subcategory,
-  Subsubcategory,
-} from "@prisma/client";
 
 import {
   Form,
@@ -42,6 +29,21 @@ import { LocationProductForm } from "./_components/LocationForm";
 import { ImageProductForm } from "./_components/ImageForm";
 // import Image from "next/image";
 
+const DisabledInput = ({ text, value, placeholder, disabled }) => {
+  return (
+    <div className="flex flex-col gap-2">
+      <label>{text}</label>
+      <input
+        className="p-2 border-[2px] text-sm  rounded-lg active:ring-2 ring-black placeholder:text-muted-foreground"
+        type="text"
+        value={value}
+        disabled={disabled}
+        placeholder={placeholder}
+      />
+    </div>
+  );
+};
+
 export default async function ProductFormPage({
   params,
 }: {
@@ -52,26 +54,13 @@ export default async function ProductFormPage({
       id: params.productId,
     },
     include: {
-      brand: {
-        include: {
-          category: true,
-          subcategory: true,
-          subsubcategories: true,
-          // subsubcategory: true,
-        },
-      },
       category: true,
       color: true,
-      Discount: true,
-      Material: true,
-      Pattern: true,
-      PersonCategory: true,
-      ProductType: true,
-      size: true,
-      subcategory: true,
-      subsubcategory: true,
-      images: true,
+      occassion: true,
       description: true,
+      images: true,
+      pattern: true,
+      type: true,
     },
   });
 
@@ -93,46 +82,36 @@ export default async function ProductFormPage({
         <Card className={"p-8 grid grid-cols-1 gap-4"}>
           {/* Categories  */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="flex flex-col gap-2">
-              <label>Category</label>
-              <input
-                className="p-2 border-[2px] text-sm  rounded-lg active:ring-2 ring-black placeholder:text-muted-foreground"
-                type="text"
-                value={product?.brand.category.name}
-                disabled={true}
-                placeholder="Category"
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <label>Sub Category</label>
-              <input
-                className="p-2 border-[2px] text-sm  rounded-lg active:ring-2 ring-black placeholder:text-muted-foreground"
-                type="text"
-                value={product?.brand.subcategory.name}
-                disabled={true}
-                placeholder="Sub Category"
-              />
-            </div>
-            {/* <div className="flex flex-col gap-2">
-              <label>Sub Sub Category</label>
-              <input
-                className="p-2 border-[2px] text-sm  rounded-lg active:ring-2 ring-black placeholder:text-muted-foreground"
-                type="text"
-                value={product?.brand.subsubcategory}
-                disabled={true}
-                placeholder="Category"
-              />
-            </div> */}
-            <div className="flex flex-col gap-2">
-              <label>Brand</label>
-              <input
-                className="p-2 border-[2px] text-sm  rounded-lg active:ring-2 ring-black placeholder:text-muted-foreground"
-                type="text"
-                value={product?.brand.name}
-                disabled={true}
-                placeholder="Sub Category"
-              />
-            </div>
+            <DisabledInput
+              text={"Category"}
+              value={product?.category.name}
+              disabled={true}
+              placeholder={"Category"}
+            />
+            <DisabledInput
+              text={"Occassion"}
+              value={product?.occassion.name}
+              disabled={true}
+              placeholder={"Occassion"}
+            />
+            <DisabledInput
+              text={"Pattern"}
+              value={product?.pattern.name}
+              disabled={true}
+              placeholder={"Pattern"}
+            />
+            <DisabledInput
+              text={"Type"}
+              value={product?.type.name}
+              disabled={true}
+              placeholder={"Type"}
+            />
+            <DisabledInput
+              text={"Color"}
+              value={product?.color.name}
+              disabled={true}
+              placeholder={"Color"}
+            />
           </div>
           {/* Image and Logo */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -164,22 +143,22 @@ export default async function ProductFormPage({
               shortDescription={product?.shortDescription || ""}
               productId={product?.id || ""}
             />
-            <FeatureProductForm
+            {/* <FeatureProductForm
               features={product?.features || ""}
               productId={product?.id || ""}
-            />
+            /> */}
 
             {/* <DescriptionServiceForm
               serviceId={service?.id || ""}
               description={service?.description || ""}
             /> */}
           </div>
-          <PriceProductForm
+          {/* <PriceProductForm
             productId={product?.id || ""}
             //   discount={product?.Discount?.discount || 0}
             price={product?.price || 0}
             offer_price={product?.offer_price || 0}
-          />
+          /> */}
           {/* <LocationProductForm
             service_location={product?.location || ""}
             productId={product?.id || ""}

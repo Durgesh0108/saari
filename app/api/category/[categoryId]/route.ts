@@ -7,11 +7,13 @@ export async function GET(
   { params }: { params: { categoryId: string } }
 ) {
   try {
+
     const category = await prismadb.category.findUnique({
       where: {
         id: params.categoryId,
       },
     });
+
     return NextResponse.json(category);
   } catch (error) {
     return new NextResponse("Internal Error", { status: 500 });

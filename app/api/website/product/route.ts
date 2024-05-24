@@ -18,14 +18,14 @@ export async function POST(req: Request) {
     const product = await prismadb.product.create({
       data: {
         name: body.name,
-        description: body.description,
+        qty: body.qty,
         price: body.price,
+        shortDescription: body.shortDescription,
         categoryId: body.categoryId,
-        typeId: body.typeId,
-        colorId: body.colorId,
-        patternId: body.patternId,
         occassionId: body.occassionId,
-        qty: body.quantity,
+        typeId: body.typeId,
+        patternId: body.patternId,
+        colorId: body.colorId,
         images: {
           createMany: {
             data: [...images.map((image: { url: string }) => image)],
