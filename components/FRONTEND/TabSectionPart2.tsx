@@ -18,7 +18,7 @@ const data = {
       images: "/assets/images/sarri/formal1.jpg",
       data: {
         type: "Formal",
-        image: "/assets/images/product/fashion/18-1.png",
+        image: "/assets/images/sarri/formal1.jpg",
       },
     },
     {
@@ -27,7 +27,7 @@ const data = {
       images: "/assets/images/sarri/festive1.jpg",
       data: {
         type: "Festive",
-        image: "/assets/images/product/fashion/18-2.png",
+        image: "/assets/images/sarri/festive1.jpg",
       },
     },
     {
@@ -36,7 +36,7 @@ const data = {
       images: "/assets/images/sarri/wedding1.jpg",
       data: {
         type: "Wedding",
-        image: "/assets/images/product/fashion/18-2.png",
+        image: "/assets/images/sarri/wedding1.jpg",
       },
     },
     {
@@ -45,7 +45,7 @@ const data = {
       images: "/assets/images/sarri/casual1.jpg",
       data: {
         type: "Casual",
-        image: "/assets/images/product/fashion/18-3.png",
+        image: "/assets/images/sarri/casual1.jpg",
       },
     },
     {
@@ -54,7 +54,7 @@ const data = {
       images: "/assets/images/sarri/formal2.jpg",
       data: {
         type: "Formal",
-        image: "/assets/images/product/fashion/18-3.png",
+        image: "/assets/images/sarri/formal1.jpg",
       },
     },
     {
@@ -63,7 +63,7 @@ const data = {
       images: "./assets/images/product/fashion/18-1.png",
       data: {
         type: "Formal",
-        image: "/assets/images/product/fashion/18-3.png",
+        image: "/assets/images/sarri/formal1.jpg",
       },
     },
     {
@@ -72,7 +72,7 @@ const data = {
       images: "./assets/images/product/fashion/18-1.png",
       data: {
         type: "Casual",
-        image: "/assets/images/product/fashion/18-3.png",
+        image: "/assets/images/sarri/casual1.jpg",
       },
     },
     {
@@ -81,7 +81,7 @@ const data = {
       images: "./assets/images/product/fashion/18-1.png",
       data: {
         type: "Wedding",
-        image: "/assets/images/product/fashion/18-1.png",
+        image: "/assets/images/sarri/wedding1.jpg",
       },
     },
     {
@@ -90,7 +90,7 @@ const data = {
       images: "/assets/images/product/fashion/18-1.png",
       data: {
         type: "Festive",
-        image: "/assets/images/product/fashion/18-2.png",
+        image: "/assets/images/sarri/festive1.jpg",
       },
     },
     {
@@ -99,7 +99,7 @@ const data = {
       images: "./assets/images/product/fashion/18-1.png",
       data: {
         type: "Formal",
-        image: "/assets/images/product/fashion/18-3.png",
+        image: "/assets/images/sarri/formal1.jpg",
       },
     },
   ],
@@ -197,7 +197,14 @@ const Tabsectionpart2 = () => {
     });
   };
 
-  const cities = [...new Set(data.products.map((Val) => Val.data.type))];
+  // const cities = [...new Set(data.products.map((Val) => Val.data.type))];
+
+  const uniqueTypes = data.products.reduce((acc, curr) => {
+    if (!acc.some((item) => item.type === curr.data.type)) {
+      acc.push({ type: curr.data.type, image: curr.data.image });
+    }
+    return acc;
+  }, []);
 
   // console.log(propertyList.properties.length);
   // console.log(propertyList.propertyOnPage.length);
@@ -214,20 +221,24 @@ const Tabsectionpart2 = () => {
         {/* <Header /> */}
         <div className="flex justify-between items-center">
           <div className="flex gap-6 my-6 justify-between">
-            {cities.map((city, id) => {
+            {uniqueTypes.map((city, id) => {
               return (
-                <>
+                <div key={id}>
                   <button
-                    className={`bg-slate-200 border-none text-black px-6 w-36 h-36 rounded-full ${
+                    className={`flex flex-col items-center justify-center bg-slate-200 border-none text-black w-36 h-36 rounded-full ${
                       isActive ? "bg-indigo-600" : ""
                     }`}
-                    onClick={() => filterItem(city)}
+                    onClick={() => filterItem(city.type)}
                     key={id}
                   >
-                    {city}
-                    {/* <img src={city} /> */}
+                    <img
+                      src={city.image}
+                      alt={city.type}
+                      className="w-full h-full object-cover rounded-full border-2 border-black"
+                    />
                   </button>
-                </>
+                  <span className="block mt-2 text-center">{city.type}</span>
+                </div>
               );
             })}
           </div>
