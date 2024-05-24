@@ -578,23 +578,25 @@ datasource db {
 }
 
 model Category {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  name      String    @db.String
-  imageUrl  String?   @db.String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  Pattern   Pattern[]
-  Type      Type[]
-  Product   Product[]
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  name       String    @db.String
+  imageUrl   String?   @db.String
+  isArchived Boolean?  @default(false) @db.Bool
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  Pattern    Pattern[]
+  Type       Type[]
+  Product    Product[]
 }
 
 model Occassion {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  name      String    @db.String
-  imageUrl  String?   @db.String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  Product   Product[]
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  name       String    @db.String
+  imageUrl   String?   @db.String
+  Product    Product[]
+  isArchived Boolean?  @default(false) @db.Bool
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 }
 
 model Pattern {
@@ -603,18 +605,20 @@ model Pattern {
   imageUrl   String?   @db.String
   categoryId String?   @db.ObjectId
   category   Category? @relation(fields: [categoryId], references: [id])
+  isArchived Boolean?  @default(false) @db.Bool
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   Product    Product[]
 }
 
 model Color {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  name      String    @db.String
-  hexCode   String    @db.String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  Product   Product[]
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  name       String    @db.String
+  hexCode    String    @db.String
+  isArchived Boolean?  @default(false) @db.Bool
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  Product    Product[]
 }
 
 model Type {
@@ -623,6 +627,7 @@ model Type {
   imageUrl   String?   @db.String
   categoryId String?   @db.ObjectId
   category   Category? @relation(fields: [categoryId], references: [id])
+  isArchived Boolean?  @default(false) @db.Bool
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   Product    Product[]
@@ -646,6 +651,7 @@ model Product {
   type             Type?         @relation(fields: [typeId], references: [id])
   colorId          String?       @db.ObjectId
   color            Color?        @relation(fields: [colorId], references: [id])
+  isArchived       Boolean?      @default(false) @db.Bool
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
 }
@@ -667,4 +673,12 @@ model Description {
   value     String   @db.String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Sliders {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  imageUrl   String?  @db.String
+  isArchived Boolean? @default(false) @db.Bool
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
