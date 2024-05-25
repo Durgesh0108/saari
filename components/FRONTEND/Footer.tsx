@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import {
 	FaCaretUp,
@@ -16,14 +17,11 @@ const Footer = () => {
 					<div className="container">
 						<div className="content-footer md:py-[60px] py-10 flex justify-between flex-wrap gap-y-8">
 							<div className="company-infor basis-1/4 max-lg:basis-full pr-7">
-								<a
-									href="index.htm"
-									className="logo inline-block"
-								>
+								<Link href="/" className="logo inline-block">
 									<div className="heading3 w-fit">
 										Anvogue
 									</div>
-								</a>
+								</Link>
 								<div className="flex gap-3 mt-3">
 									<div className="flex flex-col ">
 										<span className="text-button">
@@ -55,100 +53,100 @@ const Footer = () => {
 										<div className="text-button-uppercase pb-3">
 											Infomation
 										</div>
-										<a
+										<Link
 											className="caption1 has-line-before duration-300 w-fit"
 											href="contact.html"
 										>
 											Contact us
-										</a>
-										<a
+										</Link>
+										<Link
 											className="caption1 has-line-before duration-300 w-fit pt-2"
-											href="#!"
+											href="/aboutus"
 										>
-											Career
-										</a>
-										<a
+											About Us
+										</Link>
+										<Link
 											className="caption1 has-line-before duration-300 w-fit pt-2"
 											href="my-account.html"
 										>
 											My Account
-										</a>
-										<a
+										</Link>
+										<Link
 											className="caption1 has-line-before duration-300 w-fit pt-2"
 											href="order-tracking.html"
 										>
 											Order &amp; Returns
-										</a>
-										<a
+										</Link>
+										<Link
 											className="caption1 has-line-before duration-300 w-fit pt-2"
 											href="faqs.html"
 										>
 											FAQs
-										</a>
+										</Link>
 									</div>
 									<div className="item flex flex-col basis-1/3 ">
 										<div className="text-button-uppercase pb-3">
 											Quick Shop
 										</div>
-										<a
+										<Link
 											className="caption1 has-line-before duration-300 w-fit"
 											href="shop-breadcrumb1.html"
 										>
 											Women
-										</a>
-										<a
+										</Link>
+										<Link
 											className="caption1 has-line-before duration-300 w-fit pt-2"
 											href="shop-breadcrumb1.html"
 										>
 											Men
-										</a>
-										<a
+										</Link>
+										<Link
 											className="caption1 has-line-before duration-300 w-fit pt-2"
 											href="shop-breadcrumb1.html"
 										>
 											Clothes
-										</a>
-										<a
+										</Link>
+										<Link
 											className="caption1 has-line-before duration-300 w-fit pt-2"
 											href="shop-breadcrumb1.html"
 										>
 											Accessories
-										</a>
-										<a
+										</Link>
+										<Link
 											className="caption1 has-line-before duration-300 w-fit pt-2"
 											href="blog-default.html"
 										>
 											Blog
-										</a>
+										</Link>
 									</div>
 									<div className="item flex flex-col basis-1/3 ">
 										<div className="text-button-uppercase pb-3">
 											Customer Services
 										</div>
-										<a
+										<Link
 											className="caption1 has-line-before duration-300 w-fit"
 											href="faqs.html"
 										>
 											FAQs
-										</a>
-										<a
+										</Link>
+										<Link
 											className="caption1 has-line-before duration-300 w-fit pt-2"
 											href="faqs.html"
 										>
 											Shipping
-										</a>
-										<a
+										</Link>
+										<Link
 											className="caption1 has-line-before duration-300 w-fit pt-2"
 											href="faqs.html"
 										>
 											Privacy Policy
-										</a>
-										<a
+										</Link>
+										<Link
 											className="caption1 has-line-before duration-300 w-fit pt-2"
 											href="order-tracking.html"
 										>
 											Return &amp; Refund
-										</a>
+										</Link>
 									</div>
 								</div>
 								<div className="newsletter basis-1/3 pl-7 max-md:basis-full max-md:pl-0">
@@ -175,41 +173,41 @@ const Footer = () => {
 										</form>
 									</div>
 									<div className="list-social flex items-center gap-6 mt-4">
-										<a
+										<Link
 											href="https://www.facebook.com/"
 											target="_blank"
 										>
 											{/* <div className="icon-facebook text-2xl text-black" /> */}
 											<FaFacebookF className="text-lg" />
-										</a>
-										<a
+										</Link>
+										<Link
 											href="https://www.instagram.com/"
 											target="_blank"
 										>
 											{/* <div className="icon-instagram text-2xl text-black" /> */}
 											<FaInstagram className="text-lg" />
-										</a>
-										<a
+										</Link>
+										<Link
 											href="https://www.twitter.com/"
 											target="_blank"
 										>
 											{/* <div className="icon-twitter text-2xl text-black" /> */}
 											<FaTwitter className="text-lg" />
-										</a>
-										<a
+										</Link>
+										<Link
 											href="https://www.youtube.com/"
 											target="_blank"
 										>
 											{/* <div className="icon-youtube text-2xl text-black" /> */}
 											<FaYoutube className="text-lg" />
-										</a>
-										<a
+										</Link>
+										<Link
 											href="https://www.pinterest.com/"
 											target="_blank"
 										>
 											{/* <div className="icon-pinterest text-2xl text-black" /> */}
 											<FaPinterestP className="text-lg" />
-										</a>
+										</Link>
 									</div>
 								</div>
 							</div>

@@ -521,12 +521,12 @@ const Tabsectionpart2 = () => {
                     <div className="rounded-tl-[100px] rounded-br-2xl h-72 relative -top-5">
                       <img
                         src={property.images[0].url}
-                        alt={property.text}
+                        alt={property.name}
                         className="w-full h-full overflow-hidden object-cover rounded-tl-[100px] rounded-br-2xl"
                       />
                     </div>
                     <div className="group-hover:scale-110 duration-700 text-[20px]">
-                      {property.text}
+                      {property.name}
                     </div>
                   </div>
                 </li>

@@ -9,6 +9,8 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { Sliders } from "@prisma/client";
 
+
+
 const data = {
   slides: [
     {
