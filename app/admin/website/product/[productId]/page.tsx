@@ -69,7 +69,7 @@ export default async function ProductFormPage({
       <div className="flex flex-col gap-2">
         <Link
           className="text-sm  md:text-lg flex gap-2 items-center"
-          href={`/admin/website/products`}
+          href={`/admin/website/product`}
         >
           <ArrowLeft className="w-4" />
           Back
