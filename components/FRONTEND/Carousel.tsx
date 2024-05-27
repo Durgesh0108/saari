@@ -7,7 +7,7 @@ import "swiper/css/navigation";
 import { Pagination, Navigation, Autoplay } from "swiper/modules";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { Sliders } from "@prisma/client";
+
 
 
 
@@ -57,7 +57,7 @@ const data = {
 };
 
 export default function CarouselSlider() {
-  const [sliders, setSliders] = useState<Sliders[]>([]);
+  const [sliders, setSliders] = useState([]);
 
   useEffect(() => {
     const fetchSliders = async () => {
