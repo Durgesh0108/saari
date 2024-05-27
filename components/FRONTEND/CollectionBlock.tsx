@@ -197,7 +197,7 @@ export default function CollectionBlack() {
   }, []);
 
   return (
-    <div className="collection-block md:pt-20 pt-10 mb-8 font-serif">
+    <div className="md:pt-20 pt-10 mb-8 font-serif">
       <div className="container px-8">
         <div className="font-medium text-[#afafaf] text-2xl">
           Shop By Category

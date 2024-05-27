@@ -14,7 +14,7 @@ export default function Home() {
 		<>
 			<div className="">
 				<CarouselSlider />
-				<div className="container">
+				<div className=" px-24 border-2 border-black">
 					{/* <TabSection /> */}
 					<CollectionBlack />
 					<Tabsectionpart2 />

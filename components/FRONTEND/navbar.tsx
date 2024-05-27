@@ -14,320 +14,170 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 export default function Navbar() {
-	const [CategoryProducts, setCategoryProducts] = useState<Product[]>([]);
-	const [OccassionProducts, setOccassionProducts] = useState<Product[]>([]);
+  const [CategoryProducts, setCategoryProducts] = useState<Product[]>([]);
+  const [OccassionProducts, setOccassionProducts] = useState<Product[]>([]);
 
-	useEffect(() => {
-		const fetchProducts = async () => {
-			const productRes = await fetch(`/api/website/product`);
-			const products = await productRes.json();
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const productRes = await fetch(`/api/website/product`);
+      const products = await productRes.json();
 
-			// Create a map to store unique categories
-			const categoryMap = new Map();
-			products.forEach((product) => {
-				const category = product.category;
-				if (!categoryMap.has(category.name)) {
-					categoryMap.set(category.name, product);
-				}
-			});
+      // Create a map to store unique categories
+      const categoryMap = new Map();
+      products.forEach((product) => {
+        const category = product.category;
+        if (!categoryMap.has(category.name)) {
+          categoryMap.set(category.name, product);
+        }
+      });
 
-			// Convert map values to an array
-			const uniqueCategory = Array.from(categoryMap.values());
-			setCategoryProducts(uniqueCategory);
-		};
-		fetchProducts();
-	}, []);
+      // Convert map values to an array
+      const uniqueCategory = Array.from(categoryMap.values());
+      setCategoryProducts(uniqueCategory);
+    };
+    fetchProducts();
+  }, []);
 
-	useEffect(() => {
-		const fetchProducts = async () => {
-			const productRes = await fetch(`/api/website/product`);
-			const products = await productRes.json();
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const productRes = await fetch(`/api/website/product`);
+      const products = await productRes.json();
 
-			const uniqueOccasions = products.reduce((acc, curr) => {
-				if (!acc.some((item) => item.name === curr.occassion.name)) {
-					acc.push({
-						name: curr.occassion.name,
-						imageUrl: curr.occassion.imageUrl,
-						id: curr.occassion.id
-					});
-				}
-				return acc;
-			}, []);
-			console.log({ uniqueOccasions });
-			setOccassionProducts(uniqueOccasions);
-		};
-		fetchProducts();
-	}, []);
+      const uniqueOccasions = products.reduce((acc, curr) => {
+        if (!acc.some((item) => item.name === curr.occassion.name)) {
+          acc.push({
+            name: curr.occassion.name,
+            imageUrl: curr.occassion.imageUrl,
+            id: curr.occassion.id,
+          });
+        }
+        return acc;
+      }, []);
+      console.log({ uniqueOccasions });
+      setOccassionProducts(uniqueOccasions);
+    };
+    fetchProducts();
+  }, []);
 
-	return (
-		<div id="header" className="relative w-full">
-			<div className="header-menu style-one absolute top-0 left-0 right-0 w-full md:h-[74px] h-[56px] bg-transparent">
-				<div className="container mx-auto h-full">
-					<div className="header-main flex justify-between h-full">
-						<div className="menu-mobile-icon lg:hidden flex items-center">
-							<i className="icon-category text-2xl" />
-						</div>
-						<div className="left flex items-center gap-16">
-							<Link
-								href="/"
-								className="flex items-center max-lg:absolute max-lg:left-1/2 max-lg:-translate-x-1/2"
-							>
-								<div className="heading4 uppercase">
-									SAARI WALI
-								</div>
-							</Link>
-							<div className="menu-main h-full max-lg:hidden">
-								<ul className="flex items-center gap-8 h-full">
-									<li className="h-full">
-										<div
-											href=""
-											className="text-button-uppercase duration-300 h-full flex items-center justify-center"
-										>
-											Shop by Speciality
-										</div>
-										<div className="mega-menu absolute top-[74px] left-0 bg-white w-screen">
-											<div className="container">
-												<div className="flex justify-between py-8">
-													<div className="nav-link basis-2/3 grid grid-cols-4 gap-8 gap-y-8">
-														<div className="nav-item group w-screen">
-															<div className="text-button-uppercase pb-2 ">
-																Category
-															</div>
-															<ul className="group-hover:flex hidden w-screen">
-																{CategoryProducts.map(
-																	(
-																		slide,
-																		index
-																	) => (
-																		<div
-																			className="h-full m-8"
-																			key={
-																				index
-																			}
-																		>
-																			<Link
-																				href={`/category/${slide.categoryId}`}
-																			>
-																				<div
-																					className="hover:scale-110 z-50 duration-700 group "
-																					key={
-																						index
-																					}
-																				>
-																					{/* <div
+  return (
+    <>
+      <div id="header" className="relative w-full hidden">
+        <div className="header-menu style-one absolute top-0 left-0 right-0 w-full md:h-[74px] h-[56px] bg-transparent">
+          <div className="container mx-auto h-full">
+            <div className="header-main flex justify-between h-full">
+              <div className="menu-mobile-icon lg:hidden flex items-center">
+                <i className="icon-category text-2xl" />
+              </div>
+              <div className="left flex items-center gap-16">
+                <Link
+                  href="/"
+                  className="flex items-center max-lg:absolute max-lg:left-1/2 max-lg:-translate-x-1/2"
+                >
+                  <div className="heading4 uppercase">SAARI WALI</div>
+                </Link>
+                <div className="menu-main h-full max-lg:hidden">
+                  <ul className="flex items-center gap-8 h-full">
+                    <li className="h-full group/special1">
+                      <div
+                        href=""
+                        className=" text-button-uppercase duration-300 h-full flex items-center justify-center"
+                      >
+                        Shop by Speciality
+                      </div>
+                      <div className="group-hover/special1:flex hidden absolute top-[74px] left-0 bg-white w-screen">
+                        <div className="container">
+                          <div className="flex justify-between py-8">
+                            <div className="nav-link basis-2/3 grid grid-cols-4 gap-8 gap-y-8">
+                              <div className="nav-item group w-screen">
+                                <div className="text-button-uppercase pb-2 ">
+                                  Category
+                                </div>
+                                <ul className="group-hover:flex hidden w-screen">
+                                  {CategoryProducts.map((slide, index) => (
+                                    <div className="h-full m-8" key={index}>
+                                      <Link
+                                        href={`/category/${slide.categoryId}`}
+                                      >
+                                        <div
+                                          className="hover:scale-110 z-50 duration-700 group "
+                                          key={index}
+                                        >
+                                          {/* <div
                                           className="rounded-full w-5 h-5 top-1 left-1 relative"
                                           style={{ backgroundColor: "#C2915E" }}
                                         ></div> */}
-																					<div className=" rounded-full w-32 h-32  relative -top-5 ">
-																						<img
-																							src={
-																								slide
-																									?.category
-																									?.imageUrl
-																							}
-																							alt={
-																								slide
-																									?.category
-																									?.name
-																							}
-																							className="w-full h-full overflow-hidden object-cover  rounded-full"
-																						/>
+                                          <div className=" rounded-full w-32 h-32  relative -top-5 ">
+                                            <img
+                                              src={slide?.category?.imageUrl}
+                                              alt={slide?.category?.name}
+                                              className="w-full h-full overflow-hidden object-cover  rounded-full"
+                                            />
 
-																						{/* <Image src={slide.imgSrc} alt={slide.altText} fill/> */}
-																					</div>
-																					<div className=" text-lg">
-																						{
-																							slide
-																								?.category
-																								?.name
-																						}
-																					</div>
-																				</div>
-																			</Link>
-																		</div>
-																	)
-																)}
-															</ul>
-														</div>
-														<div className="nav-item group w-screen  ">
-															<div className="text-button-uppercase pb-2 ">
-																Occassion
-															</div>
-															<ul className="group-hover:flex hidden w-screen mx-auto ">
-																{OccassionProducts.map(
-																	(
-																		occassion,
-																		index
-																	) => {
-																		return (
-																			<div
-																				className="h-full m-8 group"
-																				key={
-																					index
-																				}
-																			>
-																				<Link
-																					href={`/occassion/${occassion.id}`}
-																				>
-																					<div
-																						className="hover:scale-110 z-50 duration-700  "
-																						key={
-																							index
-																						}
-																					>
-																						{/* <div
-                                          className="rounded-full w-5 h-5 top-1 left-1 relative"
-                                          style={{ backgroundColor: "#C2915E" }}
-                                        ></div> */}
-																						<div className=" rounded-full w-32 h-32  relative -top-5  ">
-																							<img
-																								src={
-																									occassion.imageUrl
-																								}
-																								alt={
-																									occassion.name
-																								}
-																								className="w-full h-full overflow-hidden object-cover  rounded-full "
-																							/>
-
-																							{/* <Image src={slide.imgSrc} alt={slide.altText} fill/> */}
-																						</div>
-																						<div className=" text-lg">
-																							{
-																								occassion.name
-																							}
-																						</div>
-																					</div>
-																				</Link>
-																			</div>
-																		);
-																	}
-																)}
-															</ul>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</li>
-									{/* <li className="h-full">
-                    <Link
-                      href="#!"
-                      className="text-button-uppercase duration-300 h-full flex items-center justify-center"
-                    >
-                      Features
-                    </Link>
-                    <div className="mega-menu absolute top-[74px] left-0 bg-white w-screen">
-                      <div className="container">
-                        <div className="flex justify-between py-8">
-                          <div className="nav-link basis-2/3 grid grid-cols-4 gap-y-8">
-                            <div className="nav-item">
-                              <div className="text-button-uppercase pb-2">
-                                For Men
+                                            {/* <Image src={slide.imgSrc} alt={slide.altText} fill/> */}
+                                          </div>
+                                          <div className=" text-lg">
+                                            {slide?.category?.name}
+                                          </div>
+                                        </div>
+                                      </Link>
+                                    </div>
+                                  ))}
+                                </ul>
                               </div>
-                              <ul>
-                                <li>
-                                  <Link
-                                    href="shop-breadcrumb1.html"
-                                    className="link text-secondary duration-300 cursor-pointer"
-                                  >
-                                    Starting From 50% Off
-                                  </Link>
-                                </li>
-                                <li>
-                                  <Link
-                                    href="shop-breadcrumb1.html"
-                                    className="link text-secondary duration-300 cursor-pointer"
-                                  >
-                                    Outerwear | Coats
-                                  </Link>
-                                </li>
-                                <li>
-                                  <Link
-                                    href="shop-breadcrumb1.html"
-                                    className="link text-secondary duration-300 cursor-pointer"
-                                  >
-                                    Sweaters | Cardigans
-                                  </Link>
-                                </li>
-                                <li>
-                                  <Link
-                                    href="shop-breadcrumb1.html"
-                                    className="link text-secondary duration-300 cursor-pointer"
-                                  >
-                                    Shirt | Sweatshirts
-                                  </Link>
-                                </li>
-                                <li>
-                                  <Link
-                                    href="shop-breadcrumb1.html"
-                                    className="link text-secondary duration-300 cursor-pointer view-all-btn"
-                                  >
-                                    View All
-                                  </Link>
-                                </li>
-                              </ul>
+                              <div className="nav-item group w-screen  ">
+                                <div className="text-button-uppercase pb-2 ">
+                                  Occassion
+                                </div>
+                                <ul className="group-hover:flex hidden w-screen mx-auto ">
+                                  {OccassionProducts.map((occassion, index) => {
+                                    return (
+                                      <div
+                                        className="h-full m-8 group"
+                                        key={index}
+                                      >
+                                        <Link
+                                          href={`/occassion/${occassion.id}`}
+                                        >
+                                          <div
+                                            className="hover:scale-110 z-50 duration-700  "
+                                            key={index}
+                                          >
+                                            {/* <div
+                                          className="rounded-full w-5 h-5 top-1 left-1 relative"
+                                          style={{ backgroundColor: "#C2915E" }}
+                                        ></div> */}
+                                            <div className=" rounded-full w-32 h-32  relative -top-5  ">
+                                              <img
+                                                src={occassion.imageUrl}
+                                                alt={occassion.name}
+                                                className="w-full h-full overflow-hidden object-cover  rounded-full "
+                                              />
+
+                                              {/* <Image src={slide.imgSrc} alt={slide.altText} fill/> */}
+                                            </div>
+                                            <div className=" text-lg">
+                                              {occassion.name}
+                                            </div>
+                                          </div>
+                                        </Link>
+                                      </div>
+                                    );
+                                  })}
+                                </ul>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </li> */}
-								</ul>
-							</div>
-						</div>
-						<div className="right flex gap-12">
-							<div className="max-md:hidden search-icon flex items-center cursor-pointer relative">
-								<i className="ph-bold ph-magnifying-glass text-2xl" />
-								<div className="line absolute bg-line w-px h-6 -right-6" />
-							</div>
-							<div className="list-action flex items-center gap-4">
-								<div className="user-icon flex items-center justify-center cursor-pointer">
-									<i className="ph-bold ph-user text-2xl" />
-									<div className="login-popup absolute top-[74px] w-[320px] p-7 rounded-xl bg-white box-shadow-small">
-										<Link
-											href="login.html"
-											className="button-main w-full text-center"
-										>
-											Login
-										</Link>
-										<div className="text-secondary text-center mt-3 pb-4">
-											Don’t have an account?
-											<Link
-												href="register.html"
-												className="text-black pl-1 hover:underline"
-											>
-												Register
-											</Link>
-										</div>
-										<div className="bottom pt-4 border-t border-line" />
-										<Link
-											href="#!"
-											className="body1 hover:underline"
-										>
-											Support
-										</Link>
-									</div>
-								</div>
-								<div className="max-md:hidden wishlist-icon flex items-center relative cursor-pointer">
-									<i className="ph-bold ph-heart text-2xl" />
-									<span className="quantity wishlist-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-black w-4 h-4 flex items-center justify-center rounded-full">
-										0
-									</span>
-								</div>
-								<div className="max-md:hidden cart-icon flex items-center relative cursor-pointer">
-									<i className="ph-bold ph-handbag text-2xl" />
-									<span className="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-black w-4 h-4 flex items-center justify-center rounded-full">
-										0
-									</span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			{/* Menu Mobile */}
-			{/* <div id="menu-mobile" className="">
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* Menu Mobile */}
+        {/* <div id="menu-mobile" className="">
 				<div className="menu-container bg-white h-full">
 					<div className="container h-full">
 						<div className="menu-main h-full overflow-hidden">
@@ -1473,7 +1323,7 @@ export default function Navbar() {
 					</div>
 				</div>
 			</div> */}
-			{/* <div className="modal-search-block">
+        {/* <div className="modal-search-block">
 				<div className="modal-search-main md:p-10 p-6 rounded-[32px]">
 					<div className="form-search relative w-full">
 						<i className="ph ph-magnifying-glass absolute heading5 right-6 top-1/2 -translate-y-1/2 cursor-pointer" />
@@ -1485,6 +1335,139 @@ export default function Navbar() {
 					</div>
 				</div>
 			</div> */}
-		</div>
-	);
+      </div>
+
+      <div className=" w-screen bg-transparent container items-center px-8 py-4  grid grid-cols-12">
+        <div className="col-span-2">
+          <Link
+            href="/"
+            className="flex items-center max-lg:absolute max-lg:left-1/2 max-lg:-translate-x-1/2"
+          >
+            <div className="text-2xl font-bold uppercase">SAARI WALI</div>
+          </Link>
+        </div>
+        <div className="col-span-8 flex w-full  relative ">
+          <div className="cursor-pointer py-2 text-[14px] group/speciality">
+            <div className="flex justify-center bg-white px-1 z-10 container">
+              <div className="text-xl font-bold duration-300 h-full flex items-center justify-center">
+                Shop by Speciality
+              </div>
+            </div>
+
+            <div className="duration-500 fade-in-0 absolute z-50 top-full left-0 w-full bg-white py-1 px-4 text-gray-800 shadow-xl hidden group-hover/speciality:block">
+              <div className="flex  w-full ">
+                <div className=" grid grid-cols-4 gap-8 gap-y-8">
+                  <div className="group/category w-screen ">
+                    <div className="uppercase font-bold pb-2 ">Category</div>
+                    <ul className="group-hover/category:flex hidden w-screen ">
+                      {CategoryProducts.map((slide, index) => (
+                        <div className="h-full m-8" key={index}>
+                          <Link href={`/category/${slide.categoryId}`}>
+                            <div
+                              className="hover:scale-110 z-50 duration-700 group "
+                              key={index}
+                            >
+                              <div className=" rounded-full w-32 h-32  relative -top-5 ">
+                                <img
+                                  src={slide?.category?.imageUrl}
+                                  alt={slide?.category?.name}
+                                  className="w-full h-full overflow-hidden object-cover  rounded-full"
+                                />
+                              </div>
+                              <div className=" text-lg">
+                                {slide?.category?.name}
+                              </div>
+                            </div>
+                          </Link>
+                        </div>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="group/occassion w-screen  ">
+                    <div className="uppercase font-bold pb-2 ">Occassion</div>
+                    <ul className="group-hover/occassion:flex hidden w-screen mx-auto ">
+                      {OccassionProducts.map((occassion, index) => {
+                        return (
+                          <div className="h-full m-8 group" key={index}>
+                            <Link href={`/occassion/${occassion.id}`}>
+                              <div
+                                className="hover:scale-110 z-50 duration-700  "
+                                key={index}
+                              >
+                                <div className=" rounded-full w-32 h-32  relative -top-5  ">
+                                  <img
+                                    src={occassion.imageUrl}
+                                    alt={occassion.name}
+                                    className="w-full h-full overflow-hidden object-cover  rounded-full "
+                                  />
+                                </div>
+                                <div className=" text-lg">{occassion.name}</div>
+                              </div>
+                            </Link>
+                          </div>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                  <div className="group/category w-screen">
+                    <div className="uppercase font-bold pb-2 ">Category</div>
+                    <ul className="group-hover/category:flex hidden w-screen ">
+                      {CategoryProducts.map((slide, index) => (
+                        <div className="h-full m-8" key={index}>
+                          <Link href={`/category/${slide.categoryId}`}>
+                            <div
+                              className="hover:scale-110 z-50 duration-700 group "
+                              key={index}
+                            >
+                              <div className=" rounded-full w-32 h-32  relative -top-5 ">
+                                <img
+                                  src={slide?.category?.imageUrl}
+                                  alt={slide?.category?.name}
+                                  className="w-full h-full overflow-hidden object-cover  rounded-full"
+                                />
+                              </div>
+                              <div className=" text-lg">
+                                {slide?.category?.name}
+                              </div>
+                            </div>
+                          </Link>
+                        </div>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="group/occassion w-screen  ">
+                    <div className="uppercase font-bold pb-2 ">Occassion</div>
+                    <ul className="group-hover/occassion:flex hidden w-screen mx-auto ">
+                      {OccassionProducts.map((occassion, index) => {
+                        return (
+                          <div className="h-full m-8 group" key={index}>
+                            <Link href={`/occassion/${occassion.id}`}>
+                              <div
+                                className="hover:scale-110 z-50 duration-700  "
+                                key={index}
+                              >
+                                <div className=" rounded-full w-32 h-32  relative -top-5  ">
+                                  <img
+                                    src={occassion.imageUrl}
+                                    alt={occassion.name}
+                                    className="w-full h-full overflow-hidden object-cover  rounded-full "
+                                  />
+                                </div>
+                                <div className=" text-lg">{occassion.name}</div>
+                              </div>
+                            </Link>
+                          </div>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-span-2"></div>
+      </div>
+    </>
+  );
 }

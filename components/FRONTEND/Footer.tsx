@@ -11,7 +11,7 @@ import {
 
 const Footer = () => {
 	return (
-		<div>
+		<div className="bottom-0">
 			<div id="footer" className="footer">
 				<div className="footer-main bg-surface">
 					<div className="container">
@@ -137,7 +137,7 @@ const Footer = () => {
 										</Link>
 										<Link
 											className="caption1 has-line-before duration-300 w-fit pt-2"
-											href="faqs.html"
+											href="/privacyPolicy"
 										>
 											Privacy Policy
 										</Link>
