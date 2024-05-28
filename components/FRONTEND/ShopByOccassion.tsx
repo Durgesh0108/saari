@@ -12,6 +12,8 @@ import { Pagination, Navigation, Autoplay } from "swiper/modules";
 import { Product } from "@prisma/client";
 import Link from "next/link";
 import Image from "next/image";
+import { Nunito_Sans } from "next/font/google";
+const nunito = Nunito_Sans({ subsets: ["latin"] });
 
 const InitialState = {
   properties: [],
@@ -70,7 +72,7 @@ const PropertyListReducer = (state, action) => {
   return InitialState;
 };
 
-const Tabsectionpart2 = () => {
+const ShopByOccassion = () => {
   const [isActive, setIsActive] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
 
@@ -129,17 +131,18 @@ const Tabsectionpart2 = () => {
   }, []);
 
   return (
-    <div className="font-serif">
-      <div className="container m-auto py-8 px-10 flex flex-col gap-y-5">
-        <div className="font-medium text-[#afafaf] text-2xl">
+    <div className="">
+      <div className="container m-auto py-8 px-10 flex flex-col gap-y-4">
+        <div
+          className={`font-medium text-[#afafaf] text-2xl ${nunito.className}`}
+        >
           Shop By Occassion
         </div>
-        <div className="font-medium text-5xl italic mt-2">
+        <div className="font-medium text-5xl italic ">
           Styles for special events & everyday moments
         </div>
         <div className="flex justify-between items-center">
           <div className="flex gap-6 my-6 justify-between">
-            
             {uniqueOccasions.map((city, id) => {
               return (
                 <div key={id}>
@@ -165,23 +168,23 @@ const Tabsectionpart2 = () => {
           </div>
         </div>
 
-        <ul className="grid grid-cols-4 gap-6">
-          {propertyList.propertyOnPage.map((property, index) => (
-            <div key={index}>
-              <div>
+        <ul className="grid grid-cols-4 rounded-tl-[100px]">
+          {propertyList.propertyOnPage.slice(0,3).map((property, index) => (
+            <div key={index} className="[&:nth-child(1)]:rounded-tl-[100px] last:rounded-br-2xl  only:rounded-tl-[100px]  h-96">
+              <div className="">
                 <li key={property.id}>
                   <div
-                    className="hover:scale-110 z-50 duration-700 group"
+                    className="hover:scale-y-110 z-50 duration-700 group"
                     key={index}
                   >
-                    <div className="rounded-tl-[100px] rounded-br-2xl h-72 relative -top-5">
+                    <div className=" h-96 relative">
                       <img
                         src={property.images[0].url}
                         alt={property.name}
-                        className="w-full h-full overflow-hidden object-cover rounded-tl-[100px] rounded-br-2xl"
+                        className="w-full h-full overflow-hidden object-cover  group-hover:shadow-2xl group-hover:shadow-slate-300"
                       />
                     </div>
-                    <div className="group-hover:scale-110 duration-700 text-[20px]">
+                    <div className="relative hidden group-hover:flex -top-8 left-4  group-hover:scale-110 group-hover:ml-3 group-hover:font-bold duration-500 italic text-2xl group-hover:text-[27px]">
                       {property.name}
                     </div>
                   </div>
@@ -195,4 +198,4 @@ const Tabsectionpart2 = () => {
   );
 };
 
-export default Tabsectionpart2;
+export default ShopByOccassion;

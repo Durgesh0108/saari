@@ -13,37 +13,45 @@ export default function CategoryPage() {
   const [category, setCategory] = useState({});
   const [distinctColors, setDistinctColors] = useState([]);
   const [distinctTypes, setDistinctTypes] = useState([]);
-  const [distinctCategories, setDistinctCategories] = useState([]);
-  const [distinctOccasions, setDistinctOccasions] = useState([]);
-  const [distinctPatterns, setDistinctPatterns] = useState([]);
+  const [distinctCategory, setDistinctCategory] = useState([]);
+  const [distinctOccasion, setDistinctOccasion] = useState([]);
+  const [distinctPattern, setDistinctPattern] = useState([]);
   const [filters, setFilters] = useState({
-    category: [],
+    priceRange: null,
+    fabric: null,
     color: [],
-    type: [],
-    occasion: [],
-    pattern: [],
+    craft: null,
+    occasion: null,
   });
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const res = await fetch(`/api/category/${params.categoryId}/product`);
+      const res = await fetch(
+        `/api/category/${params.categoryId}/product`
+        // `/api/website/product`
+      );
       const productData = await res.json();
       setProducts(productData);
 
       const colors = productData.map((product) => product.color.name);
-      setDistinctColors(Array.from(new Set(colors)));
+      const uniqueColors = Array.from(new Set(colors));
+      setDistinctColors(uniqueColors);
 
-      const categories = productData.map((product) => product.category.name);
-      setDistinctCategories(Array.from(new Set(categories)));
+      const Category = productData.map((product) => product.category.name);
+      const uniqueCategories = Array.from(new Set(Category));
+      setDistinctCategory(uniqueCategories);
 
-      const occasions = productData.map((product) => product.occassion.name);
-      setDistinctOccasions(Array.from(new Set(occasions)));
+      const Occasion = productData.map((product) => product.occasion.name);
+      const uniqueOccasion = Array.from(new Set(Occasion));
+      setDistinctOccasion(uniqueOccasion);
 
-      const types = productData.map((product) => product.type.name);
-      setDistinctTypes(Array.from(new Set(types)));
+      const type = productData.map((product) => product.type.name);
+      const uniqueTypes = Array.from(new Set(type));
+      setDistinctTypes(uniqueTypes);
 
       const patterns = productData.map((product) => product.pattern.name);
-      setDistinctPatterns(Array.from(new Set(patterns)));
+      const uniquePattern = Array.from(new Set(patterns));
+      setDistinctPattern(uniquePattern);
     };
 
     fetchProducts();
@@ -67,51 +75,46 @@ export default function CategoryPage() {
       } else {
         updatedFilter.push(value);
       }
-      return { ...prevFilters, [filterType]: updatedFilter };
+      return {
+        ...prevFilters,
+        [filterType]: updatedFilter,
+      };
     });
   };
 
   const filteredProducts = products.filter((product) => {
     const colorFilter =
-      !filters.color.length || filters.color.includes(product.color.name);
-    const categoryFilter =
-      !filters.category.length ||
-      filters.category.includes(product.category.name);
-    const typeFilter =
-      !filters.type.length || filters.type.includes(product.type.name);
-    const occasionFilter =
-      !filters.occasion.length ||
-      filters.occasion.includes(product.occassion.name);
-    const patternFilter =
-      !filters.pattern.length || filters.pattern.includes(product.pattern.name);
+      filters.color.length === 0 || filters.color.includes(product.color.name);
+      const categoryFilter = filters.category.length === 0 || filters.category.includes(product.category.name);
+    const typeFilter = filters.type.length === 0 || filters.type.includes(product.type.name);
+    const occasionFilter = filters.occasion.length === 0 || filters.occasion.includes(product.occasion.name);
+    const patternFilter = filters.pattern.length === 0 || filters.pattern.includes(product.pattern.name);
 
-    return (
-      colorFilter &&
-      categoryFilter &&
-      typeFilter &&
-      occasionFilter &&
-      patternFilter
-    );
+    return colorFilter && categoryFilter && typeFilter && occasionFilter && patternFilter;
+    // Add other filter conditions here
+    // return colorFilter;
   });
 
   return (
     <div className="border-2 border-black">
       <div className="h-80 border-2 border-black">
-        {category.imageUrl && (
-          <img
-            src={category.imageUrl}
-            alt={category.name}
-            className="w-full h-full object-cover"
-          />
-        )}
+        <img
+          src={category.imageUrl}
+          alt={category.name}
+          className="w-full h-full object-cover"
+        />
       </div>
       <div className="grid grid-cols-4 container border-2 border-black">
         <div className="col-span-1 border-2 border-black h-full p-4">
           <h1 className="heading4 mb-4">Filters</h1>
           <div className="mb-4">
+            <h2 className="font-semibold">PRICE RANGE</h2>
+            {/* Add price range filter options here */}
+          </div>
+          <div className="mb-4">
             <h2 className="font-semibold">CATEGORY</h2>
             <div>
-              {distinctCategories.map((category) => (
+              {distinctCategory.map((category) => (
                 <div key={category} className="flex items-center">
                   <input
                     type="checkbox"
@@ -127,15 +130,16 @@ export default function CategoryPage() {
                   </label>
                 </div>
               ))}
-              {distinctCategories.length > 5 && (
+              {/* Add a "Show More" link if there are more categories */}
+              {distinctCategory.length > 5 && (
                 <div className="text-blue-500 cursor-pointer">
-                  +{distinctCategories.length - 5} More
+                  +{distinctCategory.length - 5} More
                 </div>
               )}
             </div>
           </div>
           <div className="mb-4">
-            <h2 className="font-semibold">COLOR</h2>
+            <h2 className="font-semibold">COLOUR</h2>
             <div>
               {distinctColors.map((color) => (
                 <div key={color} className="flex items-center">
@@ -153,6 +157,7 @@ export default function CategoryPage() {
                   </label>
                 </div>
               ))}
+              {/* Add a "Show More" link if there are more colors */}
               {distinctColors.length > 5 && (
                 <div className="text-blue-500 cursor-pointer">
                   +{distinctColors.length - 5} More
@@ -163,7 +168,7 @@ export default function CategoryPage() {
           <div className="mb-4">
             <h2 className="font-semibold">PATTERN</h2>
             <div>
-              {distinctPatterns.map((pattern) => (
+              {distinctPattern.map((pattern) => (
                 <div key={pattern} className="flex items-center">
                   <input
                     type="checkbox"
@@ -179,33 +184,10 @@ export default function CategoryPage() {
                   </label>
                 </div>
               ))}
-              {distinctPatterns.length > 5 && (
+              {/* Add a "Show More" link if there are more patterns */}
+              {distinctPattern.length > 5 && (
                 <div className="text-blue-500 cursor-pointer">
-                  +{distinctPatterns.length - 5} More
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="mb-4">
-            <h2 className="font-semibold">TYPES</h2>
-            <div>
-              {distinctTypes.map((type) => (
-                <div key={type} className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id={type}
-                    name="type"
-                    value={type}
-                    onChange={(e) => handleFilterChange("type", e.target.value)}
-                  />
-                  <label htmlFor={type} className="ml-2">
-                    {type}
-                  </label>
-                </div>
-              ))}
-              {distinctTypes.length > 5 && (
-                <div className="text-blue-500 cursor-pointer">
-                  +{distinctTypes.length - 5} More
+                  +{distinctPattern.length - 5} More
                 </div>
               )}
             </div>
@@ -213,7 +195,7 @@ export default function CategoryPage() {
           <div className="mb-4">
             <h2 className="font-semibold">OCCASION</h2>
             <div>
-              {distinctOccasions.map((occasion) => (
+              {distinctOccasion.map((occasion) => (
                 <div key={occasion} className="flex items-center">
                   <input
                     type="checkbox"
@@ -229,9 +211,10 @@ export default function CategoryPage() {
                   </label>
                 </div>
               ))}
-              {distinctOccasions.length > 5 && (
+              {/* Add a "Show More" link if there are more occasions */}
+              {distinctOccasion.length > 5 && (
                 <div className="text-blue-500 cursor-pointer">
-                  +{distinctOccasions.length - 5} More
+                  +{distinctOccasion.length - 5} More
                 </div>
               )}
             </div>
@@ -242,23 +225,19 @@ export default function CategoryPage() {
           <div className="grid grid-cols-3 gap-8 border-2 border-black p-16">
             {filteredProducts.map((product, index) => (
               <div key={index}>
-                <div>
-                  <div key={product.id}>
-                    <div
-                      className="hover:scale-110 z-50 duration-700 group"
-                      key={index}
-                    >
-                      <div className="rounded-tl-[100px] rounded-br-2xl h-72 relative -top-5">
-                        <img
-                          src={product.images[0].url}
-                          alt={product.name}
-                          className="w-full h-full overflow-hidden object-cover rounded-tl-[100px] rounded-br-2xl"
-                        />
-                      </div>
-                      <div className="group-hover:scale-110 duration-700 text-[20px]">
-                        {product.name}
-                      </div>
-                    </div>
+                <div
+                  key={product.id}
+                  className="hover:scale-110 z-50 duration-700 group"
+                >
+                  <div className="rounded-tl-[100px] rounded-br-2xl h-72 relative -top-5">
+                    <img
+                      src={product.images[0].url}
+                      alt={product.name}
+                      className="w-full h-full overflow-hidden object-cover rounded-tl-[100px] rounded-br-2xl"
+                    />
+                  </div>
+                  <div className="group-hover:scale-110 duration-700 text-[20px]">
+                    {product.name}
                   </div>
                 </div>
               </div>

@@ -1,31 +1,33 @@
 import CarouselSlider from "@/components/FRONTEND/Carousel";
 import Clientinsta from "@/components/FRONTEND/ClientInsta";
-import CollectionBlack from "@/components/FRONTEND/CollectionBlock";
-import Fixedimage from "@/components/FRONTEND/FixedArea";
+import FilterByColor from "@/components/FRONTEND/FilterByColor";
+
 import Logoslider from "@/components/FRONTEND/LogoSlider";
 import Promise from "@/components/FRONTEND/Promise";
-import Tabsectionpart2 from "@/components/FRONTEND/TabSectionPart2";
+import ShopByCategory from "@/components/FRONTEND/ShopByCategory";
+import ShopByOccassion from "@/components/FRONTEND/ShopByOccassion";
 import Testimonials from "@/components/FRONTEND/Testimonial";
 
 import Image from "next/image";
 
 export default function Home() {
-	return (
-		<>
-			<div className="">
-				<CarouselSlider />
-				<div className=" px-24 border-2 border-black">
-					{/* <TabSection /> */}
-					<CollectionBlack />
-					<Tabsectionpart2 />
-					<Promise />
-					<Fixedimage />
-					{/* <Servicesection /> */}
-					<Testimonials />
-					<Clientinsta />
-					<Logoslider />
-				</div>
-			</div>
-		</>
-	);
+  return (
+    <>
+      <div className="">
+        <CarouselSlider />
+        <div className=" px-24">
+          {/* <TabSection /> */}
+          <ShopByCategory />
+          <ShopByOccassion />
+          <Promise />
+          <FilterByColor />
+
+          {/* <Servicesection /> */}
+          <Testimonials />
+          {/* <Clientinsta />
+          <Logoslider /> */}
+        </div>
+      </div>
+    </>
+  );
 }
