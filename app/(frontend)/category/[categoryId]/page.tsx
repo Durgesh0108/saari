@@ -5,6 +5,13 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import Image from "next/image";
 
 export default function CategoryPage() {
   const params = useParams();
@@ -71,6 +78,23 @@ export default function CategoryPage() {
     });
   };
 
+  const handleRemoveFilter = (filterType, value) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [filterType]: prevFilters[filterType].filter((item) => item !== value),
+    }));
+  };
+
+  const handleResetFilters = () => {
+    setFilters({
+      category: [],
+      color: [],
+      type: [],
+      occasion: [],
+      pattern: [],
+    });
+  };
+
   const filteredProducts = products.filter((product) => {
     const colorFilter =
       !filters.color.length || filters.color.includes(product.color.name);
@@ -95,151 +119,229 @@ export default function CategoryPage() {
   });
 
   return (
-    <div className="border-2 border-black">
-      <div className="h-80 border-2 border-black">
+    <div className="">
+      <div className="h-80 ">
         {category.imageUrl && (
-          <img
+          <Image
             src={category.imageUrl}
             alt={category.name}
+            width={1000}
+            height={1}
+            loading="lazy"
             className="w-full h-full object-cover"
           />
         )}
       </div>
-      <div className="grid grid-cols-4 container border-2 border-black">
-        <div className="col-span-1 border-2 border-black h-full p-4">
-          <h1 className="heading4 mb-4">Filters</h1>
-          <div className="mb-4">
-            <h2 className="font-semibold">CATEGORY</h2>
-            <div>
-              {distinctCategories.map((category) => (
-                <div key={category} className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id={category}
-                    name="category"
-                    value={category}
-                    onChange={(e) =>
-                      handleFilterChange("category", e.target.value)
-                    }
-                  />
-                  <label htmlFor={category} className="ml-2">
-                    {category}
-                  </label>
-                </div>
-              ))}
-              {distinctCategories.length > 5 && (
-                <div className="text-blue-500 cursor-pointer">
-                  +{distinctCategories.length - 5} More
-                </div>
-              )}
-            </div>
+      <div className="grid grid-cols-8 container h-screen overflow-auto ">
+        <div className="col-span-2  h-full p-4 bg-pink-200">
+          <h1 className="text-2xl font-bold mb-4">Filters</h1>
+          <div className="">
+            <Accordion type="single" collapsible>
+              <AccordionItem value="item-1">
+                <AccordionTrigger className="text-xl font-medium">
+                  CATEGORY
+                </AccordionTrigger>
+                <AccordionContent className="text-lg font-medium">
+                  <div>
+                    {distinctCategories.map((category) => (
+                      <div key={category} className="flex items-center">
+                        <input
+                          type="checkbox"
+                          id={category}
+                          name="category"
+                          value={category}
+                          checked={filters.category.includes(category)}
+                          onChange={(e) =>
+                            handleFilterChange("category", e.target.value)
+                          }
+                        />
+                        <label htmlFor={category} className="ml-2">
+                          {category}
+                        </label>
+                      </div>
+                    ))}
+                    {distinctCategories.length > 5 && (
+                      <div className="text-blue-500 cursor-pointer">
+                        +{distinctCategories.length - 5} More
+                      </div>
+                    )}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </div>
-          <div className="mb-4">
-            <h2 className="font-semibold">COLOR</h2>
-            <div>
-              {distinctColors.map((color) => (
-                <div key={color} className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id={color}
-                    name="color"
-                    value={color}
-                    onChange={(e) =>
-                      handleFilterChange("color", e.target.value)
-                    }
-                  />
-                  <label htmlFor={color} className="ml-2">
-                    {color}
-                  </label>
-                </div>
-              ))}
-              {distinctColors.length > 5 && (
-                <div className="text-blue-500 cursor-pointer">
-                  +{distinctColors.length - 5} More
-                </div>
-              )}
-            </div>
+          <div className="">
+            <Accordion type="single" collapsible>
+              <AccordionItem value="item-1">
+                <AccordionTrigger className="text-xl font-medium">
+                  COLOR
+                </AccordionTrigger>
+                <AccordionContent className="text-lg font-medium">
+                  <div>
+                    {distinctColors.map((color) => (
+                      <div key={color} className="flex items-center">
+                        <input
+                          type="checkbox"
+                          id={color}
+                          name="color"
+                          value={color}
+                          checked={filters.color.includes(color)}
+                          onChange={(e) =>
+                            handleFilterChange("color", e.target.value)
+                          }
+                        />
+                        <label htmlFor={color} className="ml-2">
+                          {color}
+                        </label>
+                      </div>
+                    ))}
+                    {distinctColors.length > 5 && (
+                      <div className="text-blue-500 cursor-pointer">
+                        +{distinctColors.length - 5} More
+                      </div>
+                    )}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </div>
-          <div className="mb-4">
-            <h2 className="font-semibold">PATTERN</h2>
-            <div>
-              {distinctPatterns.map((pattern) => (
-                <div key={pattern} className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id={pattern}
-                    name="pattern"
-                    value={pattern}
-                    onChange={(e) =>
-                      handleFilterChange("pattern", e.target.value)
-                    }
-                  />
-                  <label htmlFor={pattern} className="ml-2">
-                    {pattern}
-                  </label>
-                </div>
-              ))}
-              {distinctPatterns.length > 5 && (
-                <div className="text-blue-500 cursor-pointer">
-                  +{distinctPatterns.length - 5} More
-                </div>
-              )}
-            </div>
+          <div className="">
+            <Accordion type="single" collapsible>
+              <AccordionItem value="item-1">
+                <AccordionTrigger className="text-xl font-medium">
+                  PATTERN
+                </AccordionTrigger>
+                <AccordionContent className="text-lg font-medium">
+                  <div>
+                    {distinctPatterns.map((pattern) => (
+                      <div key={pattern} className="flex items-center">
+                        <input
+                          type="checkbox"
+                          id={pattern}
+                          name="pattern"
+                          value={pattern}
+                          checked={filters.pattern.includes(pattern)}
+                          onChange={(e) =>
+                            handleFilterChange("pattern", e.target.value)
+                          }
+                        />
+                        <label htmlFor={pattern} className="ml-2">
+                          {pattern}
+                        </label>
+                      </div>
+                    ))}
+                    {distinctPatterns.length > 5 && (
+                      <div className="text-blue-500 cursor-pointer">
+                        +{distinctPatterns.length - 5} More
+                      </div>
+                    )}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </div>
-          <div className="mb-4">
-            <h2 className="font-semibold">TYPES</h2>
-            <div>
-              {distinctTypes.map((type) => (
-                <div key={type} className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id={type}
-                    name="type"
-                    value={type}
-                    onChange={(e) => handleFilterChange("type", e.target.value)}
-                  />
-                  <label htmlFor={type} className="ml-2">
-                    {type}
-                  </label>
-                </div>
-              ))}
-              {distinctTypes.length > 5 && (
-                <div className="text-blue-500 cursor-pointer">
-                  +{distinctTypes.length - 5} More
-                </div>
-              )}
-            </div>
+          <div className="">
+            <Accordion type="single" collapsible>
+              <AccordionItem value="item-1">
+                <AccordionTrigger className="text-xl font-medium">
+                  TYPES
+                </AccordionTrigger>
+                <AccordionContent className="text-lg font-medium">
+                  <div>
+                    {distinctTypes.map((type) => (
+                      <div key={type} className="flex items-center">
+                        <input
+                          type="checkbox"
+                          id={type}
+                          name="type"
+                          value={type}
+                          checked={filters.type.includes(type)}
+                          onChange={(e) =>
+                            handleFilterChange("type", e.target.value)
+                          }
+                        />
+                        <label htmlFor={type} className="ml-2">
+                          {type}
+                        </label>
+                      </div>
+                    ))}
+                    {distinctTypes.length > 5 && (
+                      <div className="text-blue-500 cursor-pointer">
+                        +{distinctTypes.length - 5} More
+                      </div>
+                    )}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </div>
-          <div className="mb-4">
-            <h2 className="font-semibold">OCCASION</h2>
-            <div>
-              {distinctOccasions.map((occasion) => (
-                <div key={occasion} className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id={occasion}
-                    name="occasion"
-                    value={occasion}
-                    onChange={(e) =>
-                      handleFilterChange("occasion", e.target.value)
-                    }
-                  />
-                  <label htmlFor={occasion} className="ml-2">
-                    {occasion}
-                  </label>
-                </div>
-              ))}
-              {distinctOccasions.length > 5 && (
-                <div className="text-blue-500 cursor-pointer">
-                  +{distinctOccasions.length - 5} More
-                </div>
-              )}
-            </div>
+          <div className="">
+            <Accordion type="single" collapsible>
+              <AccordionItem value="item-1">
+                <AccordionTrigger className="text-xl font-medium">
+                  OCCASION
+                </AccordionTrigger>
+                <AccordionContent className="text-lg font-medium">
+                  <div>
+                    {distinctOccasions.map((occasion) => (
+                      <div key={occasion} className="flex items-center">
+                        <input
+                          type="checkbox"
+                          id={occasion}
+                          name="occasion"
+                          value={occasion}
+                          checked={filters.occasion.includes(occasion)}
+                          onChange={(e) =>
+                            handleFilterChange("occasion", e.target.value)
+                          }
+                        />
+                        <label htmlFor={occasion} className="ml-2">
+                          {occasion}
+                        </label>
+                      </div>
+                    ))}
+                    {distinctOccasions.length > 5 && (
+                      <div className="text-blue-500 cursor-pointer">
+                        +{distinctOccasions.length - 5} More
+                      </div>
+                    )}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </div>
         </div>
-        <div className="col-span-3">
-          <h1 className="heading2 m-4 uppercase">{category.name}</h1>
-          <div className="grid grid-cols-3 gap-8 border-2 border-black p-16">
+        <div className="col-span-6 p-4 h-full ">
+          <div className="flex items-center justify-between">
+            <h1 className="text-3xl font-bold m-4 ml-0 uppercase">
+              {category?.name}
+            </h1>
+            <button
+              className="bg-red-500 text-white px-4 py-2 rounded"
+              onClick={handleResetFilters}
+            >
+              Reset Filters
+            </button>
+          </div>
+          <div className="mb-4 flex flex-wrap gap-2">
+            {Object.entries(filters).map(([filterType, values]) =>
+              values.map((value) => (
+                <div
+                  key={`${filterType}-${value}`}
+                  className="bg-gray-200 p-2 rounded flex items-center"
+                >
+                  <span>{value}</span>
+                  <button
+                    className="ml-2 text-red-500"
+                    onClick={() => handleRemoveFilter(filterType, value)}
+                  >
+                    &times;
+                  </button>
+                </div>
+              ))
+            )}
+          </div>
+          <div className="grid grid-cols-3 gap-8  py-12  ">
             {filteredProducts.map((product, index) => (
               <div key={index}>
                 <div>
@@ -255,7 +357,7 @@ export default function CategoryPage() {
                           className="w-full h-full overflow-hidden object-cover rounded-tl-[100px] rounded-br-2xl"
                         />
                       </div>
-                      <div className="group-hover:scale-110 duration-700 text-[20px]">
+                      <div className="group-hover:scale-110 group-hover:ml-3 duration-700 text-[20px]">
                         {product.name}
                       </div>
                     </div>
@@ -263,6 +365,9 @@ export default function CategoryPage() {
                 </div>
               </div>
             ))}
+            {filteredProducts.length === 0 && (
+              <p className="text-2xl ">No Products Available</p>
+            )}
           </div>
         </div>
       </div>
