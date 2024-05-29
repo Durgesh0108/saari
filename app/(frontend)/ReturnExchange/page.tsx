@@ -203,6 +203,135 @@ const ReturnExchange = () => {
                       it in contact with any liquid.
                     </li>
                   </ul>
+                  <div className="text-2xl font-bold">Exchange</div>
+                  <p>
+                    We regret to inform that exchange of products is not
+                    possible for the products bought from our website. However,
+                    customer can choose to return the product as mentioned
+                    earlier.
+                  </p>
+                  <div className="text-2xl font-bold">Disclaimer</div>
+                  <p>
+                    All products and the information displayed on taneira.com
+                    constitute an invitation to offer. Your order for purchase
+                    constitutes your offer which shall be subject to the terms
+                    and conditions as listed herein. We reserve the right to
+                    accept or reject your offer in part or in full. Our
+                    acceptance of your order will take place upon the dispatch
+                    of the product(s) ordered. Dispatch of the product(s)
+                    ordered, may or may not happen at the same time. In such a
+                    scenario, that portion of the order which has been
+                    dispatched will be deemed to have been accepted by us and
+                    the balance would continue to be an offer to us and we
+                    reserve the right to either accept or reject the balance
+                    offer.
+                  </p>
+                  <p>
+                    No act or omission of Titan prior to the actual dispatch of
+                    the product(s) ordered will constitute acceptance of your
+                    offer. If you have provided us with your email address, we
+                    will notify you by email as soon as possible to confirm
+                    receipt of your order and confirm dispatch and therefore,
+                    acceptance of the order thereafter.
+                  </p>
+                  <p>
+                    We have made every effort to display the colours and sizes
+                    of our products that appear on our website as accurately as
+                    possible. However, as the actual colours you see will depend
+                    on your monitor. We cannot guarantee that your monitor’s
+                    display of any colour will accurately reflect the colour of
+                    the product on delivery. Packaging of the product may vary
+                    from that displayed on the website.
+                  </p>
+                  <div className="text-2xl font-bold">Website Content</div>
+                  <p>
+                    Titan owns the copyright to all the contents of this
+                    website, including images. All trademarks and other
+                    intellectual property are owned or licensed to us (unless
+                    otherwise specified).
+                  </p>
+                  <p>
+                    You shall not copy, reproduce, distribute, republish,
+                    download, display, post or transmit any part of the website
+                    without the written consent from us. You may print or
+                    download any pages for your own personal and non-commercial
+                    use only. If you have any doubts about what you can do,
+                    please email us at ecomsupport@titan.co.in or call us on our
+                    toll-free number 1800-266-0123, while our website is
+                    accurate as possible, we cannot accept responsibility for
+                    any inaccuracies or errors beyond our reasonable control. We
+                    cannot guarantee that colored images will be rendered
+                    correctly on different computer monitors.
+                  </p>
+                  <div className="text-2xl font-bold">External Material</div>
+                  <p>
+                    You shall not use the website in any way that will damage it
+                    or interrupt its provision. You shall not use the website to
+                    transmit or post any computer viruses. We cannot guarantee
+                    that the website is free from computer viruses, and you
+                    should take your own precautions in this respect. We will
+                    try to make sure that the website is always available.
+                    However, this is not always possible, and we are not liable
+                    if the website is unavailable. Links
+                  </p>
+                  <div className="text-2xl font-bold">Links</div>
+                  <p>
+                    The website may contain links to other websites; these
+                    external websites are not under our control. We cannot be
+                    held responsible for such websites and cannot make any
+                    warranties about them. We provide these links because we
+                    think they might interest you, but we do not monitor or
+                    endorse these websites.
+                  </p>
+                  <div className="text-2xl font-bold">Liability</div>
+                  <p>
+                    We take no responsibility for any loss or damage suffered as
+                    a result of our “order online” service or goods supplied
+                    using the same, except as required by law, even if we could
+                    have foreseen the loss, or the possibility of it was brought
+                    to our attention.
+                  </p>
+                  <p>
+                    <b>NOTE:</b> In case of orders being shipped outside India,
+                    we dont provide any guaranty/warranty on any product, we
+                    only provide the certificate of authenticity which
+                    authenticates that the product delivered to the customer is
+                    100% genuine. However, customers can avail the services in
+                    the countries where TITAN Companys service centers are
+                    available.
+                  </p>
+                  <p>
+                    Any product you buy from our website is completely at your
+                    discretion and you accept that you place the order only
+                    after thoroughly enquiring about the product and being
+                    completely acquainted about the product, its features,
+                    characteristics, usage etc. Titan is not liable for any kind
+                    of damages or losses whatsoever suffered by the customers
+                    due to the use of the product. This is applicable to both
+                    domestic and international orders.
+                  </p>
+                  <div className="text-2xl font-bold">
+                    Changes to the Site Disclaimery
+                  </div>
+                  <p>
+                    We reserve the right to change the site disclaimer from time
+                    to time. If this happens, we will notify you by posting the
+                    updated site disclaimer on the website. If you do not wish
+                    to be governed by the revised site disclaimer, we request
+                    you to refrain from using the website.
+                  </p>
+                  <p>
+                    This site disclaimer is governed by the laws of India and
+                    you and we agree to use the courts of Bangalore jurisdiction
+                    if there is any dispute between us. If any part of this site
+                    disclaimer is found to be invalid by law, the rest of them
+                    remain valid and enforceable. ABOUT TANEIRA About Us Track
+                    Order Encircle Program Corporate Careers Blogs Have a
+                    question? 1800-266-0123 Contact us at
+                    ecomsupport@titan.co.in POLICIES Return & Exchanges Shipping
+                    Cancellation Delivery Information Privacy Help & FAQS Tata
+                    NeuPass FAQs
+                  </p>
                 </div>
               </div>
             </div>
