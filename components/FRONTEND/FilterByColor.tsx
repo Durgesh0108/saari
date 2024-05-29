@@ -410,6 +410,9 @@ import React, { useCallback, useEffect, useReducer, useState } from "react";
 import Banner1 from "@/public/assets/images/banner/1.png";
 import { Product } from "@prisma/client";
 
+import { Nunito_Sans } from "next/font/google";
+const nunito = Nunito_Sans({ subsets: ["latin"] });
+
 const InitialState = {
   properties: [],
   propertyPerPage: 4,
@@ -538,19 +541,85 @@ const FilterByColor = () => {
   const firstProperty = propertyList.propertyOnPage[0];
 
   return (
-    <div className="container py-16 border-2 border-black">
-      <div className="px-4">
-        <div className="font-medium text-[#afafaf] text-2xl">
-          CHOOSE BY COLOR
+    <div className="container py-16 ">
+      <div className="grid grid-cols-12 gap-2">
+        <div className="col-span-1">
+          <div className=" overflow-hidden h-full flex flex-col">
+            {uniqueColor.map((color, index) => (
+              <div
+                key={index}
+                className={`flex h-full ${isActive ? "-ml-8 " : "-ml-8"}`}
+              >
+                <button
+                  className={`flex flex-col items-center h-full justify-center border-none text-black 
+                    hover:ml-2 ${
+                      activeColor === color.name
+                        ? "ml-4 border-2 border-blue-500 "
+                        : ""
+                    } `}
+                  onClick={() => filterItem(color.name)}
+                  key={index}
+                >
+                  <div
+                    className="rounded-2xl border-[1px] border-black w-20 h-full  left-1 relative"
+                    style={{ backgroundColor: `${color.hexCode}` }}
+                  ></div>
+                  {/* <span>{color.name}</span> */}
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="font-medium text-5xl italic mt-2 w-1/2">
-          A rainbow of enchanting hues. Let your heart choose.
+        <div className="col-span-11">
+          <div className="px-4">
+            <div
+              className={`font-medium text-[#afafaf] text-2xl ${nunito.className}`}
+            >
+              Choose By Color
+            </div>
+            <div className="font-medium text-5xl italic mt-2 w-2/3">
+              A rainbow of enchanting hues. Let your heart choose.
+            </div>
+          </div>
+
+          <div className=" mt-8  grid grid-cols-4  px-8 overflow-hidden  m-auto">
+            {propertyList.propertyOnPage.map((property, index) => (
+              <div
+                className="hover:scale-110 hover:z-50 z-10 duration-700 group overflow-hidden h-96"
+                key={index}
+              >
+                <div className=" h-96 relative">
+                  <Image
+                    src={property.images[0].url}
+                    alt={property.name}
+                    width={1000}
+                    height={1}
+                    className="w-full h-full overflow-hidden object-cover  group-hover:shadow-2xl group-hover:shadow-slate-300"
+                  />
+                </div>
+                <div className="relative hidden group-hover:flex -top-16 left-4  group-hover:scale-110 group-hover:ml-3 group-hover:font-bold duration-500 italic text-2xl group-hover:text-[27px]">
+                  {property.name}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-      <div className="mt-8 border-2 border-black grid grid-cols-2">
-        <div className="border-2 border-black py-4 px-8 grid grid-cols-8 min-h-[610px] max-h-[610px] overflow-hidden">
-          <div className="col-span-6 border-2 border-black h-full  z-50 flex items-center justify-center">
-            {firstProperty ? (
+      <div className="hidden">
+        <div className="px-4">
+          <div
+            className={`font-medium text-[#afafaf] text-2xl ${nunito.className}`}
+          >
+            Choose By Color
+          </div>
+          <div className="font-medium text-5xl italic mt-2 w-2/3">
+            A rainbow of enchanting hues. Let your heart choose.
+          </div>
+        </div>
+        <div className="mt-8  grid grid-cols-12">
+          <div className="col-span-1  py-4 px-8 grid grid-cols-8  overflow-hidden">
+            {/* <div className="col-span-6  h-full  z-50 flex items-center justify-center">
+            {firstProperty && (
               <>
                 <div className="z-50 duration-700 group h-full w-full">
                   <div className="rounded-tl-[100px] rounded-br-2xl h-full relative ">
@@ -562,65 +631,64 @@ const FilterByColor = () => {
                       className="w-full h-full overflow-hidden object-cover rounded-tl-[100px] rounded-br-2xl"
                     />
                   </div>
-                  {/* <div className=" duration-700 text-[20px]">
+                  <div className=" duration-700 text-[20px]">
                     {firstProperty.name}
-                  </div> */}
+                  </div>
                 </div>
               </>
-            ) : (
-              "Loading..."
             )}
-          </div>
-          <div className="col-span-2 border-2 border-black">
-            {uniqueColor.map((color, index) => (
-              <div
-                key={index}
-                className={`flex ${isActive ? "-ml-16" : "-ml-16"}`}
-              >
-                <button
-                  className={`flex flex-col items-center justify-center border-none text-black 
+          </div> */}
+            <div className=" ">
+              {uniqueColor.map((color, index) => (
+                <div
+                  key={index}
+                  className={`flex ${isActive ? "-ml-16" : "-ml-16"}`}
+                >
+                  <button
+                    className={`flex flex-col items-center justify-center border-none text-black 
                     hover:ml-2 ${
                       activeColor === color.name
                         ? "border-2 border-blue-500 ml-2"
                         : ""
                     }`}
-                  onClick={() => filterItem(color.name)}
-                  key={index}
-                >
-                  <div
-                    className="rounded-2xl border-[1px] border-black w-20 h-16 top-1 left-1 relative"
-                    style={{ backgroundColor: `${color.hexCode}` }}
-                  ></div>
-                  {/* <span>{color.name}</span> */}
-                </button>
+                    onClick={() => filterItem(color.name)}
+                    key={index}
+                  >
+                    <div
+                      className="rounded-2xl border-[1px] border-black w-20 h-16 top-1 left-1 relative"
+                      style={{ backgroundColor: `${color.hexCode}` }}
+                    ></div>
+                    {/* <span>{color.name}</span> */}
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="col-span-11  grid grid-cols-4  px-8 overflow-auto ">
+            {propertyList.propertyOnPage.map((property, index) => (
+              <div
+                className="hover:scale-110 z-50 duration-700 group "
+                key={index}
+              >
+                {/* <div
+                className="rounded-full w-5 h-5 top-1 left-1 relative "
+                style={{ backgroundColor: `${property.color.hexCode}` }}
+              ></div> */}
+                <div className=" h-80 relative -top-5  ">
+                  <Image
+                    src={property.images[0].url}
+                    alt={property.name}
+                    height={1}
+                    width={1000}
+                    className="w-full h-full overflow-hidden object-cover   "
+                  />
+                </div>
+                <div className="group-hover:scale-110 group-hover:ml-2 group-hover:font-bold duration-700 text-[20px]">
+                  {property.name}
+                </div>
               </div>
             ))}
           </div>
-        </div>
-        <div className="border-2 border-black grid grid-cols-2 gap-6 p-8 max-h-[610px] overflow-auto ">
-          {propertyList.propertyOnPage.map((property, index) => (
-            <div
-              className="hover:scale-110 z-50 duration-700 group "
-              key={index}
-            >
-              <div
-                className="rounded-full w-5 h-5 top-1 left-1 relative border-2 border-black"
-                style={{ backgroundColor: `${property.color.hexCode}` }}
-              ></div>
-              <div className="rounded-tl-[100px] rounded-br-2xl h-72 relative -top-5  ">
-                <Image
-                  src={property.images[0].url}
-                  alt={property.name}
-                  height={1}
-                  width={1000}
-                  className="w-full h-full overflow-hidden object-cover rounded-tl-[100px] rounded-br-2xl border-[2px] border-black "
-                />
-              </div>
-              <div className="group-hover:scale-110 duration-700 text-[20px]">
-                {property.name}
-              </div>
-            </div>
-          ))}
         </div>
       </div>
     </div>
