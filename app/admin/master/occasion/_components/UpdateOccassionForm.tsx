@@ -25,6 +25,7 @@ import { useRouter } from "next/navigation";
 const formSchema = z.object({
   name: z.string().min(2),
   imageUrl: z.string().min(2),
+  bannerUrl: z.string().min(2),
 });
 
 type OccassionFormValues = z.infer<typeof formSchema>;
@@ -33,6 +34,7 @@ interface OccassionUpdateFormProps {
   initialData: Occassion;
   name: string;
   imageUrl: string;
+  bannerUrl: string;
   onCancel: () => void;
   EditId: string;
 }
@@ -41,6 +43,7 @@ export const UpdateOccassionForm: React.FC<OccassionUpdateFormProps> = ({
   initialData,
   name,
   imageUrl,
+  bannerUrl,
   onCancel,
   EditId,
 }) => {
@@ -49,6 +52,7 @@ export const UpdateOccassionForm: React.FC<OccassionUpdateFormProps> = ({
     defaultValues: {
       name: name,
       imageUrl: imageUrl,
+      bannerUrl: bannerUrl,
     },
   });
 
@@ -60,6 +64,7 @@ export const UpdateOccassionForm: React.FC<OccassionUpdateFormProps> = ({
     const values = {
       name: data.name,
       imageUrl: data.imageUrl,
+      bannerUrl: data.bannerUrl,
     };
     try {
       setLoading(true);
@@ -111,7 +116,27 @@ export const UpdateOccassionForm: React.FC<OccassionUpdateFormProps> = ({
                 name="imageUrl"
                 render={({ field }) => (
                   <FormItem>
-                    {/* <FormLabel>Name</FormLabel> */}
+                    <FormLabel>Occassion Image</FormLabel>
+                    <FormControl>
+                      <ImageUpload
+                        value={field.value ? [field.value] : []}
+                        disabled={loading}
+                        onChange={(url) => field.onChange(url)}
+                        onRemove={() => field.onChange("")}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="md:grid gap-8">
+              <FormField
+                control={form.control}
+                name="bannerUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Banner Image</FormLabel>
                     <FormControl>
                       <ImageUpload
                         value={field.value ? [field.value] : []}

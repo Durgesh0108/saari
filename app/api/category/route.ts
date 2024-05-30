@@ -6,7 +6,7 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    const requiredFields = ["name", "imageUrl"];
+    const requiredFields = ["name", "imageUrl", "bannerUrl"];
 
     for (const field of requiredFields) {
       if (!body[field]) {
@@ -30,7 +30,8 @@ export async function GET(req: Request) {
   try {
     const categories = await prismadb.category.findMany({
       orderBy: {
-        name: "asc",
+        name: "desc",
+        // name: "asc",
       },
     });
     return NextResponse.json(categories);

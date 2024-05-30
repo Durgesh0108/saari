@@ -29,6 +29,7 @@ export default function TypeList() {
   const [EditId, setEditId] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>("");
+  const [bannerUrl, setbannerUrl] = useState<string>("");
 
   const handleDelete = async (id: string) => {
     try {
@@ -122,6 +123,7 @@ export default function TypeList() {
             <UpdateTypeForm
               name={name}
               imageUrl={imageUrl}
+              bannerUrl={bannerUrl}
               EditId={EditId}
               onCancel={() => {
                 setIsUpdating(false);
@@ -156,6 +158,7 @@ export default function TypeList() {
                         setEditId(type.id);
                         setName(type.name);
                         setImageUrl(type.imageUrl);
+                        setbannerUrl(type.bannerUrl);
                       }}
                     >
                       <Pencil className="h-4 w-4" />

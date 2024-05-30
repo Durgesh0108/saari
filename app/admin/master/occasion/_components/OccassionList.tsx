@@ -24,6 +24,7 @@ export default function OccassionList() {
   const [EditId, setEditId] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>("");
+  const [bannerUrl, setBannerUrl] = useState<string>("");
 
   const handleDelete = async (id: string) => {
     try {
@@ -67,6 +68,7 @@ export default function OccassionList() {
               initialData={occassion}
               name={name}
               imageUrl={imageUrl}
+              bannerUrl={bannerUrl}
               EditId={EditId}
               onCancel={() => {
                 setIsUpdating(false);
@@ -101,6 +103,7 @@ export default function OccassionList() {
                         setEditId(occass.id);
                         setName(occass.name);
                         setImageUrl(occass.imageUrl);
+                        setBannerUrl(occass.bannerUrl);
                       }}
                     >
                       <Pencil className="h-4 w-4" />

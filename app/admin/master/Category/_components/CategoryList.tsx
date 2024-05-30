@@ -25,6 +25,7 @@ export default function CategoryList() {
   const [EditId, setEditId] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>("");
+  const [bannerUrl, setBannerUrl] = useState<string>("");
 
   const handleDelete = async (id: string) => {
     try {
@@ -47,8 +48,9 @@ export default function CategoryList() {
         next: { revalidate: 60 },
       });
 
-      const Categories = await categoryRes.json();
-      setCategories(Categories);
+      const categories = await categoryRes.json();
+      console.log({ categories });
+      setCategories(categories);
     };
 
     fetchPattern();
@@ -68,6 +70,7 @@ export default function CategoryList() {
             <UpdateCategoryForm
               name={name}
               imageUrl={imageUrl}
+              bannerUrl={bannerUrl}
               EditId={EditId}
               onCancel={() => {
                 setIsUpdating(false);
@@ -102,6 +105,7 @@ export default function CategoryList() {
                         setEditId(category.id);
                         setName(category.name);
                         setImageUrl(category.imageUrl);
+                        setBannerUrl(category.bannerUrl);
                       }}
                     >
                       <Pencil className="h-4 w-4" />

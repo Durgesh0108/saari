@@ -24,6 +24,7 @@ import { useRouter } from "next/navigation";
 const formSchema = z.object({
   name: z.string().min(2),
   imageUrl: z.string().min(2),
+  bannerUrl: z.string().min(2),
 });
 
 type CategoryFormValues = z.infer<typeof formSchema>;
@@ -31,6 +32,7 @@ type CategoryFormValues = z.infer<typeof formSchema>;
 interface CategoryUpdateFormProps {
   name: string;
   imageUrl: string;
+  bannerUrl: string;
   onCancel: () => void;
   EditId: string;
 }
@@ -38,6 +40,7 @@ interface CategoryUpdateFormProps {
 export const UpdateCategoryForm: React.FC<CategoryUpdateFormProps> = ({
   name,
   imageUrl,
+  bannerUrl,
   onCancel,
   EditId,
 }) => {
@@ -46,6 +49,7 @@ export const UpdateCategoryForm: React.FC<CategoryUpdateFormProps> = ({
     defaultValues: {
       name: name,
       imageUrl: imageUrl,
+      bannerUrl: bannerUrl,
     },
   });
 
@@ -57,6 +61,7 @@ export const UpdateCategoryForm: React.FC<CategoryUpdateFormProps> = ({
     const values = {
       name: data.name,
       imageUrl: data.imageUrl,
+      bannerUrl: data.bannerUrl,
     };
     try {
       setLoading(true);
@@ -108,7 +113,7 @@ export const UpdateCategoryForm: React.FC<CategoryUpdateFormProps> = ({
                 name="imageUrl"
                 render={({ field }) => (
                   <FormItem>
-                    {/* <FormLabel>Name</FormLabel> */}
+                    <FormLabel>Category Image</FormLabel>
                     <FormControl>
                       <ImageUpload
                         value={field.value ? [field.value] : []}
@@ -122,7 +127,27 @@ export const UpdateCategoryForm: React.FC<CategoryUpdateFormProps> = ({
                 )}
               />
             </div>
-            
+            <div className="md:grid gap-8">
+              <FormField
+                control={form.control}
+                name="bannerUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Banner Image</FormLabel>
+                    <FormControl>
+                      <ImageUpload
+                        value={field.value ? [field.value] : []}
+                        disabled={loading}
+                        onChange={(url) => field.onChange(url)}
+                        onRemove={() => field.onChange("")}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
             <div className="flex justify-end">
               <div className="flex gap-2">
                 <Button

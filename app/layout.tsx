@@ -46,7 +46,7 @@ export default function RootLayout({
           /> */}
           <link rel="stylesheet" href="dist/output-tailwind.css" />
         </head>
-        <body className={playfair.className}>
+        <body className={`${playfair.className} no-scrollbar`}>
           <ThemeProvider
             attribute="class"
             defaultTheme="light"

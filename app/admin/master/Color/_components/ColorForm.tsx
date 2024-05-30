@@ -21,10 +21,12 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Header from "@/components/ui/header";
 import { toast } from "react-hot-toast";
+import ImageUpload from "@/components/ui/image-upload";
 
 const formSchema = z.object({
   name: z.string().min(2),
   hexCode: z.string().min(2),
+  bannerUrl: z.string().min(2),
 });
 
 type ColorFormValues = z.infer<typeof formSchema>;
@@ -110,6 +112,26 @@ export default function ColorForm() {
                             disabled={loading}
                             placeholder="Color Code (#000000)"
                             {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="md:grid gap-8">
+                  <FormField
+                    control={form.control}
+                    name="bannerUrl"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Banner Image</FormLabel>
+                        <FormControl>
+                          <ImageUpload
+                            value={field.value ? [field.value] : []}
+                            disabled={loading}
+                            onChange={(url) => field.onChange(url)}
+                            onRemove={() => field.onChange("")}
                           />
                         </FormControl>
                         <FormMessage />

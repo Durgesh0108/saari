@@ -25,6 +25,7 @@ import { useRouter } from "next/navigation";
 const formSchema = z.object({
   name: z.string().min(2),
   imageUrl: z.string().min(2),
+  bannerUrl: z.string().min(2),
 });
 
 type PatternFormValues = z.infer<typeof formSchema>;
@@ -32,6 +33,7 @@ type PatternFormValues = z.infer<typeof formSchema>;
 interface PatternUpdateFormProps {
   name: string;
   imageUrl: string;
+  bannerUrl: string;
   onCancel: () => void;
   EditId: string;
 }
@@ -39,6 +41,7 @@ interface PatternUpdateFormProps {
 export const UpdatePatternForm: React.FC<PatternUpdateFormProps> = ({
   name,
   imageUrl,
+  bannerUrl,
   onCancel,
   EditId,
 }) => {
@@ -47,6 +50,7 @@ export const UpdatePatternForm: React.FC<PatternUpdateFormProps> = ({
     defaultValues: {
       name: name,
       imageUrl: imageUrl,
+      bannerUrl: bannerUrl,
     },
   });
 
@@ -58,6 +62,7 @@ export const UpdatePatternForm: React.FC<PatternUpdateFormProps> = ({
     const values = {
       name: data.name,
       imageUrl: data.imageUrl,
+      bannerUrl: data.bannerUrl,
     };
     try {
       setLoading(true);
@@ -106,7 +111,27 @@ export const UpdatePatternForm: React.FC<PatternUpdateFormProps> = ({
                 name="imageUrl"
                 render={({ field }) => (
                   <FormItem>
-                    {/* <FormLabel>Name</FormLabel> */}
+                    <FormLabel>Pattern Image</FormLabel>
+                    <FormControl>
+                      <ImageUpload
+                        value={field.value ? [field.value] : []}
+                        disabled={loading}
+                        onChange={(url) => field.onChange(url)}
+                        onRemove={() => field.onChange("")}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="md:grid gap-8">
+              <FormField
+                control={form.control}
+                name="bannerUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Banner Image</FormLabel>
                     <FormControl>
                       <ImageUpload
                         value={field.value ? [field.value] : []}

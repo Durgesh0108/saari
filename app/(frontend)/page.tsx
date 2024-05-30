@@ -6,6 +6,7 @@ import Logoslider from "@/components/FRONTEND/LogoSlider";
 import Promise from "@/components/FRONTEND/Promise";
 import ShopByCategory from "@/components/FRONTEND/ShopByCategory";
 import ShopByOccassion from "@/components/FRONTEND/ShopByOccassion";
+import ShopByPattern from "@/components/FRONTEND/ShopByPattern";
 import Testimonials from "@/components/FRONTEND/Testimonial";
 
 import Image from "next/image";
@@ -15,14 +16,14 @@ export default function Home() {
     <>
       <div className="">
         <CarouselSlider />
-        <div className=" px-24">
+        <div className="px-24">
           {/* <TabSection /> */}
           <ShopByCategory />
           <ShopByOccassion />
           <Promise />
           <FilterByColor />
 
-          {/* <Servicesection /> */}
+          <ShopByPattern />
           <Testimonials />
           {/* <Clientinsta />
           <Logoslider /> */}
