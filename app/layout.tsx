@@ -44,7 +44,7 @@ export default function RootLayout({
             href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
             rel="stylesheet"
           /> */}
-          {/* <link rel="stylesheet" href="dist/output-tailwind.css" /> */}
+          <link rel="stylesheet" href="dist/output-tailwind.css" />
         </head>
         <body className={playfair.className}>
           <ThemeProvider

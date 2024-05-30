@@ -41,7 +41,7 @@ const Footer = () => {
                     <div className="text-button-uppercase pb-3">Infomation</div>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit"
-                      href="contact.html"
+                      href="/Contactus"
                     >
                       Contact us
                     </Link>
@@ -57,18 +57,18 @@ const Footer = () => {
                     >
                       My Account
                     </Link>
-                    <Link
+                    {/* <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
                       href="order-tracking.html"
                     >
                       Order &amp; Returns
-                    </Link>
-                    <Link
+                    </Link> */}
+                    {/* <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
                       href="faqs.html"
                     >
                       FAQs
-                    </Link>
+                    </Link> */}
                   </div>
                   <div className="item flex flex-col basis-1/3 ">
                     <div className="text-button-uppercase pb-3">Quick Shop</div>
@@ -109,13 +109,13 @@ const Footer = () => {
                     </div>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit"
-                      href="faqs.html"
+                      href="/Faq"
                     >
                       FAQs
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href="faqs.html"
+                      href="/Shipping"
                     >
                       Shipping
                     </Link>
