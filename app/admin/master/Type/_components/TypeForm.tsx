@@ -26,6 +26,7 @@ import ImageUpload from "@/components/ui/image-upload";
 const formSchema = z.object({
   name: z.string().min(2),
   imageUrl: z.string().min(2),
+  bannerUrl: z.string().min(2),
 });
 
 type TypeFormValues = z.infer<typeof formSchema>;
@@ -53,6 +54,7 @@ export default function TypeForm() {
     const data = {
       name: values.name,
       imageUrl: values.imageUrl,
+      bannerUrl: values.bannerUrl,
       categoryId: SelectedCategory,
     };
     try {
@@ -152,7 +154,27 @@ export default function TypeForm() {
                     name="imageUrl"
                     render={({ field }) => (
                       <FormItem>
-                        {/* <FormLabel>Name</FormLabel> */}
+                        <FormLabel>Type Image</FormLabel>
+                        <FormControl>
+                          <ImageUpload
+                            value={field.value ? [field.value] : []}
+                            disabled={loading}
+                            onChange={(url) => field.onChange(url)}
+                            onRemove={() => field.onChange("")}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="md:grid gap-8">
+                  <FormField
+                    control={form.control}
+                    name="bannerUrl"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Banner Image</FormLabel>
                         <FormControl>
                           <ImageUpload
                             value={field.value ? [field.value] : []}

@@ -25,6 +25,7 @@ import { useRouter } from "next/navigation";
 const formSchema = z.object({
   name: z.string().min(2),
   imageUrl: z.string().min(2),
+  bannerUrl: z.string().min(2),
 });
 
 type TypeFormValues = z.infer<typeof formSchema>;
@@ -33,6 +34,7 @@ interface TypeUpdateFormProps {
   initialData: Type;
   name: string;
   imageUrl: string;
+  bannerUrl: string;
   onCancel: () => void;
   EditId: string;
 }
@@ -40,6 +42,7 @@ interface TypeUpdateFormProps {
 export const UpdateTypeForm: React.FC<TypeUpdateFormProps> = ({
   name,
   imageUrl,
+  bannerUrl,
   onCancel,
   EditId,
 }) => {
@@ -48,6 +51,7 @@ export const UpdateTypeForm: React.FC<TypeUpdateFormProps> = ({
     defaultValues: {
       name: name,
       imageUrl: imageUrl,
+      bannerUrl: bannerUrl,
     },
   });
 
@@ -59,6 +63,7 @@ export const UpdateTypeForm: React.FC<TypeUpdateFormProps> = ({
     const values = {
       name: data.name,
       imageUrl: data.imageUrl,
+      bannerUrl: data.bannerUrl,
     };
     try {
       setLoading(true);
@@ -109,7 +114,27 @@ export const UpdateTypeForm: React.FC<TypeUpdateFormProps> = ({
                 name="imageUrl"
                 render={({ field }) => (
                   <FormItem>
-                    {/* <FormLabel>Name</FormLabel> */}
+                    <FormLabel>Type Image</FormLabel>
+                    <FormControl>
+                      <ImageUpload
+                        value={field.value ? [field.value] : []}
+                        disabled={loading}
+                        onChange={(url) => field.onChange(url)}
+                        onRemove={() => field.onChange("")}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="md:grid gap-8">
+              <FormField
+                control={form.control}
+                name="bannerUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Banner Image</FormLabel>
                     <FormControl>
                       <ImageUpload
                         value={field.value ? [field.value] : []}

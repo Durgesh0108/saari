@@ -136,7 +136,7 @@
 //   user                      User                        @relation(fields: [userId], references: id, onDelete: Cascade)
 //   price                     Int
 //   imageUrl                  String                      @db.Text
-//   AdpositionId              String
+  // AdpositionId     ?         String
 //   AdPosition                Adposition                  @relation(fields: [AdpositionId], references: [id])
 //   AdbannerId                String
 //   AdBanner                  Adbanner                    @relation(fields: [AdbannerId], references: [id])
@@ -233,7 +233,7 @@
 //   // id                  String                @id @default(auto()) @map("_id") @db.ObjectId
 //   name                String?               @db.Text
 //   imageUrl            String?               @db.Text
-//   userId              String?
+  // userId           ?   String?
 //   user                User?                 @relation(fields: [userId], references: [id], onDelete: Cascade)
 //   categoryId          String?
 //   category            Category?             @relation("CategoryToBrand", fields: [categoryId], references: [id], onDelete: Cascade)
@@ -580,7 +580,8 @@ datasource db {
 model Category {
   id         String    @id @default(auto()) @map("_id") @db.ObjectId
   name       String    @db.String
-  imageUrl   String?   @db.String
+  imageUrl   String    @db.String
+  bannerUrl  String?    @default("https://res.cloudinary.com/dttieobbt/image/upload/v1717054596/tmbfbfvi2zx4fuznzjdd.jpg") @db.String
   isArchived Boolean?  @default(false) @db.Bool
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
@@ -592,7 +593,8 @@ model Category {
 model Occassion {
   id         String    @id @default(auto()) @map("_id") @db.ObjectId
   name       String    @db.String
-  imageUrl   String?   @db.String
+  imageUrl   String    @db.String
+  bannerUrl  String?    @default("https://res.cloudinary.com/dttieobbt/image/upload/v1717054596/tmbfbfvi2zx4fuznzjdd.jpg") @db.String
   Product    Product[]
   isArchived Boolean?  @default(false) @db.Bool
   createdAt  DateTime  @default(now())
@@ -602,9 +604,10 @@ model Occassion {
 model Pattern {
   id         String    @id @default(auto()) @map("_id") @db.ObjectId
   name       String    @db.String
-  imageUrl   String?   @db.String
-  categoryId String?   @db.ObjectId
-  category   Category? @relation(fields: [categoryId], references: [id])
+  imageUrl   String    @db.String
+  bannerUrl  String?    @default("https://res.cloudinary.com/dttieobbt/image/upload/v1717054596/tmbfbfvi2zx4fuznzjdd.jpg") @db.String
+  categoryId String    @db.ObjectId
+  category   Category  @relation(fields: [categoryId], references: [id])
   isArchived Boolean?  @default(false) @db.Bool
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
@@ -614,6 +617,7 @@ model Pattern {
 model Color {
   id         String    @id @default(auto()) @map("_id") @db.ObjectId
   name       String    @db.String
+  bannerUrl  String    @default("https://res.cloudinary.com/dttieobbt/image/upload/v1717054596/tmbfbfvi2zx4fuznzjdd.jpg") @db.String
   hexCode    String    @db.String
   isArchived Boolean?  @default(false) @db.Bool
   createdAt  DateTime  @default(now())
@@ -624,9 +628,10 @@ model Color {
 model Type {
   id         String    @id @default(auto()) @map("_id") @db.ObjectId
   name       String    @db.String
-  imageUrl   String?   @db.String
-  categoryId String?   @db.ObjectId
-  category   Category? @relation(fields: [categoryId], references: [id])
+  imageUrl   String    @db.String
+  bannerUrl  String?    @default("https://res.cloudinary.com/dttieobbt/image/upload/v1717054596/tmbfbfvi2zx4fuznzjdd.jpg") @db.String
+  categoryId String    @db.ObjectId
+  category   Category  @relation(fields: [categoryId], references: [id])
   isArchived Boolean?  @default(false) @db.Bool
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt

@@ -30,6 +30,7 @@ export default function PatternList() {
   const [EditId, setEditId] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>("");
+  const [bannerUrl, setbannerUrl] = useState<string>("");
 
   const handleDelete = async (id: string) => {
     try {
@@ -130,6 +131,7 @@ export default function PatternList() {
             <UpdatePatternForm
               name={name}
               imageUrl={imageUrl}
+              bannerUrl={bannerUrl}
               EditId={EditId}
               onCancel={() => {
                 setIsUpdating(false);
@@ -164,6 +166,7 @@ export default function PatternList() {
                         setEditId(pattern.id);
                         setName(pattern.name);
                         setImageUrl(pattern.imageUrl);
+                        setbannerUrl(pattern.bannerUrl)
                       }}
                     >
                       <Pencil className="h-4 w-4" />

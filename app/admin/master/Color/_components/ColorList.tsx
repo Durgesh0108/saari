@@ -24,6 +24,7 @@ export default function ColorList() {
   const [EditId, setEditId] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [hexCode, sethexCode] = useState<string>("");
+  const [bannerUrl, setbannerUrl] = useState<string>("");
 
   const handleDelete = async (id: string) => {
     try {
@@ -67,6 +68,7 @@ export default function ColorList() {
             <UpdateColorForm
               name={name}
               hexCode={hexCode}
+              bannerUrl={bannerUrl}
               EditId={EditId}
               onCancel={() => {
                 setIsUpdating(false);
@@ -98,6 +100,7 @@ export default function ColorList() {
                         setEditId(col.id);
                         setName(col.name);
                         sethexCode(col.hexCode);
+                        setbannerUrl(col.bannerUrl);
                       }}
                     >
                       <Pencil className="h-4 w-4" />

@@ -281,11 +281,21 @@ const ShopByOccassion = () => {
   const [selectedOccasion, setSelectedOccasion] = useState(null);
   const router = useRouter();
 
+  const [occassion, setOccassion] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const productRes = await fetch(`/api/occassion`);
+      const products = await productRes.json();
+      setOccassion(products);
+    };
+    fetchProducts();
+  }, []);
+
   useEffect(() => {
     const fetchProducts = async () => {
       const productRes = await fetch(`/api/website/product`);
       const products = await productRes.json();
-      console.log("collection block", products);
       setProducts(products);
     };
     fetchProducts();
@@ -354,13 +364,35 @@ const ShopByOccassion = () => {
         <div className="font-medium text-5xl italic ">
           Styles for special events & everyday moments
         </div>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between  items-center ">
           <div className="flex gap-6 my-6 justify-between">
-            {uniqueOccasions.map((city, id) => {
+            {/* {uniqueOccasions.map((city, id) => {
               return (
                 <div key={id}>
                   <button
-                    className={`flex flex-col items-center justify-center bg-slate-200 border-none text-black w-36 h-36 rounded-full ${
+                    className={`flex flex-col items-center justify-center bg-slate-200 border-none text-black w-36 h-36 rounded-full hover:scale-90 duration-500 border-2 border-amber-500 ${
+                      isActive ? "border-2 border-black" : ""
+                    }`}
+                    onClick={() => filterItem(city.name)}
+                    key={id}
+                  >
+                    <Image
+                      src={city.imageUrl}
+                      alt={city.name}
+                      height={1}
+                      width={1000}
+                      className="w-full h-full object-cover rounded-full"
+                    />
+                  </button>
+                  <span className="block mt-2 text-center">{city.name}</span>
+                </div>
+              );
+            })} */}
+            {occassion.map((city, id) => {
+              return (
+                <div key={id}>
+                  <button
+                    className={`flex flex-col items-center justify-center bg-slate-200 border-none text-black w-36 h-36 rounded-full hover:scale-90 duration-500 border-2 border-amber-500 ${
                       isActive ? "border-2 border-black" : ""
                     }`}
                     onClick={() => filterItem(city.name)}
@@ -378,6 +410,16 @@ const ShopByOccassion = () => {
                 </div>
               );
             })}
+          </div>
+          <div className="">
+            {selectedOccasion && (
+              <button
+                onClick={handleViewMore}
+                className=" py-2 px-4 bg-pink-500 text-white font-bold rounded-full "
+              >
+                View More {selectedOccasion.name} Occassion Dress
+              </button>
+            )}
           </div>
         </div>
 
@@ -405,15 +447,6 @@ const ShopByOccassion = () => {
             </div>
           ))}
         </ul>
-
-        {selectedOccasion && (
-          <button
-            onClick={handleViewMore}
-            className="mt-4 py-2 px-4 bg-blue-600 text-white font-bold rounded"
-          >
-            View More
-          </button>
-        )}
       </div>
     </div>
   );
