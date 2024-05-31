@@ -1,7 +1,52 @@
+"use client";
+
+import React, { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import React from "react";
+import toast from "react-hot-toast";
+import { cookieHandler } from "@/lib/cookieHandler";
 
 const Page = () => {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setphone] = useState("");
+
+  const URL = process.env.API_URL;
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log(email, password);
+    const data = {
+      role: "user",
+      email,
+      password,
+      name,
+      phone,
+    };
+
+    try {
+      const response = await axios.post(`/api/auth/register`, data);
+
+      console.log(response.data);
+      const user = response.data.user;
+      if (response.data.token) {
+        cookieHandler.set("token", response.data.token);
+        cookieHandler.set("user", user.name);
+        cookieHandler.set("userId", user.id);
+        cookieHandler.set("role", user.role);
+        router.push("/");
+        toast.success("Registered Successfully");
+      } else {
+        toast.error(response.data);
+      }
+    } catch (error) {
+      console.error("Registration failed", error);
+    }
+  };
   return (
     <div>
       <div className="breadcrumb-block style-shared">
@@ -26,13 +71,23 @@ const Page = () => {
           <div className="content-main flex gap-y-8 max-md:flex-col">
             <div className="left md:w-1/2 w-full lg:pr-[60px] md:pr-[40px] md:border-r border-line">
               <div className="heading4">Register</div>
-              <form className="md:mt-7 mt-4">
-                <div className="email ">
+              <form className="md:mt-7 mt-4" onSubmit={handleSubmit}>
+                <div className="name ">
+                  <input
+                    className="border-line px-4 pt-3 pb-3 w-full rounded-lg"
+                    id="username"
+                    type="text"
+                    placeholder="Name *"
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </div>
+                <div className="email mt-5">
                   <input
                     className="border-line px-4 pt-3 pb-3 w-full rounded-lg"
                     id="username"
                     type="email"
                     placeholder="Email address *"
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div className="pass mt-5">
@@ -41,14 +96,16 @@ const Page = () => {
                     id="password"
                     type="password"
                     placeholder="Password *"
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
-                <div className="confirm-pass mt-5">
+                <div className="number mt-5">
                   <input
                     className="border-line px-4 pt-3 pb-3 w-full rounded-lg"
                     id="confirmPassword"
-                    type="password"
-                    placeholder="Confirm Password *"
+                    type="number"
+                    placeholder="Phone Number *"
+                    onChange={(e) => setphone(e.target.value)}
                   />
                 </div>
                 <div className="flex items-center mt-5">
