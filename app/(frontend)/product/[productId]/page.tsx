@@ -16,9 +16,13 @@ import React, { useEffect, useState } from "react";
 import { Tab } from "@headlessui/react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 export default function ProductPage() {
   const [product, setProduct] = useState<Product>([]);
+  const [Colorproduct, setColorProduct] = useState<Product>([]);
+  // const [product, setProduct] = useState<Product>([]);
+  // const [product, setProduct] = useState<Product>([]);
   const params = useParams();
 
   useEffect(() => {
@@ -28,11 +32,18 @@ export default function ProductPage() {
       );
       const product = await productRes.json();
       setProduct(product);
+
+      const CproductRes = await fetch(
+        `/api/color/${product?.color?.id}/product`
+      );
+      const Cproduct = await CproductRes.json();
+      setColorProduct(Cproduct);
     };
     fetchProduct();
-  }, []);
+  }, [params.productId]);
 
-  console.log(product);
+  const addToCart = () => {};
+
   return (
     <div className="container flex flex-col gap-4">
       <div className=" grid grid-cols-2 gap-8 bg-white rounded-xl border-[1px] h-[520px]">
@@ -133,7 +144,7 @@ export default function ProductPage() {
           </div>
         </div>
       </div>
-      <div className="bg-white rounded-xl border-[1px] h-[520px] px-4 py-12 flex flex-col gap-4">
+      <div className="bg-white rounded-xl border-[1px] max-h-[520px] no-scrollbar overflow-auto px-4 py-12 flex flex-col gap-4">
         <div>
           <h1 className="text-4xl font-semibold ">Product Details</h1>
         </div>
@@ -152,6 +163,98 @@ export default function ProductPage() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </div>
+      <div className="bg-white rounded-xl border-[1px]  px-4 py-12 flex flex-col gap-8">
+        <div className="flex flex-col gap-4">
+          <h1 className="text-3xl font-semibold">
+            Explore More From {product?.color?.name}
+          </h1>
+          <div className="grid grid-cols-4 gap-4">
+            {Colorproduct.slice(0, 4).map((product, index) => (
+              <div
+                className="hover:scale-105 z-10 duration-700 group rounded-tl-[108px] border-[1px]  rounded-lg p-2 hover:shadow-3xl "
+                key={index}
+              >
+                <Link key={index} href={`/product/${product.id}`}>
+                  <div className=" rounded-tl-[100px] rounded-br-2xl h-80 relative ">
+                    <Image
+                      src={product.images[0].url}
+                      alt={product.name}
+                      width={1000}
+                      height={1}
+                      className="w-full h-full overflow-hidden object-cover rounded-tl-[100px] rounded-br-2xl"
+                    />
+                  </div>
+
+                  <div className="group-hover:scale-110 group-hover:ml-3 duration-500 top-2 mb-2 relative text-[20px]">
+                    <p className="text-base text-gray-400">{product.name}</p>
+                    <p className="text-2xl font-medium ">
+                      &#8377; {product.price}
+                    </p>
+                  </div>
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="flex flex-col gap-4">
+          <h1 className="text-3xl font-semibold">
+            Explore More From {product?.category?.name}
+          </h1>
+          <div className="grid grid-cols-4 gap-4">
+            {[{}, {}, {}, {}, {}, {}, {}, {}, {}, {}]
+              .slice(0, 4)
+              .map((product, index) => (
+                <div
+                  className="hover:scale-105 z-10 duration-700 group rounded-tl-2xl border-[1px]  rounded-lg p-2 hover:shadow-3xl "
+                  key={index}
+                >
+                  <div className="rounded-tl-2xl rounded-br-2xl h-80 relative ">
+                    <img
+                      src={
+                        "https://res.cloudinary.com/dttieobbt/image/upload/v1716532524/rfecteffexn2d8ukadbz.jpg"
+                      }
+                      alt={"Banarasi Saaris"}
+                      className="w-full h-full overflow-hidden object-cover rounded-tl-2xl rounded-br-2xl"
+                    />
+                  </div>
+                  <div className="group-hover:scale-110 group-hover:ml-3 duration-500 top-2 mb-2 relative text-[20px]">
+                    <p className="text-base text-gray-400">Banarasi Saaris</p>
+                    <p className="text-2xl font-medium ">&#8377; 3000</p>
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
+        <div className="flex flex-col gap-4">
+          <h1 className="text-3xl font-semibold">
+            Explore More From {product?.occassion?.name}
+          </h1>
+          <div className="grid grid-cols-4 gap-4">
+            {[{}, {}, {}, {}, {}, {}, {}, {}, {}, {}]
+              .slice(0, 4)
+              .map((product, index) => (
+                <div
+                  className="hover:scale-105 z-10 duration-700 group rounded-tl-[108px] border-[1px]  rounded-lg p-2 hover:shadow-3xl "
+                  key={index}
+                >
+                  <div className="rounded-tl-[100px] rounded-br-2xl h-80 relative ">
+                    <img
+                      src={
+                        "https://res.cloudinary.com/dttieobbt/image/upload/v1716532524/rfecteffexn2d8ukadbz.jpg"
+                      }
+                      alt={"Banarasi Saaris"}
+                      className="w-full h-full overflow-hidden object-cover rounded-tl-[100px] rounded-br-2xl"
+                    />
+                  </div>
+                  <div className="group-hover:scale-110 group-hover:ml-3 duration-500 top-2 mb-2 relative text-[20px]">
+                    <p className="text-base text-gray-400">Banarasi Saaris</p>
+                    <p className="text-2xl font-medium ">&#8377; 3000</p>
+                  </div>
+                </div>
+              ))}
           </div>
         </div>
       </div>

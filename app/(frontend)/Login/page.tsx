@@ -1,7 +1,54 @@
+// @ts-nocheck
+
+"use client";
+
+import axios from "axios";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import toast from "react-hot-toast";
+import { cookieHandler } from "@/lib/cookieHandler";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const data = {
+      email,
+      password,
+    };
+
+    console.log({ data, URL });
+    try {
+      const response = await axios.post(`/api/auth/login`, data);
+      const user = response.data.user;
+      console.log("user login", user);
+      console.log(response);
+
+      // if (user.role === "admin") {
+      //   toast.error("You are Admin");
+      // } else
+      if (response.data.token) {
+        
+        cookieHandler.set("token", response.data.token);
+        cookieHandler.set("user", user.name);
+        cookieHandler.set("userId", user.id);
+        cookieHandler.set("role", user.role);
+        router.push("/");
+        toast.success("Logged In Successfully");
+      } else {
+        toast.error(response.data);
+      }
+      //   window.location.reload();
+    } catch (error) {
+      toast.error("Error");
+      console.log("error", error);
+    }
+  };
   return (
     <div>
       <div className="breadcrumb-block style-shared">
@@ -26,13 +73,17 @@ const Login = () => {
           <div className="content-main flex gap-y-8 max-md:flex-col">
             <div className="left md:w-1/2 w-full lg:pr-[60px] md:pr-[40px] md:border-r border-line">
               <div className="heading4">Login</div>
-              <form className="md:mt-7 mt-4">
+              <form className="md:mt-7 mt-4" onSubmit={handleSubmit}>
                 <div className="email ">
                   <input
                     className="border-line px-4 pt-3 pb-3 w-full rounded-lg"
-                    id="username"
+                    id="email"
                     type="email"
                     placeholder="Email address *"
+                    name="Email"
+                    autoComplete="email"
+                    required
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div className="pass mt-5">
@@ -41,6 +92,9 @@ const Login = () => {
                     id="password"
                     type="password"
                     placeholder="Password *"
+                    autoComplete="email"
+                    required
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
                 <div className="flex items-center justify-between mt-5">
