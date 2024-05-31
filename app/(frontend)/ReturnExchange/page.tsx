@@ -6,7 +6,7 @@ const ReturnExchange = () => {
     <div>
       <div className="breadcrumb-block style-shared">
         <div className="breadcrumb-main bg-linear overflow-hidden">
-          <div className="container lg:pt-[134px] pt-24 pb-10 relative">
+          <div className="container lg:pt-[35px] pb-10 relative">
             <div className="main-content w-full h-full flex flex-col items-center justify-center relative z-[1]">
               <div className="text-content">
                 <div className="heading2 text-center">Return & Exchange</div>
@@ -320,7 +320,7 @@ const ReturnExchange = () => {
                     to be governed by the revised site disclaimer, we request
                     you to refrain from using the website.
                   </p>
-                  <p>
+                  <p className="mb-8">
                     This site disclaimer is governed by the laws of India and
                     you and we agree to use the courts of Bangalore jurisdiction
                     if there is any dispute between us. If any part of this site

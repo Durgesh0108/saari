@@ -6,7 +6,7 @@ const Page = () => {
     <div>
       <div className="breadcrumb-block style-shared">
         <div className="breadcrumb-main bg-linear overflow-hidden">
-          <div className="container lg:pt-[134px] pt-24 pb-10 relative">
+          <div className="container lg:pt-[35px] pb-10 relative">
             <div className="main-content w-full h-full flex flex-col items-center justify-center relative z-[1]">
               <div className="text-content">
                 <div className="heading2 text-center">About Us</div>
@@ -26,9 +26,7 @@ const Page = () => {
           <div className="container">
             <div className="text flex items-center justify-center">
               <div className="content md:w-5/6 w-full">
-                <div className="text-2xl font-bold text-center">
-                  Story of the brand
-                </div>
+                <div className="text-2xl font-bold">Story of the brand</div>
                 <div className="body1  md:mt-7 mt-5 flex flex-col gap-6">
                   <p>
                     Launched in 2017, Taneira, from the house of TATA, is home
@@ -81,7 +79,7 @@ const Page = () => {
                     you are not buying a mere fashion piece. Each saree has a
                     story to tell that is unique.
                   </p>
-                  <p>
+                  <p className="mb-8">
                     Immerse yourself in the art of weaving and the heirloom
                     pieces at our stores across all prominent metro hubs or shop
                     from the comfort of your home, and enjoy global delivery at

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import {
@@ -53,16 +54,16 @@ const Footer = () => {
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href="my-account.html"
+                      href="/Login"
                     >
                       My Account
                     </Link>
-                    {/* <Link
+                    <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
                       href="order-tracking.html"
                     >
-                      Order &amp; Returns
-                    </Link> */}
+                      Register
+                    </Link>
                     {/* <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
                       href="faqs.html"
@@ -211,44 +212,56 @@ const Footer = () => {
               <div className="right flex items-center gap-2">
                 <div className="caption1 text-secondary">Payment:</div>
                 <div className="payment-img">
-                  <img
-                    src="assets/images/payment/Frame-0.png"
+                  <Image
+                    src="/assets/images/payment/Frame-0.png"
                     alt="payment"
+                    width={1000}
+                    height={1}
                     className="w-9"
                   />
                 </div>
                 <div className="payment-img">
-                  <img
-                    src="assets/images/payment/Frame-1.png"
+                  <Image
+                    src="/assets/images/payment/Frame-1.png"
                     alt="payment"
+                    width={1000}
+                    height={1}
                     className="w-9"
                   />
                 </div>
                 <div className="payment-img">
-                  <img
-                    src="assets/images/payment/Frame-2.png"
+                  <Image
+                    src="/assets/images/payment/Frame-2.png"
                     alt="payment"
+                    width={1000}
+                    height={1}
                     className="w-9"
                   />
                 </div>
                 <div className="payment-img">
-                  <img
-                    src="assets/images/payment/Frame-3.png"
+                  <Image
+                    src="/assets/images/payment/Frame-3.png"
                     alt="payment"
+                    width={1000}
+                    height={1}
                     className="w-9"
                   />
                 </div>
                 <div className="payment-img">
-                  <img
-                    src="assets/images/payment/Frame-4.png"
+                  <Image
+                    src="/assets/images/payment/Frame-4.png"
                     alt="payment"
+                    width={1000}
+                    height={1}
                     className="w-9"
                   />
                 </div>
                 <div className="payment-img">
-                  <img
-                    src="assets/images/payment/Frame-5.png"
+                  <Image
+                    src="/assets/images/payment/Frame-5.png"
                     alt="payment"
+                    width={1000}
+                    height={1}
                     className="w-9"
                   />
                 </div>

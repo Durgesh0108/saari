@@ -6,7 +6,7 @@ const privacyPolicy = () => {
     <div>
       <div className="breadcrumb-block style-shared">
         <div className="breadcrumb-main bg-linear overflow-hidden">
-          <div className="container lg:pt-[134px] pt-24 pb-10 relative">
+          <div className="container lg:pt-[35px] pb-10 relative">
             <div className="main-content w-full h-full flex flex-col items-center justify-center relative z-[1]">
               <div className="text-content">
                 <div className="heading2 text-center">Privacy Policy</div>
@@ -285,7 +285,7 @@ const privacyPolicy = () => {
                   <div className="text-2xl font-bold">
                     Changes to the Privacy Policy:
                   </div>
-                  <p>
+                  <p className="mb-8">
                     We may update this Privacy Policy at any time to reflect
                     changes in our practices and service offerings. If we modify
                     this Privacy Policy, we will update the date on which the
