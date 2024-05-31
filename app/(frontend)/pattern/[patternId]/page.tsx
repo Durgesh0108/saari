@@ -344,27 +344,23 @@ export default function ColorPage() {
             </div>
             <div className="grid grid-cols-3 gap-8  py-12 px-4  h-screen overflow-auto no-scrollbar">
               {filteredProducts.map((product, index) => (
-                <div key={index}>
-                  <div>
-                    <div key={product.id}>
-                      <div
-                        className="hover:scale-110 z-50 duration-700 group"
-                        key={index}
-                      >
-                        <div className="rounded-tl-[100px] rounded-br-2xl h-72 relative -top-5">
-                          <img
-                            src={product.images[0].url}
-                            alt={product.name}
-                            className="w-full h-full overflow-hidden object-cover rounded-tl-[100px] rounded-br-2xl"
-                          />
-                        </div>
-                        <div className="group-hover:scale-110 group-hover:ml-3 duration-700 text-[20px]">
-                          {product.name}
-                        </div>
-                      </div>
+                <Link key={index} href={`/product/${product.id}`}>
+                  <div
+                    className="hover:scale-110 z-50 duration-700 group"
+                    key={index}
+                  >
+                    <div className="rounded-tl-[100px] rounded-br-2xl h-72 relative -top-5">
+                      <img
+                        src={product.images[0].url}
+                        alt={product.name}
+                        className="w-full h-full overflow-hidden object-cover rounded-tl-[100px] rounded-br-2xl"
+                      />
+                    </div>
+                    <div className="group-hover:scale-110 group-hover:ml-3 duration-700 text-[20px]">
+                      {product.name}
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
 
               {/* {[{}, {}, {}, {}, {}, {}, {}, {}, {}, {}].map(

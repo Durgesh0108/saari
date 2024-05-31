@@ -152,6 +152,7 @@
 
 "use client";
 
+import { Heart, Search, ShoppingCart, User } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
@@ -163,161 +164,194 @@ export default function Navbar() {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const productRes = await fetch(`/api/website/product`);
+      const productRes = await fetch(`/api/category`);
+      // const productRes = await fetch(`/api/website/product`);
       const products = await productRes.json();
-
+      setCategoryProducts(products);
       // Create a map to store unique categories
-      const categoryMap = new Map();
-      products.forEach((product) => {
-        const category = product.category;
-        if (!categoryMap.has(category.name)) {
-          categoryMap.set(category.name, product);
-        }
-      });
+      // const categoryMap = new Map();
+      // products.forEach((product) => {
+      //   const category = product.category;
+      //   if (!categoryMap.has(category.name)) {
+      //     categoryMap.set(category.name, product);
+      //   }
+      // });
 
-      // Convert map values to an array
-      const uniqueCategory = Array.from(categoryMap.values());
-      setCategoryProducts(uniqueCategory);
+      // // Convert map values to an array
+      // const uniqueCategory = Array.from(categoryMap.values());
+      // setCategoryProducts(uniqueCategory);
     };
     fetchProducts();
   }, []);
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const productRes = await fetch(`/api/website/product`);
+      const productRes = await fetch(`/api/occassion`);
+      // const productRes = await fetch(`/api/website/product`);
       const products = await productRes.json();
-
-      const uniqueOccasions = products.reduce((acc, curr) => {
-        if (!acc.some((item) => item.name === curr.occassion.name)) {
-          acc.push({
-            name: curr.occassion.name,
-            imageUrl: curr.occassion.imageUrl,
-            id: curr.occassion.id,
-          });
-        }
-        return acc;
-      }, []);
-      console.log({ uniqueOccasions });
-      setOccassionProducts(uniqueOccasions);
+      setOccassionProducts(products);
+      // const uniqueOccasions = products.reduce((acc, curr) => {
+      //   if (!acc.some((item) => item.name === curr.occassion.name)) {
+      //     acc.push({
+      //       name: curr.occassion.name,
+      //       imageUrl: curr.occassion.imageUrl,
+      //       id: curr.occassion.id,
+      //     });
+      //   }
+      //   return acc;
+      // }, []);
+      // console.log({ uniqueOccasions });
+      // setOccassionProducts(uniqueOccasions);
     };
     fetchProducts();
   }, []);
 
   return (
     // <div className="fixed top-0 z-50 w-scree ">
-      <div className="w-full bg-white container px-8 py-4  grid grid-cols-12 items-center  ">
-        <div className="col-span-2">
-          <Link
-            href="/"
-            className="flex items-center "
-          >
-            <div className="text-2xl font-bold uppercase">SAARI WALI</div>
-          </Link>
-        </div>
-        <div className="col-span-8 w-full  relative group">
-          <div className="cursor-pointer py-2 text-[14px]">
-            <div className="flex  bg-white px-1 z-10 container">
-              <div className="text-xl font-bold duration-300 h-full flex items-center justify-center">
-                Shop by Speciality
+    <div className="w-full bg-white container px-8 py-4  grid grid-cols-12 items-center  ">
+      <div className="col-span-2">
+        <Link href="/" className="flex items-center ">
+          <div className="text-2xl font-bold uppercase">SAARI WALI</div>
+        </Link>
+      </div>
+      <div className="col-span-8 w-full  relative group">
+        <div className="cursor-pointer py-2 text-[14px]">
+          <div className="flex  bg-white px-1 z-10 container">
+            <div className="text-xl font-bold duration-300 h-full flex items-center justify-center">
+              Shop by Speciality
+            </div>
+          </div>
+
+          <div className="absolute z-50 top-full left-0 w-full bg-white py-1 px-4 text-gray-800 shadow-xl hidden group-hover:block">
+            <div className="grid grid-cols-4 py-4">
+              <div
+                className={`flex flex-col  relative group/category `}
+                onMouseEnter={() => {
+                  setIsCategoryVisible(true);
+                  setIsOccasionVisible(false);
+                }}
+              >
+                <div className="uppercase text-lg font-bold pb-2">Category</div>
+                <div
+                  className={`duration-500 ${
+                    isCategoryVisible
+                      ? "w-1/2 border-b-2 border-b-black"
+                      : "w-0  group-hover/category:w-1/2 rounded-full border-b-2 border-b-black"
+                  } `}
+                ></div>
+              </div>
+              <div
+                className="  relative group/occasion"
+                onMouseEnter={() => {
+                  setIsOccasionVisible(true);
+                  setIsCategoryVisible(false);
+                }}
+                // onMouseLeave={() => {
+                //   setIsOccasionVisible(false);
+                //   setIsCategoryVisible(true);
+                // }}
+              >
+                <div className="uppercase text-lg font-bold pb-2">
+                  Occassion
+                </div>
+                <div
+                  className={` duration-500  ${
+                    isOccasionVisible
+                      ? "w-1/2 border-b-2 border-b-black"
+                      : "w-0  group-hover/category:w-1/2 rounded-full border-b-2 border-b-black"
+                  } `}
+                ></div>
               </div>
             </div>
-
-            <div className="absolute z-50 top-full left-0 w-full bg-white py-1 px-4 text-gray-800 shadow-xl hidden group-hover:block">
-              <div className="grid grid-cols-4 py-4">
-                <div
-                  className={`flex flex-col  relative group/category `}
-                  onMouseEnter={() => {
-                    setIsCategoryVisible(true);
-                    setIsOccasionVisible(false);
-                  }}
-                >
-                  <div className="uppercase text-lg font-bold pb-2">
-                    Category
+            <div className="relative h-full">
+              <div>
+                {isCategoryVisible && (
+                  <div className="flex">
+                    {CategoryProducts.map((slide, index) => (
+                      <div className="h-full m-8 text-center" key={index}>
+                        <Link href={`/category/${slide.id}`}>
+                          {/* <Link href={`/category/${slide.categoryId}`}> */}
+                          <div className="hover:scale-110 z-50 duration-700 group">
+                            <div className="rounded-full w-32 h-32 relative -top-5">
+                              <img
+                                src={slide.imageUrl}
+                                alt={slide.name}
+                                // src={slide?.category?.imageUrl}
+                                // alt={slide?.category?.name}
+                                className="w-full h-full overflow-hidden object-cover rounded-full"
+                              />
+                            </div>
+                            <div className="text-lg">
+                              {slide.name}
+                              {/* {slide?.category?.name} */}
+                            </div>
+                          </div>
+                        </Link>
+                      </div>
+                    ))}
                   </div>
-                  <div
-                    className={`duration-500 ${
-                      isCategoryVisible
-                        ? "w-1/2 border-b-2 border-b-black"
-                        : "w-0  group-hover/category:w-1/2 rounded-full border-b-2 border-b-black"
-                    } `}
-                  ></div>
-                </div>
-                <div
-                  className="  relative group/occasion"
-                  onMouseEnter={() => {
-                    setIsOccasionVisible(true);
-                    setIsCategoryVisible(false);
-                  }}
-                  // onMouseLeave={() => {
-                  //   setIsOccasionVisible(false);
-                  //   setIsCategoryVisible(true);
-                  // }}
-                >
-                  <div className="uppercase text-lg font-bold pb-2">
-                    Occassion
-                  </div>
-                  <div
-                    className={` duration-500  ${
-                      isOccasionVisible
-                        ? "w-1/2 border-b-2 border-b-black"
-                        : "w-0  group-hover/category:w-1/2 rounded-full border-b-2 border-b-black"
-                    } `}
-                  ></div>
-                </div>
+                )}
               </div>
-              <div className="relative h-full">
-                <div>
-                  {isCategoryVisible && (
-                    <div className="flex">
-                      {CategoryProducts.map((slide, index) => (
-                        <div className="h-full m-8" key={index}>
-                          <Link href={`/category/${slide.categoryId}`}>
-                            <div className="hover:scale-110 z-50 duration-700 group">
-                              <div className="rounded-full w-32 h-32 relative -top-5">
-                                <img
-                                  src={slide?.category?.imageUrl}
-                                  alt={slide?.category?.name}
-                                  className="w-full h-full overflow-hidden object-cover rounded-full"
-                                />
-                              </div>
-                              <div className="text-lg">
-                                {slide?.category?.name}
-                              </div>
+              <div>
+                {isOccasionVisible && (
+                  <div className="flex">
+                    {OccassionProducts.map((occasion, index) => (
+                      <div className="h-full m-8 group text-center" key={index}>
+                        <Link href={`/occassion/${occasion.id}`}>
+                          <div className="hover:scale-110 z-50 duration-700">
+                            <div className="rounded-full w-32 h-32 relative -top-5">
+                              <img
+                                src={occasion.imageUrl}
+                                alt={occasion.name}
+                                className="w-full h-full overflow-hidden object-cover rounded-full"
+                              />
                             </div>
-                          </Link>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-                <div>
-                  {isOccasionVisible && (
-                    <div className="flex">
-                      {OccassionProducts.map((occasion, index) => (
-                        <div className="h-full m-8 group" key={index}>
-                          <Link href={`/occassion/${occasion.id}`}>
-                            <div className="hover:scale-110 z-50 duration-700">
-                              <div className="rounded-full w-32 h-32 relative -top-5">
-                                <img
-                                  src={occasion.imageUrl}
-                                  alt={occasion.name}
-                                  className="w-full h-full overflow-hidden object-cover rounded-full"
-                                />
-                              </div>
-                              <div className="text-lg">{occasion.name}</div>
-                            </div>
-                          </Link>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
+                            <div className="text-lg">{occasion.name}</div>
+                          </div>
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>
         </div>
-        <div className="col-span-2 justify-center flex items-center"></div>
       </div>
+      <div className="col-span-2 justify-center flex gap-8 items-center">
+        <div>
+          <Search />
+        </div>
+        <div>
+          <User />
+        </div>
+        <div className=" flex justify-center items-center">
+          <Link href={"/wishlist"}>
+            <div className="relative py-2">
+              <div className="-top-[1px] absolute left-3">
+                <p className="flex h-2 w-2 items-center justify-center rounded-full bg-pink-500 p-2 text-sm text-white">
+                  0
+                </p>
+              </div>
+              <Heart />
+            </div>
+          </Link>
+        </div>
+
+        <div className=" flex justify-center items-center">
+          <Link href={"/cart"}>
+            <div className="relative py-2">
+              <div className="-top-[1px] absolute left-3">
+                <p className="flex h-2 w-2 items-center justify-center rounded-full bg-pink-500 p-2 text-sm text-white">
+                  0
+                </p>
+              </div>
+              <ShoppingCart />
+            </div>
+          </Link>
+        </div>
+      </div>
+    </div>
     // </div>
   );
 }

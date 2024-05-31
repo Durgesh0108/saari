@@ -423,30 +423,49 @@ const ShopByOccassion = () => {
           </div>
         </div>
 
-        <ul className="grid grid-cols-4  ">
-          {propertyList.propertyOnPage.map((property, index) => (
-            <div
-              key={index}
-              className="overflow-hidden [&:nth-child(1)]:rounded-tl-[100px] last:rounded-br-2xl  only:rounded-tl-[100px]  h-96"
-            >
-              <div
-                className="hover:scale-y-110 z-50 duration-700 group"
-                key={index}
-              >
-                <div className=" h-96 relative">
-                  <img
-                    src={property.images[0].url}
-                    alt={property.name}
-                    className="w-full h-full overflow-hidden object-cover  group-hover:shadow-2xl group-hover:shadow-slate-300"
-                  />
-                </div>
-                <div className="relative hidden group-hover:flex -top-16 left-4  group-hover:scale-110 group-hover:ml-3 group-hover:font-bold duration-500 italic text-2xl group-hover:text-[27px]">
-                  {property.name}
-                </div>
+        {propertyList.propertyOnPage.length > 0 ? (
+          <div className=" mt-8  grid grid-cols-4 overflow-hidden w-full m-auto  h-96 ">
+            {propertyList.propertyOnPage.map((property, index) => (
+              <div className="overflow-hidden [&:nth-child(1)]:rounded-tl-[100px] last:rounded-br-2xl  only:rounded-tl-[100px]  h-96">
+                <Link key={index} href={`/product/${property.id}`}>
+                  <div
+                    className="hover:scale-110 z-50 duration-700 group"
+                    key={index}
+                  >
+                    <div className=" h-96 relative">
+                      <img
+                        src={property.images[0].url}
+                        alt={property.name}
+                        className="w-full h-full overflow-hidden object-cover  group-hover:shadow-2xl group-hover:shadow-slate-300"
+                      />
+                    </div>
+                    <div className="relative hidden group-hover:flex -top-16 left-4  group-hover:scale-110 group-hover:ml-3 group-hover:font-bold duration-500 italic text-2xl group-hover:text-[27px]">
+                      {property.name}
+                    </div>
+                  </div>
+                </Link>
               </div>
-            </div>
-          ))}
-        </ul>
+            ))}
+          </div>
+        ) : (
+          <div className=" mt-8  overflow-hidden w-full m-auto  h-80">
+            {propertyList.propertyOnPage.length === 0 && (
+              <div className="flex flex-col justify-center items-center text-center w-full h-full ">
+                <p className=" flex items-center">
+                  <Image
+                    src={
+                      "https://res.cloudinary.com/dttieobbt/image/upload/v1717074733/product-not-found_ptexdu.jpg"
+                    }
+                    alt="no Product"
+                    height={1}
+                    width={1000}
+                    className="w-fit h-full object-contain "
+                  />
+                </p>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
