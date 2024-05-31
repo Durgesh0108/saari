@@ -412,6 +412,7 @@ import { Color, Product } from "@prisma/client";
 
 import { Nunito_Sans } from "next/font/google";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 const nunito = Nunito_Sans({ subsets: ["latin"] });
 
 const InitialState = {
@@ -604,7 +605,7 @@ const FilterByColor = () => {
             {color.map((color, index) => (
               <div
                 key={index}
-                className={`flex h-full ${isActive ? "-ml-8 " : "-ml-8"}`}
+                className={`flex h-full ${isActive ? "-ml-9 " : "-ml-9"}`}
               >
                 <button
                   className={`flex flex-col items-center h-full justify-center border-none text-black 
@@ -626,7 +627,7 @@ const FilterByColor = () => {
           </div>
         </div>
         <div className="col-span-11 w-full ">
-          <div className="px-4 flex ">
+          <div className=" flex ">
             <div className=" w-2/3">
               <div
                 className={`font-medium text-[#afafaf] text-2xl ${nunito.className}`}
@@ -651,26 +652,30 @@ const FilterByColor = () => {
           </div>
 
           {propertyList.propertyOnPage.length > 0 ? (
-            <div className=" mt-8  grid grid-cols-4  px-8 overflow-hidden w-full m-auto  h-96 ">
-              {propertyList.propertyOnPage.map((property, index) => (
-                <div
-                  className="hover:scale-110 hover:z-50 z-10 duration-700 group overflow-hidden h-96"
-                  key={index}
-                >
-                  <div className=" h-96 relative">
-                    <Image
-                      src={property.images[0].url}
-                      alt={property.name}
-                      width={1000}
-                      height={1}
-                      className="w-full h-full overflow-hidden object-cover  group-hover:shadow-2xl group-hover:shadow-slate-300"
-                    />
+            <div className=" mt-8  grid grid-cols-4 overflow-hidden w-full m-auto  h-96 ">
+              {propertyList.propertyOnPage
+                .slice(0, 4)
+                .map((property, index) => (
+                  <div
+                    className="hover:scale-110 hover:z-50 z-10 duration-700 group overflow-hidden h-96"
+                    key={index}
+                  >
+                    <Link key={index} href={`/product/${property.id}`}>
+                      <div className=" h-96 relative">
+                        <Image
+                          src={property.images[0].url}
+                          alt={property.name}
+                          width={1000}
+                          height={1}
+                          className="w-full h-full overflow-hidden object-cover  group-hover:shadow-2xl group-hover:shadow-slate-300"
+                        />
+                      </div>
+                      <div className="relative hidden group-hover:flex -top-16 left-4  group-hover:scale-110 group-hover:ml-3 group-hover:font-bold duration-500 italic text-2xl group-hover:text-[27px]">
+                        {property.name}
+                      </div>
+                    </Link>
                   </div>
-                  <div className="relative hidden group-hover:flex -top-16 left-4  group-hover:scale-110 group-hover:ml-3 group-hover:font-bold duration-500 italic text-2xl group-hover:text-[27px]">
-                    {property.name}
-                  </div>
-                </div>
-              ))}
+                ))}
             </div>
           ) : (
             <div className=" mt-8  overflow-hidden w-full m-auto  h-96">

@@ -134,7 +134,7 @@ export default function CategoryPage() {
       </div>
       <div className="">
         <div className="grid grid-cols-8 container  ">
-          <div className="col-span-2  h-full p-8 bg-pink-200 sticky ">
+          <div className="col-span-2  h-full p-8  sticky ">
             <h1 className="text-3xl font-bold mb-4">Filters</h1>
             <div className="">
               <Accordion type="single" collapsible>
@@ -370,7 +370,7 @@ export default function CategoryPage() {
               {[{}, {}, {}, {}, {}, {}, {}, {}, {}, {}].map(
                 (product, index) => (
                   <div
-                    className="hover:scale-105 z-10 duration-700 group  rounded-lg p-2 hover:shadow-3xl "
+                    className="hover:scale-105 z-10 duration-700 group rounded-tl-[108px] border-[1px]  rounded-lg p-2 hover:shadow-3xl "
                     key={index}
                   >
                     <div className="rounded-tl-[100px] rounded-br-2xl h-80 relative ">
@@ -382,9 +382,9 @@ export default function CategoryPage() {
                         className="w-full h-full overflow-hidden object-cover rounded-tl-[100px] rounded-br-2xl"
                       />
                     </div>
-                    <div className="group-hover:scale-110 group-hover:ml-3 duration-500 relative text-[20px]">
-                      <p>Banarasi Saaris</p>
-                      <p>Price: Rs 3000</p>
+                    <div className="group-hover:scale-110 group-hover:ml-3 duration-500 top-2 mb-2 relative text-[20px]">
+                      <p className="text-base text-gray-400">Banarasi Saaris</p>
+                      <p className="text-2xl font-medium ">&#8377; 3000</p>
                     </div>
                   </div>
                 )
