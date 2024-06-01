@@ -567,6 +567,17 @@
 
 // // ***********************************************
 
+// model User {
+//   id          String   @id @default(auto()) @map("_id") @db.ObjectId
+//   name        String   @db.String
+//   email       String   @unique @db.String
+//   password    String   @db.String
+//   phoneNumber String   @db.String
+//   cart        String[] @db.String
+//   wishlist    String[] @db.String
+//   role        String   @default("user")
+// }
+
 generator client {
   provider = "prisma-client-js"
   // previewFeatures = ["fullTextSearch", "fullTextIndex"]
@@ -578,12 +589,12 @@ datasource db {
 }
 
 model User {
-  id          String @id @default(auto()) @map("_id") @db.ObjectId
-  name        String @db.String
-  email       String @unique @db.String
-  password    String @db.String
-  phoneNumber String @db.String
-  role        String @default("user")
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String   @db.String
+  email       String   @unique @db.String
+  password    String   @db.String
+  phoneNumber String   @db.String
+  role        String   @default("user")
 }
 
 model Category {

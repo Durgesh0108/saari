@@ -118,12 +118,25 @@ export default function CategoryPage() {
     );
   });
 
+  console.log(category);
+
   return (
     <div className="no-scrollbar z-10">
       <div className=" ">
-        {category.bannerUrl && (
+        {category.bannerUrl ? (
           <Image
             src={category.bannerUrl}
+            alt={category.name}
+            width={1000}
+            height={1}
+            loading="lazy"
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <Image
+            src={
+              "https://res.cloudinary.com/dttieobbt/image/upload/v1717054596/tmbfbfvi2zx4fuznzjdd.jpg"
+            }
             alt={category.name}
             width={1000}
             height={1}
@@ -370,7 +383,7 @@ export default function CategoryPage() {
               {[{}, {}, {}, {}, {}, {}, {}, {}, {}, {}].map(
                 (product, index) => (
                   <div
-                    className="hover:scale-105 z-10 duration-700 group rounded-tl-[108px] border-[1px]  rounded-lg p-2 hover:shadow-3xl "
+                    className="hover:scale-105 z-10 duration-700 group rounded-tl-[108px] border-[1px] border-pink-100  rounded-lg p-2 hover:shadow-3xl "
                     key={index}
                   >
                     <div className="rounded-tl-[100px] rounded-br-2xl h-80 relative ">

@@ -33,6 +33,10 @@ export default function OccassionyPage() {
 
   useEffect(() => {
     const fetchProducts = async () => {
+      const occassionres = await fetch(`/api/occassion/${params.occassionId}`);
+      const occassions = await occassionres.json();
+      await setOccassion(occassions);
+
       const res = await fetch(`/api/occassion/${params.occassionId}/product`);
       const productData = await res.json();
       setProducts(productData);
@@ -85,15 +89,15 @@ export default function OccassionyPage() {
     });
   };
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const res = await fetch(`/api/occassion/${params.occassionId}`);
-      const occassions = await res.json();
-      setOccassion(occassions);
-    };
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     const res = await fetch(`/api/occassion/${params.occassionId}`);
+  //     const occassions = await res.json();
+  //     setOccassion(occassions);
+  //   };
 
-    fetchProducts();
-  }, [params.occassionId]);
+  //   fetchProducts();
+  // }, [params.occassionId]);
 
   const filteredProducts = products.filter((product) => {
     const colorFilter =
@@ -117,6 +121,8 @@ export default function OccassionyPage() {
       patternFilter
     );
   });
+
+  console.log(Occassion);
 
   return (
     <div className=" no-scrollbar z-10">

@@ -11,14 +11,21 @@ import {
   ShoppingCart,
   Truck,
 } from "lucide-react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Tab } from "@headlessui/react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { cookieHandler } from "@/lib/cookieHandler";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 export default function ProductPage() {
+  const router = useRouter();
+
+  const userId = cookieHandler.get("userId");
+
   const [product, setProduct] = useState<Product>([]);
   const [Colorproduct, setColorProduct] = useState<Product>([]);
   // const [product, setProduct] = useState<Product>([]);
@@ -42,11 +49,37 @@ export default function ProductPage() {
     fetchProduct();
   }, [params.productId]);
 
-  const addToCart = () => {};
+  const handleViewMoreColorProduct = () => {
+    router.push(`/color/${product.colorId}`);
+  };
+
+  const handleViewMoreCategoryProduct = () => {
+    router.push(`/category/${product.categoryId}`);
+  };
+  const handleViewMoreoccassionProduct = () => {
+    router.push(`/occassion/${product.occassionId}`);
+  };
+
+  const addToCart = async (id) => {
+    try {
+      if (!userId) {
+        router.push("/Login");
+      } else {
+        const response = await axios.patch(`/api/cart/${userId}`, {
+          productId: id,
+        });
+        toast.success("Added To Cart");
+        console.log("Cart:", response.data);
+      }
+    } catch (error) {
+      toast.error("Error Adding To Cart");
+      console.error("Error adding to cart:", error);
+    }
+  };
 
   return (
     <div className="container flex flex-col gap-4">
-      <div className=" grid grid-cols-2 gap-8 bg-white rounded-xl border-[1px] h-[520px]">
+      <div className=" grid grid-cols-2 gap-8 bg-white rounded-xl border-[1px] border-pink-100 h-[520px]">
         <div className=" bg-white rounded-xl  p-4">
           <div className="w-full flex flex-col items-center">
             <Tab.Group>
@@ -120,7 +153,10 @@ export default function ProductPage() {
                 <Heart fill="#ff0000" />
                 <span className="">Add To Wishlist</span>
               </button>
-              <button className="flex gap-4 py-2 px-8 bg-pink-500 text-white font-bold rounded-full border-2 border-pink-500">
+              <button
+                onClick={() => addToCart(product.id)}
+                className="flex gap-4 py-2 px-8 bg-pink-500 text-white font-bold rounded-full border-2 border-pink-500"
+              >
                 <ShoppingCart />
                 Add To Cart
               </button>
@@ -144,7 +180,7 @@ export default function ProductPage() {
           </div>
         </div>
       </div>
-      <div className="bg-white rounded-xl border-[1px] max-h-[520px] no-scrollbar overflow-auto px-4 py-12 flex flex-col gap-4">
+      <div className="bg-white rounded-xl border-[1px] border-pink-100 max-h-[520px] no-scrollbar overflow-auto px-4 py-12 flex flex-col gap-4">
         <div>
           <h1 className="text-4xl font-semibold ">Product Details</h1>
         </div>
@@ -166,15 +202,25 @@ export default function ProductPage() {
           </div>
         </div>
       </div>
-      <div className="bg-white rounded-xl border-[1px]  px-4 py-12 flex flex-col gap-8">
+      <div className="bg-white rounded-xl border-[1px] border-pink-100  px-4 py-12 flex flex-col gap-8">
         <div className="flex flex-col gap-4">
-          <h1 className="text-3xl font-semibold">
-            Explore More From {product?.color?.name}
-          </h1>
+          <div className="flex justify-between items-center">
+            <h1 className="text-3xl font-semibold">
+              Explore More From {product?.color?.name}
+            </h1>
+            <div>
+              <button
+                onClick={handleViewMoreColorProduct}
+                className=" py-2 px-4 bg-pink-500 text-white font-bold rounded-full"
+              >
+                View More
+              </button>
+            </div>
+          </div>
           <div className="grid grid-cols-4 gap-4">
             {Colorproduct.slice(0, 4).map((product, index) => (
               <div
-                className="hover:scale-105 z-10 duration-700 group rounded-tl-[108px] border-[1px]  rounded-lg p-2 hover:shadow-3xl "
+                className="hover:scale-105 z-10 duration-700 group rounded-tl-[108px] border-[1px] border-pink-100  rounded-lg p-2 hover:shadow-3xl "
                 key={index}
               >
                 <Link key={index} href={`/product/${product.id}`}>
@@ -200,15 +246,26 @@ export default function ProductPage() {
           </div>
         </div>
         <div className="flex flex-col gap-4">
-          <h1 className="text-3xl font-semibold">
-            Explore More From {product?.category?.name}
-          </h1>
+          <div className="flex justify-between items-center">
+            <h1 className="text-3xl font-semibold">
+              Explore More From {product?.category?.name}
+            </h1>
+            <div>
+              <button
+                onClick={handleViewMoreCategoryProduct}
+                className=" py-2 px-4 bg-pink-500 text-white font-bold rounded-full"
+              >
+                View More
+              </button>
+            </div>
+          </div>
+
           <div className="grid grid-cols-4 gap-4">
             {[{}, {}, {}, {}, {}, {}, {}, {}, {}, {}]
               .slice(0, 4)
               .map((product, index) => (
                 <div
-                  className="hover:scale-105 z-10 duration-700 group rounded-tl-2xl border-[1px]  rounded-lg p-2 hover:shadow-3xl "
+                  className="hover:scale-105 z-10 duration-700 group rounded-tl-2xl border-[1px] border-pink-100  rounded-lg p-2 hover:shadow-3xl "
                   key={index}
                 >
                   <div className="rounded-tl-2xl rounded-br-2xl h-80 relative ">
@@ -231,15 +288,26 @@ export default function ProductPage() {
           </div>
         </div>
         <div className="flex flex-col gap-4">
-          <h1 className="text-3xl font-semibold">
-            Explore More From {product?.occassion?.name}
-          </h1>
+          <div className="flex justify-between items-center">
+            <h1 className="text-3xl font-semibold">
+              Explore More From {product?.occassion?.name}
+            </h1>
+            <div>
+              <button
+                onClick={handleViewMoreoccassionProduct}
+                className=" py-2 px-4 bg-pink-500 text-white font-bold rounded-full"
+              >
+                View More
+              </button>
+            </div>
+          </div>
+
           <div className="grid grid-cols-4 gap-4">
             {[{}, {}, {}, {}, {}, {}, {}, {}, {}, {}]
               .slice(0, 4)
               .map((product, index) => (
                 <div
-                  className="hover:scale-105 z-10 duration-700 group rounded-tl-[108px] border-[1px]  rounded-lg p-2 hover:shadow-3xl "
+                  className="hover:scale-105 z-10 duration-700 group rounded-tl-[108px] border-[1px] border-pink-100  rounded-lg p-2 hover:shadow-3xl "
                   key={index}
                 >
                   <div className="rounded-tl-[100px] rounded-br-2xl h-80 relative ">

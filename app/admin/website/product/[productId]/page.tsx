@@ -82,36 +82,46 @@ export default async function ProductFormPage({
         <Card className={"p-8 grid grid-cols-1 gap-4"}>
           {/* Categories  */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <DisabledInput
-              text={"Category"}
-              value={product?.category.name}
-              disabled={true}
-              placeholder={"Category"}
-            />
-            <DisabledInput
-              text={"Occassion"}
-              value={product?.occassion.name}
-              disabled={true}
-              placeholder={"Occassion"}
-            />
-            <DisabledInput
-              text={"Pattern"}
-              value={product?.pattern.name}
-              disabled={true}
-              placeholder={"Pattern"}
-            />
-            <DisabledInput
-              text={"Type"}
-              value={product?.type.name}
-              disabled={true}
-              placeholder={"Type"}
-            />
-            <DisabledInput
-              text={"Color"}
-              value={product?.color.name}
-              disabled={true}
-              placeholder={"Color"}
-            />
+            {product?.category && (
+              <DisabledInput
+                text={"Category"}
+                value={product?.category.name}
+                disabled={true}
+                placeholder={"Category"}
+              />
+            )}
+            {product?.occassion && (
+              <DisabledInput
+                text={"Occassion"}
+                value={product?.occassion.name}
+                disabled={true}
+                placeholder={"Occassion"}
+              />
+            )}
+            {product?.pattern && (
+              <DisabledInput
+                text={"Pattern"}
+                value={product?.pattern.name}
+                disabled={true}
+                placeholder={"Pattern"}
+              />
+            )}
+            {product?.type && (
+              <DisabledInput
+                text={"Type"}
+                value={product?.type.name}
+                disabled={true}
+                placeholder={"Type"}
+              />
+            )}
+            {product?.color && (
+              <DisabledInput
+                text={"Color"}
+                value={product?.color.name}
+                disabled={true}
+                placeholder={"Color"}
+              />
+            )}
           </div>
           {/* Image and Logo */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

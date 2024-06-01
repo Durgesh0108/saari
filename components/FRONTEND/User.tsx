@@ -31,18 +31,18 @@ export default function UserProfile() {
     router.push("/Login");
   };
 
-  console.log(token)
+  console.log(token);
 
   return (
     <div className="flex items-center">
       <Popover>
         <PopoverTrigger>
           {/* <div className="border-[1px] border-[#a6a8a8] rounded-full p-[3px]"> */}
-            <User />
+          <User />
           {/* </div> */}
           {/* <User color="#a6a8a8" className="w-4 h-4"/> */}
         </PopoverTrigger>
-        <PopoverContent>
+        <PopoverContent className="border-none">
           {token ? (
             <>
               <div className="flex flex-col m-auto">

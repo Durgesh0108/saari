@@ -306,12 +306,15 @@ const ShopByOccassion = () => {
     InitialState
   );
 
-  const propertyLoadHandler = useCallback((propertyList) => {
-    dispatchPropertyList({
-      type: "LOAD_DATA",
-      properties: propertyList,
-    });
-  }, [propertyList]);
+  const propertyLoadHandler = useCallback(
+    (propertyList) => {
+      dispatchPropertyList({
+        type: "LOAD_DATA",
+        properties: propertyList,
+      });
+    },
+    [propertyList]
+  );
 
   useEffect(() => {
     propertyLoadHandler(products);
@@ -355,7 +358,7 @@ const ShopByOccassion = () => {
 
   return (
     <div className="">
-      <div className="container m-auto py-8 px-10 flex flex-col gap-y-4">
+      <div className="container m-auto py-8 px-10  flex-col gap-y-4 hidden">
         <div
           className={`font-medium text-[#afafaf] text-2xl ${nunito.className}`}
         >
@@ -424,7 +427,7 @@ const ShopByOccassion = () => {
         </div>
 
         {propertyList.propertyOnPage.length > 0 ? (
-          <div className=" mt-8  grid grid-cols-4 overflow-hidden w-full m-auto  h-96 ">
+          <div className=" mt-8  grid grid-cols-4 overflow-hidden w-full m-auto  h-80 ">
             {propertyList.propertyOnPage.map((property, index) => (
               <div
                 key={index}
@@ -471,6 +474,128 @@ const ShopByOccassion = () => {
             )}
           </div>
         )}
+      </div>
+      <div className="grid grid-cols-3">
+        <div className="border-2 border-black w-full h-full col-span-1">
+          Bigger Image
+        </div>
+        <div className="container m-auto py-8 px-10 flex flex-col gap-y-4 col-span-2">
+          <div
+            className={`font-medium text-[#afafaf] text-2xl ${nunito.className}`}
+          >
+            Shop By Occassion
+          </div>
+          <div className="font-medium text-5xl italic ">
+            Styles for special events & everyday moments
+          </div>
+          <div className="flex justify-between  items-center ">
+            <div className="flex gap-6 my-6 justify-between">
+              {/* {uniqueOccasions.map((city, id) => {
+              return (
+                <div key={id}>
+                  <button
+                    className={`flex flex-col items-center justify-center bg-slate-200 border-none text-black w-36 h-36 rounded-full hover:scale-90 duration-500 border-2 border-amber-500 ${
+                      isActive ? "border-2 border-black" : ""
+                    }`}
+                    onClick={() => filterItem(city.name)}
+                    key={id}
+                  >
+                    <Image
+                      src={city.imageUrl}
+                      alt={city.name}
+                      height={1}
+                      width={1000}
+                      className="w-full h-full object-cover rounded-full"
+                    />
+                  </button>
+                  <span className="block mt-2 text-center">{city.name}</span>
+                </div>
+              );
+            })} */}
+              {occassion.map((city, id) => {
+                return (
+                  <div key={id}>
+                    <button
+                      className={`flex flex-col items-center justify-center bg-slate-200 border-none text-black w-36 h-36 rounded-full hover:scale-90 duration-500 border-2 border-amber-500 ${
+                        isActive ? "border-2 border-black" : ""
+                      }`}
+                      onClick={() => filterItem(city.name)}
+                      key={id}
+                    >
+                      <Image
+                        src={city.imageUrl}
+                        alt={city.name}
+                        height={1}
+                        width={1000}
+                        className="w-full h-full object-cover rounded-full"
+                      />
+                    </button>
+                    <span className="block mt-2 text-center">{city.name}</span>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="">
+              {selectedOccasion && (
+                <button
+                  onClick={handleViewMore}
+                  className=" py-2 px-4 bg-pink-500 text-white font-bold rounded-full "
+                >
+                  View More {selectedOccasion.name} Occassion Dress
+                </button>
+              )}
+            </div>
+          </div>
+
+          {propertyList.propertyOnPage.length > 0 ? (
+            <div className=" mt-8  grid grid-cols-4 overflow-hidden w-full m-auto  h-80 ">
+              {propertyList.propertyOnPage.map((property, index) => (
+                <div
+                  key={index}
+                  className="overflow-hidden [&:nth-child(1)]:rounded-tl-[100px] last:rounded-br-2xl  only:rounded-tl-[100px]  h-96"
+                >
+                  <Link key={index} href={`/product/${property.id}`}>
+                    <div
+                      className="hover:scale-110 z-50 duration-700 group"
+                      key={index}
+                    >
+                      <div className=" h-96 relative">
+                        <Image
+                          src={property.images[0].url}
+                          alt={property.name}
+                          height={1}
+                          width={1000}
+                          className="w-full h-full overflow-hidden object-cover  group-hover:shadow-2xl group-hover:shadow-slate-300"
+                        />
+                      </div>
+                      <div className="relative hidden group-hover:flex -top-16 left-4  group-hover:scale-110 group-hover:ml-3 group-hover:font-bold duration-500 italic text-2xl group-hover:text-[27px]">
+                        {property.name}
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className=" mt-8  overflow-hidden w-full m-auto  h-80">
+              {propertyList.propertyOnPage.length === 0 && (
+                <div className="flex flex-col justify-center items-center text-center w-full h-full ">
+                  <p className=" flex items-center">
+                    <Image
+                      src={
+                        "https://res.cloudinary.com/dttieobbt/image/upload/v1717074733/product-not-found_ptexdu.jpg"
+                      }
+                      alt="no Product"
+                      height={1}
+                      width={1000}
+                      className="w-fit h-full object-contain "
+                    />
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
