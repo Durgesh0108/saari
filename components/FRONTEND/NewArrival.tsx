@@ -173,13 +173,13 @@ const NewArrivalSection = () => {
               <Link key={index} href={`/product/${property.id}`}>
                 <div className=" h-full" key={index}>
                   <div className="h-80   border-2 border-black ">
-                    {/* <Image
+                    <Image
                       src={property.images[0].url}
                       alt={property.name}
                       height={1}
                       width={1000}
                       className="w-full h-full overflow-hidden object-cover "
-                    /> */}
+                    />
                   </div>
                   <div className=" duration-500">
                     <h1 className="text-2xl">Dummy Text</h1>
