@@ -151,7 +151,7 @@ export default function ShopByPattern() {
         >
           {uniquePatterns.map((pattern, index) => (
             <SwiperSlide
-              className="w-1/3  rounded-tl-[100px] rounded-br-3xl overflow-hidden"
+              className="w-1/3   overflow-hidden"
               key={index}
             >
               <Link href={`/pattern/${pattern.id}`}>
