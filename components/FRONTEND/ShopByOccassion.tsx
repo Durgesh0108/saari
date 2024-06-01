@@ -148,7 +148,7 @@
 //                 <div key={id}>
 //                   <button
 //                     className={`flex flex-col items-center justify-center bg-slate-200 border-none text-black w-36 h-36 rounded-full ${
-//                       isActive ? "border-2 border-black" : ""
+//                       isActive ? "" : ""
 //                     }`}
 //                     onClick={() => filterItem(city.name)}
 //                     key={id}
@@ -356,9 +356,11 @@ const ShopByOccassion = () => {
     }
   };
 
+  const firstImage = propertyList.propertyOnPage[0];
+
   return (
     <div className="">
-      <div className="container m-auto py-8 px-10  flex-col gap-y-4 hidden">
+      <div className="container m-auto py-8 px-10  flex-col gap-y-4 flex">
         <div
           className={`font-medium text-[#afafaf] text-2xl ${nunito.className}`}
         >
@@ -374,7 +376,7 @@ const ShopByOccassion = () => {
                 <div key={id}>
                   <button
                     className={`flex flex-col items-center justify-center bg-slate-200 border-none text-black w-36 h-36 rounded-full hover:scale-90 duration-500 border-2 border-amber-500 ${
-                      isActive ? "border-2 border-black" : ""
+                      isActive ? "" : ""
                     }`}
                     onClick={() => filterItem(city.name)}
                     key={id}
@@ -396,7 +398,7 @@ const ShopByOccassion = () => {
                 <div key={id}>
                   <button
                     className={`flex flex-col items-center justify-center bg-slate-200 border-none text-black w-36 h-36 rounded-full hover:scale-90 duration-500 border-2 border-amber-500 ${
-                      isActive ? "border-2 border-black" : ""
+                      isActive ? "" : ""
                     }`}
                     onClick={() => filterItem(city.name)}
                     key={id}
@@ -475,8 +477,8 @@ const ShopByOccassion = () => {
           </div>
         )}
       </div>
-      <div className="">
-        <div className="container m-auto py-8 px-10 flex flex-col gap-y-4">
+      <div className="relative hidden">
+        <div className=" m-auto py-8  flex flex-col gap-y-4">
           <div
             className={`font-medium text-[#afafaf] text-2xl ${nunito.className}`}
           >
@@ -485,93 +487,108 @@ const ShopByOccassion = () => {
           <div className="font-medium text-5xl italic ">
             Styles for special events & everyday moments
           </div>
-          <div className="grid grid-cols-3 gap-8">
-            <div className="border-2 border-black w-full h-50 col-span-1">
-              Bigger Image
+
+          <div className="grid grid-cols-3 h-96 items-center justify-center ">
+            <div className=" w-full h-full col-span-1">
+              {firstImage && (
+                <Link href={`/product/${firstImage.id}`}>
+                  <div className=" h-full relative">
+                    <Image
+                      src={firstImage.images[0].url}
+                      alt={firstImage.name}
+                      height={1}
+                      width={1000}
+                      className="w-full h-full overflow-hidden object-cover  group-hover:shadow-2xl group-hover:shadow-slate-300"
+                    />
+                  </div>
+                </Link>
+              )}
             </div>
 
-            <div className="col-span-2">
-              <div className="flex justify-between  items-center">
-                <div className="flex gap-6 my-6 justify-between">
-                  {occassion.map((city, id) => {
-                    return (
-                      <div key={id}>
-                        <button
-                          className={`flex flex-col items-center justify-center bg-slate-200 border-none text-black w-24 h-24 rounded-full hover:scale-90 duration-500 border-2 border-amber-500 ${
-                            isActive ? "border-2 border-black" : ""
-                          }`}
-                          onClick={() => filterItem(city.name)}
-                          key={id}
-                        >
-                          <Image
+            <div className="col-span-2 h-2/3  ">
+              <div className="flex flex-col h-full ">
+                <div className="flex justify-between ml-4  items-center  ">
+                  <div className="flex gap-6  justify-between">
+                    {occassion.map((city, id) => {
+                      return (
+                        <div key={id}>
+                          <button
+                            className={`flex flex-col items-center justify-center  text-black  hover:scale-105 duration-500 ${
+                              isActive ? "" : ""
+                            }`}
+                            onClick={() => filterItem(city.name)}
+                            key={id}
+                          >
+                            {/* <Image
                             src={city.imageUrl}
                             alt={city.name}
                             height={1}
                             width={1000}
                             className="w-full h-full object-cover rounded-full"
-                          />
-                        </button>
-                        <span className="block mt-2 text-center">
-                          {city.name}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
-                <div className="">
-                  {selectedOccasion && (
-                    <button
-                      onClick={handleViewMore}
-                      className=" py-2 px-4 bg-pink-500 text-white font-bold rounded-full "
-                    >
-                      View More {selectedOccasion.name} Occassion Dress
-                    </button>
-                  )}
-                </div>
-              </div>
-              <div>
-                {propertyList.propertyOnPage.length > 0 ? (
-                  <div className=" mt-8  grid grid-cols-4 overflow-hidden w-full m-auto">
-                    {propertyList.propertyOnPage.map((property, index) => (
-                      <div key={index} className="">
-                        <Link key={index} href={`/product/${property.id}`}>
-                          <div className="" key={index}>
-                            <div className=" h-72 relative">
-                              <Image
-                                src={property.images[0].url}
-                                alt={property.name}
-                                height={1}
-                                width={1000}
-                                className="w-full h-full overflow-hidden object-cover  group-hover:shadow-2xl group-hover:shadow-slate-300"
-                              />
-                            </div>
-                            <div className="duration-500 italic text-lg">
-                              {property.name}
-                            </div>
-                          </div>
-                        </Link>
-                      </div>
-                    ))}
+                          /> */}
+                            <span className="block mt-2 text-center">
+                              {city.name}
+                            </span>
+                          </button>
+                        </div>
+                      );
+                    })}
                   </div>
-                ) : (
-                  <div className=" mt-8  overflow-hidden w-full m-auto  h-80">
-                    {propertyList.propertyOnPage.length === 0 && (
-                      <div className="flex flex-col justify-center items-center text-center w-full h-full ">
-                        <p className=" flex items-center">
-                          <Image
-                            src={
-                              "https://res.cloudinary.com/dttieobbt/image/upload/v1717074733/product-not-found_ptexdu.jpg"
-                            }
-                            alt="no Product"
-                            height={1}
-                            width={1000}
-                            className="w-fit h-full object-contain "
-                          />
-                        </p>
-                      </div>
+                  <div className="">
+                    {selectedOccasion && (
+                      <button
+                        onClick={handleViewMore}
+                        className=" py-2 px-4 bg-pink-500 text-white font-bold rounded-full "
+                      >
+                        View More {selectedOccasion.name} Occassion Dress
+                      </button>
                     )}
                   </div>
-                )}
+                </div>
+                <div className=" ">
+                  {propertyList.propertyOnPage.length > 0 ? (
+                    <div className=" mt-8  grid grid-cols-4 overflow-hidden h-full w-full m-auto ">
+                      {propertyList.propertyOnPage.map((property, index) => (
+                        <div key={index} className="">
+                          <Link key={index} href={`/product/${property.id}`}>
+                            <div className="" key={index}>
+                              <div className="  relative">
+                                <Image
+                                  src={property.images[0].url}
+                                  alt={property.name}
+                                  height={1}
+                                  width={1000}
+                                  className="w-full h-full overflow-hidden object-cover  group-hover:shadow-2xl group-hover:shadow-slate-300"
+                                />
+                              </div>
+                              <div className="duration-500 italic text-lg">
+                                {property.name}
+                              </div>
+                            </div>
+                          </Link>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className=" mt-8  overflow-hidden w-full m-auto  ">
+                      {propertyList.propertyOnPage.length === 0 && (
+                        <div className="flex flex-col justify-center items-center text-center w-full h-full ">
+                          <p className=" flex items-center">
+                            <Image
+                              src={
+                                "https://res.cloudinary.com/dttieobbt/image/upload/v1717074733/product-not-found_ptexdu.jpg"
+                              }
+                              alt="no Product"
+                              height={1}
+                              width={1000}
+                              className="w-fit h-full object-contain "
+                            />
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>

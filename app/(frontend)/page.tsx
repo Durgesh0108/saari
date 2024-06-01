@@ -19,7 +19,7 @@ export default function Home() {
     <>
       <div className="">
         <CarouselSlider />
-        <div className="px-24">
+        <div className="">
           {/* <TabSection /> */}
           <ShopByCategory />
           <ShopByOccassion />
