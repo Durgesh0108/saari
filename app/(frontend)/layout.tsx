@@ -1,5 +1,6 @@
 import Footer from "@/components/FRONTEND/Footer";
 import Navbar from "@/components/FRONTEND/navbar";
+import "@/public/dist/output-tailwind.css";
 
 const Layout = ({ children }) => {
   return (

@@ -156,8 +156,11 @@ import { Heart, Search, ShoppingCart, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import UserProfile from "./User";
+import { useFrontAuthMiddleware } from "@/app/(frontend)/middleware";
 
 export default function Navbar() {
+  useFrontAuthMiddleware();
   const [CategoryProducts, setCategoryProducts] = useState([]);
   const [OccassionProducts, setOccassionProducts] = useState([]);
   const [isCategoryVisible, setIsCategoryVisible] = useState(true);
@@ -328,7 +331,7 @@ export default function Navbar() {
           <Search />
         </div>
         <div>
-          <User />
+          <UserProfile />
         </div>
         <div className=" flex justify-center items-center">
           <Link href={"/wishlist"}>
@@ -391,7 +394,7 @@ export default function Navbar() {
 //                         <div className="nav-link basis-2/3 grid grid-cols-4 gap-8 gap-y-8">
 //                           <div className="nav-item group w-screen">
 //                             {/* <div className="text-button-uppercase pb-2 ">
-                                  
+
 //                                 </div> */}
 //                             <div
 //                               className="col-span-8 w-full  relative"

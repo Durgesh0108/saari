@@ -14,7 +14,7 @@ const useAuthMiddleware = () => {
     const role = cookieHandler.get("role");
 
     // If role doesn't exist, redirect to login page
-    if (role !== "admin" && !pathname.includes("/register")) {
+    if (role !== "admin" && !pathname.includes("/add_new")) {
       router.push("/admin/authentication/login");
     }
   }, [pathname, router]);

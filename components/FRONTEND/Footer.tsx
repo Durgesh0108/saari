@@ -60,7 +60,7 @@ const Footer = () => {
                     </Link>
                     <Link
                       className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href="order-tracking.html"
+                      href="/Register"
                     >
                       Register
                     </Link>
