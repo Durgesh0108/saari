@@ -157,7 +157,7 @@ const BestPriceSection = () => {
 
   return (
     <div className="">
-      <div className="container m-auto py-8 px-10  flex-col gap-y-4 flex text-center w-full">
+      <div className="container m-auto py-8 px-10  flex-col gap-y-4 flex w-full">
         <div
           className={`font-medium  text-[#afafaf] text-2xl ${nunito.className}`}
         >
@@ -172,18 +172,20 @@ const BestPriceSection = () => {
             {propertyList.propertyOnPage.slice(0, 4).map((property, index) => (
               <Link key={index} href={`/product/${property.id}`}>
                 <div className=" h-full" key={index}>
-                  <div className="h-80   border-2 border-black rounded-tl-[100px] rounded-br-2xl">
-                    {/* <Image
+                  <div className="h-80">
+                    <Image
                       src={property.images[0].url}
                       alt={property.name}
                       height={1}
                       width={1000}
-                      className="w-full h-full overflow-hidden object-cover "
-                    /> */}
+                      className="w-full h-full overflow-hidden object-cover rounded-tl-[100px] rounded-br-2xl"
+                    />
                   </div>
-                  <div className=" duration-500">
-                    <h1 className="text-2xl">Dummy Text</h1>
-                    <p className="text-lg">dummy data</p>
+                  <div className=" duration-500 pt-1">
+                    <h1 className="text-2xl">Under &#8377;4999</h1>
+                    <p className="text-lg">
+                      Regal Handcrafted Sarees For Your Big Day
+                    </p>
                   </div>
                 </div>
               </Link>

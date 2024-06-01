@@ -168,22 +168,25 @@ const NewArrivalSection = () => {
         </div>
 
         {propertyList.propertyOnPage.length > 0 ? (
-          <div className=" my-8  grid grid-cols-4  w-full m-auto  border-2 border-black">
+          <div className=" my-8  grid grid-cols-4  w-full m-auto ">
             {propertyList.propertyOnPage.slice(0, 4).map((property, index) => (
               <Link key={index} href={`/product/${property.id}`}>
                 <div className=" h-full" key={index}>
-                  <div className="h-80   border-2 border-black ">
-                    {/* <Image
+                  <div className="h-80">
+                    <Image
                       src={property.images[0].url}
                       alt={property.name}
                       height={1}
                       width={1000}
                       className="w-full h-full overflow-hidden object-cover "
-                    /> */}
+                    />
                   </div>
-                  <div className=" duration-500">
-                    <h1 className="text-2xl">Dummy Text</h1>
-                    <p className="text-lg">dummy data</p>
+                  <div className=" duration-500 pl-2 pt-1">
+                    <h1 className="text-2xl font-bold">{property.name}</h1>
+                    <p className="text-sm">
+                      {property.shortDescription}
+                      {/* Black Bagh Block Printed Pure Cotton Saree */}
+                    </p>
                   </div>
                 </div>
               </Link>
