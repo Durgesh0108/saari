@@ -9,9 +9,15 @@ const Promise = () => {
   return (
     <div>
       <div className="container px-8">
-        <div className="sanket shadow-2xl flex flex-col items-center p-16 px-32">
+        <div className="sanket shadow-2xl flex flex-col items-center p-16 px-32 rounded-tl-2xl rounded-br-2xl">
           <div className="heading3 mb-5">Our Promise To You</div>
-          <Image src={promise} alt="promise" height={1} width={1000} className="w-1/2 "/>
+          <Image
+            src={promise}
+            alt="promise"
+            height={1}
+            width={1000}
+            className="w-1/2 "
+          />
           <hr className="border-[0.2px] mt-2 border-[#b48b66] w-full" />
           <h4 className="text-2xl text-[#b48b66] font-semibold mt-6 mb-5">
             Trusted Certificate
