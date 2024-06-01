@@ -54,7 +54,7 @@ export default function ColorPage() {
     };
 
     fetchProducts();
-  }, [params.categoryId]);
+  }, [params.colorId]);
 
   const handleFilterChange = (filterType, value) => {
     setFilters((prevFilters) => {
@@ -93,7 +93,7 @@ export default function ColorPage() {
     };
 
     fetchColor();
-  }, []);
+  }, [params.colorId]);
 
   const filteredProducts = products.filter((product) => {
     const colorFilter =
@@ -350,9 +350,11 @@ export default function ColorPage() {
                     key={index}
                   >
                     <div className="rounded-tl-[100px] rounded-br-2xl h-72 relative -top-5">
-                      <img
+                      <Image
                         src={product.images[0].url}
                         alt={product.name}
+                        height={1}
+                        width={1000}
                         className="w-full h-full overflow-hidden object-cover rounded-tl-[100px] rounded-br-2xl"
                       />
                     </div>

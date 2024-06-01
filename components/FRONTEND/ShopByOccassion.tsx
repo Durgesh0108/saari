@@ -311,7 +311,7 @@ const ShopByOccassion = () => {
       type: "LOAD_DATA",
       properties: propertyList,
     });
-  }, []);
+  }, [propertyList]);
 
   useEffect(() => {
     propertyLoadHandler(products);
@@ -426,16 +426,21 @@ const ShopByOccassion = () => {
         {propertyList.propertyOnPage.length > 0 ? (
           <div className=" mt-8  grid grid-cols-4 overflow-hidden w-full m-auto  h-96 ">
             {propertyList.propertyOnPage.map((property, index) => (
-              <div className="overflow-hidden [&:nth-child(1)]:rounded-tl-[100px] last:rounded-br-2xl  only:rounded-tl-[100px]  h-96">
+              <div
+                key={index}
+                className="overflow-hidden [&:nth-child(1)]:rounded-tl-[100px] last:rounded-br-2xl  only:rounded-tl-[100px]  h-96"
+              >
                 <Link key={index} href={`/product/${property.id}`}>
                   <div
                     className="hover:scale-110 z-50 duration-700 group"
                     key={index}
                   >
                     <div className=" h-96 relative">
-                      <img
+                      <Image
                         src={property.images[0].url}
                         alt={property.name}
+                        height={1}
+                        width={1000}
                         className="w-full h-full overflow-hidden object-cover  group-hover:shadow-2xl group-hover:shadow-slate-300"
                       />
                     </div>

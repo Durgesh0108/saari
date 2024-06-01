@@ -92,7 +92,7 @@ export default function ShopByCategory() {
           ))} */}
 
           {products.map((slide, index) => (
-            <Link href={`/category/${slide.id}`}>
+            <Link href={`/category/${slide.id}`} key={index}>
               <div
                 className="hover:scale-110 z-50 duration-500 group "
                 key={index}
@@ -102,9 +102,11 @@ export default function ShopByCategory() {
                   style={{ backgroundColor: "#C2915E" }}
                 ></div>
                 <div className=" rounded-tl-[100px] rounded-br-2xl  h-96 relative -top-5 ">
-                  <img
+                  <Image
                     src={slide.imageUrl}
                     alt={slide.name}
+                    height={1}
+                    width={1000}
                     className="w-full h-full overflow-hidden object-cover  rounded-tl-[100px] rounded-br-2xl group-hover:shadow-2xl group-hover:shadow-slate-300"
                   />
                 </div>

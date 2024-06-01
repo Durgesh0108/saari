@@ -374,11 +374,13 @@ export default function CategoryPage() {
                     key={index}
                   >
                     <div className="rounded-tl-[100px] rounded-br-2xl h-80 relative ">
-                      <img
+                      <Image
                         src={
                           "https://res.cloudinary.com/dttieobbt/image/upload/v1716532524/rfecteffexn2d8ukadbz.jpg"
                         }
                         alt={"Banarasi Saaris"}
+                        height={1}
+                        width={100}
                         className="w-full h-full overflow-hidden object-cover rounded-tl-[100px] rounded-br-2xl"
                       />
                     </div>

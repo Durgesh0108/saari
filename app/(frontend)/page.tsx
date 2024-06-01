@@ -2,7 +2,7 @@ import CarouselSlider from "@/components/FRONTEND/Carousel";
 import Clientinsta from "@/components/FRONTEND/ClientInsta";
 import FilterByColor from "@/components/FRONTEND/FilterByColor";
 
-import Logoslider from "@/components/FRONTEND/LogoSlider";
+// import Logoslider from "@/components/FRONTEND/LogoSlider";
 import Promise from "@/components/FRONTEND/Promise";
 import ShopByCategory from "@/components/FRONTEND/ShopByCategory";
 import ShopByOccassion from "@/components/FRONTEND/ShopByOccassion";

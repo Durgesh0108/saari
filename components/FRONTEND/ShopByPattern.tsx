@@ -17,6 +17,7 @@ import "swiper/css/pagination";
 
 // import required modules
 import { EffectCoverflow, Pagination, Navigation } from "swiper/modules";
+import Image from "next/image";
 
 const nunito = Nunito_Sans({ subsets: ["latin"] });
 
@@ -144,21 +145,25 @@ export default function ShopByPattern() {
             modifier: 1,
             slideShadows: true,
           }}
-          pagination={true}
           modules={[EffectCoverflow, Pagination, Navigation]}
           className="mySwiper  p-8"
         >
           {uniquePatterns.map((pattern, index) => (
-            <SwiperSlide className="w-1/3 rounded-tl-[100px] rounded-br-3xl overflow-hidden" key={index}>
+            <SwiperSlide
+              className="w-1/3 rounded-tl-[100px] rounded-br-3xl overflow-hidden"
+              key={index}
+            >
               <Link href={`/pattern/${pattern.id}`}>
                 {/* <div
                   className="rounded-full w-5 h-5 top-1 left-1 relative"
                   style={{ backgroundColor: "#C2915E" }}
                 ></div> */}
                 <div className="   h-96 relative  ">
-                  <img
+                  <Image
                     src={pattern.imageUrl}
                     alt={pattern.name}
+                    height={1}
+                    width={1000}
                     className="w-full h-full overflow-hidden object-cover   "
                   />
                 </div>

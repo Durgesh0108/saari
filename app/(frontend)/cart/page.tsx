@@ -1,6 +1,8 @@
 import Image from "next/image";
 import React from "react";
 
+import image from "@/public/assets/images/product/fashion/2-1.png";
+
 export default function CartPage() {
   return (
     <div>
@@ -36,8 +38,8 @@ export default function CartPage() {
                       <div className="w-1/2">
                         <div className="flex items-center gap-6">
                           <div className="bg-img md:w-[100px] w-20 aspect-[3/4]">
-                            <img
-                              src="/assets/images/product/fashion/2-1.png"
+                            <Image
+                              src={image}
                               alt="img"
                               className="w-full h-full object-cover rounded-lg"
                             />
