@@ -9,7 +9,7 @@ const Promise = () => {
   return (
     <div>
       <div className="container px-8">
-        <div className="sanket shadow-2xl flex flex-col items-center p-16 px-32 rounded-tl-2xl rounded-br-2xl">
+        <div className="sanket shadow-2xl flex flex-col items-center p-16 px-32  rounded-tl-[100px] rounded-br-[100px]">
           <div className="heading3 mb-5">Our Promise To You</div>
           <Image
             src={promise}

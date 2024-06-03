@@ -19,7 +19,6 @@ import "swiper/css/pagination";
 import { EffectCoverflow, Pagination, Navigation } from "swiper/modules";
 import Image from "next/image";
 
-
 const nunito = Nunito_Sans({ subsets: ["latin"] });
 
 // const InitialState = {
@@ -113,7 +112,7 @@ export default function ShopByPattern() {
   }, []);
 
   return (
-    <div className="text-center">
+    <div className="text-center mt-8">
       <div className="container m-auto py-8 px-10 flex flex-col gap-y-4">
         <div
           className={`font-medium text-[#afafaf] text-lg ${nunito.className}`}
@@ -125,56 +124,48 @@ export default function ShopByPattern() {
         </div>
         {/* <div className="flex justify-between  items-center "> */}
         {/* <div className="flex gap-6 my-6 justify-between"> */}
-        <Swiper
-          effect={"coverflow"}
-          grabCursor={true}
-          loop={true}
-          centeredSlides={true}
-          pagination={{
-            dynamicBullets: true,
-            clickable: true,
-          }}
-          autoplay={{
-            delay: 2000,
-            disableOnInteraction: false,
-          }}
-          slidesPerView={"auto"}
-          coverflowEffect={{
-            rotate: 50,
-            stretch: 0,
-            depth: 100,
-            modifier: 1,
-            slideShadows: true,
-          }}
-          modules={[EffectCoverflow, Pagination, Navigation]}
-          className="mySwiper  p-8 "
-        >
-          {uniquePatterns.map((pattern, index) => (
-            <SwiperSlide
-              className="w-1/3   overflow-hidden"
-              key={index}
-            >
-              <Link href={`/pattern/${pattern.id}`}>
-                {/* <div
-                  className="rounded-full w-5 h-5 top-1 left-1 relative"
-                  style={{ backgroundColor: "#C2915E" }}
-                ></div> */}
-                <div className="   h-96 relative  ">
-                  <Image
-                    src={pattern.imageUrl}
-                    alt={pattern.name}
-                    height={1}
-                    width={1000}
-                    className="w-full h-full overflow-hidden object-cover   "
-                  />
-                </div>
-                {/* <div className=" group-hover:scale-110 group-hover:ml-3 group-hover:font-bold duration-500 italic -mt-3 text-2xl group-hover:text-[27px]">
-                  {pattern.name}
-                </div> */}
-              </Link>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        <div className="px-32">
+          <Swiper
+            effect={"coverflow"}
+            grabCursor={true}
+            loop={true}
+            centeredSlides={true}
+            pagination={{
+              dynamicBullets: true,
+              clickable: true,
+            }}
+            autoplay={{
+              delay: 2000,
+              disableOnInteraction: false,
+            }}
+            slidesPerView={"auto"}
+            coverflowEffect={{
+              rotate: 50,
+              stretch: 0,
+              depth: 100,
+              modifier: 1,
+              slideShadows: true,
+            }}
+            modules={[EffectCoverflow, Pagination, Navigation]}
+            className="mySwiper  p-8 "
+          >
+            {uniquePatterns.map((pattern, index) => (
+              <SwiperSlide className="w-1/3   overflow-hidden" key={index}>
+                <Link href={`/pattern/${pattern.id}`}>
+                  <div className=" h-96  relative  ">
+                    <Image
+                      src={pattern.imageUrl}
+                      alt={pattern.name}
+                      height={1}
+                      width={1000}
+                      className="w-full h-full overflow-hidden object-cover   "
+                    />
+                  </div>
+                </Link>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
         {/* </div> */}
         {/* </div> */}
       </div>

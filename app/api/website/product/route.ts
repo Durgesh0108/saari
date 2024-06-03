@@ -47,7 +47,13 @@ export async function GET(req: Request) {
         name: "asc",
       },
       include: {
-        category: true,
+        category: {
+          include:{
+            Pattern:true,
+            Product:true,
+            Type:true
+          }
+        },
         color: true,
         description: true,
         images: true,

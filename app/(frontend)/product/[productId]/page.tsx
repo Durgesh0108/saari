@@ -65,8 +65,9 @@ export default function ProductPage() {
       if (!userId) {
         router.push("/Login");
       } else {
-        const response = await axios.patch(`/api/cart/${userId}`, {
+        const response = await axios.post(`/api/cart/${userId}`, {
           productId: id,
+          quantity: 1,
         });
         toast.success("Added To Cart");
         console.log("Cart:", response.data);

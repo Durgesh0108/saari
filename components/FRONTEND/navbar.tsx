@@ -166,27 +166,27 @@ export default function Navbar() {
   const [isCategoryVisible, setIsCategoryVisible] = useState(true);
   const [isOccasionVisible, setIsOccasionVisible] = useState(false);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const productRes = await fetch(`/api/category`);
-      // const productRes = await fetch(`/api/website/product`);
-      const products = await productRes.json();
-      setCategoryProducts(products);
-      // Create a map to store unique categories
-      // const categoryMap = new Map();
-      // products.forEach((product) => {
-      //   const category = product.category;
-      //   if (!categoryMap.has(category.name)) {
-      //     categoryMap.set(category.name, product);
-      //   }
-      // });
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     const productRes = await fetch(`/api/category`);
+  //     // const productRes = await fetch(`/api/website/product`);
+  //     const products = await productRes.json();
+  //     setCategoryProducts(products);
+  //     // Create a map to store unique categories
+  //     // const categoryMap = new Map();
+  //     // products.forEach((product) => {
+  //     //   const category = product.category;
+  //     //   if (!categoryMap.has(category.name)) {
+  //     //     categoryMap.set(category.name, product);
+  //     //   }
+  //     // });
 
-      // // Convert map values to an array
-      // const uniqueCategory = Array.from(categoryMap.values());
-      // setCategoryProducts(uniqueCategory);
-    };
-    fetchProducts();
-  }, []);
+  //     // // Convert map values to an array
+  //     // const uniqueCategory = Array.from(categoryMap.values());
+  //     // setCategoryProducts(uniqueCategory);
+  //   };
+  //   fetchProducts();
+  // }, []);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -210,156 +210,348 @@ export default function Navbar() {
     fetchProducts();
   }, []);
 
+  const [SaariType, setSaariType] = useState([]);
+  const [KurtaType, setKurtaType] = useState([]);
+  const [KurtasetType, setKurtasetType] = useState([]);
+
+  useEffect(() => {
+    const fetchTypes = async () => {
+      const SaaritypeRes = await fetch(
+        `/api/category/664efbe61a2ddb56123aa7e6/type`
+      );
+      const SaariTypes = await SaaritypeRes.json();
+      setSaariType(SaariTypes);
+    };
+    fetchTypes();
+  }, []);
+
+  useEffect(() => {
+    const fetchTypes = async () => {
+      const KurtatypeRes = await fetch(
+        `/api/category/664f13dd1a2ddb56123aa7e9/type`
+      );
+      const KurtaTypes = await KurtatypeRes.json();
+      setKurtaType(KurtaTypes);
+    };
+    fetchTypes();
+  }, []);
+
+  useEffect(() => {
+    const fetchTypes = async () => {
+      const KurtaSettypeRes = await fetch(
+        `/api/category/665425b30466176cb1727e28/type`
+      );
+      const KurtaSetTypes = await KurtaSettypeRes.json();
+      setKurtasetType(KurtaSetTypes);
+    };
+    fetchTypes();
+  }, []);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const productRes = await fetch(`/api/website/product`);
+      const products = await productRes.json();
+      // setCategoryProducts(products);
+      // Create a map to store unique categories
+      const categoryMap = new Map();
+      products.forEach((product) => {
+        const category = product.category;
+        if (!categoryMap.has(category.name)) {
+          categoryMap.set(category.name, category);
+        }
+      });
+
+      // Convert map values to an array
+      const uniqueProducts = Array.from(categoryMap.values());
+      setCategoryProducts(uniqueProducts);
+    };
+    fetchProducts();
+  }, []);
+
+  console.log({ CategoryProducts });
+
   return (
     // <div className="fixed top-0 z-50 w-scree ">
-    <div className="w-full bg-white container px-8 py-4  grid grid-cols-12 items-center  ">
-      <div className="col-span-2">
-        <Link href="/" className="flex items-center ">
-          <div className="text-2xl font-bold uppercase">SAARI WALI</div>
-        </Link>
-      </div>
-      <div className="col-span-8 w-full  relative group">
-        <div className="cursor-pointer py-2 text-[14px]">
-          <div className="flex  bg-white px-1 z-10 container">
-            <div className="text-xl font-bold duration-300 h-full flex items-center justify-center">
-              Shop by Speciality
-            </div>
-          </div>
-
-          <div className="absolute z-50 top-full left-0 w-full bg-white py-1 px-4 text-gray-800 shadow-xl hidden group-hover:block">
-            <div className="grid grid-cols-4 py-4">
-              <div
-                className={`flex flex-col  relative group/category `}
-                onMouseEnter={() => {
-                  setIsCategoryVisible(true);
-                  setIsOccasionVisible(false);
-                }}
-              >
-                <div className="uppercase text-lg font-bold pb-2">Category</div>
-                <div
-                  className={`duration-500 ${
-                    isCategoryVisible
-                      ? "w-1/2 border-b-2 border-b-black"
-                      : "w-0  group-hover/category:w-1/2 rounded-full border-b-2 border-b-black"
-                  } `}
-                ></div>
+    <>
+      <div className="w-full bg-white container px-8 py-4 hidden  grid-cols-12 items-center   ">
+        <div className="col-span-2">
+          <Link href="/" className="flex items-center ">
+            <div className="text-2xl font-bold uppercase">SAARI WALI</div>
+          </Link>
+        </div>
+        <div className="col-span-8 w-full  relative group">
+          <div className="cursor-pointer py-2 text-[14px]">
+            <div className="flex  bg-white px-1 z-10 container">
+              <div className="text-xl font-bold duration-300 h-full flex items-center justify-center">
+                Shop by Speciality
               </div>
-              <div
-                className="  relative group/occasion"
-                onMouseEnter={() => {
-                  setIsOccasionVisible(true);
-                  setIsCategoryVisible(false);
-                }}
-                // onMouseLeave={() => {
-                //   setIsOccasionVisible(false);
-                //   setIsCategoryVisible(true);
-                // }}
-              >
-                <div className="uppercase text-lg font-bold pb-2">
-                  Occassion
+            </div>
+
+            <div className="absolute z-50 top-full left-0 w-full bg-white py-1 px-4 text-gray-800 shadow-xl hidden group-hover:block">
+              <div className="grid grid-cols-4 py-4">
+                <div
+                  className={`flex flex-col  relative group/category `}
+                  onMouseEnter={() => {
+                    setIsCategoryVisible(true);
+                    setIsOccasionVisible(false);
+                  }}
+                >
+                  <div className="uppercase text-lg font-bold pb-2">
+                    Category
+                  </div>
+                  <div
+                    className={`duration-500 ${
+                      isCategoryVisible
+                        ? "w-1/2 border-b-2 border-b-black"
+                        : "w-0  group-hover/category:w-1/2 rounded-full border-b-2 border-b-black"
+                    } `}
+                  ></div>
                 </div>
                 <div
-                  className={` duration-500  ${
-                    isOccasionVisible
-                      ? "w-1/2 border-b-2 border-b-black"
-                      : "w-0  group-hover/category:w-1/2 rounded-full border-b-2 border-b-black"
-                  } `}
-                ></div>
-              </div>
-            </div>
-            <div className="relative h-full">
-              <div>
-                {isCategoryVisible && (
-                  <div className="flex">
-                    {CategoryProducts.map((slide, index) => (
-                      <div className="h-full m-8 text-center" key={index}>
-                        <Link href={`/category/${slide.id}`}>
-                          {/* <Link href={`/category/${slide.categoryId}`}> */}
-                          <div className="hover:scale-110 z-50 duration-700 group">
-                            <div className="rounded-full w-32 h-32 relative -top-5">
-                              <Image
-                                src={slide.imageUrl}
-                                alt={slide.name}
-                                height={1}
-                                width={1000}
-                                // src={slide?.category?.imageUrl}
-                                // alt={slide?.category?.name}
-                                className="w-full h-full overflow-hidden object-cover rounded-full"
-                              />
-                            </div>
-                            <div className="text-lg">
-                              {slide.name}
-                              {/* {slide?.category?.name} */}
-                            </div>
-                          </div>
-                        </Link>
-                      </div>
-                    ))}
+                  className="  relative group/occasion"
+                  onMouseEnter={() => {
+                    setIsOccasionVisible(true);
+                    setIsCategoryVisible(false);
+                  }}
+                  // onMouseLeave={() => {
+                  //   setIsOccasionVisible(false);
+                  //   setIsCategoryVisible(true);
+                  // }}
+                >
+                  <div className="uppercase text-lg font-bold pb-2">
+                    Occassion
                   </div>
-                )}
+                  <div
+                    className={` duration-500  ${
+                      isOccasionVisible
+                        ? "w-1/2 border-b-2 border-b-black"
+                        : "w-0  group-hover/category:w-1/2 rounded-full border-b-2 border-b-black"
+                    } `}
+                  ></div>
+                </div>
               </div>
-              <div>
-                {isOccasionVisible && (
-                  <div className="flex">
-                    {OccassionProducts.map((occasion, index) => (
-                      <div className="h-full m-8 group text-center" key={index}>
-                        <Link href={`/occassion/${occasion.id}`}>
-                          <div className="hover:scale-110 z-50 duration-700">
-                            <div className="rounded-full w-32 h-32 relative -top-5">
-                              <Image
-                                src={occasion.imageUrl}
-                                alt={occasion.name}
-                                height={1}
-                                width={1000}
-                                className="w-full h-full overflow-hidden object-cover rounded-full"
-                              />
+              <div className="relative h-full">
+                <div>
+                  {isCategoryVisible && (
+                    <div className="flex">
+                      {CategoryProducts.map((slide, index) => (
+                        <div className="h-full m-8 text-center" key={index}>
+                          <Link href={`/category/${slide.id}`}>
+                            {/* <Link href={`/category/${slide.categoryId}`}> */}
+                            <div className="hover:scale-110 z-50 duration-700 group">
+                              <div className="rounded-full w-32 h-32 relative -top-5">
+                                <Image
+                                  src={slide.imageUrl}
+                                  alt={slide.name}
+                                  height={1}
+                                  width={1000}
+                                  // src={slide?.category?.imageUrl}
+                                  // alt={slide?.category?.name}
+                                  className="w-full h-full overflow-hidden object-cover rounded-full"
+                                />
+                              </div>
+                              <div className="text-lg">
+                                {slide.name}
+                                {/* {slide?.category?.name} */}
+                              </div>
                             </div>
-                            <div className="text-lg">{occasion.name}</div>
-                          </div>
-                        </Link>
-                      </div>
-                    ))}
-                  </div>
-                )}
+                          </Link>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <div>
+                  {isOccasionVisible && (
+                    <div className="flex">
+                      {OccassionProducts.map((occasion, index) => (
+                        <div
+                          className="h-full m-8 group text-center"
+                          key={index}
+                        >
+                          <Link href={`/occassion/${occasion.id}`}>
+                            <div className="hover:scale-110 z-50 duration-700">
+                              <div className="rounded-full w-32 h-32 relative -top-5">
+                                <Image
+                                  src={occasion.imageUrl}
+                                  alt={occasion.name}
+                                  height={1}
+                                  width={1000}
+                                  className="w-full h-full overflow-hidden object-cover rounded-full"
+                                />
+                              </div>
+                              <div className="text-lg">{occasion.name}</div>
+                            </div>
+                          </Link>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="col-span-2 justify-center flex gap-8 items-center">
-        <div>
-          <Search />
-        </div>
-        <div>
-          <UserProfile />
-        </div>
-        <div className=" flex justify-center items-center">
-          <Link href={"/wishlist"}>
-            <div className="relative py-2">
-              <div className="-top-[1px] absolute left-3">
-                <p className="flex h-2 w-2 items-center justify-center rounded-full bg-pink-500 p-2 text-sm text-white">
-                  0
-                </p>
+        <div className="col-span-2 justify-center flex gap-8 items-center">
+          <div>
+            <Search />
+          </div>
+          <div>
+            <UserProfile />
+          </div>
+          <div className=" flex justify-center items-center">
+            <Link href={"/wishlist"}>
+              <div className="relative py-2">
+                <div className="-top-[1px] absolute left-3">
+                  <p className="flex h-2 w-2 items-center justify-center rounded-full bg-pink-500 p-2 text-sm text-white">
+                    0
+                  </p>
+                </div>
+                <Heart />
               </div>
-              <Heart />
-            </div>
-          </Link>
-        </div>
+            </Link>
+          </div>
 
-        <div className=" flex justify-center items-center">
-          <Link href={"/cart"}>
-            <div className="relative py-2">
-              <div className="-top-[1px] absolute left-3">
-                <p className="flex h-2 w-2 items-center justify-center rounded-full bg-pink-500 p-2 text-sm text-white">
-                  0
-                </p>
+          <div className=" flex justify-center items-center">
+            <Link href={"/cart"}>
+              <div className="relative py-2">
+                <div className="-top-[1px] absolute left-3">
+                  <p className="flex h-2 w-2 items-center justify-center rounded-full bg-pink-500 p-2 text-sm text-white">
+                    0
+                  </p>
+                </div>
+                <ShoppingCart />
               </div>
-              <ShoppingCart />
-            </div>
-          </Link>
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+      <div className="w-full bg-white container px-8 py-4  grid grid-cols-12 items-center  ">
+        <div className="col-span-2">
+          <Link href="/" className="flex items-center ">
+            <div className="text-2xl font-bold uppercase">SAARI WALI</div>
+          </Link>
+        </div>
+        <div className="col-span-8 w-full  relative pr-8">
+          <div className="flex justify-between py-2 text-xl">
+            {/* dynamic */}
+            {CategoryProducts.map((category) => (
+              <div className="group  flex flex-col items-center">
+                <div>
+                  <Link href={`/category/${category.id}`}>{category.name}</Link>
+                </div>
+                <div
+                  className={`duration-300 w-0  group-hover:w-full rounded-full border-b-2 border-b-black `}
+                ></div>
+                <div className="absolute  z-50 group-hover:flex flex-col top-10  left-0 w-full bg-white py-1 px-4 text-gray-800 shadow-xl hidden ">
+                  <div className="mt-6">
+                    {category.Type.map((type, index) => (
+                      <div key={index}>{type.name}</div>
+                    ))}
+                    {category.Type.length === 0 && <div>No Type Available</div>}
+                  </div>
+                </div>
+              </div>
+            ))}
+            {/* manual */}
+            {/* <div className="group  flex flex-col items-center">
+              <div>
+                <Link href={`/category/664efbe61a2ddb56123aa7e6`}>Saree</Link>
+              </div>
+              <div
+                className={`duration-300 w-0  group-hover:w-full rounded-full border-b-2 border-b-black `}
+              ></div>
+              <div className="absolute z-50 group-hover:flex flex-col top-10  left-0 w-full bg-white py-1 px-4 text-gray-800 shadow-xl hidden ">
+                <div className="mt-6">
+                  {SaariType.map((type, index) => (
+                    <div key={index}>{type.name}</div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="group flex flex-col items-center">
+              <div>Kurta</div>
+              <div
+                className={`duration-300 w-0  group-hover:w-full rounded-full border-b-2 border-b-black `}
+              ></div>
+              <div className="absolute z-50 group-hover:flex flex-col top-10  left-0 w-full bg-white py-1 px-4 text-gray-800 shadow-xl hidden ">
+                <div className="mt-6">
+                  {KurtaType.map((type, index) => (
+                    <div key={index}>{type.name}</div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="group flex flex-col items-center">
+              <div>Kurta Set</div>
+              <div
+                className={`duration-300 w-0  group-hover:w-full rounded-full border-b-2 border-b-black `}
+              ></div>
+              <div className="absolute z-50 group-hover:flex flex-col top-10  left-0 w-full bg-white py-1 px-4 text-gray-800 shadow-xl hidden ">
+                <div className="mt-6">
+                  {KurtasetType.map((type, index) => (
+                    <div key={index}>{type.name}</div>
+                  ))}
+                  {KurtasetType.length === 0 && <p>No Types Available</p>}
+                </div>
+              </div>
+            </div> */}
+
+            <div className="group  flex flex-col items-center">
+              <div>The Silk</div>
+              <div
+                className={`duration-300 w-0  group-hover:w-full rounded-full border-b-2 border-b-black `}
+              ></div>
+              <div className="absolute z-50 top-10  left-0 w-full bg-white pt-8 pb-4 px-4 text-gray-800 shadow-xl hidden group-hover:block">
+                <h1>What is Silk?</h1>
+                <p>
+                  The protein fiber of silk is composed mainly of fibroin and is
+                  produced by certain insect larvae to form cocoons. The
+                  best-known silk is obtained from the cocoons of the larvae of
+                  the mulberry silkworm Bombyx mori reared in captivity
+                  (sericulture).{" "}
+                </p>
+              </div>
+            </div>
+            <div>Sales</div>
+            <div>Contact</div>
+          </div>
+        </div>
+        <div className="col-span-2 justify-center flex gap-8 items-center">
+          <div>
+            <Search />
+          </div>
+          <div>
+            <UserProfile />
+          </div>
+          <div className=" flex justify-center items-center">
+            <Link href={"/wishlist"}>
+              <div className="relative py-2">
+                <div className="-top-[1px] absolute left-3">
+                  <p className="flex h-2 w-2 items-center justify-center rounded-full bg-pink-500 p-2 text-sm text-white">
+                    0
+                  </p>
+                </div>
+                <Heart />
+              </div>
+            </Link>
+          </div>
+
+          <div className=" flex justify-center items-center">
+            <Link href={"/cart"}>
+              <div className="relative py-2">
+                <div className="-top-[1px] absolute left-3">
+                  <p className="flex h-2 w-2 items-center justify-center rounded-full bg-pink-500 p-2 text-sm text-white">
+                    0
+                  </p>
+                </div>
+                <ShoppingCart />
+              </div>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </>
     // </div>
   );
 }

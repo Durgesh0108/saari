@@ -101,7 +101,7 @@ export default function ShopByCategory() {
                   className="rounded-full w-5 h-5 top-1 left-1 relative"
                   style={{ backgroundColor: "#C2915E" }}
                 ></div>
-                <div className=" rounded-tl-[100px] rounded-br-2xl  h-96 relative -top-5 ">
+                <div className=" rounded-tl-[100px] rounded-br-2xl h-60 md:h-96 relative -top-5 ">
                   <Image
                     src={slide.imageUrl}
                     alt={slide.name}

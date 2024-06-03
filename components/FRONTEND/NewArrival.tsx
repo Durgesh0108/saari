@@ -157,14 +157,16 @@ const NewArrivalSection = () => {
 
   return (
     <div className="">
-      <div className="container m-auto py-8 px-10  flex-col gap-y-4 flex">
-        <div
-          className={`font-medium text-[#afafaf] text-2xl ${nunito.className}`}
-        >
-          New Arrivals
-        </div>
-        <div className="font-medium text-5xl italic ">
-          Shop the New Arrivals
+      <div className=" m-auto py-8   flex-col gap-y-4 flex">
+        <div className=" w-full text-center">
+          <div
+            className={`font-medium text-[#afafaf] text-2xl ${nunito.className}`}
+          >
+            New Arrivals
+          </div>
+          <div className="font-medium text-5xl italic ">
+            Shop the New Arrivals
+          </div>
         </div>
 
         {propertyList.propertyOnPage.length > 0 ? (
@@ -172,7 +174,7 @@ const NewArrivalSection = () => {
             {propertyList.propertyOnPage.slice(0, 4).map((property, index) => (
               <Link key={index} href={`/product/${property.id}`}>
                 <div className=" h-full" key={index}>
-                  <div className="h-80">
+                  <div className="xl:h-80 2xl:96 h-72">
                     <Image
                       src={property.images[0].url}
                       alt={property.name}
@@ -181,7 +183,7 @@ const NewArrivalSection = () => {
                       className="w-full h-full overflow-hidden object-cover "
                     />
                   </div>
-                  <div className=" duration-500 pl-2 pt-1">
+                  <div className=" duration-500 pl-2 pt-1 w-full text-center">
                     <h1 className="text-2xl font-bold">{property.name}</h1>
                     <p className="text-sm">
                       {property.shortDescription}
