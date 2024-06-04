@@ -85,16 +85,6 @@ export default function ColorPage() {
     });
   };
 
-  useEffect(() => {
-    const fetchColor = async () => {
-      const res = await fetch(`/api/color/${params.colorId}`);
-      const colors = await res.json();
-      setColor(colors);
-    };
-
-    fetchColor();
-  }, [params.colorId]);
-
   const filteredProducts = products.filter((product) => {
     const colorFilter =
       !filters.color.length || filters.color.includes(product.color.name);
@@ -117,6 +107,15 @@ export default function ColorPage() {
       patternFilter
     );
   });
+  useEffect(() => {
+    const fetchColor = async () => {
+      const res = await fetch(`/api/color/${params.colorId}`);
+      const colors = await res.json();
+      setColor(colors);
+    };
+
+    fetchColor();
+  }, [params.colorId]);
 
   return (
     <div className=" no-scrollbar z-10">
