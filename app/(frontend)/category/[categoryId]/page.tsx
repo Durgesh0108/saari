@@ -14,6 +14,8 @@ import {
 import Image from "next/image";
 import ShopByOccassion from "./_component/Occassion";
 import FilterByColor from "./_component/Color";
+import ShopByCategory from "./_component/Category";
+import ShopByPattern from "./_component/Pattern";
 
 export default function CategoryPage() {
   const params = useParams();
@@ -430,8 +432,10 @@ export default function CategoryPage() {
       {/* *************************************** */}
       <div className="no-scrollbar z-10">
         <div className="">
+          <ShopByCategory />
           <ShopByOccassion />
           <FilterByColor />
+          <ShopByPattern/>
         </div>
       </div>
     </>

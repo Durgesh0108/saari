@@ -12,8 +12,8 @@ import { Pagination, Navigation, Autoplay } from "swiper/modules";
 import { Product } from "@prisma/client";
 import Link from "next/link";
 import Image from "next/image";
-import { Nunito_Sans } from "next/font/google";
 import { useParams, useRouter } from "next/navigation";
+import { Nunito_Sans } from "next/font/google";
 
 const nunito = Nunito_Sans({ subsets: ["latin"] });
 
@@ -161,8 +161,8 @@ const ShopByOccassion = () => {
   const firstImage = propertyList.propertyOnPage[0];
 
   return (
-    <div className="">
-      <div className="container m-auto py-8  flex flex-col gap-y-4 ">
+    <div className="my-8">
+      <div className="container px-8 py-8 flex flex-col gap-y-4 ">
         <div
           className={`font-medium text-[#afafaf] text-2xl ${nunito.className}`}
         >

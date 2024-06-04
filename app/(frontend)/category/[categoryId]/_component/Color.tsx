@@ -579,7 +579,7 @@ const FilterByColor = () => {
   const firstProperty = propertyList.propertyOnPage[0];
 
   return (
-    <div className="container py-16 ">
+    <div className="container py-8 px-8 ">
       <div className="grid grid-cols-12 gap-2">
         <div className="col-span-1">
           <div className=" overflow-hidden h-full flex flex-col">
