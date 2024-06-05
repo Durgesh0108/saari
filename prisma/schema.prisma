@@ -597,6 +597,8 @@ model User {
   cartItems   CartItem[]
   wishlist    String[]   @db.String
   role        String     @default("user")
+
+  OrderProduct OrderProduct[]
 }
 
 model CartItem {
@@ -672,27 +674,28 @@ model Type {
 }
 
 model Product {
-  id               String        @id @default(auto()) @map("_id") @db.ObjectId
-  name             String        @db.String
+  id               String         @id @default(auto()) @map("_id") @db.ObjectId
+  name             String         @db.String
   images           Image[]
   description      Description[]
-  shortDescription String?       @db.String
+  shortDescription String?        @db.String
   qty              Int
   price            Int
-  categoryId       String?       @db.ObjectId
-  category         Category?     @relation(fields: [categoryId], references: [id])
-  occassionId      String?       @db.ObjectId
-  occassion        Occassion?    @relation(fields: [occassionId], references: [id])
-  patternId        String?       @db.ObjectId
-  pattern          Pattern?      @relation(fields: [patternId], references: [id])
-  typeId           String?       @db.ObjectId
-  type             Type?         @relation(fields: [typeId], references: [id])
-  colorId          String?       @db.ObjectId
-  color            Color?        @relation(fields: [colorId], references: [id])
-  isArchived       Boolean?      @default(false) @db.Bool
-  createdAt        DateTime      @default(now())
-  updatedAt        DateTime      @updatedAt
+  categoryId       String?        @db.ObjectId
+  category         Category?      @relation(fields: [categoryId], references: [id])
+  occassionId      String?        @db.ObjectId
+  occassion        Occassion?     @relation(fields: [occassionId], references: [id])
+  patternId        String?        @db.ObjectId
+  pattern          Pattern?       @relation(fields: [patternId], references: [id])
+  typeId           String?        @db.ObjectId
+  type             Type?          @relation(fields: [typeId], references: [id])
+  colorId          String?        @db.ObjectId
+  color            Color?         @relation(fields: [colorId], references: [id])
+  isArchived       Boolean?       @default(false) @db.Bool
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
   CartItem         CartItem[]
+  OrderProduct     OrderProduct[]
 }
 
 model Image {
@@ -720,4 +723,26 @@ model Sliders {
   isArchived Boolean? @default(false) @db.Bool
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+}
+
+model Order {
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  subtotal      Float
+  shipping      Float
+  discount      Float
+  total         Float
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  orderProducts OrderProduct[]
+}
+
+model OrderProduct {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String  @db.ObjectId
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orderId   String  @db.ObjectId
+  order     Order   @relation(fields: [orderId], references: [id])
+  productId String  @db.ObjectId
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity  Int
 }

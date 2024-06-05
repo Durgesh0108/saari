@@ -43,7 +43,7 @@ export default function CarouselSlider() {
               <Image
                 src={slide.imageUrl}
                 alt={slide.id}
-                width={1000}
+                width={9999}
                 height={1}
                 className="h-full w-full"
               />
