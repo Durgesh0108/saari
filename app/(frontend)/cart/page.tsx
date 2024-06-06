@@ -677,6 +677,8 @@ import React, { useEffect, useState } from "react";
 import { cookieHandler } from "@/lib/cookieHandler";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 export default function CartPage() {
   const [cartProducts, setCartProducts] = useState([]);
@@ -779,58 +781,104 @@ export default function CartPage() {
     }
   };
 
-  const handleCheckout = async () => {
+  const handleCheckout = async (amount: number) => {
     try {
-      const response = await fetch("/api/razorpay/order", {
-        method: "POST",
-        body: JSON.stringify({ amount: total }),
-        headers: {
-          "Content-Type": "application/json",
-        },
+      console.log(amount);
+      const order = await axios.post("/api/razorpay/checkout", {
+        amount,
       });
-      const data = await response.json();
+
+      console.log(order);
 
       const options = {
-        key: "rzp_test_YZpzzVOx04hiuJ", // Replace with your Razorpay API key
-        amount: data.amount,
-        currency: "INR",
-        name: "Saari Waali",
-        description: "Payment for your order",
-        order_id: data.id,
-        handler: function (response) {
-          // Send confirmation to backend upon successful payment
-          fetch("/api/razorpay/success", {
+        key: "rzp_test_YZpzzVOx04hiuJ",
+        name: "Probiz5",
+        currency: order.data.currency, // Fix typo here
+        amount: order.data.amount,
+        order_id: order.data.id,
+        description: "Understanding RazorPay Integration",
+        image:
+          "https://res.cloudinary.com/dttieobbt/image/upload/v1714651240/Probiz5_fevicon_01_dwtfxa.png",
+        // "https://res.cloudinary.com/dttieobbt/image/upload/v1711453976/flf6aizdhi9m8asgtjmg.png",
+
+        //   @ts-ignore
+        handler: async function (response) {
+          // if (response.length==0) return <Loading/>;
+          console.log({ response });
+
+          const data = await fetch("/api/razorpay/paymentVerification", {
             method: "POST",
+            // headers: {
+            //   // Authorization: 'YOUR_AUTH_HERE'
+            // },
             body: JSON.stringify({
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_signature: response.razorpay_signature,
               userId: userId,
-              orderId: response.razorpay_order_id,
-              paymentId: response.razorpay_payment_id,
-              signature: response.razorpay_signature,
-              amount: data.amount * 100,
             }),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }).then(() => {
-            // Redirect to a thank you page or show a success message
-            router.push("/thank-you");
           });
+
+          const res = await data.json();
+
+          console.log(res);
+
+          if (res.data) {
+            toast.success("Thank You");
+            setCartProducts([]);
+            // await handleSubmit(form.getValues(), extra);
+          } else {
+            toast.error("Payment Failed");
+          }
+          // console.log("response verify==", res);
+          // Validate payment at server - using webhooks is a better idea.
+          // alert(response.razorpay_payment_id);
+          // alert(response.razorpay_order_id);
+          // alert(response.razorpay_signature);
         },
-        prefill: {
-          email: "user@example.com",
-          contact: "9999999999",
-        },
-        notes: {
-          address: "Razorpay Corporate Office",
-        },
+        // prefill: {
+        //   name: "Durgesh Prajapati",
+        //   email: "prajapatidurgesh1518@gmail.com",
+        //   contact: "9653320535",
+        // },
       };
-      const razorpay = new window.Razorpay(options);
-      razorpay.open();
+
+      // const paymentObject = new razorpayInstance(options); // Fix here
+      // @ts-ignore
+      const paymentObject = window.Razorpay(options); // Fix here
+      paymentObject.open();
+
+      paymentObject.on("payment.failed", function (response) {
+        toast.error(
+          "Payment failed. Please try again. Contact support for help"
+        );
+      });
     } catch (error) {
-      console.error("Error during checkout:", error);
-      setPaymentError("Error during checkout. Please try again later.");
+      // Handle any errors that occur during the payment process
+      console.error("Payment error:", error);
+      // Show an error message to the user
+      toast.error("An error occurred during payment. Please try again later.");
     }
   };
+
+  // const handleSubmit = async (extra) => {
+  //   try {
+  //     setLoading(true);
+  //     const data = {
+  //       ...values,
+  //       userId,
+  //       ...extra,
+  //     };
+  //     await axios.post(`/api/advertisement`, data);
+  //     location.reload();
+  //     toast.success("Advertisement Added Successfully");
+  //   } catch (error: any) {
+  //     console.log(error);
+  //     toast.error("Something went wrong.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <div>
@@ -954,7 +1002,10 @@ export default function CartPage() {
                   <div className="name">Total</div>
                   <div className="value">${total.toFixed(2)}</div>
                 </div>
-                <Button onClick={handleCheckout} className=" w-full mt-5">
+                <Button
+                  onClick={() => handleCheckout(total)}
+                  className=" w-full mt-5"
+                >
                   Checkout
                 </Button>
                 {paymentError && (
@@ -968,3 +1019,56 @@ export default function CartPage() {
     </div>
   );
 }
+
+// const handleCheckout = async () => {
+//   try {
+//     const response = await fetch("/api/razorpay/order", {
+//       method: "POST",
+//       body: JSON.stringify({ amount: total }),
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     });
+//     const data = await response.json();
+
+//     const options = {
+//       key: "rzp_test_YZpzzVOx04hiuJ", // Replace with your Razorpay API key
+//       amount: data.amount,
+//       currency: "INR",
+//       name: "Saari Waali",
+//       description: "Payment for your order",
+//       order_id: data.id,
+//       handler: function (response) {
+//         // Send confirmation to backend upon successful payment
+//         fetch("/api/razorpay/success", {
+//           method: "POST",
+//           body: JSON.stringify({
+//             userId: userId,
+//             orderId: response.razorpay_order_id,
+//             paymentId: response.razorpay_payment_id,
+//             signature: response.razorpay_signature,
+//             amount: data.amount * 100,
+//           }),
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//         }).then(() => {
+//           // Redirect to a thank you page or show a success message
+//           router.push("/thank-you");
+//         });
+//       },
+//       prefill: {
+//         email: "user@example.com",
+//         contact: "9999999999",
+//       },
+//       notes: {
+//         address: "Razorpay Corporate Office",
+//       },
+//     };
+//     const razorpay = new window.Razorpay(options);
+//     razorpay.open();
+//   } catch (error) {
+//     console.error("Error during checkout:", error);
+//     setPaymentError("Error during checkout. Please try again later.");
+//   }
+// };

@@ -8,6 +8,8 @@ const razorpay = new Razorpay({
   key_secret: "9dTy3hRmBr3UlI2q7vsPZ01S",
 });
 
+export default razorpay;
+
 export const createRazorpayOrder = async (amount) => {
   try {
     const options = {
