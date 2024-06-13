@@ -74,7 +74,7 @@ export default function OrdersPage() {
                         <div className="w-1/4 flex items-center justify-center">
                           <div className="total">
                             <div className="text-title text-center">
-                              ${order.total.toFixed(2)}
+                              &#8377;{order.total.toFixed(2)}
                             </div>
                           </div>
                         </div>
@@ -128,7 +128,7 @@ export default function OrdersPage() {
                           </div>
                           <div className="w-1/6 price flex items-center justify-center">
                             <div className="text-xl text-center">
-                              ${product.product.price}
+                              &#8377;{product.product.price}
                             </div>
                           </div>
                           <div className="w-1/6 flex items-center justify-center">
@@ -138,7 +138,7 @@ export default function OrdersPage() {
                           </div>
                           <div className="w-1/6 flex total-price items-center justify-center">
                             <div className="text-xl text-center">
-                              $
+                              &#8377;
                               {(
                                 product.product.price * product.quantity
                               ).toFixed(2)}

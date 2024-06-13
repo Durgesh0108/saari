@@ -28,12 +28,12 @@ export async function POST(req: Request) {
 
 export async function GET(req: Request) {
   try {
-    const categories = await prismadb.occassion.findMany({
+    const occassion = await prismadb.occassion.findMany({
       orderBy: {
         name: "asc",
       },
     });
-    return NextResponse.json(categories);
+    return NextResponse.json(occassion);
   } catch (error) {
     return new NextResponse("Internal Error", { status: 500 });
   }

@@ -49,7 +49,7 @@ export async function PUT(
       return new NextResponse("User not found");
     }
     // Find the cart item for the user and product
-    const cartItem = await prisma.cartItem.findFirst({
+    const cartItem = await prismadb.cartItem.findFirst({
       where: {
         userId: params.userId,
         productId: params.productId,
@@ -61,9 +61,9 @@ export async function PUT(
     }
 
     // Update the quantity of the cart item
-    const updatedCartItem = await prisma.cartItem.update({
+    const updatedCartItem = await prismadb.cartItem.update({
       where: { id: cartItem.id },
-      data: { quantity: parseInt(quantity, 10) },
+      data: { quantity: parseInt(quantity) },
     });
 
     return NextResponse.json(user.cartItems);

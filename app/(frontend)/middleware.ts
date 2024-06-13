@@ -38,3 +38,4 @@ export const useFrontAuthMiddleware = async () => {
     }
   }, [pathname, router]);
 };
+

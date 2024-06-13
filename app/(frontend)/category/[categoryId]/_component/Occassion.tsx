@@ -74,34 +74,34 @@ const PropertyListReducer = (state, action) => {
   return InitialState;
 };
 
-const ShopByOccassion = () => {
+const ShopByOccassion = ({occassion,products}) => {
   const [isActive, setIsActive] = useState(false);
-  const [products, setProducts] = useState<Product[]>([]);
   const [selectedOccasion, setSelectedOccasion] = useState(null);
   const router = useRouter();
   const params = useParams();
+  
+  // const [products, setProducts] = useState<Product[]>([]);
+  // const [occassion, setOccassion] = useState([]);
 
-  const [occassion, setOccassion] = useState([]);
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     const productRes = await fetch(`/api/occassion`);
+  //     const products = await productRes.json();
+  //     setOccassion(products);
+  //   };
+  //   fetchProducts();
+  // }, []);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const productRes = await fetch(`/api/occassion`);
-      const products = await productRes.json();
-      setOccassion(products);
-    };
-    fetchProducts();
-  }, []);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const productRes = await fetch(
-        `/api/category/${params.categoryId}/product`
-      );
-      const products = await productRes.json();
-      setProducts(products);
-    };
-    fetchProducts();
-  }, [params.categoryId]);
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     const productRes = await fetch(
+  //       `/api/category/${params.categoryId}/product`
+  //     );
+  //     const products = await productRes.json();
+  //     setProducts(products);
+  //   };
+  //   fetchProducts();
+  // }, [params.categoryId]);
 
   const [propertyList, dispatchPropertyList] = useReducer(
     PropertyListReducer,

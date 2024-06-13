@@ -472,32 +472,32 @@ const PropertyListReducer = (state, action) => {
   return InitialState;
 };
 
-const FilterByColor = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+const FilterByColor = ({color,products}) => {
   const [isActive, setIsActive] = useState(false);
   const [activeColor, setActiveColor] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
   const router = useRouter();
   const params = useParams();
+  
+  // const [products, setProducts] = useState<Product[]>([]);
+  // const [color, setcolor] = useState<Color[]>([]);
 
-  const [color, setcolor] = useState<Color[]>([]);
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     const productRes = await fetch(`/api/color`);
+  //     const products = await productRes.json();
+  //     setcolor(products);
+  //   };
+  //   fetchProducts();
+  // }, []);
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const productRes = await fetch(`/api/color`);
-      const products = await productRes.json();
-      setcolor(products);
-    };
-    fetchProducts();
-  }, []);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const productRes = await fetch(
-        `/api/category/${params.categoryId}/product`
-      );
-      const products = await productRes.json();
-      setProducts(products);
+      // const productRes = await fetch(
+      //   `/api/category/${params.categoryId}/product`
+      // );
+      // const products = await productRes.json();
+      // setProducts(products);
       if (products.length > 0) {
         setActiveColor(products[0].color.name);
         dispatchPropertyList({
@@ -673,9 +673,9 @@ const FilterByColor = () => {
                           className="w-full h-full overflow-hidden object-cover  group-hover:shadow-2xl group-hover:shadow-slate-300"
                         />
                       </div>
-                      <div className="relative hidden group-hover:flex -top-16 left-4  group-hover:scale-110 group-hover:ml-3 group-hover:font-bold duration-500 italic text-2xl group-hover:text-[27px]">
+                      {/* <div className="relative hidden group-hover:flex -top-16 left-4  group-hover:scale-110 group-hover:ml-3 group-hover:font-bold duration-500 italic text-2xl group-hover:text-[27px]">
                         {property.name}
-                      </div>
+                      </div> */}
                     </Link>
                   </div>
                 ))}

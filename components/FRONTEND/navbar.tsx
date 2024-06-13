@@ -8,6 +8,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import UserProfile from "./User";
 import { useFrontAuthMiddleware } from "@/app/(frontend)/middleware";
+import { cookieHandler } from "@/lib/cookieHandler";
 
 export default function Navbar({ products }) {
   useFrontAuthMiddleware();
@@ -26,6 +27,9 @@ export default function Navbar({ products }) {
     const uniqueProducts = Array.from(categoryMap.values());
     setCategoryProducts(uniqueProducts);
   }, []);
+
+  const userId = cookieHandler.get("userId");
+  console.log("user Id", userId);
 
   return (
     <>

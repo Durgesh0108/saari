@@ -16,7 +16,7 @@
 
 //   useEffect(() => {
 //     const fetchcartProducts = async () => {
-//       const productRes = await fetch(`/api/cart/${userId}`);
+//       const productRes = await fetch(`/api/cart/&#8377;{userId}`);
 //       const product = await productRes.json();
 //       setcartProducts(product);
 //     };
@@ -87,7 +87,7 @@
 //                           </div>
 //                         </div>
 //                         <div className="w-1/6 flex total-price items-center justify-center">
-//                           <div className="text-title text-center">$28.00</div>
+//                           <div className="text-title text-center">&#8377;28.00</div>
 //                         </div>
 //                         <div className="w-1/12 flex items-center justify-center">
 //                           <i className="remove-btn ph ph-x-circle text-xl max-md:text-base text-red cursor-pointer hover:text-black duration-300" />
@@ -679,6 +679,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { Minus, Plus } from "lucide-react";
 
 export default function CartPage() {
   const [cartProducts, setCartProducts] = useState([]);
@@ -931,13 +932,14 @@ export default function CartPage() {
                         </div>
                         <div className="w-1/12 price flex items-center justify-center">
                           <div className="text-title text-center">
-                            ${product.price}
+                            &#8377;{product.price}
                           </div>
                         </div>
                         <div className="w-1/6 flex items-center justify-center">
                           <div className="quantity-block bg-surface md:p-3 p-2 flex items-center justify-between rounded-lg border border-line md:w-[100px] flex-shrink-0 w-20">
-                            <i
-                              className="ph-bold ph-minus cursor-pointer text-base max-md:text-sm"
+                            <Minus
+                              // className="ph-bold ph-minus cursor-pointer text-base max-md:text-sm "
+                              className="h-3 w-3"
                               onClick={() =>
                                 handleQuantityChange(product.id, -1)
                               }
@@ -945,8 +947,9 @@ export default function CartPage() {
                             <div className="text-button quantity">
                               {quantities[product.id]}
                             </div>
-                            <i
-                              className="ph-bold ph-plus cursor-pointer text-base max-md:text-sm"
+                            <Plus
+                              // className="ph-bold ph-plus cursor-pointer text-base max-md:text-sm"
+                              className="h-3 w-3"
                               onClick={() =>
                                 handleQuantityChange(product.id, 1)
                               }
@@ -955,7 +958,7 @@ export default function CartPage() {
                         </div>
                         <div className="w-1/6 flex total-price items-center justify-center">
                           <div className="text-title text-center">
-                            $
+                            &#8377;
                             {(product.price * quantities[product.id]).toFixed(
                               2
                             )}
@@ -979,7 +982,7 @@ export default function CartPage() {
                 <div className="list-price">
                   <div className="item flex justify-between mt-5">
                     <div className="name">Subtotal</div>
-                    <div className="value">${subtotal.toFixed(2)}</div>
+                    <div className="value">&#8377;{subtotal.toFixed(2)}</div>
                   </div>
                   {/* <div className="item flex justify-between mt-3">
                     <div className="name">Shipping</div>
@@ -989,18 +992,18 @@ export default function CartPage() {
                       defaultValue={shipping}
                     >
                       <option value="0">Free</option>
-                      <option value="5">Standard: $5.00</option>
-                      <option value="10">Express: $10.00</option>
+                      <option value="5">Standard: &#8377;5.00</option>
+                      <option value="10">Express: &#8377;10.00</option>
                     </select>
                   </div>
                   <div className="item flex justify-between mt-3">
                     <div className="name">Discount</div>
-                    <div className="value">-${discount.toFixed(2)}</div>
+                    <div className="value">-&#8377;{discount.toFixed(2)}</div>
                   </div> */}
                 </div>
                 <div className="item flex justify-between mt-3">
                   <div className="name">Total</div>
-                  <div className="value">${total.toFixed(2)}</div>
+                  <div className="value">&#8377;{total.toFixed(2)}</div>
                 </div>
                 <Button
                   onClick={() => handleCheckout(total)}
@@ -1019,56 +1022,3 @@ export default function CartPage() {
     </div>
   );
 }
-
-// const handleCheckout = async () => {
-//   try {
-//     const response = await fetch("/api/razorpay/order", {
-//       method: "POST",
-//       body: JSON.stringify({ amount: total }),
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     });
-//     const data = await response.json();
-
-//     const options = {
-//       key: "rzp_test_YZpzzVOx04hiuJ", // Replace with your Razorpay API key
-//       amount: data.amount,
-//       currency: "INR",
-//       name: "Saari Waali",
-//       description: "Payment for your order",
-//       order_id: data.id,
-//       handler: function (response) {
-//         // Send confirmation to backend upon successful payment
-//         fetch("/api/razorpay/success", {
-//           method: "POST",
-//           body: JSON.stringify({
-//             userId: userId,
-//             orderId: response.razorpay_order_id,
-//             paymentId: response.razorpay_payment_id,
-//             signature: response.razorpay_signature,
-//             amount: data.amount * 100,
-//           }),
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-//         }).then(() => {
-//           // Redirect to a thank you page or show a success message
-//           router.push("/thank-you");
-//         });
-//       },
-//       prefill: {
-//         email: "user@example.com",
-//         contact: "9999999999",
-//       },
-//       notes: {
-//         address: "Razorpay Corporate Office",
-//       },
-//     };
-//     const razorpay = new window.Razorpay(options);
-//     razorpay.open();
-//   } catch (error) {
-//     console.error("Error during checkout:", error);
-//     setPaymentError("Error during checkout. Please try again later.");
-//   }
-// };
