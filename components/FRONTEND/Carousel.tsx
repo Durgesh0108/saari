@@ -8,17 +8,17 @@ import { Pagination, Navigation, Autoplay } from "swiper/modules";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
-export default function CarouselSlider() {
-  const [sliders, setSliders] = useState([]);
+export default function CarouselSlider({sliders}) {
+  // const [sliders, setSliders] = useState([]);
 
-  useEffect(() => {
-    const fetchSliders = async () => {
-      const sliderRes = await fetch(`/api/website/slider`);
-      const slider = await sliderRes.json();
-      setSliders(slider);
-    };
-    fetchSliders();
-  }, []);
+  // useEffect(() => {
+  //   const fetchSliders = async () => {
+  //     const sliderRes = await fetch(`/api/website/slider`);
+  //     const slider = await sliderRes.json();
+  //     setSliders(slider);
+  //   };
+  //   fetchSliders();
+  // }, []);
 
   return (
     <div className=" slider-block  style-one bg-linear  md:h-[500px] sm:h-[500px] h-[350px] max-[420px]:h-[320px] w-full ">

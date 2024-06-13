@@ -74,9 +74,9 @@ const PropertyListReducer = (state, action) => {
   return InitialState;
 };
 
-const NewArrivalSection = () => {
+const NewArrivalSection = ({products}) => {
   const [isActive, setIsActive] = useState(false);
-  const [products, setProducts] = useState<Product[]>([]);
+  // const [products, setProducts] = useState<Product[]>([]);
   const [selectedOccasion, setSelectedOccasion] = useState(null);
   const router = useRouter();
 
@@ -91,14 +91,14 @@ const NewArrivalSection = () => {
     fetchProducts();
   }, []);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const productRes = await fetch(`/api/website/product`);
-      const products = await productRes.json();
-      setProducts(products);
-    };
-    fetchProducts();
-  }, []);
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     const productRes = await fetch(`/api/website/product`);
+  //     const products = await productRes.json();
+  //     setProducts(products);
+  //   };
+  //   fetchProducts();
+  // }, []);
 
   const [propertyList, dispatchPropertyList] = useReducer(
     PropertyListReducer,
