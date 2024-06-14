@@ -672,6 +672,20 @@ model Type {
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   Product    Product[]
+  SubType    SubType[]
+}
+
+model SubType {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  name       String    @db.String
+  imageUrl   String    @db.String
+  bannerUrl  String?   @db.String
+  typeId     String?   @db.ObjectId
+  type       Type?     @relation(fields: [typeId], references: [id])
+  isArchived Boolean?  @default(false) @db.Bool
+  Product    Product[]
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 }
 
 model Product {
@@ -697,6 +711,8 @@ model Product {
   updatedAt        DateTime       @updatedAt
   CartItem         CartItem[]
   OrderProduct     OrderProduct[]
+  SubType          SubType?       @relation(fields: [subTypeId], references: [id])
+  subTypeId        String?        @db.ObjectId
 }
 
 model Image {

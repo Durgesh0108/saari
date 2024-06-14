@@ -34,12 +34,16 @@ const sideBarList = [
         location: "/admin/master/occasion",
       },
       {
-        name: "Pattern",
-        location: "/admin/master/Pattern",
-      },
-      {
         name: "Type",
         location: "/admin/master/Type",
+      },
+      {
+        name: "Sub Type",
+        location: "/admin/master/subType",
+      },
+      {
+        name: "Pattern",
+        location: "/admin/master/Pattern",
       },
       {
         name: "Color",

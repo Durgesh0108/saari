@@ -15,7 +15,11 @@ export default async function Header() {
         include: {
           Pattern: true,
           Product: true,
-          Type: true,
+          Type: {
+            include: {
+              SubType: true,
+            },
+          },
         },
       },
       color: true,
@@ -35,6 +39,8 @@ export default async function Header() {
   //     cartItems: true,
   //   },
   // });
+
+  
   return (
     <>
       <Navbar products={products} />

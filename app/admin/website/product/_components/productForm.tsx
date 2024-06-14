@@ -45,6 +45,7 @@ export default function ProductFormPage() {
   const [Occassions, setOccassions] = useState<Occassion[]>([]);
   const [Patterns, setPatterns] = useState<Pattern[]>([]);
   const [Types, setTypes] = useState<Type[]>([]);
+  const [SubTypes, setSubTypes] = useState([]);
   const [Colors, setColors] = useState<Color[]>([]);
 
   //////////////
@@ -54,7 +55,14 @@ export default function ProductFormPage() {
   );
   const [selectedPattern, setSelectedPattern] = useState<string | null>(null);
   const [selectedType, setSelectedType] = useState<string | null>(null);
+  const [selectedSubType, setSelectedSubType] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
+  const [selectedBlouseColor, setSelectedBlouseColor] = useState<string | null>(
+    null
+  );
+  const [selectedPalluColor, setSelectedPalluColor] = useState<string | null>(
+    null
+  );
 
   const [price, setPrice] = useState<number | 0>();
 
@@ -192,7 +200,19 @@ export default function ProductFormPage() {
     setSelectedType(e.target.value);
   };
 
-  //
+  // SubType
+
+  useEffect(() => {
+    const fetchSubTypes = async () => {
+      if (selectedType) {
+        const subTypeRes = await fetch(`/api/type/${selectedType}/subType`);
+        const SubType = await subTypeRes.json();
+        setSubTypes(SubType);
+      }
+    };
+
+    fetchSubTypes();
+  }, [selectedType]);
 
   // Colors
 
@@ -208,6 +228,13 @@ export default function ProductFormPage() {
 
   const handleColorChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedColor(e.target.value);
+  };
+
+  const handleBlouseColorChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedBlouseColor(e.target.value);
+  };
+  const handlePalluColorChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedPalluColor(e.target.value);
   };
   //
 
@@ -340,6 +367,33 @@ export default function ProductFormPage() {
                         <option>Please Select Type</option>
                       )}
                       {Types.map((type) => (
+                        <option
+                          value={type.id}
+                          key={type.id}
+                          className="px-4 py-1"
+                        >
+                          {type.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+                {selectedType === SubTypes[0]?.typeId && (
+                  <div className="flex flex-col gap-2">
+                    <FormLabel>Sub Type</FormLabel>
+                    <select
+                      name="category"
+                      id="category"
+                      // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800 "
+                      className="p-2 border-black border-[1px] rounded-lg"
+                      onChange={handleTypeChange}
+                    >
+                      {SubTypes.length === 0 ? (
+                        <option>No Sub Type Available</option>
+                      ) : (
+                        <option>Please Select Type</option>
+                      )}
+                      {SubTypes.map((type) => (
                         <option
                           value={type.id}
                           key={type.id}
@@ -568,6 +622,58 @@ export default function ProductFormPage() {
                     // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800 "
                     className="p-2 border-black border-[1px] rounded-lg"
                     onChange={handleColorChange}
+                  >
+                    {Colors.length === 0 ? (
+                      <option>No Colors Available</option>
+                    ) : (
+                      <option>Please Select Color</option>
+                    )}
+                    {Colors.map((color) => (
+                      <option
+                        value={color.id}
+                        key={color.id}
+                        className="px-4 py-1"
+                      >
+                        {color.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                {/* Blouse Color */}
+                <div className="flex flex-col gap-2">
+                  <FormLabel>Blouse Color</FormLabel>
+                  <select
+                    name="category"
+                    id="category"
+                    // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800 "
+                    className="p-2 border-black border-[1px] rounded-lg"
+                    onChange={handleBlouseColorChange}
+                  >
+                    {Colors.length === 0 ? (
+                      <option>No Colors Available</option>
+                    ) : (
+                      <option>Please Select Color</option>
+                    )}
+                    {Colors.map((color) => (
+                      <option
+                        value={color.id}
+                        key={color.id}
+                        className="px-4 py-1"
+                      >
+                        {color.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                {/* Pallu Color */}
+                <div className="flex flex-col gap-2">
+                  <FormLabel>Pallu Color</FormLabel>
+                  <select
+                    name="category"
+                    id="category"
+                    // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800 "
+                    className="p-2 border-black border-[1px] rounded-lg"
+                    onChange={handlePalluColorChange}
                   >
                     {Colors.length === 0 ? (
                       <option>No Colors Available</option>

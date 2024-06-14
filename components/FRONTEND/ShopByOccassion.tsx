@@ -130,7 +130,7 @@ const ShopByOccassion = ({ occassion, products }) => {
 
   const handleViewMore = () => {
     if (selectedOccasion) {
-      router.push(`/occassion/${selectedOccasion.id}`);
+      router.push(`/occassion/${selectedOccasion}`);
     }
   };
 
@@ -157,7 +157,7 @@ const ShopByOccassion = ({ occassion, products }) => {
                   </div>
                 </Link>
               )} */}
-              <Link href={`/occassion/${occassion.id}`}>
+              <Link href={`/occassion/${selectedOccasion}`}>
                 <div className="h-[420px] relative">
                   <Image
                     src={
@@ -166,7 +166,7 @@ const ShopByOccassion = ({ occassion, products }) => {
                             .imageUrl
                         : `${occassion[0].imageUrl}`
                     }
-                    alt={occassion.name}
+                    alt="Occassion"
                     height={1}
                     width={1000}
                     className="w-full h-full overflow-hidden object-cover group-hover:shadow-2xl group-hover:shadow-slate-300"
@@ -214,7 +214,7 @@ const ShopByOccassion = ({ occassion, products }) => {
                                 {city.name}
                               </span>
                               <div
-                                className={`duration-500 group-hover/category:w-full rounded-full border-b-2 border-b-black `}
+                                className={`duration-500 w-0 group-hover/category:w-full rounded-full border-b-2 border-b-black `}
                               ></div>
                             </button>
                           </div>

@@ -12,7 +12,7 @@ import { cookieHandler } from "@/lib/cookieHandler";
 
 export default function Navbar({ products }) {
   useFrontAuthMiddleware();
-
+  console.log("navbar", { products });
   const [CategoryProducts, setCategoryProducts] = useState([]);
 
   useEffect(() => {
@@ -51,9 +51,24 @@ export default function Navbar({ products }) {
                   className={`duration-300 w-0  group-hover:w-full rounded-full border-b-2 border-b-black `}
                 ></div>
                 <div className="absolute  z-50 group-hover:flex flex-col top-10  left-0 w-full bg-white py-1 px-4 text-gray-800 shadow-xl hidden ">
-                  <div className="mt-6">
+                  <div className="mt-6 grid grid-cols-4">
                     {category.Type.map((type, index) => (
-                      <div key={index}>{type.name}</div>
+                      <>
+                        <div>
+                          <div>
+                            <div key={index}>{type.name}</div>
+                            <hr className="w-1/4 mt-2 border-[1px] border-[#000000]" />
+                          </div>
+
+                          <div className="mt-4 flex flex-col gap-4">
+                            {type.SubType.map((type, index) => (
+                              <div key={index} className="textbase">
+                                {type.name}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </>
                     ))}
                     {category.Type.length === 0 && <div>No Type Available</div>}
                   </div>
