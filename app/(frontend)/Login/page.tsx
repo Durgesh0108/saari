@@ -22,12 +22,10 @@ const Login = () => {
       password,
     };
 
-    console.log({ data, URL });
     try {
       const response = await axios.post(`/api/auth/login`, data);
       const user = response.data.user;
-      console.log("user login", user);
-      console.log(response);
+
 
       // if (user.role === "admin") {
       //   toast.error("You are Admin");

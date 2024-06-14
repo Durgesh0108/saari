@@ -6,7 +6,7 @@ import React from "react";
 
 export default function LogoutPage() {
   const onLogout = () => {
-    console.log("logged out");
+
     cookieHandler.remove("token");
   };
   return (

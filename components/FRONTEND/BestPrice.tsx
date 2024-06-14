@@ -74,87 +74,7 @@ const PropertyListReducer = (state, action) => {
   return InitialState;
 };
 
-const BestPriceSection = () => {
-  const [isActive, setIsActive] = useState(false);
-  const [products, setProducts] = useState<Product[]>([]);
-  const [selectedOccasion, setSelectedOccasion] = useState(null);
-  const router = useRouter();
-
-  const [occassion, setOccassion] = useState([]);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const productRes = await fetch(`/api/occassion`);
-      const products = await productRes.json();
-      setOccassion(products);
-    };
-    fetchProducts();
-  }, []);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const productRes = await fetch(`/api/website/product`);
-      const products = await productRes.json();
-      setProducts(products);
-    };
-    fetchProducts();
-  }, []);
-
-  const [propertyList, dispatchPropertyList] = useReducer(
-    PropertyListReducer,
-    InitialState
-  );
-
-  const propertyLoadHandler = useCallback(
-    (propertyList) => {
-      dispatchPropertyList({
-        type: "LOAD_DATA",
-        properties: propertyList,
-      });
-    },
-    [propertyList]
-  );
-
-  useEffect(() => {
-    propertyLoadHandler(products);
-  }, [products]);
-
-  const showMoreHandler = () => {
-    dispatchPropertyList({
-      type: "SHOW_MORE",
-      value: 3,
-    });
-  };
-
-  const filterItem = (curcity) => {
-    setIsActive(true);
-    const occasion = uniqueOccasions.find((o) => o.name === curcity);
-    setSelectedOccasion(occasion);
-    dispatchPropertyList({
-      type: "FILTER",
-      property: products,
-      curcity,
-      propertyPerPage: 6,
-    });
-  };
-
-  const uniqueOccasions = products.reduce((acc, curr) => {
-    if (!acc.some((item) => item.name === curr.occassion.name)) {
-      acc.push({
-        name: curr.occassion.name,
-        imageUrl: curr.occassion.imageUrl,
-        id: curr.occassion.id,
-      });
-    }
-    return acc;
-  }, []);
-
-  const handleViewMore = () => {
-    if (selectedOccasion) {
-      router.push(`/occassion/${selectedOccasion.id}`);
-    }
-  };
-
+const BestPriceSection = ({ bestPrice }) => {
   return (
     <div className="">
       <div className="container m-auto py-8 px-10  flex-col gap-y-4 flex w-full">
@@ -167,47 +87,42 @@ const BestPriceSection = () => {
           Shop the Products at Best Price
         </div>
 
-        {propertyList.propertyOnPage.length > 0 ? (
+        {bestPrice.length > 0 ? (
           <div className=" my-8  grid grid-cols-4  w-full m-auto  gap-4">
-            {propertyList.propertyOnPage.slice(0, 4).map((property, index) => (
-              <Link key={index} href={`/product/${property.id}`}>
+            {bestPrice.slice(0, 4).map((best, index) => (
+              <Link key={index} href={`/BestPrice/${best.id}`}>
                 <div className=" h-full" key={index}>
-                  <div className="h-80">
+                  <div className="h-96">
                     <Image
-                      src={property.images[0].url}
-                      alt={property.name}
+                      src={best.imageUrl}
+                      alt={best.name}
                       height={1}
                       width={1000}
-                      className="w-full h-full overflow-hidden object-cover rounded-tl-[100px] rounded-br-2xl"
+                      className="w-full h-full overflow-hidden object-cover rounded-tl-2xl rounded-br-2xl"
                     />
                   </div>
-                  <div className=" duration-500 pt-1">
-                    <h1 className="text-2xl">Under &#8377;4999</h1>
-                    <p className="text-lg">
-                      Regal Handcrafted Sarees For Your Big Day
-                    </p>
-                  </div>
+                  {/* <div className=" duration-500 pt-1">
+                    <h1 className="text-2xl">{property.name}</h1>
+                  </div> */}
                 </div>
               </Link>
             ))}
           </div>
         ) : (
           <div className=" mt-8  overflow-hidden w-full m-auto  h-80">
-            {propertyList.propertyOnPage.length === 0 && (
-              <div className="flex flex-col justify-center items-center text-center w-full h-full ">
-                <p className=" flex items-center">
-                  <Image
-                    src={
-                      "https://res.cloudinary.com/dttieobbt/image/upload/v1717074733/product-not-found_ptexdu.jpg"
-                    }
-                    alt="no Product"
-                    height={1}
-                    width={1000}
-                    className="w-fit h-full object-contain "
-                  />
-                </p>
-              </div>
-            )}
+            <div className="flex flex-col justify-center items-center text-center w-full h-full ">
+              <p className=" flex items-center">
+                <Image
+                  src={
+                    "https://res.cloudinary.com/dttieobbt/image/upload/v1717074733/product-not-found_ptexdu.jpg"
+                  }
+                  alt="no Product"
+                  height={1}
+                  width={1000}
+                  className="w-fit h-full object-contain "
+                />
+              </p>
+            </div>
           </div>
         )}
       </div>

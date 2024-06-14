@@ -13,9 +13,11 @@ import {
 } from "@/components/ui/accordion";
 import Image from "next/image";
 
-export default function TypeListPage({ Types, products }) {
+export default function BestPriceListPage({ bestPrice, products }) {
   const params = useParams();
 
+  //   const [Occassion, setOccassion] = useState([]);
+  //   const [products, setProducts] = useState([]);
   const [distinctColors, setDistinctColors] = useState([]);
   const [distinctTypes, setDistinctTypes] = useState([]);
   const [distinctCategories, setDistinctCategories] = useState([]);
@@ -48,7 +50,7 @@ export default function TypeListPage({ Types, products }) {
     };
 
     fetchProducts();
-  }, [params.typeId]);
+  }, [params.occassionId]);
 
   const handleFilterChange = (filterType, value) => {
     setFilters((prevFilters) => {
@@ -79,6 +81,16 @@ export default function TypeListPage({ Types, products }) {
     });
   };
 
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     const res = await fetch(`/api/occassion/${params.occassionId}`);
+  //     const occassions = await res.json();
+  //     setOccassion(occassions);
+  //   };
+
+  //   fetchProducts();
+  // }, [params.occassionId]);
+
   const filteredProducts = products.filter((product) => {
     const colorFilter =
       !filters.color.length || filters.color.includes(product.color.name);
@@ -104,18 +116,18 @@ export default function TypeListPage({ Types, products }) {
 
   return (
     <div className=" no-scrollbar z-10">
-      <div className=" ">
-        {Types.bannerUrl && (
+      {/* <div className=" ">
+        {Occassion.bannerUrl && (
           <Image
-            src={Types.bannerUrl}
-            alt={Types.name}
+            src={Occassion.bannerUrl}
+            alt={Occassion.name}
             width={1000}
             height={1}
             loading="lazy"
             className="w-full h-full object-cover"
           />
         )}
-      </div>
+      </div> */}
       <div className="">
         <div className="grid grid-cols-8 container  ">
           <div className="col-span-2  h-full p-8 sticky ">
@@ -274,7 +286,7 @@ export default function TypeListPage({ Types, products }) {
           <div className="col-span-6 p-4  ">
             <div className="flex items-center justify-between">
               <h1 className="text-3xl font-bold m-4 ml-0 uppercase px-4">
-                {Types?.name}
+                {bestPrice?.name}
               </h1>
               <button
                 className="bg-red-500 text-white px-4 py-2 rounded"

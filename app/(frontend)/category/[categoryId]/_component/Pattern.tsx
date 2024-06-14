@@ -116,7 +116,7 @@ export default function ShopByPattern() {
     fetchpatterns();
   }, []);
 
-  console.log(uniquePatterns);
+
 
   return (
     <>

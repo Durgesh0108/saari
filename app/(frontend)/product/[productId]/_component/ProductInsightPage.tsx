@@ -52,7 +52,6 @@ export default function ProductInsightPage({
           quantity: 1,
         });
         toast.success("Added To Cart");
-        console.log("Cart:", response.data);
       }
     } catch (error) {
       toast.error("Error Adding To Cart");
@@ -105,7 +104,7 @@ export default function ProductInsightPage({
                                 alt={"image"}
                                 loading="lazy"
                                 className={cn(
-                                  "w-full h-full object-contain ",
+                                  "w-full h-full object-cover ",
                                   selected
                                     ? "border-blue-500 border-2 text-white"
                                     : "text-black"

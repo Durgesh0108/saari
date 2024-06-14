@@ -15,7 +15,7 @@ export const useAuthMiddleware = () => {
     // const role = localStorage.getItem("role");
     const token = cookieHandler.get("token");
     const role = cookieHandler.get("role");
-    console.log(`token: ${token}`);
+
 
     // If token doesn't exist, redirect to login page
 

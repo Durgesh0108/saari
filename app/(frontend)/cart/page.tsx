@@ -784,12 +784,12 @@ export default function CartPage() {
 
   const handleCheckout = async (amount: number) => {
     try {
-      console.log(amount);
+      
       const order = await axios.post("/api/razorpay/checkout", {
         amount,
       });
 
-      console.log(order);
+      
 
       const options = {
         key: "rzp_test_YZpzzVOx04hiuJ",
@@ -805,7 +805,7 @@ export default function CartPage() {
         //   @ts-ignore
         handler: async function (response) {
           // if (response.length==0) return <Loading/>;
-          console.log({ response });
+          
 
           const data = await fetch("/api/razorpay/paymentVerification", {
             method: "POST",
@@ -822,7 +822,7 @@ export default function CartPage() {
 
           const res = await data.json();
 
-          console.log(res);
+          
 
           if (res.data) {
             toast.success("Thank You");
@@ -831,11 +831,7 @@ export default function CartPage() {
           } else {
             toast.error("Payment Failed");
           }
-          // console.log("response verify==", res);
-          // Validate payment at server - using webhooks is a better idea.
-          // alert(response.razorpay_payment_id);
-          // alert(response.razorpay_order_id);
-          // alert(response.razorpay_signature);
+          
         },
         // prefill: {
         //   name: "Durgesh Prajapati",

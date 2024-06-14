@@ -16,75 +16,78 @@ import prismadb from "@/lib/prisma";
 import Image from "next/image";
 
 export default async function Home() {
-	const sliders = await prismadb.sliders.findMany({
-		orderBy: {
-			createdAt: "asc",
-		},
-	});
+  const sliders = await prismadb.sliders.findMany({
+    orderBy: {
+      createdAt: "asc",
+    },
+  });
 
-	const categories = await prismadb.category.findMany({
-		orderBy: {
-			name: "desc",
-			// name: "asc",
-		},
-	});
+  const categories = await prismadb.category.findMany({
+    orderBy: {
+      name: "desc",
+      // name: "asc",
+    },
+  });
 
-	const occassions = await prismadb.occassion.findMany({
-		orderBy: {
-			name: "asc",
-		},
-	});
+  const occassions = await prismadb.occassion.findMany({
+    orderBy: {
+      name: "asc",
+    },
+  });
 
-	const products = await prismadb.product.findMany({
-		orderBy: {
-			name: "asc",
-		},
-		include: {
-			category: {
-				include: {
-					Pattern: true,
-					Product: true,
-					Type: true,
-				},
-			},
-			color: true,
-			description: true,
-			images: true,
-			occassion: true,
-			pattern: true,
-			type: true,
-		},
-	});
+  const products = await prismadb.product.findMany({
+    orderBy: {
+      name: "asc",
+    },
+    include: {
+      category: {
+        include: {
+          Pattern: true,
+          Product: true,
+          Type: true,
+        },
+      },
+      color: true,
+      description: true,
+      images: true,
+      occassion: true,
+      pattern: true,
+      type: true,
+    },
+  });
 
-	const Patterns = await prismadb.pattern.findMany({
-		orderBy: {
-			name: "asc",
-		},
-	});
+  const Patterns = await prismadb.pattern.findMany({
+    orderBy: {
+      name: "asc",
+    },
+  });
 
-	return (
-		<>
-			<div className="">
-				<CarouselSlider sliders={sliders} />
-				<div className="">
-					{/* <TabSection /> */}
-					<ShopByCategory categories={categories} />
-					<ShopByOccassion
-						occassion={occassions}
-						products={products}
-					/>
-					<BestPriceSection />
-					<NewArrivalSection products={products} />
-					<Promise />
-					{/* <FilterByColor /> */}
+  const bestPrice = await prismadb.bestPrice.findMany({
+    orderBy: {
+      max: "asc",
+    },
+  });
 
-					<ShopByPattern Patterns={Patterns} />
-					<Testimonials />
-					<SocialMedia />
-					{/* <Clientinsta />
+  return (
+    <>
+      <div className="">
+        <CarouselSlider sliders={sliders} />
+        <div className="">
+          {/* <TabSection /> */}
+          <ShopByCategory categories={categories} />
+          <ShopByOccassion occassion={occassions} products={products} />
+          <BestPriceSection bestPrice={bestPrice} />
+          <NewArrivalSection products={products} />
+          <Promise />
+          {/* <FilterByColor /> */}
+
+          <ShopByPattern Patterns={Patterns} />
+          <Testimonials />
+          <SocialMedia />
+          {/* <Clientinsta />
           <Logoslider /> */}
-				</div>
-			</div>
-		</>
-	);
+        </div>
+      </div>
+    </>
+  );
 }

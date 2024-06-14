@@ -8,7 +8,7 @@ import { Pagination, Navigation, Autoplay } from "swiper/modules";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
-export default function CarouselSlider({sliders}) {
+export default function CarouselSlider({ sliders }) {
   // const [sliders, setSliders] = useState([]);
 
   // useEffect(() => {
@@ -21,7 +21,8 @@ export default function CarouselSlider({sliders}) {
   // }, []);
 
   return (
-    <div className=" slider-block  style-one bg-linear  md:h-[500px] sm:h-[500px] h-[350px] max-[420px]:h-[320px] w-full ">
+    // <div className=" slider-block  style-one bg-linear  md:h-[500px] sm:h-[500px] h-[350px] max-[420px]:h-[320px] w-full ">
+    <div className=" slider-block  style-one bg-linear   w-full ">
       <Swiper
         slidesPerView={1}
         spaceBetween={30}

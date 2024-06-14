@@ -17,7 +17,7 @@ const RegistrationForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(email, password);
+
     const data = {
       role: "admin",
       email,
@@ -29,7 +29,7 @@ const RegistrationForm = () => {
     try {
       const response = await axios.post("/api/auth/register", data);
 
-      console.log(response.data);
+
       const user = response.data.user;
       if (response.data.token) {
         cookieHandler.set("token", response.data.token);

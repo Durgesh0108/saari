@@ -136,18 +136,19 @@ const ShopByOccassion = ({ occassion, products }) => {
 
   const firstImage = propertyList.propertyOnPage[0];
 
+  console.log("selected Occassion", { selectedOccasion });
+
   return (
     <div className="">
-      
       <div className="relative ">
         <div className=" py-8  flex flex-col gap-y-4">
           <div className="grid grid-cols-3  items-center justify-center ">
             <div className=" w-full h-full col-span-1">
-              {firstImage && (
+              {/* {firstImage && (
                 <Link href={`/product/${firstImage.id}`}>
                   <div className=" h-96 relative">
                     <Image
-                      src={firstImage.images[0].url}
+                      src={occassion.imageUrl}
                       alt={firstImage.name}
                       height={1}
                       width={1000}
@@ -155,7 +156,23 @@ const ShopByOccassion = ({ occassion, products }) => {
                     />
                   </div>
                 </Link>
-              )}
+              )} */}
+              <Link href={`/occassion/${occassion.id}`}>
+                <div className="h-[420px] relative">
+                  <Image
+                    src={
+                      selectedOccasion
+                        ? occassion.find((occ) => occ.id === selectedOccasion)
+                            .imageUrl
+                        : `${occassion[0].imageUrl}`
+                    }
+                    alt={occassion.name}
+                    height={1}
+                    width={1000}
+                    className="w-full h-full overflow-hidden object-cover group-hover:shadow-2xl group-hover:shadow-slate-300"
+                  />
+                </div>
+              </Link>
             </div>
 
             <div className="col-span-2  ">
@@ -180,7 +197,10 @@ const ShopByOccassion = ({ occassion, products }) => {
                               className={`flex flex-col items-center justify-center group/category text-black    duration-500 ${
                                 isActive ? "" : ""
                               }`}
-                              onClick={() => filterItem(city.name)}
+                              onClick={() => {
+                                filterItem(city.name);
+                                setSelectedOccasion(city.id);
+                              }}
                               key={id}
                             >
                               {/* <Image
@@ -194,7 +214,7 @@ const ShopByOccassion = ({ occassion, products }) => {
                                 {city.name}
                               </span>
                               <div
-                                className={`duration-500 w-0  group-hover/category:w-full rounded-full border-b-2 border-b-black `}
+                                className={`duration-500 group-hover/category:w-full rounded-full border-b-2 border-b-black `}
                               ></div>
                             </button>
                           </div>
@@ -220,7 +240,7 @@ const ShopByOccassion = ({ occassion, products }) => {
                         <div key={index} className="">
                           <Link key={index} href={`/product/${property.id}`}>
                             <div className="" key={index}>
-                              <div className=" h-44 relative">
+                              <div className=" h-52 relative">
                                 <Image
                                   src={property.images[0].url}
                                   alt={property.name}
