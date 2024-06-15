@@ -27,6 +27,7 @@ import ListCard from "@/components/ui/ListCard";
 import { EditProductDescriptionForm } from "./_components/EditDescriptionForm";
 import { LocationProductForm } from "./_components/LocationForm";
 import { ImageProductForm } from "./_components/ImageForm";
+import { CategoriesProductForm } from "./_components/EditCategories";
 // import Image from "next/image";
 
 const DisabledInput = ({ text, value, placeholder, disabled }) => {
@@ -61,6 +62,9 @@ export default async function ProductFormPage({
       images: true,
       pattern: true,
       type: true,
+      SubType: true,
+      blouseColor: true,
+      palluColor: true,
     },
   });
 
@@ -81,8 +85,8 @@ export default async function ProductFormPage({
         {/* {isEditing && ( */}
         <Card className={"p-8 grid grid-cols-1 gap-4"}>
           {/* Categories  */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {product?.category && (
+          <div className="grid grid-cols-1  gap-4">
+            {/* {product?.category && (
               <DisabledInput
                 text={"Category"}
                 value={product?.category.name}
@@ -120,6 +124,12 @@ export default async function ProductFormPage({
                 value={product?.color.name}
                 disabled={true}
                 placeholder={"Color"}
+              />
+            )} */}
+            {product && (
+              <CategoriesProductForm
+                productId={product.id}
+                initialdata={product}
               />
             )}
           </div>

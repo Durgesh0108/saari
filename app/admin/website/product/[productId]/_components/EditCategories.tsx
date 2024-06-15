@@ -3,8 +3,12 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Pencil, Plus } from "lucide-react";
 import React, { useEffect, useState } from "react";
+
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import axios from "axios";
 import {
   Form,
   FormControl,
@@ -13,33 +17,29 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import ImageUpload from "@/components/ui/image-upload";
+
 import { Input } from "@/components/ui/input";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 import { toast } from "react-hot-toast";
-import Header from "@/components/ui/header";
-import { useRouter } from "next/navigation";
-import { Category, Color, Occassion, Pattern, Type } from "@prisma/client";
-import { colors } from "@mui/material";
+import { Product } from "@prisma/client";
 
 const formSchema = z.object({
   name: z.string().min(1),
-  qty: z.coerce.number().min(1),
-  // price: z.coerce.number().min(1),
-  // offer_price: z.coerce.number().min(1),
-  // size_value: z.coerce.number().min(1),
-  shortDescription: z.string().min(1),
-  // features: z.string().min(1),
-  images: z.object({ url: z.string() }).array(),
 });
 
-type ProductFormValues = z.infer<typeof formSchema>;
+type CategoriesProductForm = z.infer<typeof formSchema>;
 
-export default function ProductFormPage() {
-  const router = useRouter();
+interface CategoriesProductFormProps {
+  productId: string;
+  initialdata: Product;
+}
+
+export const CategoriesProductForm = ({
+  productId,
+  initialdata,
+}: CategoriesProductFormProps) => {
+  const [loading, setLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [Occassions, setOccassions] = useState<Occassion[]>([]);
@@ -64,70 +64,44 @@ export default function ProductFormPage() {
     null
   );
 
-  const [price, setPrice] = useState<number | 0>();
-
-  const [isEditing, setIsEditing] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  const form = useForm<ProductFormValues>({
+  const form = useForm<CategoriesProductForm>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      shortDescription: "",
-      // features: "",
-      images: [],
-      // qty: 0,
+      name: initialdata.name,
     },
   });
 
-  const handleSubmit = async (values: ProductFormValues) => {
+  const toggleEdit = () => {
+    setIsEditing(!isEditing);
+  };
+
+  const onSubmit = async (values: CategoriesProductForm) => {
+    const data = {
+      categoryId: selectedCategory === null ? null : selectedCategory,
+      occassionId: selectedOccassion === null ? null : selectedOccassion,
+      patternId: selectedPattern === null ? null : selectedPattern,
+      typeId: selectedType === null ? null : selectedType,
+      subTypeId: selectedSubType === null ? null : selectedSubType,
+      colorId: selectedColor === null ? null : selectedColor,
+      blouseColorId: selectedBlouseColor === null ? null : selectedBlouseColor,
+      palluColorId: selectedPalluColor === null ? null : selectedPalluColor,
+    };
+
     try {
       setLoading(true);
-      const data = {
-        categoryId: selectedCategory === null ? null : selectedCategory,
-        occassionId: selectedOccassion === null ? null : selectedOccassion,
-        patternId: selectedPattern === null ? null : selectedPattern,
-        typeId: selectedType === null ? null : selectedType,
-        subTypeId: selectedSubType === null ? null : selectedSubType,
-        colorId: selectedColor === null ? null : selectedColor,
-        blouseColorId:
-          selectedBlouseColor === null ? null : selectedBlouseColor,
-        palluColorId: selectedPalluColor === null ? null : selectedPalluColor,
-        name: values.name,
-        qty: values.qty,
-        price: price,
-        shortDescription: values.shortDescription,
-        images: values.images,
-        // size_value: values.size_value,
-        // features: values.features,
-        // discountId: selectedDiscount === null ? null : selectedDiscount,
-        // offer_price: selectedDiscount ? new_offer_price : price,
-        // sizeId: selectedSize === null ? null : selectedSize,
-        // colorId: selectedColor === null ? null : selectedColor,
-        // PersonCategoryId:
-        //   selectedPersonCategory === null ? null : selectedPersonCategory,
-        // materialId: selectedMaterial === null ? null : selectedMaterial,
-        // patternId: selectedPattern === null ? null : selectedPattern,
-      };
-      console.log("input", data);
-      const response = await axios.post(`/api/website/product`, data);
-      toast.success("Product Added Successfully");
-      router.push(`/admin/website/product/${response.data.id}`);
+      const response = await axios.patch(
+        `/api/website/product/${productId}`,
+        data
+      );
+      toggleEdit();
+      location.reload();
+      toast.success("Product Updated");
     } catch (error: any) {
       console.log(error);
       toast.error("Something went wrong");
     } finally {
       setLoading(false);
     }
-  };
-
-  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    // Check if the input is a valid number or empty string
-    if (/^\d*$/.test(value) || value === "") {
-      setPrice(value === "" ? 0 : parseInt(value, 10));
-    }
-    // setPrice(value);
   };
 
   // Category
@@ -222,8 +196,6 @@ export default function ProductFormPage() {
     setSelectedSubType(e.target.value);
   };
 
-  // Colors
-
   useEffect(() => {
     const fetchColors = async () => {
       const ColorRes = await fetch(`/api/color`);
@@ -245,43 +217,102 @@ export default function ProductFormPage() {
   const handlePalluColorChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedPalluColor(e.target.value);
   };
-  //
 
-  // let new_offer_price: number = price || 0;
-  // // @ts-ignore
-  // if (OneDiscount?.discount) {
-  //   const discount_price =
-  //     // @ts-ignore
-  //     (parseInt(price) * parseInt(OneDiscount.discount)) / 100;
-  //   // @ts-ignore
-  //   new_offer_price = price - discount_price;
-  // }
-
+  console.log;
   return (
-    // <div className="flex flex-col gap-4">
-    // 	<h1 className="text-4xl font-bold">Advertisement</h1>
-    // 	<div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-    // 		<div className="rounded-lg border-black border-2 p-8">
-    <div className="flex flex-col gap-8">
-      <div className="flex justify-between items-center">
-        {/* <h1 className="text-2xl font-semibold">Add Products</h1> */}
-        <Header>Add Product</Header>
-        {!isEditing && (
-          <Button className="flex" onClick={() => setIsEditing(true)}>
-            <Plus />
-            New
-          </Button>
-        )}
-      </div>
+    // <Card className={"flex flex-col gap-6 p-4 border-2"}>
+    <div className="border bg-slate-100 rounded-md p-4 ">
+      <div className="text-sm lg:text-base font-medium flex items-center justify-between">
+        Product Name
+        <Button onClick={toggleEdit} variant="ghost">
+          {isEditing && <>Cancel</>}
 
+          {!isEditing && initialdata && (
+            <>
+              <Pencil className="h-4 w-4 mr-2" />
+              Edit Details
+            </>
+          )}
+        </Button>
+      </div>
+      {!isEditing && (
+        <div className="relative mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="flex flex-col gap-2">
+            <label>Catgeory</label>
+            <Input
+              disabled={true}
+              placeholder="Category name"
+              value={initialdata.category ? initialdata.category.name : ""}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label>Occassion</label>
+            <Input
+              disabled={true}
+              placeholder="Occassion name"
+              value={initialdata.occassion ? initialdata.occassion.name : ""}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label>Type</label>
+            <Input
+              disabled={true}
+              placeholder="Type name"
+              value={initialdata.type ? initialdata.type.name : ""}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label>Sub Type</label>
+            <Input
+              disabled={true}
+              placeholder="Sub Type name"
+              value={initialdata.SubType ? initialdata.SubType.name : ""}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label>Pattern</label>
+            <Input
+              disabled={true}
+              placeholder="Pattern name"
+              value={initialdata.pattern ? initialdata.pattern.name : ""}
+            />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label>Color</label>
+            <Input
+              disabled={true}
+              placeholder="color name"
+              value={initialdata.color ? initialdata.color.name : ""}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label>Blouse Color</label>
+            <Input
+              disabled={true}
+              placeholder="color name"
+              value={
+                initialdata.blouseColor ? initialdata.blouseColor.name : ""
+              }
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label>Blouse Color</label>
+            <Input
+              disabled={true}
+              placeholder="color name"
+              value={initialdata.palluColor ? initialdata.palluColor.name : ""}
+            />
+          </div>
+        </div>
+      )}
       {isEditing && (
         <div className="mb-4">
           <Form {...form}>
             <form
-              onSubmit={form.handleSubmit(handleSubmit)}
-              className="space-y-4 w-full grid grid-cols-1 gap-2"
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-4 w-full"
             >
-              {/* Categories and Brand */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex flex-col gap-2">
                   <FormLabel>Category</FormLabel>
@@ -414,214 +445,6 @@ export default function ProductFormPage() {
                     </select>
                   </div>
                 )}
-              </div>
-              {/* Name and Inventry */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="md:grid gap-8 ">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Product Name</FormLabel>
-                        <FormControl>
-                          <Input
-                            disabled={loading}
-                            placeholder="Product name"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div className="md:grid gap-8 ">
-                  <FormField
-                    control={form.control}
-                    name="qty"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Quantity / Inventory</FormLabel>
-                        <FormControl>
-                          <Input
-                            disabled={loading}
-                            placeholder="Product Quantity / Inventory"
-                            {...field}
-                            type="number"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-              {/* Price */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div className="flex flex-col gap-4 mt-1">
-                  {/* <FormField
-                    control={form.control}
-                    name="price"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-col mt-2 gap-1">
-                      <FormControl>
-                      <Input
-                      disabled={loading}
-                      placeholder="Product Price"
-                      {...field}
-                      type="number"
-                    /> */}
-                  <FormLabel>Price</FormLabel>
-                  <input
-                    className="p-2 border-[2px] text-sm rounded-lg active:ring-2 ring-black placeholder:text-muted-foreground"
-                    type="text"
-                    value={price === 0 ? 0 : price}
-                    onChange={handlePriceChange}
-                    disabled={loading}
-                    placeholder="Product Price"
-                  />
-                  {/* </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  /> */}
-                </div>
-                {/* <div className="flex flex-col gap-4 mt-1">
-                  <FormLabel>Discount</FormLabel>
-                  <select
-                    name="category"
-                    id="category"
-                    // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800 "
-                    className="p-2 border-black border-[1px] rounded-lg"
-                    onChange={handleDiscountChange}
-                  >
-                    {Discounts.length === 0 ? (
-                      <option>No Discount Available</option>
-                    ) : (
-                      <option>Please Select Discount</option>
-                    )}
-                    {Discounts.map((discount) => (
-                      <option
-                        value={discount.id}
-                        key={discount.id}
-                        className="px-4 py-1"
-                      >
-                        {discount.discount} %
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="flex flex-col gap-4 mt-1">
-                  <FormLabel>Offer Price</FormLabel>
-                  <input
-                    className="p-2 border-[2px] text-sm  rounded-lg active:ring-2 ring-black placeholder:text-muted-foreground"
-                    type="number"
-                    value={new_offer_price || 0}
-                    disabled={loading}
-                    placeholder="Offer Price"
-                  />
-                </div> */}
-              </div>
-              {/* Size */}
-              {/* {selectedCategory === Patterns[0]?.categoryId && (
-                <>
-                  <div className="grid grid-cols-1 md:grid-cols-2  gap-4">
-                    <div className="flex flex-col gap-4 mt-1">
-                      <FormLabel>Unit</FormLabel>
-                      <select
-                        name="category"
-                        id="category"
-                        className="p-2 border-black border-[1px] rounded-lg"
-                        onChange={handleSizeChange}
-                      >
-                        {sizes.length === 0 ? (
-                          <option>No Sizes Available</option>
-                        ) : (
-                          <option>Please Select Size</option>
-                        )}
-                        {sizes.map((size) => (
-                          <option
-                            value={size.id}
-                            key={size.id}
-                            className="px-4 py-1"
-                          >
-                            {size.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className="md:grid gap-8 ">
-                      <FormField
-                        control={form.control}
-                        name="size_value"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Size</FormLabel>
-                            <FormControl>
-                              <div className="flex items-center relative">
-                                <Input
-                                  disabled={loading}
-                                  placeholder="Size"
-                                  {...field}
-                                />
-                                <span className="absolute right-4 lg:right-16 md:right-8">
-                                  {Size?.name}
-                                </span>
-                              </div>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                  </div>
-                </>
-              )} */}
-              {/* Descriptions */}
-              <div className="grid grid-cols-1 gap-4">
-                <div className="md:grid gap-8 ">
-                  <FormField
-                    control={form.control}
-                    name="shortDescription"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Short Description</FormLabel>
-                        <FormControl>
-                          <Input
-                            disabled={loading}
-                            placeholder="Short Description"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                {/* <div className="md:grid gap-8 ">
-                  <FormField
-                    control={form.control}
-                    name="features"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Features</FormLabel>
-                        <FormControl>
-                          <Input
-                            disabled={loading}
-                            placeholder="Features"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div> */}
-              </div>
-
-              {/* Dropdowns */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {/* Color */}
                 <div className="flex flex-col gap-2">
                   <FormLabel>Color</FormLabel>
@@ -702,37 +525,6 @@ export default function ProductFormPage() {
                 </div>
               </div>
 
-              {/* Images*/}
-              <div className="md:grid gap-8">
-                <FormField
-                  control={form.control}
-                  name="images"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Image</FormLabel>
-                      <FormControl>
-                        <ImageUpload
-                          value={field.value.map((image) => image.url)}
-                          disabled={loading}
-                          onChange={(url) =>
-                            field.onChange([...field.value, { url }])
-                          }
-                          onRemove={(url) =>
-                            field.onChange([
-                              ...field.value.filter(
-                                (current) => current.url !== url
-                              ),
-                            ])
-                          }
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              {/* Buttons */}
               <div className="flex justify-end">
                 <div className="flex gap-2">
                   <Button
@@ -759,5 +551,6 @@ export default function ProductFormPage() {
         </div>
       )}
     </div>
+    // </Card>
   );
-}
+};

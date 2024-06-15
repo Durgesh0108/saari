@@ -651,14 +651,16 @@ model Pattern {
 }
 
 model Color {
-  id         String    @id @default(auto()) @map("_id") @db.ObjectId
-  name       String    @db.String
-  bannerUrl  String    @default("https://res.cloudinary.com/dttieobbt/image/upload/v1717054596/tmbfbfvi2zx4fuznzjdd.jpg") @db.String
-  hexCode    String    @db.String
-  isArchived Boolean?  @default(false) @db.Bool
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  Product    Product[]
+  id                String    @id @default(auto()) @map("_id") @db.ObjectId
+  name              String    @db.String
+  bannerUrl         String    @default("https://res.cloudinary.com/dttieobbt/image/upload/v1717054596/tmbfbfvi2zx4fuznzjdd.jpg") @db.String
+  hexCode           String    @db.String
+  isArchived        Boolean?  @default(false) @db.Bool
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  productsAsPrimary Product[] @relation("ProductColor")
+  productsAsBlouse  Product[] @relation("ProductBlouseColor")
+  productsAsPallu   Product[] @relation("ProductPalluColor")
 }
 
 model Type {
@@ -704,15 +706,19 @@ model Product {
   pattern          Pattern?       @relation(fields: [patternId], references: [id])
   typeId           String?        @db.ObjectId
   type             Type?          @relation(fields: [typeId], references: [id])
+  subTypeId        String?        @db.ObjectId
+  SubType          SubType?       @relation(fields: [subTypeId], references: [id])
   colorId          String?        @db.ObjectId
-  color            Color?         @relation(fields: [colorId], references: [id])
+  color            Color?         @relation("ProductColor", fields: [colorId], references: [id])
+  blouseColorId    String?        @db.ObjectId
+  blouseColor      Color?         @relation("ProductBlouseColor", fields: [blouseColorId], references: [id])
+  palluColorId     String?        @db.ObjectId
+  palluColor       Color?         @relation("ProductPalluColor", fields: [palluColorId], references: [id])
   isArchived       Boolean?       @default(false) @db.Bool
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
   CartItem         CartItem[]
   OrderProduct     OrderProduct[]
-  SubType          SubType?       @relation(fields: [subTypeId], references: [id])
-  subTypeId        String?        @db.ObjectId
 }
 
 model Image {

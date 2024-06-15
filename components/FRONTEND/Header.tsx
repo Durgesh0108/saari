@@ -31,6 +31,20 @@ export default async function Header() {
     },
   });
 
+  const categories = await prismadb.category.findMany({
+    include: {
+      Pattern: true,
+      Type: {
+        include: {
+          SubType: true,
+        },
+      },
+    },
+
+    take: 3,
+  });
+
+  console.log({ categories });
   // const user = await prismadb.user.findUnique({
   //   where: {
   //     id: userId,
@@ -40,10 +54,9 @@ export default async function Header() {
   //   },
   // });
 
-  
   return (
     <>
-      <Navbar products={products} />
+      <Navbar products={products} categories={categories} />
     </>
   );
 }

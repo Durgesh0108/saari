@@ -10,7 +10,7 @@ import UserProfile from "./User";
 import { useFrontAuthMiddleware } from "@/app/(frontend)/middleware";
 import { cookieHandler } from "@/lib/cookieHandler";
 
-export default function Navbar({ products }) {
+export default function Navbar({ products, categories }) {
   useFrontAuthMiddleware();
   console.log("navbar", { products });
   const [CategoryProducts, setCategoryProducts] = useState([]);
@@ -42,7 +42,7 @@ export default function Navbar({ products }) {
         <div className="col-span-8 w-full  relative pr-8">
           <div className="flex justify-between py-2 text-xl">
             {/* dynamic */}
-            {CategoryProducts.map((category) => (
+            {categories.map((category) => (
               <div className="group  flex flex-col items-center">
                 <div>
                   <Link href={`/category/${category.id}`}>{category.name}</Link>
@@ -53,22 +53,24 @@ export default function Navbar({ products }) {
                 <div className="absolute  z-50 group-hover:flex flex-col top-10  left-0 w-full bg-white py-1 px-4 text-gray-800 shadow-xl hidden ">
                   <div className="mt-6 grid grid-cols-4">
                     {category.Type.map((type, index) => (
-                      <>
+                      <div key={index}>
                         <div>
-                          <div>
-                            <div key={index}>{type.name}</div>
+                          <Link href={`/type/${type.id}`}>
+                            <div>{type.name}</div>
                             <hr className="w-1/4 mt-2 border-[1px] border-[#000000]" />
-                          </div>
-
-                          <div className="mt-4 flex flex-col gap-4">
-                            {type.SubType.map((type, index) => (
-                              <div key={index} className="textbase">
-                                {type.name}
-                              </div>
-                            ))}
-                          </div>
+                          </Link>
                         </div>
-                      </>
+
+                        <div className="mt-4 flex flex-col gap-4">
+                          {type.SubType.map((subtype, index) => (
+                            <div key={index} className="textbase">
+                              <Link href={`/subType/${subtype.id}`}>
+                                {subtype.name}
+                              </Link>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
                     ))}
                     {category.Type.length === 0 && <div>No Type Available</div>}
                   </div>

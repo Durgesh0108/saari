@@ -26,6 +26,9 @@ export async function POST(req: Request) {
         typeId: body.typeId,
         patternId: body.patternId,
         colorId: body.colorId,
+        blouseColorId: body.blouseColorId,
+        palluColorId: body.palluColorId,
+        subTypeId: body.subTypeId,
         images: {
           createMany: {
             data: [...images.map((image: { url: string }) => image)],
@@ -48,11 +51,11 @@ export async function GET(req: Request) {
       },
       include: {
         category: {
-          include:{
-            Pattern:true,
-            Product:true,
-            Type:true
-          }
+          include: {
+            Pattern: true,
+            Product: true,
+            Type: true,
+          },
         },
         color: true,
         description: true,

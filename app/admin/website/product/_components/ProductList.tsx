@@ -18,10 +18,11 @@ import { AlertModal } from "@/components/modal/alert-modal";
 import Link from "next/link";
 import { Product } from "@prisma/client";
 
-const ProductsListPage: React.FC = () => {
+const ProductsListPage = ({ Products }) => {
   const router = useRouter();
 
-  const [Products, setProducts] = useState<Product[]>([]);
+  console.log("Products", Products);
+  // const [Products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [selectedColumns, setSelectedColumns] = useState<Option[]>([
     { value: "id", label: "ID" },
@@ -150,20 +151,22 @@ const ProductsListPage: React.FC = () => {
     //       console.error("Error fetching data:", error);
     //     });
     // } else {
-    fetch(`/api/website/product`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setProducts(data);
-        setFilteredProducts(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
+    // fetch(`/api/website/product`)
+    //   .then((response) => {
+    //     if (!response.ok) {
+    //       throw new Error("Network response was not ok");
+    //     }
+    //     return response.json();
+    //   })
+    //   .then((data) => {
+    //     setProducts(data);
+    //     setFilteredProducts(data);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error fetching data:", error);
+    //   });
+
+    setFilteredProducts(Products);
     // }
   }, []);
   // }, []);
@@ -224,6 +227,8 @@ const ProductsListPage: React.FC = () => {
         console.error("Error deleting product:", error);
       });
   };
+
+  console.log({ filteredProducts, currentItems });
 
   return (
     <>
