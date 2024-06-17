@@ -39,9 +39,31 @@ export default async function BestPricePage({ params }) {
     },
   });
 
+  const categories = await prismadb.category.findMany({
+    where: {
+      name: {
+        not: "Gift Card",
+      },
+    },
+    include: {
+      Pattern: true,
+      Type: {
+        include: {
+          SubType: true,
+        },
+      },
+    },
+
+    // take: 3,
+  });
+
   return (
     <div>
-      <BestPriceListPage bestPrice={bestPrice} products={products} />
+      <BestPriceListPage
+        bestPrice={bestPrice}
+        products={products}
+        category={categories}
+      />
     </div>
   );
 }

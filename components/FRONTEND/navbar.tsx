@@ -12,7 +12,6 @@ import { cookieHandler } from "@/lib/cookieHandler";
 
 export default function Navbar({ products, categories }) {
   useFrontAuthMiddleware();
-  console.log("navbar", { products });
   const [CategoryProducts, setCategoryProducts] = useState([]);
 
   useEffect(() => {
@@ -42,8 +41,8 @@ export default function Navbar({ products, categories }) {
         <div className="col-span-8 w-full  relative pr-8">
           <div className="flex justify-between py-2 text-xl">
             {/* dynamic */}
-            {categories.map((category) => (
-              <div className="group  flex flex-col items-center">
+            {categories.map((category, index) => (
+              <div className="group  flex flex-col items-center" key={index}>
                 <div>
                   <Link href={`/category/${category.id}`}>{category.name}</Link>
                 </div>
@@ -55,7 +54,8 @@ export default function Navbar({ products, categories }) {
                     {category.Type.map((type, index) => (
                       <div key={index}>
                         <div>
-                          <Link href={`/type/${type.id}`}>
+                          {/* <Link href={`/type/${type.id}?typeId=${type.id}`}> */}
+                          <Link href={`/products?typeId=${type.id}`}>
                             <div>{type.name}</div>
                             <hr className="w-1/4 mt-2 border-[1px] border-[#000000]" />
                           </Link>
@@ -64,7 +64,8 @@ export default function Navbar({ products, categories }) {
                         <div className="mt-4 flex flex-col gap-4">
                           {type.SubType.map((subtype, index) => (
                             <div key={index} className="textbase">
-                              <Link href={`/subType/${subtype.id}`}>
+                              {/* <Link href={`/subType/${subtype.id}`}> */}
+                              <Link href={`/products?subTypeId=${subtype.id}`}>
                                 {subtype.name}
                               </Link>
                             </div>
@@ -103,7 +104,9 @@ export default function Navbar({ products, categories }) {
             <Search />
           </div>
           <div>
-            <UserProfile />
+            <Link href={"/order"}>
+              <UserProfile />
+            </Link>
           </div>
           <div className=" flex justify-center items-center">
             <Link href={"/wishlist"}>

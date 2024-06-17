@@ -130,7 +130,8 @@ const ShopByOccassion = ({ occassion, products }) => {
 
   const handleViewMore = () => {
     if (selectedOccasion) {
-      router.push(`/occassion/${selectedOccasion}`);
+      // router.push(`/occassion/${selectedOccasion}`);
+      router.push(`/products?occassionId=${selectedOccasion}`);
     }
   };
 
@@ -157,7 +158,8 @@ const ShopByOccassion = ({ occassion, products }) => {
                   </div>
                 </Link>
               )} */}
-              <Link href={`/occassion/${selectedOccasion}`}>
+              {/* <Link href={`/occassion/${selectedOccasion}`}> */}
+              <Link href={`/products?occassionId=${selectedOccasion}`}>
                 <div className="h-[420px] relative">
                   <Image
                     src={

@@ -74,12 +74,12 @@ const PropertyListReducer = (state, action) => {
   return InitialState;
 };
 
-const ShopByOccassion = ({occassion,products}) => {
+const ShopByOccassion = ({ occassion, products }) => {
   const [isActive, setIsActive] = useState(false);
   const [selectedOccasion, setSelectedOccasion] = useState(null);
   const router = useRouter();
   const params = useParams();
-  
+
   // const [products, setProducts] = useState<Product[]>([]);
   // const [occassion, setOccassion] = useState([]);
 
@@ -154,7 +154,8 @@ const ShopByOccassion = ({occassion,products}) => {
 
   const handleViewMore = () => {
     if (selectedOccasion) {
-      router.push(`/occassion/${selectedOccasion.id}`);
+      // router.push(`/occassion/${selectedOccasion.id}`);
+      router.push(`/products?occassionId=${selectedOccasion.id}`);
     }
   };
 

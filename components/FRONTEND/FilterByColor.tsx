@@ -569,7 +569,8 @@ const FilterByColor = () => {
 
   const handleViewMore = () => {
     if (selectedColor) {
-      router.push(`/color/${selectedColor.id}`);
+      // router.push(`/color/${selectedColor.id}`);
+      router.push(`/products?colorId=${selectedColor.id}`);
     }
   };
 

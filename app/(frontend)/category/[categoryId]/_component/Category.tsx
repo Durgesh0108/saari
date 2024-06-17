@@ -36,7 +36,7 @@ export default function ShopByCategory({ types }) {
 
             <div className="list-collection relative section-swiper-navigation md:mt-10 mt-6 sm:px-5 px-4 grid grid-cols-4 gap-8">
               {types.map((slide, index) => (
-                <Link href={`/type/${slide.id}`} key={index}>
+                <Link href={`/products?typeId=${slide.id}`} key={index}>
                   <div
                     className="hover:scale-110 z-50 duration-500 group "
                     key={index}

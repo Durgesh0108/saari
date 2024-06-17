@@ -23,9 +23,26 @@ export default async function SubTypePage({ params }) {
       type: true,
     },
   });
+  const categories = await prismadb.category.findMany({
+    where: {
+      name: {
+        not: "Gift Card",
+      },
+    },
+    include: {
+      Pattern: true,
+      Type: {
+        include: {
+          SubType: true,
+        },
+      },
+    },
+
+    // take: 3,
+  });
   return (
     <>
-      <SubTypeListPage SubTypes={SubTypes} products={product} />
+      <SubTypeListPage SubTypes={SubTypes} products={product} category={categories}/>
     </>
   );
 }

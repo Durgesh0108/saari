@@ -1,20 +1,17 @@
 import React from "react";
-import TypeListPage from "./_component/TypeListPage";
 import prismadb from "@/lib/prisma";
+import CategoryProductListGrid from "./_components/CategoryProductGridlist";
 
-export default async function TypePage({ params, searchParams }) {
-  console.log({ params, searchParams });
-  console.log(searchParams.typeId);
-
-  const type = await prismadb.type.findUnique({
+export default async function OccassionListPage({ params }) {
+  const cate = await prismadb.category.findUnique({
     where: {
-      id: params.typeId,
+      id: params.categoryId,
     },
   });
 
   const product = await prismadb.product.findMany({
     where: {
-      typeId: params.typeId,
+      categoryId: params.categoryId,
     },
     include: {
       category: true,
@@ -26,6 +23,7 @@ export default async function TypePage({ params, searchParams }) {
       type: true,
     },
   });
+
   const categories = await prismadb.category.findMany({
     where: {
       name: {
@@ -43,9 +41,14 @@ export default async function TypePage({ params, searchParams }) {
 
     // take: 3,
   });
+
   return (
     <>
-      <TypeListPage Types={type} products={product} category={categories} />
+      <CategoryProductListGrid
+        cate={cate}
+        products={product}
+        category={categories}
+      />
     </>
   );
 }

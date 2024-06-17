@@ -74,7 +74,7 @@ const PropertyListReducer = (state, action) => {
   return InitialState;
 };
 
-const NewArrivalSection = ({products}) => {
+const NewArrivalSection = ({ products }) => {
   const [isActive, setIsActive] = useState(false);
   // const [products, setProducts] = useState<Product[]>([]);
   const [selectedOccasion, setSelectedOccasion] = useState(null);
@@ -174,7 +174,7 @@ const NewArrivalSection = ({products}) => {
             {propertyList.propertyOnPage.slice(0, 4).map((property, index) => (
               <Link key={index} href={`/product/${property.id}`}>
                 <div className=" h-full" key={index}>
-                  <div className="xl:h-80 2xl:96 h-72">
+                  <div className="h-72 2xl:h-96 ">
                     <Image
                       src={property.images[0].url}
                       alt={property.name}

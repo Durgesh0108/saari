@@ -24,9 +24,26 @@ export default async function OccassionListPage({ params }) {
     },
   });
 
+  const categories = await prismadb.category.findMany({
+    where: {
+      name: {
+        not: "Gift Card",
+      },
+    },
+    include: {
+      Pattern: true,
+      Type: {
+        include: {
+          SubType: true,
+        },
+      },
+    },
+
+    // take: 3,
+  });
   return (
     <>
-      <OccassionPage Occassion={occassion} products={product} />
+      <OccassionPage Occassion={occassion} products={product} category={categories}/>
     </>
   );
 }

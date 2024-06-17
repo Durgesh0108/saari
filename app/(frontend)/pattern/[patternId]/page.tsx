@@ -22,9 +22,26 @@ export default async function PatternPage({ params }) {
       type: true,
     },
   });
+  const categories = await prismadb.category.findMany({
+    where: {
+      name: {
+        not: "Gift Card",
+      },
+    },
+    include: {
+      Pattern: true,
+      Type: {
+        include: {
+          SubType: true,
+        },
+      },
+    },
+
+    // take: 3,
+  });
   return (
     <>
-      <PatternListPage Patterns={pattern} products={product} />
+      <PatternListPage Patterns={pattern} products={product} category={categories}/>
     </>
   );
 }

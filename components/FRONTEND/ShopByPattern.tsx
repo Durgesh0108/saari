@@ -19,10 +19,6 @@ import Image from "next/image";
 const nunito = Nunito_Sans({ subsets: ["latin"] });
 
 export default function ShopByPattern({ Patterns }) {
-  
-
-  
-
   return (
     <div className="text-center mt-8">
       <div className="container m-auto py-8 px-10 flex flex-col gap-y-4">
@@ -59,12 +55,13 @@ export default function ShopByPattern({ Patterns }) {
               slideShadows: true,
             }}
             modules={[EffectCoverflow, Pagination, Navigation]}
-            className="mySwiper  p-8 "
+            className="mySwiper selection:w-3/4 "
           >
             {Patterns.map((pattern, index) => (
-              <SwiperSlide className="w-1/3   overflow-hidden" key={index}>
-                <Link href={`/pattern/${pattern.id}`}>
-                  <div className=" h-96  relative  ">
+              <SwiperSlide className=" w-1/3  overflow-hidden" key={index}>
+                {/* <Link href={`/pattern/${pattern.id}`}> */}
+                <Link href={`/products?patternId=${pattern.id}`}>
+                  <div className=" h-80  relative  ">
                     <Image
                       src={pattern.imageUrl}
                       alt={pattern.name}

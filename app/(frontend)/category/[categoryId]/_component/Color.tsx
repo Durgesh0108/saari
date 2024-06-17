@@ -472,13 +472,13 @@ const PropertyListReducer = (state, action) => {
   return InitialState;
 };
 
-const FilterByColor = ({color,products}) => {
+const FilterByColor = ({ color, products }) => {
   const [isActive, setIsActive] = useState(false);
   const [activeColor, setActiveColor] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
   const router = useRouter();
   const params = useParams();
-  
+
   // const [products, setProducts] = useState<Product[]>([]);
   // const [color, setcolor] = useState<Color[]>([]);
 
@@ -572,7 +572,8 @@ const FilterByColor = ({color,products}) => {
 
   const handleViewMore = () => {
     if (selectedColor) {
-      router.push(`/color/${selectedColor.id}`);
+      // router.push(`/color/${selectedColor.id}`);
+      router.push(`/products?colorId=${selectedColor.id}`);
     }
   };
 

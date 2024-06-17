@@ -30,7 +30,8 @@ export default function ShopByCategory({ categories }) {
 
         <div className="list-collection relative section-swiper-navigation md:mt-10 mt-6 sm:px-5 px-4 grid grid-cols-4 gap-8">
           {categories.map((category, index) => (
-            <Link href={`/category/${category.id}`} key={index}>
+            // <Link href={`/category/${category.id}`} key={index}>
+            <Link href={`/products?categoryId=${category.id}`} key={index}>
               <div
                 className="hover:scale-110 z-50 duration-500 group "
                 key={index}

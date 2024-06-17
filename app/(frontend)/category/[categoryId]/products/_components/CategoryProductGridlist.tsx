@@ -12,12 +12,14 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import Image from "next/image";
-import ProductListing from "@/components/ui/ProductListing";
 import NoProduct from "@/components/ui/NoProduct";
+import ProductListing from "@/components/ui/ProductListing";
 
-export default function TypeListPage({ Types, products, category }) {
+export default function CategoryProductListGrid({ cate, products, category }) {
   const params = useParams();
 
+  // const [Color, setColor] = useState([]);
+  // const [products, setProducts] = useState([]);
   const [distinctColors, setDistinctColors] = useState([]);
   const [distinctTypes, setDistinctTypes] = useState([]);
   const [distinctCategories, setDistinctCategories] = useState([]);
@@ -50,7 +52,7 @@ export default function TypeListPage({ Types, products, category }) {
     };
 
     fetchProducts();
-  }, [params.typeId]);
+  }, [params.colorId]);
 
   const handleFilterChange = (filterType, value) => {
     setFilters((prevFilters) => {
@@ -107,10 +109,10 @@ export default function TypeListPage({ Types, products, category }) {
   return (
     <div className=" no-scrollbar z-10">
       <div className=" ">
-        {Types.bannerUrl && (
+        {cate.bannerUrl && (
           <Image
-            src={Types.bannerUrl}
-            alt={Types.name}
+            src={cate.bannerUrl}
+            alt={cate.name}
             width={1000}
             height={1}
             loading="lazy"
@@ -333,7 +335,7 @@ export default function TypeListPage({ Types, products, category }) {
           <div className="col-span-6 p-4  ">
             <div className="flex items-center justify-between">
               <h1 className="text-3xl font-bold m-4 ml-0 uppercase px-4">
-                {Types?.name}
+                {cate?.name}
               </h1>
               <button
                 className="bg-red-500 text-white px-4 py-2 rounded"

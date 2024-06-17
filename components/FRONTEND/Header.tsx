@@ -4,8 +4,6 @@ import Navbar from "./navbar";
 import { cookieHandler } from "@/lib/cookieHandler";
 
 export default async function Header() {
-  const userId = cookieHandler.get("userId");
-
   const products = await prismadb.product.findMany({
     orderBy: {
       name: "asc",
@@ -32,6 +30,11 @@ export default async function Header() {
   });
 
   const categories = await prismadb.category.findMany({
+    where: {
+      name: {
+        not: "Gift Card",
+      },
+    },
     include: {
       Pattern: true,
       Type: {
@@ -41,10 +44,9 @@ export default async function Header() {
       },
     },
 
-    take: 3,
+    // take: 3,
   });
 
-  console.log({ categories });
   // const user = await prismadb.user.findUnique({
   //   where: {
   //     id: userId,

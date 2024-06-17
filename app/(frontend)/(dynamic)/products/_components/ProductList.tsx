@@ -15,7 +15,7 @@ import Image from "next/image";
 import ProductListing from "@/components/ui/ProductListing";
 import NoProduct from "@/components/ui/NoProduct";
 
-export default function TypeListPage({ Types, products, category }) {
+export default function ProductsList({ Types, products, category }) {
   const params = useParams();
 
   const [distinctColors, setDistinctColors] = useState([]);
@@ -50,7 +50,7 @@ export default function TypeListPage({ Types, products, category }) {
     };
 
     fetchProducts();
-  }, [params.typeId]);
+  }, [params.typeId, products]);
 
   const handleFilterChange = (filterType, value) => {
     setFilters((prevFilters) => {
@@ -107,16 +107,26 @@ export default function TypeListPage({ Types, products, category }) {
   return (
     <div className=" no-scrollbar z-10">
       <div className=" ">
-        {Types.bannerUrl && (
+        {/* {Types?.bannerUrl && (
           <Image
             src={Types.bannerUrl}
             alt={Types.name}
             width={1000}
-            height={1}
+            height={500} // Updated to maintain aspect ratio
             loading="lazy"
             className="w-full h-full object-cover"
           />
-        )}
+        )} */}
+        <Image
+          src={
+            "https://res.cloudinary.com/dttieobbt/image/upload/v1718444371/kdfbqrm9nldxuprnxz1a.jpg"
+          }
+          alt={Types.name}
+          width={1000}
+          height={500} // Updated to maintain aspect ratio
+          loading="lazy"
+          className="w-full h-full object-cover"
+        />
       </div>
       <div className="">
         <div className="grid grid-cols-8 container  ">
@@ -128,25 +138,6 @@ export default function TypeListPage({ Types, products, category }) {
                   CATEGORY
                 </AccordionTrigger>
                 <AccordionContent className="text-lg font-medium">
-                  {/* <div>
-                      {distinctCategories.map((category) => (
-                        <div key={category} className="flex items-center">
-                          <input
-                            type="checkbox"
-                            id={category}
-                            name="category"
-                            value={category}
-                            checked={filters.category.includes(category)}
-                            onChange={(e) =>
-                              handleFilterChange("category", e.target.value)
-                            }
-                          />
-                          <label htmlFor={category} className="ml-2">
-                            {category}
-                          </label>
-                        </div>
-                      ))}
-                    </div> */}
                   <div>
                     <Accordion type="single" collapsible>
                       {category.map((cate, index) => (
@@ -157,7 +148,7 @@ export default function TypeListPage({ Types, products, category }) {
                           >
                             <AccordionTrigger className="text-xl font-medium py-2">
                               <div className="group/category w-fit ml-2">
-                                <Link href={`/category/${cate.id}/products`}>
+                                <Link href={`/products?categoryId=${cate.id}`}>
                                   <div>{cate.name}</div>
                                   <div
                                     className={`duration-300 w-0  group-hover/category:w-full rounded-full border-b-2 border-b-black `}
@@ -176,7 +167,9 @@ export default function TypeListPage({ Types, products, category }) {
                                       >
                                         <AccordionTrigger className="text-xl font-medium py-2">
                                           <div className="group/type w-fit">
-                                            <Link href={`/type/${type.id}`}>
+                                            <Link
+                                              href={`/products?typeId=${type.id}`}
+                                            >
                                               <div className="">
                                                 {type.name}
                                               </div>
@@ -195,7 +188,7 @@ export default function TypeListPage({ Types, products, category }) {
                                                   className=" ml-6 group/subtype w-fit"
                                                 >
                                                   <Link
-                                                    href={`/subType/${subtype.id}`}
+                                                    href={`/products?subTypeId=${subtype.id}`}
                                                   >
                                                     <div>{subtype.name}</div>
                                                     <div

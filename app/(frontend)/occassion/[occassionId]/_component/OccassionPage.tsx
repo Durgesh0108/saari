@@ -12,8 +12,10 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import Image from "next/image";
+import ProductListing from "@/components/ui/ProductListing";
+import NoProduct from "@/components/ui/NoProduct";
 
-export default function OccassionPage({ Occassion, products }) {
+export default function OccassionPage({ Occassion, products, category }) {
   const params = useParams();
 
   //   const [Occassion, setOccassion] = useState([]);
@@ -132,14 +134,13 @@ export default function OccassionPage({ Occassion, products }) {
         <div className="grid grid-cols-8 container  ">
           <div className="col-span-2  h-full p-8 sticky ">
             <h1 className="text-3xl font-bold mb-4">Filters</h1>
-            <div className="">
-              <Accordion type="single" collapsible>
-                <AccordionItem value="item-1">
-                  <AccordionTrigger className="text-xl font-medium">
-                    CATEGORY
-                  </AccordionTrigger>
-                  <AccordionContent className="text-lg font-medium">
-                    <div>
+            <Accordion type="single" collapsible>
+              <AccordionItem value="item-1">
+                <AccordionTrigger className="text-xl font-medium">
+                  CATEGORY
+                </AccordionTrigger>
+                <AccordionContent className="text-lg font-medium">
+                  {/* <div>
                       {distinctCategories.map((category) => (
                         <div key={category} className="flex items-center">
                           <input
@@ -157,131 +158,189 @@ export default function OccassionPage({ Occassion, products }) {
                           </label>
                         </div>
                       ))}
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </div>
-            <div className="">
-              <Accordion type="single" collapsible>
-                <AccordionItem value="item-1">
-                  <AccordionTrigger className="text-xl font-medium">
-                    OCCASION
-                  </AccordionTrigger>
-                  <AccordionContent className="text-lg font-medium">
-                    <div>
-                      {distinctOccasions.map((occasion) => (
-                        <div key={occasion} className="flex items-center">
-                          <input
-                            type="checkbox"
-                            id={occasion}
-                            name="occasion"
-                            value={occasion}
-                            checked={filters.occasion.includes(occasion)}
-                            onChange={(e) =>
-                              handleFilterChange("occasion", e.target.value)
-                            }
-                          />
-                          <label htmlFor={occasion} className="ml-2">
-                            {occasion}
-                          </label>
+                    </div> */}
+                  <div>
+                    <Accordion type="single" collapsible>
+                      {category.map((cate, index) => (
+                        <div key={index}>
+                          <AccordionItem
+                            value={`item-${index + 1}`}
+                            className="border-0"
+                          >
+                            <AccordionTrigger className="text-xl font-medium py-2">
+                              <div className="group/category w-fit ml-2">
+                                <Link href={`/category/${cate.id}/products`}>
+                                  <div>{cate.name}</div>
+                                  <div
+                                    className={`duration-300 w-0  group-hover/category:w-full rounded-full border-b-2 border-b-black `}
+                                  ></div>
+                                </Link>
+                              </div>
+                            </AccordionTrigger>
+                            <AccordionContent className="text-lg font-medium pb-2">
+                              <div>
+                                <Accordion type="single" collapsible>
+                                  {cate.Type.map((type, index) => (
+                                    <div key={index} className=" ml-4">
+                                      <AccordionItem
+                                        value={`item-${index + 1}`}
+                                        className="border-0"
+                                      >
+                                        <AccordionTrigger className="text-xl font-medium py-2">
+                                          <div className="group/type w-fit">
+                                            <Link href={`/type/${type.id}`}>
+                                              <div className="">
+                                                {type.name}
+                                              </div>
+                                              <div
+                                                className={`duration-300 w-0  group-hover/type:w-full rounded-full border-b-2 border-b-black `}
+                                              ></div>
+                                            </Link>
+                                          </div>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="text-lg font-medium ">
+                                          <div>
+                                            {type.SubType.map(
+                                              (subtype, index) => (
+                                                <div
+                                                  key={index}
+                                                  className=" ml-6 group/subtype w-fit"
+                                                >
+                                                  <Link
+                                                    href={`/subType/${subtype.id}`}
+                                                  >
+                                                    <div>{subtype.name}</div>
+                                                    <div
+                                                      className={`duration-300 w-0  group-hover/subtype:w-full rounded-full border-b-2 border-b-black `}
+                                                    ></div>
+                                                  </Link>
+                                                </div>
+                                              )
+                                            )}
+                                          </div>
+                                        </AccordionContent>
+                                      </AccordionItem>
+                                    </div>
+                                  ))}
+                                </Accordion>
+                              </div>
+                            </AccordionContent>
+                          </AccordionItem>
                         </div>
                       ))}
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </div>
-            <div className="">
-              <Accordion type="single" collapsible>
-                <AccordionItem value="item-1">
-                  <AccordionTrigger className="text-xl font-medium">
-                    TYPES
-                  </AccordionTrigger>
-                  <AccordionContent className="text-lg font-medium">
-                    <div>
-                      {distinctTypes.map((type) => (
-                        <div key={type} className="flex items-center">
-                          <input
-                            type="checkbox"
-                            id={type}
-                            name="type"
-                            value={type}
-                            checked={filters.type.includes(type)}
-                            onChange={(e) =>
-                              handleFilterChange("type", e.target.value)
-                            }
-                          />
-                          <label htmlFor={type} className="ml-2">
-                            {type}
-                          </label>
-                        </div>
-                      ))}
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </div>
-            <div className="">
-              <Accordion type="single" collapsible>
-                <AccordionItem value="item-1">
-                  <AccordionTrigger className="text-xl font-medium">
-                    COLOR
-                  </AccordionTrigger>
-                  <AccordionContent className="text-lg font-medium">
-                    <div>
-                      {distinctColors.map((color) => (
-                        <div key={color} className="flex items-center">
-                          <input
-                            type="checkbox"
-                            id={color}
-                            name="color"
-                            value={color}
-                            checked={filters.color.includes(color)}
-                            onChange={(e) =>
-                              handleFilterChange("color", e.target.value)
-                            }
-                          />
-                          <label htmlFor={color} className="ml-2">
-                            {color}
-                          </label>
-                        </div>
-                      ))}
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </div>
-            <div className="">
-              <Accordion type="single" collapsible>
-                <AccordionItem value="item-1">
-                  <AccordionTrigger className="text-xl font-medium">
-                    PATTERN
-                  </AccordionTrigger>
-                  <AccordionContent className="text-lg font-medium">
-                    <div>
-                      {distinctPatterns.map((pattern) => (
-                        <div key={pattern} className="flex items-center">
-                          <input
-                            type="checkbox"
-                            id={pattern}
-                            name="pattern"
-                            value={pattern}
-                            checked={filters.pattern.includes(pattern)}
-                            onChange={(e) =>
-                              handleFilterChange("pattern", e.target.value)
-                            }
-                          />
-                          <label htmlFor={pattern} className="ml-2">
-                            {pattern}
-                          </label>
-                        </div>
-                      ))}
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </div>
+                    </Accordion>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-2">
+                <AccordionTrigger className="text-xl font-medium ">
+                  OCCASION
+                </AccordionTrigger>
+                <AccordionContent className="text-lg font-medium">
+                  <div>
+                    {distinctOccasions.map((occasion) => (
+                      <div key={occasion} className="flex items-center">
+                        <input
+                          type="checkbox"
+                          id={occasion}
+                          name="occasion"
+                          value={occasion}
+                          checked={filters.occasion.includes(occasion)}
+                          onChange={(e) =>
+                            handleFilterChange("occasion", e.target.value)
+                          }
+                        />
+                        <label htmlFor={occasion} className="ml-2">
+                          {occasion}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-3">
+                <AccordionTrigger className="text-xl font-medium">
+                  TYPES
+                </AccordionTrigger>
+                <AccordionContent className="text-lg font-medium">
+                  <div>
+                    {distinctTypes.map((type) => (
+                      <div key={type} className="flex items-center">
+                        <input
+                          type="checkbox"
+                          id={type}
+                          name="type"
+                          value={type}
+                          checked={filters.type.includes(type)}
+                          onChange={(e) =>
+                            handleFilterChange("type", e.target.value)
+                          }
+                        />
+                        <label htmlFor={type} className="ml-2">
+                          {type}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-4">
+                <AccordionTrigger className="text-xl font-medium">
+                  COLOR
+                </AccordionTrigger>
+                <AccordionContent className="text-lg font-medium">
+                  <div>
+                    {distinctColors.map((color) => (
+                      <div key={color} className="flex items-center">
+                        <input
+                          type="checkbox"
+                          id={color}
+                          name="color"
+                          value={color}
+                          checked={filters.color.includes(color)}
+                          onChange={(e) =>
+                            handleFilterChange("color", e.target.value)
+                          }
+                        />
+                        <label htmlFor={color} className="ml-2">
+                          {color}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-5">
+                <AccordionTrigger className="text-xl font-medium">
+                  PATTERN
+                </AccordionTrigger>
+                <AccordionContent className="text-lg font-medium">
+                  <div>
+                    {distinctPatterns.map((pattern) => (
+                      <div key={pattern} className="flex items-center">
+                        <input
+                          type="checkbox"
+                          id={pattern}
+                          name="pattern"
+                          value={pattern}
+                          checked={filters.pattern.includes(pattern)}
+                          onChange={(e) =>
+                            handleFilterChange("pattern", e.target.value)
+                          }
+                        />
+                        <label htmlFor={pattern} className="ml-2">
+                          {pattern}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </div>
           <div className="col-span-6 p-4  ">
             <div className="flex items-center justify-between">
@@ -315,69 +374,10 @@ export default function OccassionPage({ Occassion, products }) {
             </div>
             <div>
               {filteredProducts.length > 0 ? (
-                <div className="grid grid-cols-3 gap-8  py-12 px-4   h-screen overflow-auto no-scrollbar">
-                  {filteredProducts.map((product, index) => (
-                    <Link key={index} href={`/product/${product.id}`}>
-                      <div
-                        className="hover:scale-110 z-50 duration-700 group"
-                        key={index}
-                      >
-                        <div className="rounded-tl-[100px] rounded-br-2xl h-72 relative -top-5">
-                          <Image
-                            src={product.images[0].url}
-                            alt={product.name}
-                            height={1}
-                            width={1000}
-                            className="w-full h-full overflow-hidden object-cover rounded-tl-[100px] rounded-br-2xl"
-                          />
-                        </div>
-                        <div className="group-hover:scale-110 group-hover:ml-3 duration-700 text-[20px]">
-                          {product.name}
-                        </div>
-                      </div>
-                    </Link>
-                  ))}
-
-                  {/* {[{}, {}, {}, {}, {}, {}, {}, {}, {}, {}].map(
-                (product, index) => (
-                  <div
-                    className="hover:scale-105 z-10 duration-700 group  rounded-lg p-2 hover:shadow-3xl "
-                    key={index}
-                  >
-                    <div className="rounded-tl-[100px] rounded-br-2xl h-80 relative ">
-                      <img
-                        src={
-                          "https://res.cloudinary.com/dttieobbt/image/upload/v1716532524/rfecteffexn2d8ukadbz.jpg"
-                        }
-                        alt={"Banarasi Saaris"}
-                        className="w-full h-full overflow-hidden object-cover rounded-tl-[100px] rounded-br-2xl"
-                      />
-                    </div>
-                    <div className="group-hover:scale-110 group-hover:ml-3 duration-500 relative text-[20px]">
-                      <p>Banarasi Saaris</p>
-                      <p>Price: Rs 3000</p>
-                    </div>
-                  </div>
-                )
-              )} */}
-                </div>
+                <ProductListing products={filteredProducts} />
               ) : (
                 <div className="  py-12 px-4   h-screen overflow-auto no-scrollbar">
-                  {filteredProducts.length === 0 && (
-                    <div className="flex flex-col justify-center items-center text-center w-full h-full ">
-                      <p className=" flex items-center">
-                        <Image
-                          src={
-                            "https://res.cloudinary.com/dttieobbt/image/upload/v1717074733/product-not-found_ptexdu.jpg"
-                          }
-                          alt="no Product"
-                          height={1}
-                          width={1000}
-                          className="w-fit h-full object-contain "
-                        />
-                      </p>
-                    </div>
-                  )}
+                  {filteredProducts.length === 0 && <NoProduct />}
                 </div>
               )}
             </div>

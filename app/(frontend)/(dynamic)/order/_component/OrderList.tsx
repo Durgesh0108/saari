@@ -9,26 +9,36 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
-export default function OrdersPage() {
-  const [orders, setOrders] = useState([]);
+export default function OrdersListPage({ orders }) {
+  //   const [orders, setOrders] = useState([]);
   const userId = cookieHandler.get("userId");
   const router = useRouter();
+  const token = cookieHandler.get("token");
+  if (token) {
+    const decoded = jwtDecode(token);
+    console.log({ decoded });
+  }
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const orderRes = await fetch(`/api/order/${userId}`);
-        const orders = await orderRes.json();
-        setOrders(orders);
-      } catch (error) {
-        console.error("Error fetching orders:", error);
-        toast.error("Failed to load orders. Please try again later.");
-      }
-    };
+  let userOrders = orders.filter((order) => order.userId === userId);
 
-    fetchOrders();
-  }, [userId]);
+  console.log({ orders, userOrders });
+
+  //   useEffect(() => {
+  //     const fetchOrders = async () => {
+  //       try {
+  //         const orderRes = await fetch(`/api/order/${userId}`);
+  //         const orders = await orderRes.json();
+  //         setOrders(orders);
+  //       } catch (error) {
+  //         console.error("Error fetching orders:", error);
+  //         toast.error("Failed to load orders. Please try again later.");
+  //       }
+  //     };
+
+  //     fetchOrders();
+  //   }, [userId]);
 
   return (
     <div>
@@ -52,7 +62,7 @@ export default function OrdersPage() {
                     </div>
                   </div>
                   <div className="list-order-main w-full mt-3">
-                    {orders.map((order, index) => (
+                    {userOrders.map((order, index) => (
                       <div
                         key={index}
                         className="item flex md:mt-7 md:pb-7 mt-5 pb-5 border-b border-line w-full"
@@ -101,7 +111,7 @@ export default function OrdersPage() {
                       </div>
                     </div>
                   </div>
-                  {orders.map((order, index) => (
+                  {userOrders.map((order, index) => (
                     <div key={index} className="list-products-main w-full mt-3">
                       {order.orderProducts.map((product, productIndex) => (
                         <div

@@ -24,9 +24,27 @@ export default async function ColorPage({ params }) {
       type: true,
     },
   });
+
+  const categories = await prismadb.category.findMany({
+    where: {
+      name: {
+        not: "Gift Card",
+      },
+    },
+    include: {
+      Pattern: true,
+      Type: {
+        include: {
+          SubType: true,
+        },
+      },
+    },
+
+    // take: 3,
+  });
   return (
     <>
-      <ColorListPage Color={color} products={product} />
+      <ColorListPage Color={color} products={product} category={categories}/>
     </>
   );
 }
