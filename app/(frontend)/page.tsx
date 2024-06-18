@@ -70,9 +70,9 @@ export default async function Home() {
 
   return (
     <>
-      <div className="">
+      <div className="flex flex-col gap-y-8 md:gap-y-16">
         <CarouselSlider sliders={sliders} />
-        <div className="">
+        <div className="flex flex-col gap-y-8 md:gap-y-16">
           {/* <TabSection /> */}
           <ShopByCategory categories={categories} />
           <ShopByOccassion occassion={occassions} products={products} />

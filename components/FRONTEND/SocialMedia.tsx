@@ -6,7 +6,7 @@ const nunito = Nunito_Sans({ subsets: ["latin"] });
 export default function SocialMedia() {
   return (
     <div className="">
-      <div className="container m-auto py-8 flex-col gap-y-4 flex">
+      <div className="container m-auto  flex-col gap-y-4 flex">
         <div
           className={`font-medium text-[#afafaf] text-2xl ${nunito.className}`}
         >

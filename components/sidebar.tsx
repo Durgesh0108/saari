@@ -179,7 +179,7 @@ export default function Sidebar() {
   const [sideBarIsOpen, setSideBarIsOpen] = useState(false);
 
   const toggleSideBar = () => setSideBarIsOpen((current) => !current);
-  console.log({ sideBarIsOpen });
+
   return (
     <>
       {/* <div className="flex flex-col min-h-screen h-full min-w-fit p-8  text-white">
