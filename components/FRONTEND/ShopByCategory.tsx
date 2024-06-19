@@ -69,20 +69,17 @@ import Image from "next/image";
 import React from "react";
 import Link from "next/link";
 import { Nunito_Sans } from "next/font/google";
+import Header1 from "../ui/Header1";
+import Header2 from "../ui/Header2";
 const nunito = Nunito_Sans({ subsets: ["latin"] });
 
 export default function ShopByCategory({ categories }) {
   return (
     <div className="">
       <div className="container mx-auto flex flex-col gap-y-2 md:gap-y-4 px-4 sm:px-8">
-        <div
-          className={`font-medium text-[#afafaf] text-lg md:text-2xl ${nunito.className}`}
-        >
-          Shop By Category
-        </div>
-        <div className="font-medium text-2xl md:text-5xl italic">
-          Fine drapes, ready-to-wear styles, and more
-        </div>
+        <Header1>Shop By Category</Header1>
+        <Header2>Fine drapes, ready-to-wear styles & more</Header2>
+
         <div className="relative section-swiper-navigation  grid grid-cols-4 gap-2 md:gap-6">
           {categories.map((category) => (
             <Link
@@ -100,7 +97,7 @@ export default function ShopByCategory({ categories }) {
                     className="w-full h-full object-cover rounded-2xl md:rounded-none md:rounded-tl-[100px] md:rounded-br-2xl group-hover:shadow-2xl group-hover:shadow-slate-300"
                   />
                 </div>
-                <div className="mt-2 text-base  md:text-2xl italic transition duration-300 group-hover:font-bold group-hover:text-lg md:group-hover:text-3xl">
+                <div className="text-base  md:text-2xl transition duration-700 group-hover:font-bold group-hover:text-lg md:group-hover:text-3xl">
                   {category.name}
                 </div>
               </div>

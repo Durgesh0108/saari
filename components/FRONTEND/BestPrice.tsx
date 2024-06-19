@@ -140,48 +140,80 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Nunito_Sans } from "next/font/google";
+import Header1 from "../ui/Header1";
+import Header2 from "../ui/Header2";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import { Pagination, Navigation, Autoplay } from "swiper/modules";
 
 const nunito = Nunito_Sans({ subsets: ["latin"] });
 
 const BestPriceSection = ({ bestPrice }) => {
   return (
-    <div className="py-8">
+    <div className="">
       <div className="container mx-auto px-4 sm:px-8">
         <div className="text-center mb-8">
-          <div
-            className={`font-medium text-[#afafaf] text-lg md:text-2xl ${nunito.className}`}
-          >
-            Best Price
-          </div>
-          <div className="font-medium text-3xl md:text-5xl italic">
-            Shop the Products at Best Price
-          </div>
+          <Header1>Best Price</Header1>
+          <Header2>Shop the Products at Best Price</Header2>
         </div>
 
         {bestPrice.length > 0 ? (
-          <div className="grid grid-cols-4 gap-2 md:gap-6">
+          <Swiper
+            slidesPerView={2.5}
+            spaceBetween={20}
+            loop={true}
+            // pagination={{
+            //   dynamicBullets: true,
+            //   clickable: true,
+            // }}
+            autoplay={{
+              delay: 3000,
+              disableOnInteraction: false,
+            }}
+            // navigation={true}
+            modules={[Pagination, Navigation, Autoplay]}
+            breakpoints={{
+              640: {
+                slidesPerView: 3.5,
+                spaceBetween: 20,
+              },
+              768: {
+                slidesPerView: 4.5,
+                spaceBetween: 20,
+              },
+              1024: {
+                slidesPerView: 4.5,
+                spaceBetween: 30,
+              },
+            }}
+            className="w-full"
+          >
             {bestPrice.slice(0, 4).map((best, index) => (
-              <Link
-                key={index}
-                href={`/BestPrice/${best.id}`}
-                className="group"
-              >
-                <div className="relative rounded-tl-2xl rounded-br-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
-                  <Image
-                    src={best.imageUrl}
-                    alt={best.name}
-                    layout="responsive"
-                    width={500}
-                    height={500}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-lg md:text-xl p-2 text-center">
-                    {best.name}
+              <SwiperSlide key={index}>
+                <Link
+                  key={index}
+                  href={`/BestPrice/${best.id}`}
+                  className="group"
+                >
+                  <div className="relative rounded-tl-2xl rounded-br-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                    <Image
+                      src={best.imageUrl}
+                      alt={best.name}
+                      // layout="responsive"
+                      width={500}
+                      height={500}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-lg md:text-xl p-2 text-center">
+                      {best.name}
+                    </div>
                   </div>
-                </div>
-              </Link>
+                </Link>
+              </SwiperSlide>
             ))}
-          </div>
+          </Swiper>
         ) : (
           <div className="mt-8 flex flex-col justify-center items-center text-center w-full">
             <Image

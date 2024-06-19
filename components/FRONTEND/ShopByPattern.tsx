@@ -97,6 +97,8 @@ import Link from "next/link";
 
 import "@/public/css/swiper.css";
 import { EffectCards, EffectCoverflow, Pagination } from "swiper/modules";
+import Header1 from "../ui/Header1";
+import Header2 from "../ui/Header2";
 
 const nunito = Nunito_Sans({ subsets: ["latin"] });
 
@@ -105,14 +107,8 @@ const ShopByPattern = ({ Patterns }) => {
     <div className="">
       <div className="container mx-auto px-4 sm:px-8 flex flex-col items-center">
         <div className="text-center mb-8">
-          <div
-            className={`font-medium text-[#afafaf] text-lg ${nunito.className}`}
-          >
-            IN THE SPOTLIGHT
-          </div>
-          <div className="font-medium text-5xl italic durgesh">
-            Unique Indian block prints
-          </div>
+          <Header1>IN THE SPOTLIGHT</Header1>
+          <Header2>Unique Indian block prints</Header2>
         </div>
 
         <div className="px-4 md:px-0 w-1/2 md:w-1/3 lg:w-1/4">

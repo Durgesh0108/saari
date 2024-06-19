@@ -304,6 +304,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { Nunito_Sans } from "next/font/google";
 import { useRouter } from "next/navigation";
+import Header1 from "../ui/Header1";
+import Header2 from "../ui/Header2";
 
 const nunito = Nunito_Sans({ subsets: ["latin"] });
 
@@ -433,7 +435,7 @@ const ShopByOccassion = ({ occassion, products }) => {
                       alt="Occassion"
                       height={1}
                       width={1000}
-                      className="w-full h-full overflow-hidden object-cover group-hover:shadow-2xl group-hover:shadow-slate-300"
+                      className="w-full h-full overflow-hidden object-cover group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-slate-300"
                     />
                   </div>
                 </Link>
@@ -442,14 +444,10 @@ const ShopByOccassion = ({ occassion, products }) => {
                 <div className="flex flex-col h-full">
                   <div className="">
                     <div className="mx-4">
-                      <div
-                        className={`font-medium text-[#afafaf] text-lg md:text-2xl ${nunito.className}`}
-                      >
-                        Shop By Occassion
-                      </div>
-                      <div className="font-medium text-3xl md:text-5xl italic">
+                      <Header1>Shop By Occasion</Header1>
+                      <Header2>
                         Styles for special events & everyday moments
-                      </div>
+                      </Header2>
                     </div>
                     <div className="flex mx-4 items-center w-2/3 justify-between">
                       <div className="flex gap-6 justify-between">
@@ -461,7 +459,7 @@ const ShopByOccassion = ({ occassion, products }) => {
                               }`}
                               onClick={() => filterItem(city.name, city.id)}
                             >
-                              <span className="block mt-2 text-center text-base md:text-xl">
+                              <span className="block mt-2 text-center text-lg md:text-2xl">
                                 {city.name}
                               </span>
                               <div
@@ -487,7 +485,7 @@ const ShopByOccassion = ({ occassion, products }) => {
                     {propertyList.propertyOnPage.length > 0 ? (
                       <div className="mt-2 grid grid-cols-4 overflow-hidden h-full w-full m-auto">
                         {propertyList.propertyOnPage.map((property, index) => (
-                          <div key={index}>
+                          <div key={index} className="">
                             <Link href={`/product/${property.id}`}>
                               <div className="h-36 md:h-52 relative">
                                 <Image
@@ -495,10 +493,10 @@ const ShopByOccassion = ({ occassion, products }) => {
                                   alt={property.name}
                                   height={1}
                                   width={1000}
-                                  className="w-full h-full overflow-hidden object-cover group-hover:shadow-2xl group-hover:shadow-slate-300"
+                                  className="w-full h-full overflow-hidden object-cover "
                                 />
                               </div>
-                              <div className="duration-500 italic text-lg 2xl:text-2xl">
+                              <div className="duration-500 text-xl line-clamp-1">
                                 {property.name}
                               </div>
                             </Link>
@@ -534,35 +532,33 @@ const ShopByOccassion = ({ occassion, products }) => {
         <div className="container mx-auto px-4 sm:px-8">
           <div className="flex flex-col gap-y-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="col-span-1 w-full">
-                <Link href={`/products?occassionId=${selectedOccasion}`}>
-                  <div className="h-64 md:h-[420px] relative">
-                    <Image
-                      src={
-                        selectedOccasion
-                          ? occassion.find((occ) => occ.id === selectedOccasion)
-                              ?.imageUrl
-                          : occassion[0]?.imageUrl || "/default-image.jpg" // Fallback image
-                      }
-                      alt="Occassion"
-                      height={1}
-                      width={1000}
-                      className="w-full h-full object-cover rounded-lg group-hover:shadow-2xl transition-shadow duration-300"
-                    />
-                  </div>
-                </Link>
-              </div>
               <div className="md:col-span-2 w-full">
-                <div className="flex flex-col h-full">
+                <div className="flex flex-col gap-4 h-full">
                   <div className="mb-4">
-                    <div
-                      className={`font-medium text-[#afafaf] text-lg md:text-2xl ${nunito.className}`}
-                    >
-                      Shop By Occasion
-                    </div>
-                    <div className="font-medium text-3xl md:text-5xl italic">
+                    <Header1>Shop By Occasion</Header1>
+
+                    <Header2>
                       Styles for special events & everyday moments
-                    </div>
+                    </Header2>
+                  </div>
+                  <div className="col-span-1 w-full">
+                    <Link href={`/products?occassionId=${selectedOccasion}`}>
+                      <div className="h-64 md:h-[420px] relative">
+                        <Image
+                          src={
+                            selectedOccasion
+                              ? occassion.find(
+                                  (occ) => occ.id === selectedOccasion
+                                )?.imageUrl
+                              : occassion[0]?.imageUrl || "/default-image.jpg" // Fallback image
+                          }
+                          alt="Occassion"
+                          height={1}
+                          width={1000}
+                          className="w-full h-full object-cover rounded-lg  group-hover:shadow-2xl transition-shadow duration-300"
+                        />
+                      </div>
+                    </Link>
                   </div>
                   <div className="flex justify-between items-center">
                     <div className="flex flex-wrap items-center gap-4">
@@ -574,7 +570,7 @@ const ShopByOccassion = ({ occassion, products }) => {
                           onClick={() => filterItem(city.name, city.id)}
                           key={id}
                         >
-                          <span className="block mt-2 text-center text-base md:text-xl">
+                          <span className="block mt-2 text-center text-lg md:text-2xl">
                             {city.name}
                           </span>
                           <div
@@ -618,7 +614,7 @@ const ShopByOccassion = ({ occassion, products }) => {
                             className="w-full h-full object-cover rounded-lg group-hover:shadow-2xl transition-shadow duration-300"
                           />
                         </div>
-                        <div className="mt-2 italic text-lg md:text-xl">
+                        <div className="mt-2 text-lg md:text-xl line-clamp-1">
                           {property.name}
                         </div>
                       </Link>

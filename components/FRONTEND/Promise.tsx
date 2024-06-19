@@ -62,7 +62,7 @@ const Promise = () => {
             <Image
               src={promiseImage}
               alt="Promise"
-              layout="responsive"
+              // layout="responsive"
               width={600}
               height={400}
               className="w-full rounded-lg"
@@ -84,7 +84,7 @@ const Promise = () => {
             <Image
               src={silkmarkImage}
               alt="Silkmark"
-              layout="responsive"
+              // layout="responsive"
               width={300}
               height={200}
               className="w-full h-full"

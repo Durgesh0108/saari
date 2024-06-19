@@ -152,6 +152,8 @@ import "swiper/css/navigation";
 import { Pagination, Navigation, Autoplay } from "swiper/modules";
 import { Star } from "lucide-react";
 import { Card } from "../ui/Card";
+import Header1 from "../ui/Header1";
+import Header2 from "../ui/Header2";
 
 const data = {
   testimonials: [
@@ -202,10 +204,9 @@ const Testimonials = () => {
   return (
     <div className="">
       <div className="container mx-auto px-4 sm:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-2xl md:text-4xl font-bold">
-            What People Are Saying
-          </h2>
+        <div className="text-center mb-8">
+          <Header1>Testimonials</Header1>
+          <Header2>What People Are Saying</Header2>
         </div>
         <Swiper
           slidesPerView={1}

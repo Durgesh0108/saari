@@ -18,6 +18,12 @@ import UserProfile from "./User";
 import { useFrontAuthMiddleware } from "@/app/(frontend)/middleware";
 import { cookieHandler } from "@/lib/cookieHandler";
 import { cn } from "@/lib/utils";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 export default function Navbar({ products, categories }) {
   useFrontAuthMiddleware();
@@ -150,25 +156,25 @@ export default function Navbar({ products, categories }) {
       </div>
       <div>
         {/* <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700"> */}
-        <nav className="fixed top-0 z-50 w-full text-white bg-gray-800 border-gray-700 md:hidden p-4 border-b">
+        <nav className="fixed top-0 z-50 bg-white w-full text-black  md:hidden p-4 border-b">
           <div
             className={cn(
               " items-center justify-between md:hidden flex"
               // sideBarIsOpen ? "flex" : "hidden"
             )}
           >
-            <div className="flex justify-between w-full items-center">
-              <div>
+            <div className="grid grid-cols-12 w-full items-center">
+              <div className="col-span-3">
                 {!sideBarIsOpen && <AlignJustify onClick={toggleSideBar} />}
                 {sideBarIsOpen && <X onClick={toggleSideBar} />}
               </div>
 
-              <div className="">
+              <div className="col-span-6 flex justify-center">
                 <Link href="/" className="flex items-center ">
                   <div className="text-xl font-bold uppercase">SAARI WALI</div>
                 </Link>
               </div>
-              <div className=" justify-center flex gap-4 items-center">
+              <div className="col-span-3 flex gap-4 items-center justify-end">
                 <div>
                   <Search className="w-4 h-4" />
                 </div>
@@ -209,55 +215,80 @@ export default function Navbar({ products, categories }) {
 
         <div
           className={cn(
-            "fixed w-64 h-screen duration-700  bg-gray-800 dark:border-gray-700 md:mt-0 z-10 md:flex overflow-auto",
-            sideBarIsOpen ? "w-64 mt-14" : "w-0"
+            "fixed w-64 mt-14 h-screen duration-700 bg-white  md:mt-0 z-10 md:flex overflow-auto",
+            sideBarIsOpen ? "w-64 " : "w-0"
           )}
         >
-          <div className="flex flex-col min-h-screen h-full w-full min-w-fit p-8  text-white">
-            {/* <div className="flex gap-4 items-end">
-              <Link href={"/"}>
-                <Image
-                  src={r5logo}
-                  width={40}
-                  height={40}
-                  alt="R5 Design Hub"
-                  loading="lazy"
-                />
-              </Link>
-              <h1 className="mb-2">Admin</h1>
-            </div>
-            <h1 className="font-bold text-[0.75rem] my-4 ">Durgesh</h1>
-            <div className="flex flex-col gap-2 h-full pb-16">
-              <div className="flex flex-col justify-between gap-4">
-                <div className="">
-                  {sideBarList.map((item) => (
-                    <Accordion type="single" collapsible key={item.title}>
-                      <AccordionItem value="item-1">
-                        <AccordionTrigger className=" hover:text-yellow-400 ">
-                          {item.title}
-                        </AccordionTrigger>
-                        {item.paths.map((list) => (
-                          <Link
-                            href={`${list.location}`}
-                            key={list.name}
-                            className=""
-                            onClick={toggleSideBar}
-                          >
-                            <AccordionContent className=" hover:ml-3 hover:text-yellow-400 hover:bold transition-all ml-2">
-                              {list.name}
-                            </AccordionContent>
+          <div className="flex flex-col min-h-screen h-full w-full min-w-fit p-8  text-black ">
+            <div>
+              <Accordion type="single" collapsible>
+                {categories.map((cate, index) => (
+                  <div key={index}>
+                    <AccordionItem
+                      value={`item-${index + 1}`}
+                      className=""
+                    >
+                      <AccordionTrigger className="text-xl font-medium py-2">
+                        <div className="group/category w-fit ml-2">
+                          <Link href={`/products?categoryId=${cate.id}`}>
+                            <div>{cate.name}</div>
+                            <div
+                              className={`duration-300 w-0  group-hover/category:w-full rounded-full border-b-2 border-b-black `}
+                            ></div>
                           </Link>
-                        ))}
-                      </AccordionItem>
-                    </Accordion>
-                  ))}
-                </div>
-                <Button className="flex gap-4" onClick={onLogout}>
-                  <span>Logout</span>
-                  <LogOut />
-                </Button>
-              </div>
-            </div> */}
+                        </div>
+                      </AccordionTrigger>
+                      <AccordionContent className="text-lg font-medium pb-2">
+                        <div>
+                          <Accordion type="single" collapsible>
+                            {cate.Type.map((type, index) => (
+                              <div key={index} className=" ml-4">
+                                <AccordionItem
+                                  value={`item-${index + 1}`}
+                                  className="border-0"
+                                >
+                                  <AccordionTrigger className="text-xl font-medium py-2">
+                                    <div className="group/type w-fit">
+                                      <Link
+                                        href={`/products?typeId=${type.id}`}
+                                      >
+                                        <div className="">{type.name}</div>
+                                        <div
+                                          className={`duration-300 w-0  group-hover/type:w-full rounded-full border-b-2 border-b-black `}
+                                        ></div>
+                                      </Link>
+                                    </div>
+                                  </AccordionTrigger>
+                                  <AccordionContent className="text-lg font-medium ">
+                                    <div>
+                                      {type.SubType.map((subtype, index) => (
+                                        <div
+                                          key={index}
+                                          className=" ml-6 group/subtype w-fit"
+                                        >
+                                          <Link
+                                            href={`/products?subTypeId=${subtype.id}`}
+                                          >
+                                            <div>{subtype.name}</div>
+                                            <div
+                                              className={`duration-300 w-0  group-hover/subtype:w-full rounded-full border-b-2 border-b-black `}
+                                            ></div>
+                                          </Link>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </AccordionContent>
+                                </AccordionItem>
+                              </div>
+                            ))}
+                          </Accordion>
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  </div>
+                ))}
+              </Accordion>
+            </div>
           </div>
         </div>
       </div>

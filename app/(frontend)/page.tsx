@@ -68,16 +68,37 @@ export default async function Home() {
     },
   });
 
+  const newArrivals = await prismadb.product.findMany({
+    orderBy: {
+      createdAt: "asc",
+    },
+    include: {
+      category: {
+        include: {
+          Pattern: true,
+          Product: true,
+          Type: true,
+        },
+      },
+      color: true,
+      description: true,
+      images: true,
+      occassion: true,
+      pattern: true,
+      type: true,
+    },
+  });
+
   return (
     <>
       <div className="flex flex-col gap-y-8 md:gap-y-16">
         <CarouselSlider sliders={sliders} />
-        <div className="flex flex-col gap-y-8 md:gap-y-16">
+        <div className="flex flex-col gap-y-12 md:gap-y-16">
           {/* <TabSection /> */}
           <ShopByCategory categories={categories} />
           <ShopByOccassion occassion={occassions} products={products} />
           <BestPriceSection bestPrice={bestPrice} />
-          <NewArrivalSection products={products} />
+          <NewArrivalSection products={newArrivals} />
           <Promise />
           {/* <FilterByColor /> */}
 

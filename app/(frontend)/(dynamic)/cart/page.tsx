@@ -679,7 +679,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { Minus, Plus } from "lucide-react";
+import { Minus, Plus, Trash, Trash2, X } from "lucide-react";
 
 export default function CartPage() {
   const [cartProducts, setCartProducts] = useState([]);
@@ -784,12 +784,9 @@ export default function CartPage() {
 
   const handleCheckout = async (amount: number) => {
     try {
-      
       const order = await axios.post("/api/razorpay/checkout", {
         amount,
       });
-
-      
 
       const options = {
         key: "rzp_test_YZpzzVOx04hiuJ",
@@ -805,7 +802,6 @@ export default function CartPage() {
         //   @ts-ignore
         handler: async function (response) {
           // if (response.length==0) return <Loading/>;
-          
 
           const data = await fetch("/api/razorpay/paymentVerification", {
             method: "POST",
@@ -822,8 +818,6 @@ export default function CartPage() {
 
           const res = await data.json();
 
-          
-
           if (res.data) {
             toast.success("Thank You");
             setCartProducts([]);
@@ -831,7 +825,6 @@ export default function CartPage() {
           } else {
             toast.error("Payment Failed");
           }
-          
         },
         // prefill: {
         //   name: "Durgesh Prajapati",
@@ -961,9 +954,9 @@ export default function CartPage() {
                           </div>
                         </div>
                         <div className="w-1/12 flex items-center justify-center">
-                          <i
+                          <Trash2
                             onClick={() => handleRemoveProduct(product.id)}
-                            className="remove-btn ph ph-x-circle text-xl max-md:text-base text-red cursor-pointer hover:text-black duration-300"
+                            className="remove-btn text-red-500 ph ph-x-circle text-xl max-md:text-base text-red cursor-pointer hover:text-black duration-300"
                           />
                         </div>
                       </div>
