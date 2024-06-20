@@ -372,25 +372,25 @@ export default function ProductsList({ Types, products, category }) {
           </div>
         </div>
       </div>
-      <div className="flex md:hidden">
-        <div className="container">
+      <div className="flex md:hidden justify-center">
+        <div className="">
           <div className="flex justify-between items-center">
             <div>
               <Button
-                className="bg-pink-300 text-white px-4 py-2 rounded"
+                className="bg-pink-300 text-white  rounded"
                 onClick={toggleFilter}
               >
                 Filters
               </Button>
             </div>
             <div>
-              <h1 className="text-xl font-bold m-4 ml-0 uppercase px-4">
+              <h1 className="text-xl font-bold  uppercase ">
                 {Types?.name}
               </h1>
             </div>
             <div>
               <Button
-                className="bg-red-500 text-white px-4 py-2 rounded"
+                className="bg-red-500 text-white  rounded"
                 onClick={handleResetFilters}
               >
                 Reset Filters
@@ -398,24 +398,26 @@ export default function ProductsList({ Types, products, category }) {
             </div>
           </div>
           <div className="col-span-6 p-4  ">
-            <div className="mb-4 flex flex-wrap gap-2 md:px-4 ">
-              {Object.entries(filters).map(([filterType, values]) =>
-                values.map((value) => (
-                  <div
-                    key={`${filterType}-${value}`}
-                    className="bg-gray-200 p-2 rounded flex items-center"
-                  >
-                    <span>{value}</span>
-                    <button
-                      className="ml-2 text-red-500"
-                      onClick={() => handleRemoveFilter(filterType, value)}
+            {Object.entries(filters).length > 0 && (
+              <div className="mb-4 flex flex-wrap gap-2 md:px-4 ">
+                {Object.entries(filters).map(([filterType, values]) =>
+                  values.map((value) => (
+                    <div
+                      key={`${filterType}-${value}`}
+                      className="bg-gray-200 p-2 rounded flex items-center"
                     >
-                      &times;
-                    </button>
-                  </div>
-                ))
-              )}
-            </div>
+                      <span>{value}</span>
+                      <button
+                        className="ml-2 text-red-500"
+                        onClick={() => handleRemoveFilter(filterType, value)}
+                      >
+                        &times;
+                      </button>
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
             <div>
               {filteredProducts.length > 0 ? (
                 <ProductListing products={filteredProducts} />

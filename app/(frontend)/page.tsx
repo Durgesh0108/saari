@@ -104,7 +104,7 @@ export default async function Home() {
 
           <ShopByPattern Patterns={Patterns} />
           <Testimonials />
-          <SocialMedia />
+          {/* <SocialMedia /> */}
           {/* <Clientinsta />
           <Logoslider /> */}
         </div>

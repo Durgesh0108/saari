@@ -22,13 +22,18 @@ import ProductCard from "./ProductCard";
 
 export default function ProductListing({ products }) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8 py-12 md:px-4 max-h-screen overflow-auto no-scrollbar">
+    <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 md:gap-8 py-6 md:px-4 max-h-screen overflow-auto no-scrollbar">
       {products.map((product, index) => (
         <Link key={index} href={`/product/${product.id}`}>
           <ProductCard product={product} />
         </Link>
       ))}
-      <style jsx>{`
+    </div>
+  );
+}
+
+{
+  /* <style jsx>{`
         .grid {
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -57,14 +62,12 @@ export default function ProductListing({ products }) {
         }
 
         .no-scrollbar {
-          scrollbar-width: none; /* Firefox */
-          -ms-overflow-style: none; /* Internet Explorer 10+ */
+          scrollbar-width: none; 
+          -ms-overflow-style: none; 
         }
 
         .no-scrollbar::-webkit-scrollbar {
-          display: none; /* Safari and Chrome */
+          display: none;
         }
-      `}</style>
-    </div>
-  );
+      `}</style> */
 }

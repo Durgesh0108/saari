@@ -3,9 +3,6 @@ import TypeListPage from "./_component/TypeListPage";
 import prismadb from "@/lib/prisma";
 
 export default async function TypePage({ params, searchParams }) {
-  console.log({ params, searchParams });
-  console.log(searchParams.typeId);
-
   const type = await prismadb.type.findUnique({
     where: {
       id: params.typeId,

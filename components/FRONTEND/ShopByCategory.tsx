@@ -80,13 +80,13 @@ export default function ShopByCategory({ categories }) {
         <Header1>Shop By Category</Header1>
         <Header2>Fine drapes, ready-to-wear styles & more</Header2>
 
-        <div className="relative section-swiper-navigation  grid grid-cols-4 gap-2 md:gap-6">
+        <div className="relative section-swiper-navigation  grid grid-cols-4 gap-2 md:gap-6 ">
           {categories.map((category) => (
             <Link
               href={`/products?categoryId=${category.id}`}
               key={category.id}
             >
-              <div className="group hover:scale-105 duration-300 transform transition">
+              <div className="group hover:scale-105 duration-300 transform transition ">
                 <div className="hidden md:block rounded-full w-5 h-5 top-1 left-1 relative bg-[#C2915E]"></div>
                 <div className="rounded-2xl md:rounded-none md:rounded-tl-[100px] md:rounded-br-2xl h-40 sm:h-60 md:h-80 relative overflow-hidden md:-top-5">
                   <Image

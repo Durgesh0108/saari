@@ -31,8 +31,6 @@ export default function SubTypeListPage({ SubTypes, products, category }) {
     pattern: [],
   });
 
-  console.log("subtype page", { products });
-
   useEffect(() => {
     const fetchProducts = async () => {
       const colors = products.map((product) => product.color.name);

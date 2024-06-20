@@ -25,7 +25,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-export default function Navbar({ products, categories }) {
+export default function Navbar({ products, categories, user, cart }) {
   useFrontAuthMiddleware();
   const [CategoryProducts, setCategoryProducts] = useState([]);
 
@@ -145,7 +145,7 @@ export default function Navbar({ products, categories }) {
               <div className="relative py-2">
                 <div className="-top-[1px] absolute left-3">
                   <p className="flex h-2 w-2 items-center justify-center rounded-full bg-pink-500 p-2 text-sm text-white">
-                    0
+                    {cart ? cart.length : 0}
                   </p>
                 </div>
                 <ShoppingCart />
@@ -224,10 +224,7 @@ export default function Navbar({ products, categories }) {
               <Accordion type="single" collapsible>
                 {categories.map((cate, index) => (
                   <div key={index}>
-                    <AccordionItem
-                      value={`item-${index + 1}`}
-                      className=""
-                    >
+                    <AccordionItem value={`item-${index + 1}`} className="">
                       <AccordionTrigger className="text-xl font-medium py-2">
                         <div className="group/category w-fit ml-2">
                           <Link href={`/products?categoryId=${cate.id}`}>

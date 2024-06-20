@@ -18,12 +18,9 @@ export default function OrdersListPage({ orders }) {
   const token = cookieHandler.get("token");
   if (token) {
     const decoded = jwtDecode(token);
-    console.log({ decoded });
   }
 
   let userOrders = orders.filter((order) => order.userId === userId);
-
-  console.log({ orders, userOrders });
 
   //   useEffect(() => {
   //     const fetchOrders = async () => {

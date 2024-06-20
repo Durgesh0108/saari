@@ -28,8 +28,6 @@ export default async function Products({ params, searchParams }) {
     queryFilters.colorId = searchParams.colorId;
   }
 
-  console.log()
-
   // Query products with dynamic filters
   const products = await prismadb.product.findMany({
     where: {

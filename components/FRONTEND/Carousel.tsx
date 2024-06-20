@@ -22,7 +22,7 @@ export default function CarouselSlider({ sliders }) {
 
   return (
     // <div className=" slider-block  style-one bg-linear  md:h-[500px] sm:h-[500px] h-[350px] max-[420px]:h-[320px] w-full ">
-    <div className=" slider-block  style-one bg-linear   w-full ">
+    <div className="w-full ">
       <Swiper
         slidesPerView={1}
         spaceBetween={30}

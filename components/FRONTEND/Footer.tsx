@@ -19,20 +19,16 @@ const Footer = () => {
             <div className="content-footer md:py-[60px] py-10 flex justify-between flex-wrap gap-y-8">
               <div className="company-infor basis-1/4 max-lg:basis-full pr-7">
                 <Link href="/" className="logo inline-block">
-                  <div className="heading3 w-fit">Anvogue</div>
+                  <div className="heading3 w-fit">Saari Waali</div>
                 </Link>
                 <div className="flex gap-3 mt-3">
                   <div className="flex flex-col ">
                     <span className="text-button">Mail:</span>
                     <span className="text-button mt-3">Phone:</span>
-                    <span className="text-button mt-3">Address:</span>
                   </div>
                   <div className="flex flex-col ">
-                    <span className="">hi.avitex@gmail.com</span>
-                    <span className="mt-[14px]">1-333-345-6868</span>
-                    <span className="mt-3 pt-1">
-                      549 Oak St.Crystal Lake, IL 60014
-                    </span>
+                    <span className="">saariwali@gmail.com</span>
+                    <span className="mt-[14px]">9876543210</span>
                   </div>
                 </div>
               </div>
@@ -40,98 +36,80 @@ const Footer = () => {
                 <div className="list-nav flex justify-between basis-2/3 max-md:basis-full gap-4">
                   <div className="item flex flex-col basis-1/3 ">
                     <div className="text-button-uppercase pb-3">Infomation</div>
-                    <Link
-                      className="caption1 has-line-before duration-300 w-fit"
-                      href="/Contactus"
-                    >
-                      Contact us
-                    </Link>
-                    <Link
-                      className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href="/aboutus"
-                    >
-                      About Us
-                    </Link>
-                    <Link
-                      className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href="/Login"
-                    >
-                      My Account
-                    </Link>
-                    <Link
-                      className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href="/Register"
-                    >
-                      Register
-                    </Link>
-                    {/* <Link
-                      className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href="faqs.html"
-                    >
-                      FAQs
-                    </Link> */}
+                    <div className="group ">
+                      <Link href="/Contactus">Contact us</Link>
+                      <div
+                        className={`duration-300 w-0  group-hover:w-1/3 rounded-full border-b-2 border-b-black `}
+                      ></div>
+                    </div>
+                    <div className="group ">
+                      <Link href="/aboutus">About Us</Link>
+                      <div
+                        className={`duration-300 w-0  group-hover:w-1/3 rounded-full border-b-2 border-b-black `}
+                      ></div>
+                    </div>
+                    <div className="group ">
+                      <Link href="/Login">My Account</Link>
+                      <div
+                        className={`duration-300 w-0  group-hover:w-1/3 rounded-full border-b-2 border-b-black `}
+                      ></div>
+                    </div>
+                    <div className="group ">
+                      <Link href="/Register">Register</Link>
+                      <div
+                        className={`duration-300 w-0  group-hover:w-1/3 rounded-full border-b-2 border-b-black `}
+                      ></div>
+                    </div>
                   </div>
                   <div className="item flex flex-col basis-1/3 ">
                     <div className="text-button-uppercase pb-3">Quick Shop</div>
-                    <Link
-                      className="caption1 has-line-before duration-300 w-fit"
-                      href="shop-breadcrumb1.html"
-                    >
-                      Women
-                    </Link>
-                    <Link
-                      className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href="shop-breadcrumb1.html"
-                    >
-                      Men
-                    </Link>
-                    <Link
-                      className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href="shop-breadcrumb1.html"
-                    >
-                      Clothes
-                    </Link>
-                    <Link
-                      className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href="shop-breadcrumb1.html"
-                    >
-                      Accessories
-                    </Link>
-                    <Link
-                      className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href="blog-default.html"
-                    >
-                      Blog
-                    </Link>
+                    <div className="group ">
+                      <Link href="/">Saari</Link>
+                      <div
+                        className={`duration-300 w-0  group-hover:w-1/3 rounded-full border-b-2 border-b-black `}
+                      ></div>
+                    </div>
+                    <div className="group ">
+                      <Link href="/">Kurta</Link>
+                      <div
+                        className={`duration-300 w-0  group-hover:w-1/3 rounded-full border-b-2 border-b-black `}
+                      ></div>
+                    </div>
+                    <div className="group ">
+                      <Link href="/">Kurta Set</Link>
+                      <div
+                        className={`duration-300 w-0  group-hover:w-1/3 rounded-full border-b-2 border-b-black `}
+                      ></div>
+                    </div>
                   </div>
                   <div className="item flex flex-col basis-1/3 ">
                     <div className="text-button-uppercase pb-3">
                       Customer Services
                     </div>
-                    <Link
-                      className="caption1 has-line-before duration-300 w-fit"
-                      href="/Faq"
-                    >
-                      FAQs
-                    </Link>
-                    <Link
-                      className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href="/Shipping"
-                    >
-                      Shipping
-                    </Link>
-                    <Link
-                      className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href="/privacyPolicy"
-                    >
-                      Privacy Policy
-                    </Link>
-                    <Link
-                      className="caption1 has-line-before duration-300 w-fit pt-2"
-                      href="/ReturnExchange"
-                    >
-                      Return &amp; Exchange
-                    </Link>
+                    <div className="group ">
+                      <Link href="/Faq">FAQs</Link>
+                      <div
+                        className={`duration-300 w-0  group-hover:w-1/3 rounded-full border-b-2 border-b-black `}
+                      ></div>
+                    </div>
+                    <div className="group ">
+                      <Link href="/Shipping">Shipping</Link>
+                      <div
+                        className={`duration-300 w-0  group-hover:w-1/3 rounded-full border-b-2 border-b-black `}
+                      ></div>
+                    </div>
+                    <div className="group ">
+                      <Link href="/privacyPolicy">Privacy Policy</Link>
+                      <div
+                        className={`duration-300 w-0  group-hover:w-1/3 rounded-full border-b-2 border-b-black `}
+                      ></div>
+                    </div>
+                    <div className="group ">
+                      <Link href="/ReturnExchange">Return & Exchange</Link>
+                      <div
+                        className={`duration-300 w-0  group-hover:w-1/3 rounded-full border-b-2 border-b-black `}
+                      ></div>
+                    </div>
                   </div>
                 </div>
                 <div className="newsletter basis-1/3 pl-7 max-md:basis-full max-md:pl-0">
@@ -179,34 +157,8 @@ const Footer = () => {
             </div>
             <div className="footer-bottom py-3 flex items-center justify-between gap-5 max-lg:justify-center max-lg:flex-col border-t border-line">
               <div className="left flex items-center gap-8">
-                <div className="copyright caption1 text-secondary">
-                  ©2024 Anvogue. All Rights Reserved.
-                </div>
-                <div className="select-block flex items-center gap-5 max-md:hidden">
-                  <div className="choose-language flex items-center gap-1.5">
-                    <select
-                      name="language"
-                      id="chooseLanguageFooter"
-                      className="caption2 bg-transparent"
-                    >
-                      <option value="English">English</option>
-                      <option value="Espana">Espana</option>
-                      <option value="France">France</option>
-                    </select>
-                    <i className="ph ph-caret-down text-xs text-[#1F1F1F]" />
-                  </div>
-                  <div className="choose-currency flex items-center gap-1.5">
-                    <select
-                      name="currency"
-                      id="chooseCurrencyFooter"
-                      className="caption2 bg-transparent"
-                    >
-                      <option value="USD">USD</option>
-                      <option value="EUR">EUR</option>
-                      <option value="GBP">GBP</option>
-                    </select>
-                    <i className="ph ph-caret-down text-xs text-[#1F1F1F]" />
-                  </div>
+                <div className="">
+                  ©2024 R5 Design Hub. All Rights Reserved.
                 </div>
               </div>
               <div className="right flex items-center gap-2">

@@ -49,7 +49,6 @@ export default function CategoryList() {
       });
 
       const categories = await categoryRes.json();
-      console.log({ categories });
       setCategories(categories);
     };
 

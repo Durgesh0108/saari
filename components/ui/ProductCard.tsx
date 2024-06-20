@@ -34,8 +34,8 @@ export default function ProductCard({ product }) {
   const userId = cookieHandler.get("userId");
   const [hovered, setHovered] = useState(false);
 
-  const addToCart = async (id, event) => {
-    event.stopPropagation(); // Prevents event propagation
+  const addToCart = async (id) => {
+    // Prevents event propagation
 
     try {
       if (!userId) {
@@ -55,7 +55,7 @@ export default function ProductCard({ product }) {
 
   return (
     <div
-      className="bg-white rounded-xl shadow-lg overflow-hidden group relative"
+      className="bg-white rounded-xl md:rounded-none shadow-lg overflow-hidden group relative"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -65,11 +65,11 @@ export default function ProductCard({ product }) {
           alt={product.name}
           layout="fill"
           objectFit="cover"
-          className="transition duration-300 rounded-tl-2xl md:rounded-tl-[100px] rounded-br-2xl transform"
+          className="transition duration-300 rounded-xl md:rounded-none md:rounded-br-2xl rounded-tl-2xl md:rounded-tl-[100px] rounded-br-2xl transform"
         />
         {/* Black background overlay */}
         <div
-          className={`absolute inset-0 rounded-tl-2xl md:rounded-tl-[100px] rounded-br-2xl bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 ${
+          className={`absolute inset-0 rounded-tl-2xl md:rounded-tl-[100px]  md:rounded-br-2xl rounded-br-2xl bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 ${
             hovered ? "opacity-100" : ""
           }`}
         ></div>
@@ -79,18 +79,33 @@ export default function ProductCard({ product }) {
             hovered ? "opacity-100" : ""
           }`}
         >
-          <div className="flex space-x-4">
-            <Eye className="h-8 w-8 cursor-pointer hover:text-gray-800 transition duration-300" />
-            <ShoppingCart
-              className="h-8 w-8 cursor-pointer hover:text-gray-800 transition duration-300"
-              onClick={(event) => addToCart(product.id, event)}
-            />
+          <div className="flex space-x-4 items-center">
+            <button className="border-2 rounded-full p-2 group/view flex items-center gap-4">
+              <Eye className="h-8 w-8 cursor-pointer hover:text-gray-800 transition duration-300" />
+              <span className="hidden group-hover/view:block transition-all duration-700">
+                View Details
+              </span>
+            </button>
+            <button className="border-2 rounded-full p-2 group/button flex items-center gap-4">
+              <ShoppingCart
+                className="h-8 w-8 cursor-pointer hover:text-gray-800 transition duration-300"
+                onClick={(event) => {
+                  event.stopPropagation;
+                  addToCart(product.id);
+                }}
+              />
+              <span className="hidden group-hover/button:block transition-all duration-700">
+                Add To Cart
+              </span>
+            </button>
           </div>
         </div>
       </div>
       <div className="p-4">
-        <h3 className="text-xl font-semibold mb-2">{product.name}</h3>
-        <p className="text-gray-600">${product.price}</p>
+        <h3 className="text-xl font-semibold mb-2 line-clamp-1">
+          {product.name}
+        </h3>
+        <p className="text-gray-600">&#8377; {product.price}</p>
       </div>
     </div>
   );

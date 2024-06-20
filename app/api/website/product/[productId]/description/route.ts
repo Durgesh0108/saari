@@ -16,7 +16,6 @@ export async function POST(
       },
     });
 
-    console.log(description);
     return NextResponse.json(description);
     // return NextResponse.json(body)
   } catch (error) {
