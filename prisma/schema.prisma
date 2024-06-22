@@ -624,6 +624,21 @@ model Category {
   Pattern    Pattern[]
   Type       Type[]
   Product    Product[]
+  Fabric     Fabric[]
+}
+
+model Fabric {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  name       String    @db.String
+  imageUrl   String    @db.String
+  bannerUrl  String?   @default("https://res.cloudinary.com/dttieobbt/image/upload/v1717054596/tmbfbfvi2zx4fuznzjdd.jpg") @db.String
+  categoryId String    @db.ObjectId
+  category   Category  @relation(fields: [categoryId], references: [id])
+  isArchived Boolean?  @default(false) @db.Bool
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  Type       Type[]
+  Product    Product[]
 }
 
 model Occassion {
@@ -668,8 +683,10 @@ model Type {
   name       String    @db.String
   imageUrl   String    @db.String
   bannerUrl  String?   @default("https://res.cloudinary.com/dttieobbt/image/upload/v1717054596/tmbfbfvi2zx4fuznzjdd.jpg") @db.String
-  categoryId String    @db.ObjectId
-  category   Category  @relation(fields: [categoryId], references: [id])
+  categoryId String?   @db.ObjectId
+  category   Category? @relation(fields: [categoryId], references: [id])
+  fabricId   String?   @db.ObjectId
+  fabric     Fabric?   @relation(fields: [fabricId], references: [id])
   isArchived Boolean?  @default(false) @db.Bool
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
@@ -702,6 +719,8 @@ model Product {
   category         Category?      @relation(fields: [categoryId], references: [id])
   occassionId      String?        @db.ObjectId
   occassion        Occassion?     @relation(fields: [occassionId], references: [id])
+  fabricId         String?        @db.ObjectId
+  fabric           Fabric?        @relation(fields: [fabricId], references: [id])
   patternId        String?        @db.ObjectId
   pattern          Pattern?       @relation(fields: [patternId], references: [id])
   typeId           String?        @db.ObjectId

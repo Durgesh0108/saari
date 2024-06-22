@@ -44,6 +44,7 @@ export default async function Products({ params, searchParams }) {
       SubType: true,
       blouseColor: true,
       palluColor: true,
+      
     },
   });
 

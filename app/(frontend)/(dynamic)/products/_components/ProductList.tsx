@@ -26,12 +26,14 @@ export default function ProductsList({ Types, products, category }) {
   const [distinctCategories, setDistinctCategories] = useState([]);
   const [distinctOccasions, setDistinctOccasions] = useState([]);
   const [distinctPatterns, setDistinctPatterns] = useState([]);
+  const [distinctSubTypes, setDistinctSubTypes] = useState([]);
   const [filters, setFilters] = useState({
     category: [],
     color: [],
     type: [],
     occasion: [],
     pattern: [],
+    subtype: [],
   });
 
   useEffect(() => {
@@ -50,10 +52,15 @@ export default function ProductsList({ Types, products, category }) {
 
       const patterns = products.map((product) => product.pattern.name);
       setDistinctPatterns(Array.from(new Set(patterns)));
+
+      const subtypes = products.map((product) => product.SubType.name);
+      setDistinctSubTypes(Array.from(new Set(subtypes)));
     };
 
     fetchProducts();
   }, [params.typeId, products]);
+
+  console.log("productList", { products });
 
   const handleFilterChange = (filterType, value) => {
     setFilters((prevFilters) => {
@@ -81,6 +88,7 @@ export default function ProductsList({ Types, products, category }) {
       type: [],
       occasion: [],
       pattern: [],
+      subtype: [],
     });
   };
 
@@ -97,13 +105,16 @@ export default function ProductsList({ Types, products, category }) {
       filters.occasion.includes(product.occassion.name);
     const patternFilter =
       !filters.pattern.length || filters.pattern.includes(product.pattern.name);
+    const subtypeFilter =
+      !filters.subtype.length || filters.subtype.includes(product.SubType.name);
 
     return (
       colorFilter &&
       categoryFilter &&
       typeFilter &&
       occasionFilter &&
-      patternFilter
+      patternFilter &&
+      subtypeFilter
     );
   });
 
@@ -146,6 +157,25 @@ export default function ProductsList({ Types, products, category }) {
                 </AccordionTrigger>
                 <AccordionContent className="text-lg font-medium">
                   <div>
+                    {distinctCategories.map((category) => (
+                      <div key={category} className="flex items-center">
+                        <input
+                          type="checkbox"
+                          id={category}
+                          name="category"
+                          value={category}
+                          checked={filters.category.includes(category)}
+                          onChange={(e) =>
+                            handleFilterChange("category", e.target.value)
+                          }
+                        />
+                        <label htmlFor={category} className="ml-2">
+                          {category}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                  {/* <div>
                     <Accordion type="single" collapsible>
                       {category.map((cate, index) => (
                         <div key={index}>
@@ -217,7 +247,7 @@ export default function ProductsList({ Types, products, category }) {
                         </div>
                       ))}
                     </Accordion>
-                  </div>
+                  </div> */}
                 </AccordionContent>
               </AccordionItem>
 
@@ -277,6 +307,33 @@ export default function ProductsList({ Types, products, category }) {
 
               <AccordionItem value="item-4">
                 <AccordionTrigger className="text-xl font-medium">
+                  SUBTYPES
+                </AccordionTrigger>
+                <AccordionContent className="text-lg font-medium">
+                  <div>
+                    {distinctSubTypes.map((subtype) => (
+                      <div key={subtype} className="flex items-center">
+                        <input
+                          type="checkbox"
+                          id={subtype}
+                          name="subtype"
+                          value={subtype}
+                          checked={filters.subtype.includes(subtype)}
+                          onChange={(e) =>
+                            handleFilterChange("subtype", e.target.value)
+                          }
+                        />
+                        <label htmlFor={subtype} className="ml-2">
+                          {subtype}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-5">
+                <AccordionTrigger className="text-xl font-medium">
                   COLOR
                 </AccordionTrigger>
                 <AccordionContent className="text-lg font-medium">
@@ -302,7 +359,7 @@ export default function ProductsList({ Types, products, category }) {
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="item-5">
+              <AccordionItem value="item-6">
                 <AccordionTrigger className="text-xl font-medium">
                   PATTERN
                 </AccordionTrigger>
@@ -328,6 +385,7 @@ export default function ProductsList({ Types, products, category }) {
                   </div>
                 </AccordionContent>
               </AccordionItem>
+              
             </Accordion>
           </div>
           <div className="col-span-6 p-4  ">
@@ -384,9 +442,7 @@ export default function ProductsList({ Types, products, category }) {
               </Button>
             </div>
             <div>
-              <h1 className="text-xl font-bold  uppercase ">
-                {Types?.name}
-              </h1>
+              <h1 className="text-xl font-bold  uppercase ">{Types?.name}</h1>
             </div>
             <div>
               <Button
@@ -447,6 +503,25 @@ export default function ProductsList({ Types, products, category }) {
                     </AccordionTrigger>
                     <AccordionContent className="text-lg font-medium">
                       <div>
+                        {distinctCategories.map((category) => (
+                          <div key={category} className="flex items-center">
+                            <input
+                              type="checkbox"
+                              id={category}
+                              name="category"
+                              value={category}
+                              checked={filters.category.includes(category)}
+                              onChange={(e) =>
+                                handleFilterChange("category", e.target.value)
+                              }
+                            />
+                            <label htmlFor={category} className="ml-2">
+                              {category}
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                      {/* <div>
                         <Accordion type="single" collapsible>
                           {category.map((cate, index) => (
                             <div key={index}>
@@ -522,7 +597,7 @@ export default function ProductsList({ Types, products, category }) {
                             </div>
                           ))}
                         </Accordion>
-                      </div>
+                      </div> */}
                     </AccordionContent>
                   </AccordionItem>
 

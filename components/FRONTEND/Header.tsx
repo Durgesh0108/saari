@@ -73,6 +73,15 @@ export default async function Header() {
     },
     include: {
       Pattern: true,
+      Fabric: {
+        include: {
+          Type: {
+            include: {
+              SubType: true,
+            },
+          },
+        },
+      },
       Type: {
         include: {
           SubType: true,
@@ -94,7 +103,12 @@ export default async function Header() {
 
   return (
     <>
-      <Navbar products={products} categories={categories} user={user} cart={cart}/>
+      <Navbar
+        products={products}
+        categories={categories}
+        user={user}
+        cart={cart}
+      />
     </>
   );
 }

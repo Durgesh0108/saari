@@ -24,25 +24,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import DropdownMenu from "./DropDownMenu";
 
 export default function Navbar({ products, categories, user, cart }) {
   useFrontAuthMiddleware();
-  const [CategoryProducts, setCategoryProducts] = useState([]);
 
-  useEffect(() => {
-    const categoryMap = new Map();
-    products.forEach((product) => {
-      const category = product.category;
-      if (!categoryMap.has(category.name)) {
-        categoryMap.set(category.name, category);
-      }
-    });
-
-    const uniqueProducts = Array.from(categoryMap.values());
-    setCategoryProducts(uniqueProducts);
-  }, []);
-
-  const userId = cookieHandler.get("userId");
+  console.log("navbar", { categories });
 
   const [sideBarIsOpen, setSideBarIsOpen] = useState(false);
 
@@ -51,6 +38,7 @@ export default function Navbar({ products, categories, user, cart }) {
 
   return (
     <>
+      {/* Desktop */}
       <div className="hidden w-full bg-white container px-8 py-4  md:grid grid-cols-12 items-center  ">
         <div className="col-span-2">
           <Link href="/" className="flex items-center ">
@@ -58,7 +46,7 @@ export default function Navbar({ products, categories, user, cart }) {
           </Link>
         </div>
         <div className="col-span-8 w-full  relative pr-8">
-          <div className="flex justify-between py-2 text-xl">
+          <div className="flex justify-between p-2 text-xl">
             {/* dynamic */}
             {categories.map((category, index) => (
               <div className="group  flex flex-col items-center" key={index}>
@@ -68,12 +56,13 @@ export default function Navbar({ products, categories, user, cart }) {
                 <div
                   className={`duration-300 w-0  group-hover:w-full rounded-full border-b-2 border-b-black `}
                 ></div>
-                <div className="absolute  z-50 group-hover:flex flex-col top-10  left-0 w-full bg-white py-1 px-4 text-gray-800 shadow-xl hidden ">
+
+                {/* Old Layout */}
+                {/* <div className="absolute z-50 group-hover:flex flex-col top-10  left-0 w-full bg-white py-1 px-4 text-gray-800 shadow-xl hidden ">
                   <div className="mt-6 grid grid-cols-4">
                     {category.Type.map((type, index) => (
                       <div key={index}>
                         <div>
-                          {/* <Link href={`/type/${type.id}?typeId=${type.id}`}> */}
                           <Link href={`/products?typeId=${type.id}`}>
                             <div>{type.name}</div>
                             <hr className="w-1/4 mt-2 border-[1px] border-[#000000]" />
@@ -83,7 +72,6 @@ export default function Navbar({ products, categories, user, cart }) {
                         <div className="mt-4 flex flex-col gap-4">
                           {type.SubType.map((subtype, index) => (
                             <div key={index} className="textbase">
-                              {/* <Link href={`/subType/${subtype.id}`}> */}
                               <Link href={`/products?subTypeId=${subtype.id}`}>
                                 {subtype.name}
                               </Link>
@@ -94,6 +82,141 @@ export default function Navbar({ products, categories, user, cart }) {
                     ))}
                     {category.Type.length === 0 && <div>No Type Available</div>}
                   </div>
+                </div> */}
+
+                {/* New Layout */}
+                {/* <div className="absolute z-50 group-hover:flex flex-col top-10  left-0 w-full bg-white py-1 px-4 text-gray-800 shadow-xl hidden ">
+                  <div className="grid grid-cols-6 group/silk">
+                    <div className="col-span-1">Silk</div>
+                    <div className="col-span-5 border-2 border-red-500 group-hover/silk:block hidden">
+                      <div className="grid grid-cols-4">
+                        {category.Type.map((type, index) => (
+                          <div key={index}>
+                            <div>
+                              <Link href={`/products?typeId=${type.id}`}>
+                                <div>{type.name}</div>
+                                <hr className="w-1/4 mt-2 border-[1px] border-[#000000]" />
+                              </Link>
+                            </div>
+
+                            <div className="mt-4 flex flex-col gap-4">
+                              {type.SubType.map((subtype, index) => (
+                                <div key={index} className="textbase">
+                                  <Link
+                                    href={`/products?subTypeId=${subtype.id}`}
+                                  >
+                                    {subtype.name}
+                                  </Link>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                        {category.Type.length === 0 && (
+                          <div>No Type Available</div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-6 group/cotton-silk">
+                    <div className="col-span-1">Cotton Silk</div>
+                    <div className="col-span-5 border-2 border-red-500 group-hover/cotton-silk:block hidden">
+                      <div className="grid grid-cols-4">
+                        {category.Type.map((type, index) => (
+                          <div key={index}>
+                            <div>
+                              <Link href={`/products?typeId=${type.id}`}>
+                                <div>{type.name}</div>
+                                <hr className="w-1/4 mt-2 border-[1px] border-[#000000]" />
+                              </Link>
+                            </div>
+
+                            <div className="mt-4 flex flex-col gap-4">
+                              {type.SubType.map((subtype, index) => (
+                                <div key={index} className="textbase">
+                                  <Link
+                                    href={`/products?subTypeId=${subtype.id}`}
+                                  >
+                                    {subtype.name}
+                                  </Link>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                        {category.Type.length === 0 && (
+                          <div>No Type Available</div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-6 group/tussar-silk">
+                    <div className="col-span-1">Tussar Silk</div>
+                    <div className="col-span-5 border-2 border-red-500 group-hover/tussar-silk:block hidden">
+                      <div className="grid grid-cols-4">
+                        {category.Type.map((type, index) => (
+                          <div key={index}>
+                            <div>
+                              <Link href={`/products?typeId=${type.id}`}>
+                                <div>{type.name}</div>
+                                <hr className="w-1/4 mt-2 border-[1px] border-[#000000]" />
+                              </Link>
+                            </div>
+
+                            <div className="mt-4 flex flex-col gap-4">
+                              {type.SubType.map((subtype, index) => (
+                                <div key={index} className="textbase">
+                                  <Link
+                                    href={`/products?subTypeId=${subtype.id}`}
+                                  >
+                                    {subtype.name}
+                                  </Link>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                        {category.Type.length === 0 && (
+                          <div>No Type Available</div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-6 group/tissue-silk">
+                    <div className="col-span-1">Tissue Silk</div>
+                    <div className="col-span-5 border-2 border-red-500 group-hover/tissue-silk:block hidden">
+                      <div className="grid grid-cols-4">
+                        {category.Type.map((type, index) => (
+                          <div key={index}>
+                            <div>
+                              <Link href={`/products?typeId=${type.id}`}>
+                                <div>{type.name}</div>
+                                <hr className="w-1/4 mt-2 border-[1px] border-[#000000]" />
+                              </Link>
+                            </div>
+
+                            <div className="mt-4 flex flex-col gap-4">
+                              {type.SubType.map((subtype, index) => (
+                                <div key={index} className="textbase">
+                                  <Link
+                                    href={`/products?subTypeId=${subtype.id}`}
+                                  >
+                                    {subtype.name}
+                                  </Link>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                        {category.Type.length === 0 && (
+                          <div>No Type Available</div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div> */}
+                <div className="absolute z-50 group-hover:flex flex-col top-[2.4rem]  left-0 w-full bg-white py-1 px-4 text-gray-800 shadow-xl hidden ">
+                  <DropdownMenu categories={category.Fabric} />
                 </div>
               </div>
             ))}
@@ -154,6 +277,8 @@ export default function Navbar({ products, categories, user, cart }) {
           </div>
         </div>
       </div>
+
+      {/* Mobile */}
       <div>
         {/* <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700"> */}
         <nav className="fixed top-0 z-50 bg-white w-full text-black  md:hidden p-4 border-b">

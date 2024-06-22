@@ -16,22 +16,21 @@ import Header from "@/components/ui/header";
 import { UpdateSubTypeForm } from "./UpdateSubTypeForm";
 
 export default function SubTypeList() {
-  const [Types, setTypes] = useState<Type[]>([]);
   const [categories, setcategories] = useState<Category[]>([]);
+  const [Fabrics, setFabrics] = useState([]);
+  const [Types, setTypes] = useState<Type[]>([]);
   const [SubTypes, setSubTypes] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState<string | undefined>(
     ""
   );
+  const [SelectedFabric, setSelectedFabric] = useState<string | undefined>("");
   const [selectedType, setSelectedType] = useState<string | undefined>("");
 
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [deleteId, setDeleteId] = useState<string>("");
-  const [EditId, setEditId] = useState<string>("");
-  const [name, setName] = useState<string>("");
-  const [imageUrl, setImageUrl] = useState<string>("");
-  const [bannerUrl, setbannerUrl] = useState<string>("");
+  const [initialData, setInitialData] = useState<string>("");
 
   const handleDelete = async (id: string) => {
     try {
@@ -48,19 +47,6 @@ export default function SubTypeList() {
     }
   };
 
-  // useEffect(() => {
-  //   const fetchType = async () => {
-  //     const typeRes = await fetch(`/api/type/`, {
-  //       next: { revalidate: 60 },
-  //     });
-
-  //     const Type = await typeRes.json();
-  //     setTypes(Type);
-  //   };
-
-  //   fetchType();
-  // }, []);
-
   useEffect(() => {
     const fetchCategories = async () => {
       const dataRes = await fetch(`/api/category`);
@@ -73,9 +59,24 @@ export default function SubTypeList() {
   }, []);
 
   useEffect(() => {
-    const fetchTypes = async () => {
+    const fetchFabrics = async () => {
       if (selectedCategory) {
-        const TypeRes = await fetch(`/api/category/${selectedCategory}/type`);
+        const fabricRes = await fetch(
+          `/api/category/${selectedCategory}/fabric`
+        );
+        const Fabric = await fabricRes.json();
+        setFabrics(Fabric);
+        setSelectedFabric(Fabric[0]?.id);
+      }
+    };
+
+    fetchFabrics();
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    const fetchTypes = async () => {
+      if (SelectedFabric) {
+        const TypeRes = await fetch(`/api/fabric/${SelectedFabric}/type`);
         const Type = await TypeRes.json();
         setTypes(Type);
         setSelectedType(Type[0]?.id);
@@ -83,7 +84,7 @@ export default function SubTypeList() {
     };
 
     fetchTypes();
-  }, [selectedCategory]);
+  }, [SelectedFabric]);
 
   useEffect(() => {
     const fetchSubTypes = async () => {
@@ -95,11 +96,16 @@ export default function SubTypeList() {
     };
 
     fetchSubTypes();
-  }, [selectedCategory, selectedType]);
+  }, [selectedType]);
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCategory(e.target.value);
   };
+
+  const handleFabricChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedFabric(e.target.value);
+  };
+
   const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedType(e.target.value);
   };
@@ -116,45 +122,65 @@ export default function SubTypeList() {
         <div>
           <Header>Sub Type List</Header>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <select
-            name="category"
-            id="category"
-            // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800"
-            className="p-2 border-black border-[1px] rounded-lg"
-            onChange={handleCategoryChange}
-          >
-            {categories.length === 0 && <option>No Category Available</option>}
-            {categories.map((category) => (
-              <option
-                value={category.id}
-                key={category.id}
-                className="px-4 py-1"
-              >
-                {category.name}
-              </option>
-            ))}
-          </select>
-          <select
-            name="category"
-            id="category"
-            // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800"
-            className="p-2 border-black border-[1px] rounded-lg"
-            onChange={handleTypeChange}
-          >
-            {Types.length === 0 && <option>No Types Available</option>}
-            {Types.map((type) => (
-              <option value={type.id} key={type.id} className="px-4 py-1">
-                {type.name}
-              </option>
-            ))}
-          </select>
-        </div>
+        {!isUpdating && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <select
+              name="category"
+              id="category"
+              // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800"
+              className="p-2 border-black border-[1px] rounded-lg"
+              onChange={handleCategoryChange}
+            >
+              {categories.length === 0 && (
+                <option>No Category Available</option>
+              )}
+              {categories.map((category) => (
+                <option
+                  value={category.id}
+                  key={category.id}
+                  className="px-4 py-1"
+                >
+                  {category.name}
+                </option>
+              ))}
+            </select>
+            <select
+              name="category"
+              id="category"
+              // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800"
+              className="p-2 border-black border-[1px] rounded-lg"
+              onChange={handleFabricChange}
+            >
+              {Fabrics.length === 0 && <option>No Fabric Available</option>}
+              {Fabrics.map((fabric) => (
+                <option value={fabric.id} key={fabric.id} className="px-4 py-1">
+                  {fabric.name}
+                </option>
+              ))}
+            </select>
+            <select
+              name="category"
+              id="category"
+              // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800"
+              className="p-2 border-black border-[1px] rounded-lg"
+              onChange={handleTypeChange}
+            >
+              {Types.length === 0 && <option>No Types Available</option>}
+
+              {Types.map((type) => (
+                <option value={type.id} key={type.id} className="px-4 py-1">
+                  {type.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
       </div>
       <div className="flex flex-col gap-2">
         {isUpdating && (
           <>
             <UpdateSubTypeForm
+              initialData={initialData}
               name={name}
               imageUrl={imageUrl}
               bannerUrl={bannerUrl}
@@ -189,10 +215,7 @@ export default function SubTypeList() {
                       size="sm"
                       onClick={() => {
                         setIsUpdating(true);
-                        setEditId(subtype.id);
-                        setName(subtype.name);
-                        setImageUrl(subtype.imageUrl);
-                        setbannerUrl(subtype.bannerUrl);
+                        setInitialData(subtype);
                       }}
                     >
                       <Pencil className="h-4 w-4" />

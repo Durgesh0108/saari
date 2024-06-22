@@ -15,13 +15,12 @@ import Image from "next/image";
 import { UpdateTypeForm } from "./UpdateTypeForm";
 import Header from "@/components/ui/header";
 
-export default function TypeList() {
-  const [Types, setTypes] = useState<Type[]>([]);
+export default function FabricList() {
+  const [Fabrics, setFabrics] = useState<Type[]>([]);
   const [categories, setcategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | undefined>(
     ""
   );
-  const [SelectedFabric, setSelectedFabric] = useState<string | undefined>("");
 
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -31,15 +30,13 @@ export default function TypeList() {
   const [name, setName] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>("");
   const [bannerUrl, setbannerUrl] = useState<string>("");
-  const [initialData, setInitialData] = useState<string>("");
-  const [Fabrics, setFabrics] = useState([]);
 
   const handleDelete = async (id: string) => {
     try {
       setLoading(true);
       await axios.delete(`/api/type/${id}`);
       location.reload();
-      toast.success("Type Deleted Successfully");
+      toast.success("saari Type Deleted Successfully");
     } catch (error: any) {
       console.log(error);
       toast.error("Something went wrong.");
@@ -48,6 +45,19 @@ export default function TypeList() {
       setOpen(false);
     }
   };
+
+  // useEffect(() => {
+  //   const fetchType = async () => {
+  //     const typeRes = await fetch(`/api/type/`, {
+  //       next: { revalidate: 60 },
+  //     });
+
+  //     const Type = await typeRes.json();
+  //     setFabrics(Type);
+  //   };
+
+  //   fetchType();
+  // }, []);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -61,37 +71,25 @@ export default function TypeList() {
   }, []);
 
   useEffect(() => {
-    const fetchFabrics = async () => {
+    const fetchSubcategories = async () => {
       if (selectedCategory) {
         const fabricRes = await fetch(
           `/api/category/${selectedCategory}/fabric`
         );
         const Fabric = await fabricRes.json();
         setFabrics(Fabric);
-        setSelectedFabric(Fabric[0]?.id);
+      } else {
+        const fabricRes = await fetch(`/api/fabric`);
+        const Fabric = await fabricRes.json();
+        setFabrics(Fabric);
       }
     };
 
-    fetchFabrics();
+    fetchSubcategories();
   }, [selectedCategory]);
-
-  useEffect(() => {
-    const fetchTypes = async () => {
-      if (SelectedFabric) {
-        const typeRes = await fetch(`/api/fabric/${SelectedFabric}/type`);
-        const types = await typeRes.json();
-        setTypes(types);
-      }
-    };
-
-    fetchTypes();
-  }, [SelectedFabric]);
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCategory(e.target.value);
-  };
-  const handleFabricChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedFabric(e.target.value);
   };
 
   return (
@@ -104,52 +102,31 @@ export default function TypeList() {
       />
       <div className="grid grid-cols-1 gap-4 mb-4">
         <div>
-          <Header>Type List</Header>
+          <Header>Fabric List</Header>
         </div>
-        {!isUpdating && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <select
-              name="category"
-              id="category"
-              // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800"
-              className="p-2 border-black border-[1px] rounded-lg"
-              onChange={handleCategoryChange}
-            >
-              {categories.length === 0 && (
-                <option>No Category Available</option>
-              )}
-              {categories.map((category) => (
-                <option
-                  value={category.id}
-                  key={category.id}
-                  className="px-4 py-1"
-                >
-                  {category.name}
-                </option>
-              ))}
-            </select>
-            <select
-              name="category"
-              id="category"
-              // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800"
-              className="p-2 border-black border-[1px] rounded-lg"
-              onChange={handleFabricChange}
-            >
-              {Fabrics.length === 0 && <option>No Fabric Available</option>}
-              {Fabrics.map((fabric) => (
-                <option value={fabric.id} key={fabric.id} className="px-4 py-1">
-                  {fabric.name}
-                </option>
-              ))}
-            </select>
-          </div>
-        )}
+        <select
+          name="category"
+          id="category"
+          // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800"
+          className="p-2 border-black border-[1px] rounded-lg"
+          onChange={handleCategoryChange}
+        >
+          {categories.length === 0 && <option>No Category Available</option>}
+          {categories.map((category) => (
+            <option value={category.id} key={category.id} className="px-4 py-1">
+              {category.name}
+            </option>
+          ))}
+        </select>
       </div>
       <div className="flex flex-col gap-2">
         {isUpdating && (
           <>
             <UpdateTypeForm
-              initialData={initialData}
+              name={name}
+              imageUrl={imageUrl}
+              bannerUrl={bannerUrl}
+              EditId={EditId}
               onCancel={() => {
                 setIsUpdating(false);
                 setEditId("");
@@ -157,19 +134,19 @@ export default function TypeList() {
             />
           </>
         )}
-        {Types.length === 0 && <p>No Saari Types Available</p>}
-        {Types.map((type) => (
+        {Fabrics.length === 0 && <p>No Saari Fabrics Available</p>}
+        {Fabrics.map((fabric) => (
           <>
-            <ListCard key={type.id} className={"group flex items-center"}>
+            <ListCard key={fabric.id} className={"group flex items-center"}>
               <div className="flex gap-4 items-center">
                 <Image
-                  src={type.imageUrl}
+                  src={fabric.imageUrl}
                   width={40}
                   height={30}
-                  alt={type.name}
+                  alt={fabric.name}
                   loading="lazy"
                 />
-                <div>{type.name}</div>
+                <div>{fabric.name}</div>
               </div>
               {!isUpdating && (
                 <>
@@ -180,11 +157,10 @@ export default function TypeList() {
                       size="sm"
                       onClick={() => {
                         setIsUpdating(true);
-                        setEditId(type.id);
-                        setName(type.name);
-                        setImageUrl(type.imageUrl);
-                        setbannerUrl(type.bannerUrl);
-                        setInitialData(type);
+                        setEditId(fabric.id);
+                        setName(fabric.name);
+                        setImageUrl(fabric.imageUrl);
+                        setbannerUrl(fabric.bannerUrl);
                       }}
                     >
                       <Pencil className="h-4 w-4" />
@@ -195,7 +171,7 @@ export default function TypeList() {
                       size="sm"
                       onClick={() => {
                         setOpen(true);
-                        setDeleteId(type.id);
+                        setDeleteId(fabric.id);
                       }}
                     >
                       <Trash className="h-4 w-4" />

@@ -29,9 +29,9 @@ const formSchema = z.object({
   bannerUrl: z.string().min(2),
 });
 
-type TypeFormValues = z.infer<typeof formSchema>;
+type FabricFormValues = z.infer<typeof formSchema>;
 
-export default function TypeForm() {
+export default function FabricForm() {
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -39,7 +39,7 @@ export default function TypeForm() {
     ""
   );
 
-  const form = useForm<TypeFormValues>({
+  const form = useForm<FabricFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
@@ -50,7 +50,7 @@ export default function TypeForm() {
     setIsEditing(!isEditing);
   };
 
-  const onSubmit = async (values: TypeFormValues) => {
+  const onSubmit = async (values: FabricFormValues) => {
     const data = {
       name: values.name,
       imageUrl: values.imageUrl,
@@ -59,10 +59,10 @@ export default function TypeForm() {
     };
     try {
       setLoading(true);
-      const response = await axios.post(`/api/type`, data);
+      const response = await axios.post(`/api/fabric`, data);
       toggleEdit();
       location.reload();
-      toast.success("Saari Type Created Successfully");
+      toast.success("Fabric Created Successfully");
     } catch (error: any) {
       toast.error("Something Went Wrong");
     } finally {
@@ -90,7 +90,7 @@ export default function TypeForm() {
     <Card className="p-8">
       <div className="flex flex-col gap-8">
         <div className="flex justify-between items-center">
-          <Header>Type</Header>
+          <Header>Fabric</Header>
           {!isEditing && (
             <Button className="flex" onClick={() => setIsEditing(true)}>
               <Plus />
@@ -139,7 +139,7 @@ export default function TypeForm() {
                         <FormControl>
                           <Input
                             disabled={loading}
-                            placeholder="Saari Type name"
+                            placeholder="Fabric name"
                             {...field}
                           />
                         </FormControl>
@@ -154,7 +154,7 @@ export default function TypeForm() {
                     name="imageUrl"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Type Image</FormLabel>
+                        <FormLabel>Fabric Image</FormLabel>
                         <FormControl>
                           <ImageUpload
                             value={field.value ? [field.value] : []}

@@ -22,7 +22,14 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import Header from "@/components/ui/header";
 import { useRouter } from "next/navigation";
-import { Category, Color, Occassion, Pattern, Type } from "@prisma/client";
+import {
+  Category,
+  Color,
+  Fabric,
+  Occassion,
+  Pattern,
+  Type,
+} from "@prisma/client";
 import { colors } from "@mui/material";
 
 const formSchema = z.object({
@@ -43,6 +50,7 @@ export default function ProductFormPage() {
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [Occassions, setOccassions] = useState<Occassion[]>([]);
+  const [Fabrics, setFabrics] = useState<Fabric[]>([]);
   const [Patterns, setPatterns] = useState<Pattern[]>([]);
   const [Types, setTypes] = useState<Type[]>([]);
   const [SubTypes, setSubTypes] = useState([]);
@@ -54,6 +62,7 @@ export default function ProductFormPage() {
     null
   );
   const [selectedPattern, setSelectedPattern] = useState<string | null>(null);
+  const [selectedFabric, setSelectedFabric] = useState<string | null>(null);
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [selectedSubType, setSelectedSubType] = useState<string | null>(null);
@@ -87,6 +96,7 @@ export default function ProductFormPage() {
         categoryId: selectedCategory === null ? null : selectedCategory,
         occassionId: selectedOccassion === null ? null : selectedOccassion,
         patternId: selectedPattern === null ? null : selectedPattern,
+        fabricId: selectedFabric === null ? null : selectedFabric,
         typeId: selectedType === null ? null : selectedType,
         subTypeId: selectedSubType === null ? null : selectedSubType,
         colorId: selectedColor === null ? null : selectedColor,
@@ -164,6 +174,27 @@ export default function ProductFormPage() {
 
   //
 
+  //Fabric
+
+  useEffect(() => {
+    const fetchFabric = async () => {
+      if (selectedCategory) {
+        const fabricRes = await fetch(
+          `/api/category/${selectedCategory}/fabric`
+        );
+        const Fabric = await fabricRes.json();
+        setFabrics(Fabric);
+      }
+    };
+
+    fetchFabric();
+  }, [selectedCategory]);
+
+  const handleFabricChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedFabric(e.target.value);
+  };
+  //
+
   //Pattern
 
   useEffect(() => {
@@ -189,8 +220,8 @@ export default function ProductFormPage() {
 
   useEffect(() => {
     const fetchTypes = async () => {
-      if (selectedCategory) {
-        const TypeRes = await fetch(`/api/category/${selectedCategory}/type`);
+      if (selectedFabric) {
+        const TypeRes = await fetch(`/api/fabric/${selectedFabric}/type`);
         const Types = await TypeRes.json();
         setTypes(Types);
       }
@@ -198,7 +229,7 @@ export default function ProductFormPage() {
     };
 
     fetchTypes();
-  }, [selectedCategory]);
+  }, [selectedFabric]);
 
   const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedType(e.target.value);
@@ -333,6 +364,33 @@ export default function ProductFormPage() {
                     ))}
                   </select>
                 </div>
+                {selectedCategory === Fabrics[0]?.categoryId && (
+                  <div className="flex flex-col gap-2">
+                    <FormLabel>Fabric</FormLabel>
+                    <select
+                      name="category"
+                      id="category"
+                      // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800 "
+                      className="p-2 border-black border-[1px] rounded-lg"
+                      onChange={handleFabricChange}
+                    >
+                      {Fabrics.length === 0 ? (
+                        <option>No Fabric Available</option>
+                      ) : (
+                        <option>Please Select Fabric</option>
+                      )}
+                      {Fabrics.map((fabric) => (
+                        <option
+                          value={fabric.id}
+                          key={fabric.id}
+                          className="px-4 py-1"
+                        >
+                          {fabric.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
                 {selectedCategory === Patterns[0]?.categoryId && (
                   <div className="flex flex-col gap-2">
                     <FormLabel>Pattern</FormLabel>

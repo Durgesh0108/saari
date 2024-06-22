@@ -30,6 +30,10 @@ const sideBarList = [
         location: "/admin/master/Category",
       },
       {
+        name: "Fabrics",
+        location: "/admin/master/Fabrics",
+      },
+      {
         name: "Occassion",
         location: "/admin/master/occasion",
       },

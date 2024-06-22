@@ -344,17 +344,17 @@ export default function ProductInsightPage({
   const params = useParams();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const handleViewMoreColorProduct = () => {
-    router.push(`/color/${product.colorId}`);
-  };
+  // const handleViewMoreColorProduct = () => {
+  //   router.push(`/color/${product.colorId}`);
+  // };
 
-  const handleViewMoreCategoryProduct = () => {
-    router.push(`/category/${product.categoryId}`);
-  };
+  // const handleViewMoreCategoryProduct = () => {
+  //   router.push(`/category/${product.categoryId}`);
+  // };
 
-  const handleViewMoreOccassionProduct = () => {
-    router.push(`/occassion/${product.occassionId}`);
-  };
+  // const handleViewMoreOccassionProduct = () => {
+  //   router.push(`/occassion/${product.occassionId}`);
+  // };
 
   const addToCart = async (id) => {
     try {
@@ -558,12 +558,12 @@ export default function ProductInsightPage({
           <h1 className="text-3xl font-semibold">
             Explore More From {product?.color?.name}
           </h1>
-          <button
-            onClick={handleViewMoreColorProduct}
+          <Link
+            href={`/products?colorId=${product.colorId}`}
             className="py-2 px-4 bg-pink-500 text-white font-bold rounded-full"
           >
             View More
-          </button>
+          </Link>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {Colorproduct.slice(0, 4).map((product, index) => (
@@ -599,12 +599,12 @@ export default function ProductInsightPage({
           <h1 className="text-3xl font-semibold">
             Explore More From {product?.category?.name}
           </h1>
-          <button
-            onClick={handleViewMoreCategoryProduct}
+          <Link
+            href={`/products?categoryId=${product.categoryId}`}
             className="py-2 px-4 bg-pink-500 text-white font-bold rounded-full"
           >
             View More
-          </button>
+          </Link>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {Categoryproduct.slice(0, 4).map((product, index) => (
@@ -640,12 +640,12 @@ export default function ProductInsightPage({
           <h1 className="text-3xl font-semibold">
             Explore More From {product?.occassion?.name}
           </h1>
-          <button
-            onClick={handleViewMoreOccassionProduct}
+          <Link
+            href={`/products?occassionId=${product.occassionId}`}
             className="py-2 px-4 bg-pink-500 text-white font-bold rounded-full"
           >
             View More
-          </button>
+          </Link>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {Occassionproduct.slice(0, 4).map((product, index) => (

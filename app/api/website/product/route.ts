@@ -23,6 +23,7 @@ export async function POST(req: Request) {
         shortDescription: body.shortDescription,
         categoryId: body.categoryId,
         occassionId: body.occassionId,
+        fabricId: body.fabricId,
         typeId: body.typeId,
         patternId: body.patternId,
         colorId: body.colorId,

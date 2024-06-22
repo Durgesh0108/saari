@@ -32,47 +32,48 @@ type TypeFormValues = z.infer<typeof formSchema>;
 
 interface TypeUpdateFormProps {
   initialData: Type;
-  name: string;
-  imageUrl: string;
-  bannerUrl: string;
   onCancel: () => void;
-  EditId: string;
 }
 
 export const UpdateTypeForm: React.FC<TypeUpdateFormProps> = ({
-  name,
-  imageUrl,
-  bannerUrl,
   onCancel,
-  EditId,
+  initialData,
 }) => {
   const form = useForm<TypeFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: name,
-      imageUrl: imageUrl,
-      bannerUrl: bannerUrl,
+      name: initialData.name,
+      imageUrl: initialData.imageUrl,
+      bannerUrl: initialData.bannerUrl,
     },
   });
 
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [SelectedCategory, setSelectedCategory] = useState<string | undefined>(
+    ""
+  );
+  const [SelectedFabric, setSelectedFabric] = useState<string | undefined>("");
+  const [categories, setCategories] = useState([]);
+  const [Fabrics, setFabrics] = useState([]);
 
   const handleUpdate = async (data: TypeFormValues) => {
     const values = {
       name: data.name,
       imageUrl: data.imageUrl,
       bannerUrl: data.bannerUrl,
+      categoryId: SelectedCategory,
+      fabricId: SelectedFabric,
     };
     try {
       setLoading(true);
 
       // console.log(data);
-      await axios.patch(`/api/type/${EditId} `, values);
+      await axios.patch(`/api/type/${initialData.id} `, values);
       router.refresh();
 
-      toast.success("Saari Type Updated Successfully");
+      toast.success("Type Updated Successfully");
       location.reload();
     } catch (error: any) {
       toast.error("Something went wrong.");
@@ -81,6 +82,36 @@ export const UpdateTypeForm: React.FC<TypeUpdateFormProps> = ({
     }
   };
 
+  useEffect(() => {
+    const fetchCategory = async () => {
+      const categoryRes = await fetch(`/api/category`);
+      const Category = await categoryRes.json();
+      setCategories(Category);
+    };
+
+    fetchCategory();
+  }, []);
+
+  useEffect(() => {
+    const fetchFabrics = async () => {
+      if (SelectedCategory) {
+        const fabricRes = await fetch(
+          `/api/category/${SelectedCategory}/fabric`
+        );
+        const Fabric = await fabricRes.json();
+        setFabrics(Fabric);
+      }
+    };
+
+    fetchFabrics();
+  }, [SelectedCategory]);
+
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCategory(e.target.value);
+  };
+  const handleFabricChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedFabric(e.target.value);
+  };
   return (
     <div>
       <div className="mb-4">
@@ -89,6 +120,53 @@ export const UpdateTypeForm: React.FC<TypeUpdateFormProps> = ({
             onSubmit={form.handleSubmit(handleUpdate)}
             className="space-y-4 w-full"
           >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <select
+                name="category"
+                id="category"
+                // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800"
+                className="p-2 border-black border-[1px] rounded-lg"
+                onChange={handleCategoryChange}
+              >
+                {categories.length === 0 ? (
+                  <option>No Category Available</option>
+                ) : (
+                  <option>Please Select A Category</option>
+                )}
+                {categories.map((category) => (
+                  <option
+                    value={category.id}
+                    key={category.id}
+                    className="px-4 py-1"
+                  >
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+              <select
+                name="category"
+                id="category"
+                // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800"
+                className="p-2 border-black border-[1px] rounded-lg"
+                onChange={handleFabricChange}
+              >
+                {Fabrics.length === 0 ? (
+                  <option>No Fabric Available</option>
+                ) : (
+                  <option>Please Select A Fabric</option>
+                )}
+                {Fabrics.map((fabric) => (
+                  <option
+                    value={fabric.id}
+                    key={fabric.id}
+                    className="px-4 py-1"
+                  >
+                    {fabric.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             <div className="md:grid gap-8">
               <FormField
                 control={form.control}
