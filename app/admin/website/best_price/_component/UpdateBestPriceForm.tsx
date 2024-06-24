@@ -70,8 +70,6 @@ export const UpdateBestPriceForm: React.FC<BestPriceUpdateFormProps> = ({
     };
     try {
       setLoading(true);
-
-      // console.log(data);
       await axios.patch(`/api/website/best_price/${EditId} `, values);
       router.refresh();
 

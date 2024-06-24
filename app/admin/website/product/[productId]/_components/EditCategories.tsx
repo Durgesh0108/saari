@@ -42,6 +42,7 @@ export const CategoriesProductForm = ({
   const [isEditing, setIsEditing] = useState(false);
 
   const [categories, setCategories] = useState<Category[]>([]);
+  const [Fabrics, setFabrics] = useState<Category[]>([]);
   const [Occassions, setOccassions] = useState<Occassion[]>([]);
   const [Patterns, setPatterns] = useState<Pattern[]>([]);
   const [Types, setTypes] = useState<Type[]>([]);
@@ -50,6 +51,7 @@ export const CategoriesProductForm = ({
 
   //////////////
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedFabric, setSelectedFabric] = useState<string | null>(null);
   const [selectedOccassion, setSelectedOccassion] = useState<string | null>(
     null
   );
@@ -78,6 +80,7 @@ export const CategoriesProductForm = ({
   const onSubmit = async (values: CategoriesProductForm) => {
     const data = {
       categoryId: selectedCategory === null ? null : selectedCategory,
+      fabricId: selectedFabric === null ? null : selectedFabric,
       occassionId: selectedOccassion === null ? null : selectedOccassion,
       patternId: selectedPattern === null ? null : selectedPattern,
       typeId: selectedType === null ? null : selectedType,
@@ -159,12 +162,33 @@ export const CategoriesProductForm = ({
   };
   //
 
+  //Fabric
+
+  useEffect(() => {
+    const fetchFabric = async () => {
+      if (selectedCategory) {
+        const fabricRes = await fetch(
+          `/api/category/${selectedCategory}/fabric`
+        );
+        const Fabric = await fabricRes.json();
+        setFabrics(Fabric);
+      }
+    };
+
+    fetchFabric();
+  }, [selectedCategory]);
+
+  const handleFabricChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedFabric(e.target.value);
+  };
+  //
+
   // Brands
 
   useEffect(() => {
     const fetchTypes = async () => {
-      if (selectedCategory) {
-        const TypeRes = await fetch(`/api/category/${selectedCategory}/type`);
+      if (selectedFabric) {
+        const TypeRes = await fetch(`/api/fabric/${selectedFabric}/type`);
         const Types = await TypeRes.json();
         setTypes(Types);
       }
@@ -172,7 +196,7 @@ export const CategoriesProductForm = ({
     };
 
     fetchTypes();
-  }, [selectedCategory]);
+  }, [selectedFabric]);
 
   const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedType(e.target.value);
@@ -196,6 +220,8 @@ export const CategoriesProductForm = ({
     setSelectedSubType(e.target.value);
   };
 
+  // Color
+
   useEffect(() => {
     const fetchColors = async () => {
       const ColorRes = await fetch(`/api/color`);
@@ -218,7 +244,6 @@ export const CategoriesProductForm = ({
     setSelectedPalluColor(e.target.value);
   };
 
-  console.log;
   return (
     // <Card className={"flex flex-col gap-6 p-4 border-2"}>
     <div className="border bg-slate-100 rounded-md p-4 ">
@@ -243,6 +268,14 @@ export const CategoriesProductForm = ({
               disabled={true}
               placeholder="Category name"
               value={initialdata.category ? initialdata.category.name : ""}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label>Fabric</label>
+            <Input
+              disabled={true}
+              placeholder="Fabric name"
+              value={initialdata.fabric ? initialdata.fabric.name : ""}
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -364,33 +397,34 @@ export const CategoriesProductForm = ({
                     ))}
                   </select>
                 </div>
-                {selectedCategory === Patterns[0]?.categoryId && (
+                {selectedCategory === Fabrics[0]?.categoryId && (
                   <div className="flex flex-col gap-2">
-                    <FormLabel>Pattern</FormLabel>
+                    <FormLabel>Fabric</FormLabel>
                     <select
                       name="category"
                       id="category"
                       // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800 "
                       className="p-2 border-black border-[1px] rounded-lg"
-                      onChange={handlePatternChange}
+                      onChange={handleFabricChange}
                     >
-                      {Patterns.length === 0 ? (
-                        <option>No Pattern Available</option>
+                      {Fabrics.length === 0 ? (
+                        <option>No Fabric Available</option>
                       ) : (
-                        <option>Please Select Pattern</option>
+                        <option>Please Select Fabric</option>
                       )}
-                      {Patterns.map((pattern) => (
+                      {Fabrics.map((fabric) => (
                         <option
-                          value={pattern.id}
-                          key={pattern.id}
+                          value={fabric.id}
+                          key={fabric.id}
                           className="px-4 py-1"
                         >
-                          {pattern.name}
+                          {fabric.name}
                         </option>
                       ))}
                     </select>
                   </div>
                 )}
+
                 {selectedCategory === Types[0]?.categoryId && (
                   <div className="flex flex-col gap-2">
                     <FormLabel>Type</FormLabel>
@@ -440,6 +474,33 @@ export const CategoriesProductForm = ({
                           className="px-4 py-1"
                         >
                           {type.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+                {selectedCategory === Patterns[0]?.categoryId && (
+                  <div className="flex flex-col gap-2">
+                    <FormLabel>Pattern</FormLabel>
+                    <select
+                      name="category"
+                      id="category"
+                      // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800 "
+                      className="p-2 border-black border-[1px] rounded-lg"
+                      onChange={handlePatternChange}
+                    >
+                      {Patterns.length === 0 ? (
+                        <option>No Pattern Available</option>
+                      ) : (
+                        <option>Please Select Pattern</option>
+                      )}
+                      {Patterns.map((pattern) => (
+                        <option
+                          value={pattern.id}
+                          key={pattern.id}
+                          className="px-4 py-1"
+                        >
+                          {pattern.name}
                         </option>
                       ))}
                     </select>

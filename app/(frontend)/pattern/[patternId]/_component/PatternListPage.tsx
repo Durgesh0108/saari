@@ -50,7 +50,7 @@ export default function PatternListPage({ Patterns, products, category }) {
     };
 
     fetchProducts();
-  }, [params.patternId]);
+  }, [products]);
 
   const handleFilterChange = (filterType, value) => {
     setFilters((prevFilters) => {

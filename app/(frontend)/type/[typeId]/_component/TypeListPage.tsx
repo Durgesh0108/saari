@@ -50,7 +50,7 @@ export default function TypeListPage({ Types, products, category }) {
     };
 
     fetchProducts();
-  }, [params.typeId]);
+  }, [products]);
 
   const handleFilterChange = (filterType, value) => {
     setFilters((prevFilters) => {

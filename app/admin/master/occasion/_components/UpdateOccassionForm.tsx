@@ -68,8 +68,6 @@ export const UpdateOccassionForm: React.FC<OccassionUpdateFormProps> = ({
     };
     try {
       setLoading(true);
-
-      // console.log(data);
       await axios.patch(`/api/occassion/${EditId} `, values);
       router.refresh();
 

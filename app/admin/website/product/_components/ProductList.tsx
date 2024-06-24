@@ -20,16 +20,16 @@ import { Product } from "@prisma/client";
 
 const ProductsListPage = ({ Products }) => {
   const router = useRouter();
-
-  console.log("Products", Products);
   // const [Products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [selectedColumns, setSelectedColumns] = useState<Option[]>([
     { value: "id", label: "ID" },
     { value: "name", label: "Name" },
     { value: "category", label: "Category" },
+    { value: "fabric", label: "Fabric" },
     { value: "occassion", label: "Occassion" },
     { value: "type", label: "Type" },
+    { value: "subType", label: "Sub Type" },
     { value: "pattern", label: "Pattern" },
     { value: "color", label: "Color" },
     { value: "qty", label: "Qty" },
@@ -168,7 +168,7 @@ const ProductsListPage = ({ Products }) => {
 
     setFilteredProducts(Products);
     // }
-  }, []);
+  }, [Products]);
   // }, []);
 
   const handleColumnChange = (selected: Option[]) => {
@@ -227,8 +227,6 @@ const ProductsListPage = ({ Products }) => {
         console.error("Error deleting product:", error);
       });
   };
-
-  console.log({ filteredProducts, currentItems });
 
   return (
     <>
@@ -357,8 +355,10 @@ const ProductsListPage = ({ Products }) => {
               { value: "id", label: "ID" },
               { value: "name", label: "Name" },
               { value: "category", label: "Category" },
+              { value: "fabric", label: "Fabric" },
               { value: "occassion", label: "Occassion" },
               { value: "type", label: "Type" },
+              { value: "subType", label: "Sub Type" },
               { value: "pattern", label: "Pattern" },
               { value: "color", label: "Color" },
               { value: "qty", label: "Qty" },
@@ -461,14 +461,20 @@ const ProductsListPage = ({ Products }) => {
                     >
                       {col.value === "name" && product.name
                         ? product.name
+                        : col.value === "id" && product.id
+                        ? product.id
                         : col.value === "category" && product?.category
                         ? product?.category.name
+                        : col.value === "fabric" && product?.fabric
+                        ? product?.fabric.name
                         : col.value === "occassion" && product?.occassion
                         ? product?.occassion.name
                         : col.value === "pattern" && product?.pattern
                         ? product?.pattern.name
                         : col.value === "type" && product?.type
                         ? product?.type.name
+                        : col.value === "subType" && product?.SubType
+                        ? product?.SubType.name
                         : col.value === "color" && product?.color
                         ? product?.color?.name
                         : col.value === "qty" && product.qty

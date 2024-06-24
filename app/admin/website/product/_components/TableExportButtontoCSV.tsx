@@ -11,7 +11,6 @@ const TableExportButton: React.FC<TableExportButtonProps> = ({
   tableData,
   columnsToExport,
 }) => {
-  // console.log("csv Button", { tableData, columnsToExport });
   const handleExport = () => {
     const filteredData = filterColumns(tableData, columnsToExport);
     const csvData = convertToCSV(filteredData);
@@ -20,7 +19,6 @@ const TableExportButton: React.FC<TableExportButtonProps> = ({
   };
 
   const filterColumns = (data: Record<string, any>[], columns: string[]) => {
-    console.log({ data, columns });
     return data.map((row) => {
       const filteredRow: Record<string, any> = {};
       columns.forEach((column) => {

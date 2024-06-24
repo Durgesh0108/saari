@@ -25,10 +25,11 @@ export default async function ProductsPage() {
       pattern: true,
       SubType: true,
       type: true,
+      fabric: true,
+      blouseColor: true,
+      palluColor: true,
     },
   });
-
-  console.log(products);
 
   return (
     <div className="flex flex-col gap-4">

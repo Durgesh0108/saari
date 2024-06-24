@@ -119,7 +119,6 @@ export default function ProductFormPage() {
         // materialId: selectedMaterial === null ? null : selectedMaterial,
         // patternId: selectedPattern === null ? null : selectedPattern,
       };
-      console.log("input", data);
       const response = await axios.post(`/api/website/product`, data);
       toast.success("Product Added Successfully");
       router.push(`/admin/website/product/${response.data.id}`);
@@ -391,33 +390,7 @@ export default function ProductFormPage() {
                     </select>
                   </div>
                 )}
-                {selectedCategory === Patterns[0]?.categoryId && (
-                  <div className="flex flex-col gap-2">
-                    <FormLabel>Pattern</FormLabel>
-                    <select
-                      name="category"
-                      id="category"
-                      // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800 "
-                      className="p-2 border-black border-[1px] rounded-lg"
-                      onChange={handlePatternChange}
-                    >
-                      {Patterns.length === 0 ? (
-                        <option>No Pattern Available</option>
-                      ) : (
-                        <option>Please Select Pattern</option>
-                      )}
-                      {Patterns.map((pattern) => (
-                        <option
-                          value={pattern.id}
-                          key={pattern.id}
-                          className="px-4 py-1"
-                        >
-                          {pattern.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                )}
+
                 {selectedCategory === Types[0]?.categoryId && (
                   <div className="flex flex-col gap-2">
                     <FormLabel>Type</FormLabel>
@@ -472,6 +445,33 @@ export default function ProductFormPage() {
                     </select>
                   </div>
                 )}
+                {selectedCategory === Patterns[0]?.categoryId && (
+                  <div className="flex flex-col gap-2">
+                    <FormLabel>Pattern</FormLabel>
+                    <select
+                      name="category"
+                      id="category"
+                      // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800 "
+                      className="p-2 border-black border-[1px] rounded-lg"
+                      onChange={handlePatternChange}
+                    >
+                      {Patterns.length === 0 ? (
+                        <option>No Pattern Available</option>
+                      ) : (
+                        <option>Please Select Pattern</option>
+                      )}
+                      {Patterns.map((pattern) => (
+                        <option
+                          value={pattern.id}
+                          key={pattern.id}
+                          className="px-4 py-1"
+                        >
+                          {pattern.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
               </div>
               {/* Name and Inventry */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -516,7 +516,7 @@ export default function ProductFormPage() {
                 </div>
               </div>
               {/* Price */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2  gap-4">
                 <div className="flex flex-col gap-4 mt-1">
                   {/* <FormField
                     control={form.control}

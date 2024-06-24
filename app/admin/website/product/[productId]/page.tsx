@@ -65,6 +65,7 @@ export default async function ProductFormPage({
       SubType: true,
       blouseColor: true,
       palluColor: true,
+      fabric: true,
     },
   });
 

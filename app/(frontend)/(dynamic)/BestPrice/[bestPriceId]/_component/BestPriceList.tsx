@@ -50,7 +50,7 @@ export default function BestPriceListPage({ bestPrice, products, category }) {
     };
 
     fetchProducts();
-  }, [params.occassionId]);
+  }, [products]);
 
   const handleFilterChange = (filterType, value) => {
     setFilters((prevFilters) => {

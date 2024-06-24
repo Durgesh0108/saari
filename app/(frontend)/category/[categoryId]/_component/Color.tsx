@@ -509,7 +509,7 @@ const FilterByColor = ({ color, products }) => {
       }
     };
     fetchProducts();
-  }, [params.categoryId]);
+  }, [products]);
 
   const [propertyList, dispatchPropertyList] = useReducer(
     PropertyListReducer,
@@ -525,7 +525,7 @@ const FilterByColor = ({ color, products }) => {
 
   useEffect(() => {
     propertyLoadHandler(products);
-  }, []);
+  }, [propertyLoadHandler,products]);
 
   const showMoreHandler = () => {
     dispatchPropertyList({

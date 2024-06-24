@@ -58,7 +58,6 @@
 //   }
 // }
 
-
 // pages/api/razorpay/success.js
 import prismadb from "@/lib/prisma";
 import { confirmRazorpayPayment } from "@/lib/razorpay";
@@ -67,7 +66,13 @@ import { NextResponse } from "next/server";
 export async function POST(req, res) {
   try {
     const { orderId, paymentId, signature, amount, userId } = await req.json();
-    console.log("Received payment data:", { orderId, paymentId, signature, amount, userId });
+    console.log("Received payment data:", {
+      orderId,
+      paymentId,
+      signature,
+      amount,
+      userId,
+    });
 
     const paymentData = {
       orderId,
@@ -98,6 +103,7 @@ export async function POST(req, res) {
     // Create order
     const newOrder = await prismadb.order.create({
       data: {
+        userId: userId,
         subtotal: cartItems.reduce(
           (acc, item) => acc + item.product.price * item.quantity,
           0

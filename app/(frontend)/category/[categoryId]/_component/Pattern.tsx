@@ -103,7 +103,7 @@ export default function ShopByPattern() {
       setUniquePatterns(uniquePatterns);
     };
     fetchProducts();
-  }, []);
+  }, [params.categoryId]);
 
   useEffect(() => {
     const fetchpatterns = async () => {
@@ -114,7 +114,7 @@ export default function ShopByPattern() {
       setUniquePatterns(patterns);
     };
     fetchpatterns();
-  }, []);
+  }, [params.categoryId]);
 
 
 

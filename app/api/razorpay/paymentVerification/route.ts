@@ -14,7 +14,7 @@ export async function POST(req: Request) {
     .digest("hex");
 
   const isAuthentic = expectedSignature === razorpay_signature;
-  console.log(isAuthentic);
+
 
   if (!isAuthentic) {
     return NextResponse.json(

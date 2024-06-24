@@ -52,7 +52,7 @@ export default function OccassionPage({ Occassion, products, category }) {
     };
 
     fetchProducts();
-  }, [params.occassionId]);
+  }, [products]);
 
   const handleFilterChange = (filterType, value) => {
     setFilters((prevFilters) => {

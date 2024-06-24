@@ -56,8 +56,6 @@ export const ImageProductForm = ({
       //   productId: productId,
     };
 
-    console.log("data", { data });
-
     try {
       setLoading(true);
       const response = await axios.patch(
@@ -74,8 +72,6 @@ export const ImageProductForm = ({
       setLoading(false);
     }
   };
-
-  console.log("image URL", { imageUrl });
 
   return (
     // <Card className={"flex flex-col gap-6 p-4 border-2"}>

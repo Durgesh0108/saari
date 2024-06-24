@@ -1,25 +1,6 @@
-// import Image from "next/image";
-// import React from "react";
-
-// export default function ProductCard({ product }) {
-//   return (
-//     <div className=" z-50  group">
-//       <div className="rounded-tl-2xl md:rounded-tl-[100px] rounded-br-2xl h-48 md:h-72 relative -top-5">
-//         <Image
-//           src={product.images[0].url}
-//           alt={product.name}
-//           height={1}
-//           width={1000}
-//           className="w-full h-full overflow-hidden  duration-700 object-cover rounded-tl-2xl md:rounded-tl-[100px] rounded-br-2xl"
-//         />
-//       </div>
-//       <div className=" duration-700 text-lg">
-//         {product.name}
-//       </div>
-//     </div>
-//   );
-// }
 // @ts-nocheck
+
+"use client";
 
 import Image from "next/image";
 import React, { useState } from "react";
@@ -81,14 +62,14 @@ export default function ProductCard({ product }) {
         >
           <div className="flex space-x-4 items-center">
             <button className="border-2 rounded-full p-2 group/view flex items-center gap-4">
-              <Eye className="h-8 w-8 cursor-pointer hover:text-gray-800 transition duration-300" />
+              <Eye className="h-4 w-4 cursor-pointer hover:text-gray-800 transition duration-300" />
               <span className="hidden group-hover/view:block transition-all duration-700">
                 View Details
               </span>
             </button>
             <button className="border-2 rounded-full p-2 group/button flex items-center gap-4">
               <ShoppingCart
-                className="h-8 w-8 cursor-pointer hover:text-gray-800 transition duration-300"
+                className="h-4 w-4 cursor-pointer hover:text-gray-800 transition duration-300"
                 onClick={(event) => {
                   event.stopPropagation;
                   addToCart(product.id);

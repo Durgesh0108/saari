@@ -22,7 +22,6 @@ export default function UserProfile() {
   // console.log(user)
 
   const onLogout = () => {
-    console.log("logged out");
     cookieHandler.remove("token");
     cookieHandler.remove("user");
     cookieHandler.remove("userId");
@@ -31,14 +30,12 @@ export default function UserProfile() {
     router.push("/Login");
   };
 
-  console.log(token);
-
   return (
     <div className="flex items-center">
       <Popover>
         <PopoverTrigger>
           {/* <div className="border-[1px] border-[#a6a8a8] rounded-full p-[3px]"> */}
-          <User className="w-4 h-4 md:w-6 md:h-6" />
+          <User className="w-4 h-4 lg:w-6 lg:h-6" />
           {/* </div> */}
           {/* <User color="#a6a8a8" className="w-4 h-4"/> */}
         </PopoverTrigger>

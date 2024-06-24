@@ -49,7 +49,6 @@ export default function CategoryForm() {
   const onSubmit = async (data: CategoryFormValues) => {
     try {
       setLoading(true);
-      console.log(data);
       const response = await axios.post(`/api/category`, data);
       toggleEdit();
       location.reload();

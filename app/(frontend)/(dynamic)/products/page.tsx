@@ -12,6 +12,9 @@ export default async function Products({ params, searchParams }) {
   if (searchParams.typeId) {
     queryFilters.typeId = searchParams.typeId;
   }
+  if (searchParams.fabricId) {
+    queryFilters.fabricId = searchParams.fabricId;
+  }
   if (searchParams.occassionId) {
     queryFilters.occassionId = searchParams.occassionId;
   }
@@ -44,7 +47,7 @@ export default async function Products({ params, searchParams }) {
       SubType: true,
       blouseColor: true,
       palluColor: true,
-      
+      fabric: true,
     },
   });
 
@@ -72,6 +75,13 @@ export default async function Products({ params, searchParams }) {
     currentTypes = await prismadb.type.findUnique({
       where: {
         id: searchParams.typeId,
+      },
+    });
+  }
+  if (searchParams.fabricId) {
+    currentTypes = await prismadb.fabric.findUnique({
+      where: {
+        id: searchParams.fabricId,
       },
     });
   }
@@ -117,7 +127,7 @@ export default async function Products({ params, searchParams }) {
       <ProductsList
         Types={currentTypes}
         products={products}
-        category={categories}
+        // category={categories}
       />
     </>
   );

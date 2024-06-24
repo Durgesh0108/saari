@@ -50,7 +50,6 @@ export default function ColorForm() {
   const onSubmit = async (data: ColorFormValues) => {
     try {
       setLoading(true);
-      console.log(data);
       const response = await axios.post(`/api/color`, data);
       toggleEdit();
       location.reload();

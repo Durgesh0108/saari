@@ -65,8 +65,6 @@ export const UpdateCategoryForm: React.FC<CategoryUpdateFormProps> = ({
     };
     try {
       setLoading(true);
-
-      // console.log(data);
       await axios.patch(`/api/category/${EditId} `, values);
       router.refresh();
 

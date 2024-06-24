@@ -13,7 +13,7 @@ export async function POST(req: Request) {
     };
 
     const data = await razorpay.orders.create(options);
-    console.log("data checkout", data);
+
 
     // const order = await prismadb.advertisementSubscription.create({
     //   data: {

@@ -64,6 +64,10 @@ export async function GET(req: Request) {
         occassion: true,
         pattern: true,
         type: true,
+        blouseColor: true,
+        palluColor: true,
+        fabric: true,
+        SubType: true,
       },
     });
     return NextResponse.json(product);

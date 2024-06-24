@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
 
-export default function ProductsList({ Types, products, category }) {
+export default function ProductsList({ Types, products }) {
   const params = useParams();
 
   const [distinctColors, setDistinctColors] = useState([]);
@@ -60,7 +60,7 @@ export default function ProductsList({ Types, products, category }) {
     fetchProducts();
   }, [params.typeId, products]);
 
-  console.log("productList", { products });
+
 
   const handleFilterChange = (filterType, value) => {
     setFilters((prevFilters) => {

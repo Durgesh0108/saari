@@ -16,8 +16,7 @@ export async function POST(req: Request) {
       password,
     } = body;
 
-    // console.log("email", email);
-    // Check if user already exists
+    
     const existingUser = await prismadb.user.findUnique({
       where: {
         email: email,

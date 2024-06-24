@@ -68,8 +68,6 @@ export const UpdateTypeForm: React.FC<TypeUpdateFormProps> = ({
     };
     try {
       setLoading(true);
-
-      // console.log(data);
       await axios.patch(`/api/type/${initialData.id} `, values);
       router.refresh();
 

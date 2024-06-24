@@ -78,8 +78,6 @@ export const UpdateSubTypeForm: React.FC<TypeUpdateFormProps> = ({
     };
     try {
       setLoading(true);
-
-      // console.log(data);
       await axios.patch(`/api/subType/${initialData.id} `, values);
       router.refresh();
 

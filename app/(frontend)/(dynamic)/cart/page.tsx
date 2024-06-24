@@ -709,7 +709,7 @@ export default function CartPage() {
     };
 
     fetchCartProducts();
-  }, [userId]);
+  }, [calculateTotals, userId]);
 
   const calculateTotals = (products, quantities) => {
     const subtotal = products.reduce((acc, product) => {

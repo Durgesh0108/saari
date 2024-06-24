@@ -522,7 +522,7 @@ const FilterByColor = () => {
 
   useEffect(() => {
     propertyLoadHandler(products);
-  }, []);
+  }, [propertyLoadHandler, products]);
 
   const showMoreHandler = () => {
     dispatchPropertyList({

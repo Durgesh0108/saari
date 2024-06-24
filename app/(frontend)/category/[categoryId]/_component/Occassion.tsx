@@ -115,12 +115,12 @@ const ShopByOccassion = ({ occassion, products }) => {
         properties: propertyList,
       });
     },
-    [propertyList]
+    []
   );
 
   useEffect(() => {
     propertyLoadHandler(products);
-  }, [products]);
+  }, [propertyLoadHandler,products]);
 
   const showMoreHandler = () => {
     dispatchPropertyList({

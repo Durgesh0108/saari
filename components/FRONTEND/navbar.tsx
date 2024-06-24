@@ -25,21 +25,27 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import DropdownMenu from "./DropDownMenu";
+import { AlertModal } from "../modal/alert-modal";
+import { SearchModal } from "../modal/search-modal";
 
 export default function Navbar({ products, categories, user, cart }) {
   useFrontAuthMiddleware();
 
-  console.log("navbar", { categories });
-
   const [sideBarIsOpen, setSideBarIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const openSearchModal = () => setIsOpen(true);
+  const closeSearchModal = () => setIsOpen(false);
 
   const toggleSideBar = () => setSideBarIsOpen((current) => !current);
+
   // console.log("user Id", userId);
 
   return (
     <>
+      <SearchModal isOpen={isOpen} onClose={closeSearchModal} />{" "}
+      {/* Render the SearchModal */}
       {/* Desktop */}
-      <div className="hidden w-full bg-white container px-8 py-4  md:grid grid-cols-12 items-center  ">
+      <div className="hidden w-full bg-white container px-8 py-4  lg:grid grid-cols-12 items-center  ">
         <div className="col-span-2">
           <Link href="/" className="flex items-center ">
             <div className="text-2xl font-bold uppercase">SAARI WALI</div>
@@ -216,7 +222,7 @@ export default function Navbar({ products, categories, user, cart }) {
                   </div>
                 </div> */}
                 <div className="absolute z-50 group-hover:flex flex-col top-[2.4rem]  left-0 w-full bg-white py-1 px-4 text-gray-800 shadow-xl hidden ">
-                  <DropdownMenu categories={category.Fabric} />
+                  <DropdownMenu Fabrics={category.Fabric} />
                 </div>
               </div>
             ))}
@@ -242,7 +248,7 @@ export default function Navbar({ products, categories, user, cart }) {
           </div>
         </div>
         <div className="col-span-2 justify-center flex gap-8 items-center">
-          <div>
+          <div onClick={openSearchModal}>
             <Search />
           </div>
           <div>
@@ -277,14 +283,13 @@ export default function Navbar({ products, categories, user, cart }) {
           </div>
         </div>
       </div>
-
       {/* Mobile */}
       <div>
         {/* <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700"> */}
-        <nav className="fixed top-0 z-50 bg-white w-full text-black  md:hidden p-4 border-b">
+        <nav className="fixed top-0 z-50 bg-white w-full text-black  lg:hidden p-4 border-b">
           <div
             className={cn(
-              " items-center justify-between md:hidden flex"
+              " items-center justify-between lg:hidden flex"
               // sideBarIsOpen ? "flex" : "hidden"
             )}
           >
@@ -300,7 +305,7 @@ export default function Navbar({ products, categories, user, cart }) {
                 </Link>
               </div>
               <div className="col-span-3 flex gap-4 items-center justify-end">
-                <div>
+                <div onClick={openSearchModal}>
                   <Search className="w-4 h-4" />
                 </div>
                 <div>

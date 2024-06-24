@@ -52,7 +52,7 @@ export default function ColorListPage({ Color, products, category }) {
     };
 
     fetchProducts();
-  }, [params.colorId]);
+  }, [products]);
 
   const handleFilterChange = (filterType, value) => {
     setFilters((prevFilters) => {

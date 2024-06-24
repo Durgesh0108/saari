@@ -19,6 +19,10 @@ export async function GET(
         occassion: true,
         pattern: true,
         type: true,
+        blouseColor: true,
+        fabric: true,
+        palluColor: true,
+        SubType: true,
       },
     });
     return NextResponse.json(product);

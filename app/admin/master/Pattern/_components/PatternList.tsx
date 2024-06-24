@@ -74,12 +74,10 @@ export default function PatternList() {
   useEffect(() => {
     const fetchSubcategories = async () => {
       if (selectedCategory) {
-        console.log({ selectedCategory });
         const PatternRes = await fetch(
           `/api/category/${selectedCategory}/pattern`
         );
         const Pat = await PatternRes.json();
-        console.log("Patterns", Pat);
         setPatterns(Pat);
       }
       // else {

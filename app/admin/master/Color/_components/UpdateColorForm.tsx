@@ -66,8 +66,6 @@ export const UpdateColorForm: React.FC<ColorUpdateFormProps> = ({
     };
     try {
       setLoading(true);
-
-      // console.log(data);
       await axios.patch(`/api/color/${EditId} `, values);
       router.refresh();
 

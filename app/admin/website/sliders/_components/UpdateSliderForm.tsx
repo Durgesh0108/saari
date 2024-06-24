@@ -55,8 +55,6 @@ export const UpdateSliderForm: React.FC<SliderUpdateFormProps> = ({
     };
     try {
       setLoading(true);
-
-      // console.log(data);
       await axios.patch(`/api/website/slider/${EditId} `, values);
       router.refresh();
 
