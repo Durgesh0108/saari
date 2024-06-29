@@ -107,6 +107,7 @@ export async function POST(
     const body = await req.json();
 
     const { productId, quantity } = body;
+
     const cartItem = await prismadb.cartItem.create({
       data: {
         userId: params.userId,
@@ -114,7 +115,7 @@ export async function POST(
         quantity,
       },
     });
-    return NextResponse.json(cartItem);
+    return NextResponse.json({ cartItem, added: true });
   } catch (error) {
     console.log("[CART_PATCH]", error);
     return new NextResponse("Internal error", { status: 500 });
@@ -128,30 +129,54 @@ export async function GET(
   try {
     const user = await prismadb.user.findUnique({
       where: { id: params.userId as string },
-      select: { cartItems: true },
+      select: {
+        cartItems: {
+          include: {
+            product: {
+              include: {
+                blouseColor: true,
+                category: true,
+                color: true,
+                description: true,
+                fabric: true,
+                images: true,
+                occassion: true,
+                palluColor: true,
+                pattern: true,
+                SubType: true,
+                type: true,
+              },
+            },
+          },
+        },
+      },
     });
 
     if (!user) {
       return new NextResponse("User not found");
     }
 
-    const cartItemIds = user.cartItems.map((item) => item.productId);
+    const cartProducts = user.cartItems.map((cartItem) => ({
+      ...cartItem.product,
+      quantity: cartItem.quantity,
+    }));
+    //   const cartItemIds = user.cartItems.map((item) => item.productId);
 
-    const products = await prismadb.product.findMany({
-      where: {
-        id: { in: cartItemIds },
-      },
-      include: {
-        images: true,
-        description: true,
-        category: true,
-        occassion: true,
-        pattern: true,
-        type: true,
-        color: true,
-      },
-    });
-    return NextResponse.json(products);
+    //   const products = await prismadb.product.findMany({
+    //     where: {
+    //       id: { in: cartItemIds },
+    //     },
+    //     include: {
+    //       images: true,
+    //       description: true,
+    //       category: true,
+    //       occassion: true,
+    //       pattern: true,
+    //       type: true,
+    //       color: true,
+    //     },
+    // });
+    return NextResponse.json(cartProducts);
   } catch (error) {
     console.log("[CART_PATCH]", error);
     return new NextResponse("Internal error", { status: 500 });

@@ -365,6 +365,7 @@ export default function ProductInsightPage({
           productId: id,
           quantity: 1,
         });
+        console.log(response);
         toast.success("Added To Cart");
       }
     } catch (error) {

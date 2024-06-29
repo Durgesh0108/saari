@@ -40,6 +40,8 @@ export async function PUT(
 ) {
   try {
     const { quantity } = await req.json();
+
+    console.log({ quantity });
     const user = await prismadb.user.findUnique({
       where: { id: params.userId as string },
       select: { cartItems: true },
@@ -65,6 +67,8 @@ export async function PUT(
       where: { id: cartItem.id },
       data: { quantity: parseInt(quantity) },
     });
+
+    console.log({ updatedCartItem });
 
     return NextResponse.json(user.cartItems);
   } catch (error) {
