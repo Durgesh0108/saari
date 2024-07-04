@@ -60,8 +60,6 @@ export default function ProductsList({ Types, products }) {
     fetchProducts();
   }, [params.typeId, products]);
 
-
-
   const handleFilterChange = (filterType, value) => {
     setFilters((prevFilters) => {
       let updatedFilter = [...prevFilters[filterType]];
@@ -151,109 +149,20 @@ export default function ProductsList({ Types, products }) {
           <div className="col-span-2  h-full p-8 sticky ">
             <h1 className="text-3xl font-bold mb-4">Filters</h1>
             <Accordion type="single" collapsible>
+              {/* Price */}
               <AccordionItem value="item-1">
                 <AccordionTrigger className="text-xl font-medium">
-                  CATEGORY
+                  PRICE
                 </AccordionTrigger>
                 <AccordionContent className="text-lg font-medium">
-                  <div>
-                    {distinctCategories.map((category) => (
-                      <div key={category} className="flex items-center">
-                        <input
-                          type="checkbox"
-                          id={category}
-                          name="category"
-                          value={category}
-                          checked={filters.category.includes(category)}
-                          onChange={(e) =>
-                            handleFilterChange("category", e.target.value)
-                          }
-                        />
-                        <label htmlFor={category} className="ml-2">
-                          {category}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                  {/* <div>
-                    <Accordion type="single" collapsible>
-                      {category.map((cate, index) => (
-                        <div key={index}>
-                          <AccordionItem
-                            value={`item-${index + 1}`}
-                            className="border-0"
-                          >
-                            <AccordionTrigger className="text-xl font-medium py-2">
-                              <div className="group/category w-fit ml-2">
-                                <Link href={`/products?categoryId=${cate.id}`}>
-                                  <div>{cate.name}</div>
-                                  <div
-                                    className={`duration-300 w-0  group-hover/category:w-full rounded-full border-b-2 border-b-black `}
-                                  ></div>
-                                </Link>
-                              </div>
-                            </AccordionTrigger>
-                            <AccordionContent className="text-lg font-medium pb-2">
-                              <div>
-                                <Accordion type="single" collapsible>
-                                  {cate.Type.map((type, index) => (
-                                    <div key={index} className=" ml-4">
-                                      <AccordionItem
-                                        value={`item-${index + 1}`}
-                                        className="border-0"
-                                      >
-                                        <AccordionTrigger className="text-xl font-medium py-2">
-                                          <div className="group/type w-fit">
-                                            <Link
-                                              href={`/products?typeId=${type.id}`}
-                                            >
-                                              <div className="">
-                                                {type.name}
-                                              </div>
-                                              <div
-                                                className={`duration-300 w-0  group-hover/type:w-full rounded-full border-b-2 border-b-black `}
-                                              ></div>
-                                            </Link>
-                                          </div>
-                                        </AccordionTrigger>
-                                        <AccordionContent className="text-lg font-medium ">
-                                          <div>
-                                            {type.SubType.map(
-                                              (subtype, index) => (
-                                                <div
-                                                  key={index}
-                                                  className=" ml-6 group/subtype w-fit"
-                                                >
-                                                  <Link
-                                                    href={`/products?subTypeId=${subtype.id}`}
-                                                  >
-                                                    <div>{subtype.name}</div>
-                                                    <div
-                                                      className={`duration-300 w-0  group-hover/subtype:w-full rounded-full border-b-2 border-b-black `}
-                                                    ></div>
-                                                  </Link>
-                                                </div>
-                                              )
-                                            )}
-                                          </div>
-                                        </AccordionContent>
-                                      </AccordionItem>
-                                    </div>
-                                  ))}
-                                </Accordion>
-                              </div>
-                            </AccordionContent>
-                          </AccordionItem>
-                        </div>
-                      ))}
-                    </Accordion>
-                  </div> */}
+                  <div>Price Slider</div>
                 </AccordionContent>
               </AccordionItem>
 
+              {/* Fabric */}
               <AccordionItem value="item-2">
                 <AccordionTrigger className="text-xl font-medium ">
-                  OCCASION
+                  FABRIC
                 </AccordionTrigger>
                 <AccordionContent className="text-lg font-medium">
                   <div>
@@ -278,7 +187,48 @@ export default function ProductsList({ Types, products }) {
                 </AccordionContent>
               </AccordionItem>
 
+              {/* Weave */}
               <AccordionItem value="item-3">
+                <AccordionTrigger className="text-xl font-medium ">
+                  WEAVE
+                </AccordionTrigger>
+                <AccordionContent className="text-lg font-medium">
+                  <div>
+                    {/* {distinctOccasions.map((occasion) => (
+                      <div key={occasion} className="flex items-center">
+                        <input
+                          type="checkbox"
+                          id={occasion}
+                          name="occasion"
+                          value={occasion}
+                          checked={filters.occasion.includes(occasion)}
+                          onChange={(e) =>
+                            handleFilterChange("occasion", e.target.value)
+                          }
+                        />
+                        <label htmlFor={occasion} className="ml-2">
+                          {occasion}
+                        </label>
+                      </div>
+                    ))} */}
+                    <div className="flex items-center">
+                      <input type="checkbox" id="weave" />
+                      <label htmlFor="weave" className="ml-2">
+                        Handloom
+                      </label>
+                    </div>
+                    <div className="flex items-center">
+                      <input type="checkbox" id="weave" />
+                      <label htmlFor="weave" className="ml-2">
+                        Powerloom
+                      </label>
+                    </div>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+
+              {/* Types */}
+              <AccordionItem value="item-4">
                 <AccordionTrigger className="text-xl font-medium">
                   TYPES
                 </AccordionTrigger>
@@ -305,7 +255,8 @@ export default function ProductsList({ Types, products }) {
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="item-4">
+              {/* Subtypes */}
+              {/* <AccordionItem value="item-4">
                 <AccordionTrigger className="text-xl font-medium">
                   SUBTYPES
                 </AccordionTrigger>
@@ -330,9 +281,66 @@ export default function ProductsList({ Types, products }) {
                     ))}
                   </div>
                 </AccordionContent>
+              </AccordionItem> */}
+
+              {/* MOTIF */}
+              <AccordionItem value="item-6">
+                <AccordionTrigger className="text-xl font-medium">
+                  MOTIF
+                </AccordionTrigger>
+                <AccordionContent className="text-lg font-medium">
+                  <div>
+                    {distinctPatterns.map((pattern) => (
+                      <div key={pattern} className="flex items-center">
+                        <input
+                          type="checkbox"
+                          id={pattern}
+                          name="pattern"
+                          value={pattern}
+                          checked={filters.pattern.includes(pattern)}
+                          onChange={(e) =>
+                            handleFilterChange("pattern", e.target.value)
+                          }
+                        />
+                        <label htmlFor={pattern} className="ml-2">
+                          {pattern}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="item-5">
+              {/* Occassion */}
+              <AccordionItem value="item-7">
+                <AccordionTrigger className="text-xl font-medium ">
+                  OCCASION
+                </AccordionTrigger>
+                <AccordionContent className="text-lg font-medium">
+                  <div>
+                    {distinctOccasions.map((occasion) => (
+                      <div key={occasion} className="flex items-center">
+                        <input
+                          type="checkbox"
+                          id={occasion}
+                          name="occasion"
+                          value={occasion}
+                          checked={filters.occasion.includes(occasion)}
+                          onChange={(e) =>
+                            handleFilterChange("occasion", e.target.value)
+                          }
+                        />
+                        <label htmlFor={occasion} className="ml-2">
+                          {occasion}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+
+              {/* Color */}
+              <AccordionItem value="item-8">
                 <AccordionTrigger className="text-xl font-medium">
                   COLOR
                 </AccordionTrigger>
@@ -359,33 +367,138 @@ export default function ProductsList({ Types, products }) {
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="item-6">
+              {/* ZARI */}
+              <AccordionItem value="item-9">
                 <AccordionTrigger className="text-xl font-medium">
-                  PATTERN
+                  ZARI
                 </AccordionTrigger>
                 <AccordionContent className="text-lg font-medium">
                   <div>
-                    {distinctPatterns.map((pattern) => (
-                      <div key={pattern} className="flex items-center">
+                    {/* {distinctColors.map((color) => (
+                      <div key={color} className="flex items-center">
                         <input
                           type="checkbox"
-                          id={pattern}
-                          name="pattern"
-                          value={pattern}
-                          checked={filters.pattern.includes(pattern)}
+                          id={color}
+                          name="color"
+                          value={color}
+                          checked={filters.color.includes(color)}
                           onChange={(e) =>
-                            handleFilterChange("pattern", e.target.value)
+                            handleFilterChange("color", e.target.value)
                           }
                         />
-                        <label htmlFor={pattern} className="ml-2">
-                          {pattern}
+                        <label htmlFor={color} className="ml-2">
+                          {color}
                         </label>
                       </div>
-                    ))}
+                    ))} */}
+                    <div className="flex items-center">
+                      <input type="checkbox" id="weave" />
+                      <label htmlFor="weave" className="ml-2">
+                        Fast Zari
+                      </label>
+                    </div>
+                    <div className="flex items-center">
+                      <input type="checkbox" id="weave" />
+                      <label htmlFor="weave" className="ml-2">
+                        Metallic Zari
+                      </label>
+                    </div>
                   </div>
                 </AccordionContent>
               </AccordionItem>
-              
+
+              {/* PALLU DESIGN */}
+              <AccordionItem value="item-10">
+                <AccordionTrigger className="text-xl font-medium">
+                  PALLU DESIGN
+                </AccordionTrigger>
+                <AccordionContent className="text-lg font-medium">
+                  <div>
+                    {/* {distinctColors.map((color) => (
+                      <div key={color} className="flex items-center">
+                        <input
+                          type="checkbox"
+                          id={color}
+                          name="color"
+                          value={color}
+                          checked={filters.color.includes(color)}
+                          onChange={(e) =>
+                            handleFilterChange("color", e.target.value)
+                          }
+                        />
+                        <label htmlFor={color} className="ml-2">
+                          {color}
+                        </label>
+                      </div>
+                    ))} */}
+
+                    <div className="flex items-center">
+                      <input type="checkbox" id="weave" />
+                      <label htmlFor="weave" className="ml-2">
+                        Zari Lines
+                      </label>
+                    </div>
+                    <div className="flex items-center">
+                      <input type="checkbox" id="weave" />
+                      <label htmlFor="weave" className="ml-2">
+                        Ghicha
+                      </label>
+                    </div>
+                    <div className="flex items-center">
+                      <input type="checkbox" id="weave" />
+                      <label htmlFor="weave" className="ml-2">
+                        Hand Block Print
+                      </label>
+                    </div>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+
+              {/* BORDER */}
+              <AccordionItem value="item-11">
+                <AccordionTrigger className="text-xl font-medium">
+                  BORDER
+                </AccordionTrigger>
+                <AccordionContent className="text-lg font-medium">
+                  <div>
+                    {/* {distinctColors.map((color) => (
+                      <div key={color} className="flex items-center">
+                        <input
+                          type="checkbox"
+                          id={color}
+                          name="color"
+                          value={color}
+                          checked={filters.color.includes(color)}
+                          onChange={(e) =>
+                            handleFilterChange("color", e.target.value)
+                          }
+                        />
+                        <label htmlFor={color} className="ml-2">
+                          {color}
+                        </label>
+                      </div>
+                    ))} */}
+                    <div className="flex items-center">
+                      <input type="checkbox" id="weave" />
+                      <label htmlFor="weave" className="ml-2">
+                        Narali
+                      </label>
+                    </div>
+                    <div className="flex items-center">
+                      <input type="checkbox" id="weave" />
+                      <label htmlFor="weave" className="ml-2">
+                        Narmada & Chatai
+                      </label>
+                    </div>
+                    <div className="flex items-center">
+                      <input type="checkbox" id="weave" />
+                      <label htmlFor="weave" className="ml-2">
+                        Kadiyal
+                      </label>
+                    </div>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
             </Accordion>
           </div>
           <div className="col-span-6 p-4  ">
@@ -717,3 +830,104 @@ export default function ProductsList({ Types, products }) {
     </div>
   );
 }
+
+// {/* category */}
+// <AccordionItem value="item-1">
+// <AccordionTrigger className="text-xl font-medium">
+//   CATEGORY
+// </AccordionTrigger>
+// <AccordionContent className="text-lg font-medium">
+//   <div>
+//     {distinctCategories.map((category) => (
+//       <div key={category} className="flex items-center">
+//         <input
+//           type="checkbox"
+//           id={category}
+//           name="category"
+//           value={category}
+//           checked={filters.category.includes(category)}
+//           onChange={(e) =>
+//             handleFilterChange("category", e.target.value)
+//           }
+//         />
+//         <label htmlFor={category} className="ml-2">
+//           {category}
+//         </label>
+//       </div>
+//     ))}
+//   </div>
+//   {/* <div>
+//     <Accordion type="single" collapsible>
+//       {category.map((cate, index) => (
+//         <div key={index}>
+//           <AccordionItem
+//             value={`item-${index + 1}`}
+//             className="border-0"
+//           >
+//             <AccordionTrigger className="text-xl font-medium py-2">
+//               <div className="group/category w-fit ml-2">
+//                 <Link href={`/products?categoryId=${cate.id}`}>
+//                   <div>{cate.name}</div>
+//                   <div
+//                     className={`duration-300 w-0  group-hover/category:w-full rounded-full border-b-2 border-b-black `}
+//                   ></div>
+//                 </Link>
+//               </div>
+//             </AccordionTrigger>
+//             <AccordionContent className="text-lg font-medium pb-2">
+//               <div>
+//                 <Accordion type="single" collapsible>
+//                   {cate.Type.map((type, index) => (
+//                     <div key={index} className=" ml-4">
+//                       <AccordionItem
+//                         value={`item-${index + 1}`}
+//                         className="border-0"
+//                       >
+//                         <AccordionTrigger className="text-xl font-medium py-2">
+//                           <div className="group/type w-fit">
+//                             <Link
+//                               href={`/products?typeId=${type.id}`}
+//                             >
+//                               <div className="">
+//                                 {type.name}
+//                               </div>
+//                               <div
+//                                 className={`duration-300 w-0  group-hover/type:w-full rounded-full border-b-2 border-b-black `}
+//                               ></div>
+//                             </Link>
+//                           </div>
+//                         </AccordionTrigger>
+//                         <AccordionContent className="text-lg font-medium ">
+//                           <div>
+//                             {type.SubType.map(
+//                               (subtype, index) => (
+//                                 <div
+//                                   key={index}
+//                                   className=" ml-6 group/subtype w-fit"
+//                                 >
+//                                   <Link
+//                                     href={`/products?subTypeId=${subtype.id}`}
+//                                   >
+//                                     <div>{subtype.name}</div>
+//                                     <div
+//                                       className={`duration-300 w-0  group-hover/subtype:w-full rounded-full border-b-2 border-b-black `}
+//                                     ></div>
+//                                   </Link>
+//                                 </div>
+//                               )
+//                             )}
+//                           </div>
+//                         </AccordionContent>
+//                       </AccordionItem>
+//                     </div>
+//                   ))}
+//                 </Accordion>
+//               </div>
+//             </AccordionContent>
+//           </AccordionItem>
+//         </div>
+//       ))}
+//     </Accordion>
+//   </div> */}
+// </AccordionContent>
+// </AccordionItem>

@@ -495,9 +495,9 @@ export default function ProductInsightPage({
               Inclusive of all taxes
             </p>
           </div>
-          {/* Delivery Information */}
+
           <div className="">
-            <h1 className="text-4xl font-semibold mb-4">Home Delivery</h1>
+            <h1 className="text-2xl font-semibold mb-4">Home Delivery</h1>
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-2">
                 <Truck className="w-6 h-6 text-gray-400" />
@@ -514,7 +514,7 @@ export default function ProductInsightPage({
             </div>
           </div>
 
-          {/* Buttons */}
+
           <div className="flex gap-4 mt-4">
             <button className="flex items-center gap-2 py-2 px-4 bg-white border-2 border-gray-300 rounded-lg">
               <Heart className="w-6 h-6 text-red-500" />
@@ -529,6 +529,121 @@ export default function ProductInsightPage({
             </button>
           </div>
         </div>
+        {/* Product Details */}
+        {/* <div className="flex flex-col gap-8 p-4">
+          <div>
+            <div>
+              <h1 className="text-2xl font-medium text-black mb-2">
+                Description
+              </h1>
+              <p>
+                Handloom pista green pure kanjeevaram silk saree has golden
+                butti upper side and butti with checks on the lower side with
+                rama green-red border. Intricate rama green pallu and running
+                plain rama green blouse piece with border.
+              </p>
+              <p>
+                This beautiful kanjeevaram saree can be a pride possession for
+                you. Kanjeevaram has a special traditional and cultural
+                significance.
+              </p>
+            </div>
+            <div className="flex flex-col gap-2">
+              <div className="text-xl">
+                <span className="text-xl font-medium text-black ">
+                  Saree Color:
+                </span>
+                <span>Pista Green</span>
+              </div>
+              <div className="text-xl">
+                <span className="text-xl font-medium text-black ">Fabric:</span>
+                <span>Pure Silk</span>
+              </div>
+              <div className="text-xl">
+                <span className="text-xl font-medium text-black ">
+                  Wash Care:
+                </span>
+                <span>Dry clean only</span>
+              </div>
+              <div className="text-xl">
+                <span className="text-xl font-medium text-black ">
+                  Occasion:
+                </span>
+                <span>Traditional Wear/ Special Wear</span>
+              </div>
+              <div className="text-xl">
+                <span className="text-xl font-medium text-black ">Note:</span>
+                <span>
+                  Product color may slightly vary due to photographic lighting
+                  sources or your monitor settings
+                </span>
+              </div>
+            </div>
+
+            <div>
+              <h1>Saree measurements</h1>
+              <div className="flex flex-col gap-4">
+                <div className="text-xl">
+                  <span className="text-xl font-medium text-black ">
+                    Length:
+                  </span>
+                  <span>5.24 meter</span>
+                </div>
+                <div className="text-xl">
+                  <span className="text-xl font-medium text-black ">
+                    Height:
+                  </span>
+                  <span>47 inches</span>
+                </div>
+                <div className="text-xl">
+                  <span className="text-xl font-medium text-black ">
+                    Blouse piece:
+                  </span>
+                  <span>85 centimeters</span>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h1>Instructions</h1>
+              <p>
+                We strive to capture photographs that are as authentic as
+                possible, no filters or other special effects are used. However,
+                colours may differ depending on the screen resolution used to
+                access the product.
+              </p>
+            </div>
+            <div>
+              <h1>Shipping & Returns</h1>
+              <ul>
+                <li>
+                  Kindly note that within India we share the bill and tracking
+                  information 24hrs after the goods are shipped, and after about
+                  72 hrs if its shipped Internationally.
+                </li>
+                <li>
+                  Within India, you would receive the shipment within a week
+                  after dispatched, 10 to 15 days outside India.
+                </li>
+                <li>
+                  Please do not accept the courier if the package is torn or not
+                  in good condition.
+                </li>
+                <li>
+                  You may relax knowing that your product has passed all the
+                  quality check procedures. Please be aware that we do not
+                  accept returns and exchanges.
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h1>Care Instructions</h1>
+              <p>We would suggest dry clean only.</p>
+            </div>
+          </div>
+        </div> */}
+
+        
       </div>
 
       {/* Product Details Grid */}
@@ -536,6 +651,117 @@ export default function ProductInsightPage({
         <div>
           <h1 className="text-2xl font-semibold">Product Description</h1>
         </div>
+        <div className="w-full  h-full grid grid-cols-8 ">
+          <div className="col-span-8 ">
+            <div className="mb-8">
+              <p className="text-gray-600 mb-4">
+                Handloom pista green pure kanjeevaram silk saree has golden
+                butti upper side and butti with checks on the lower side with
+                rama green-red border. Intricate rama green pallu and running
+                plain rama green blouse piece with border.
+              </p>
+              <p className="text-gray-600">
+                This beautiful kanjeevaram saree can be a pride possession for
+                you. Kanjeevaram has a special traditional and cultural
+                significance.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="w-full  h-full grid grid-cols-8 ">
+          <div className="col-span-8 ">
+            <div className="flex flex-col gap-2">
+              <div className="text-xl">
+                <span className="font-medium text-gray-800">Saree Color: </span>
+                <span>Pista Green</span>
+              </div>
+              <div className="text-xl">
+                <span className="font-medium text-gray-800">Fabric: </span>
+                <span>Pure Silk</span>
+              </div>
+              <div className="text-xl">
+                <span className="font-medium text-gray-800">Wash Care: </span>
+                <span>Dry clean only</span>
+              </div>
+              <div className="text-xl">
+                <span className="font-medium text-gray-800">Occasion: </span>
+                <span>Traditional Wear/ Special Wear</span>
+              </div>
+              <div className="text-xl">
+                <span className="font-medium text-gray-800">Note: </span>
+                <span>
+                  Product color may slightly vary due to photographic lighting
+                  sources or your monitor settings.
+                </span>
+              </div>
+            </div>
+            <div className="mt-8">
+              <h2 className="text-xl font-semibold text-gray-800 mb-2">
+                Saree measurements
+              </h2>
+              <div className="grid gap-2">
+                <div className="text-xl">
+                  <span className="font-medium text-gray-800">Length: </span>
+                  <span>5.24 meter</span>
+                </div>
+                <div className="text-xl">
+                  <span className="font-medium text-gray-800">Height: </span>
+                  <span>47 inches</span>
+                </div>
+                <div className="text-xl">
+                  <span className="font-medium text-gray-800">
+                    Blouse piece:{" "}
+                  </span>
+                  <span>85 centimeters</span>
+                </div>
+              </div>
+            </div>
+            <div className="mt-8">
+              <h2 className="text-xl font-semibold text-gray-800 mb-2">
+                Instructions
+              </h2>
+              <p className="text-gray-600">
+                We strive to capture photographs that are as authentic as
+                possible, no filters or other special effects are used. However,
+                colours may differ depending on the screen resolution used to
+                access the product.
+              </p>
+            </div>
+            <div className="mt-8">
+              <h2 className="text-xl font-semibold text-gray-800 mb-2">
+                Shipping & Returns
+              </h2>
+              <ul className="list-disc list-inside text-gray-600">
+                <li>
+                  Kindly note that within India we share the bill and tracking
+                  information 24hrs after the goods are shipped, and after about
+                  72 hrs if its shipped Internationally.
+                </li>
+                <li>
+                  Within India, you would receive the shipment within a week
+                  after dispatched, 10 to 15 days outside India.
+                </li>
+                <li>
+                  Please do not accept the courier if the package is torn or not
+                  in good condition.
+                </li>
+                <li>
+                  You may relax knowing that your product has passed all the
+                  quality check procedures. Please be aware that we do not
+                  accept returns and exchanges.
+                </li>
+              </ul>
+            </div>
+            <div className="mt-8">
+              <h2 className="text-xl font-semibold text-gray-800 mb-2">
+                Care Instructions
+              </h2>
+              <p className="text-gray-600">We would suggest dry clean only.</p>
+            </div>
+          </div>
+        </div>
+
         <div className="w-full  h-full grid grid-cols-8 ">
           <div className="col-span-8 ">
             <div className="grid grid-cols-2">
