@@ -68,9 +68,9 @@
 import Image from "next/image";
 import React from "react";
 import Link from "next/link";
-import { Nunito_Sans } from "next/font/google";
 import Header1 from "../ui/Header1";
 import Header2 from "../ui/Header2";
+import { Nunito_Sans } from "next/font/google";
 const nunito = Nunito_Sans({ subsets: ["latin"] });
 
 export default function ShopByCategory({ categories }) {

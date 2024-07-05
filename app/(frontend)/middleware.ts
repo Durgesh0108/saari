@@ -1,10 +1,12 @@
+// @ts-nocheck
+
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { cookieHandler } from "@/lib/cookieHandler";
 import jwt from "jsonwebtoken";
-import { GetUser } from "@/actions/users/getUser";
+import GetUser from "@/actions/users/getUser";
 // import { GetUser } from "@/actions/users/getAllUser";
 
 export const useFrontAuthMiddleware = async () => {

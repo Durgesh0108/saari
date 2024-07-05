@@ -437,44 +437,44 @@ export default function ProductInsightPage({
         <div className="p-4">
           <Tab.Group>
             <div className="flex flex-col md:flex-row">
-              {/* Thumbnail List */}
-              <Tab.List className="flex md:flex-col gap-4 md:gap-0 overflow-x-auto md:overflow-y-auto md:h-full md:w-1/4">
+              <Tab.List className="flex md:flex-col gap-4 md:gap-2 overflow-x-auto no-scrollbar md:overflow-y-auto md:h-full md:w-1/4">
                 {product?.images?.map((image, index) => (
                   <Tab
                     key={index}
                     className={`
-                      w-20 h-20 md:w-full md:h-32 rounded-md overflow-hidden 
-                      ${
-                        index === currentImageIndex
-                          ? "border-2 border-blue-500"
-                          : ""
-                      }
-                      cursor-pointer transition duration-300 transform hover:scale-105
-                    `}
+                  w-full h-full md:w-full md:h-32 rounded-md overflow-hidden 
+                  ${
+                    index === currentImageIndex
+                      ? "border-2 border-blue-500"
+                      : ""
+                  }
+                  cursor-pointer transition duration-300 transform hover:scale-105
+                `}
+                    onClick={() => setCurrentImageIndex(index)}
                   >
-                    <Image
-                      src={image.url}
-                      alt={product.name}
-                      width={100}
-                      height={100}
-                      className="object-cover"
-                      onClick={() => setCurrentImageIndex(index)}
-                    />
+                    <div className="relative w-full h-full">
+                      <Image
+                        src={image.url}
+                        alt={product.name}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 100px) 100vw, 100px"
+                      />
+                    </div>
                   </Tab>
                 ))}
               </Tab.List>
-
-              {/* Main Image */}
               <Tab.Panels className="flex-1 h-full relative">
                 {product?.images?.map((image, index) => (
                   <Tab.Panel key={index} className="h-full w-full">
-                    <div className="h-full w-full relative">
+                    <div className="relative w-full h-full">
                       <Image
                         src={image.url}
                         width={1000}
                         height={1000}
                         alt={product.name}
                         className="object-cover w-full h-full"
+                        sizes="100vw"
                       />
                     </div>
                   </Tab.Panel>
@@ -483,6 +483,44 @@ export default function ProductInsightPage({
             </div>
           </Tab.Group>
         </div>
+
+        {/* <div className="flex flex-col items-center">
+          <Tab.Group>
+            <Tab.Panels className="w-full h-96">
+              {product.images?.map((image, index) => (
+                <Tab.Panel key={index} className="h-full w-full">
+                  <Image
+                    src={image.url}
+                    width={1000}
+                    height={1}
+                    alt={product.name}
+                    className="object-contain h-full w-full"
+                    loading="lazy"
+                  />
+                </Tab.Panel>
+              ))}
+            </Tab.Panels>
+            <Tab.List className="flex gap-4 overflow-x-auto mt-2">
+              {product.images?.map((image, index) => (
+                <Tab key={index}>
+                  {({ selected }) => (
+                    <Image
+                      src={image.url}
+                      height={100}
+                      width={100}
+                      alt={"image"}
+                      loading="lazy"
+                      className={cn(
+                        "w-full h-full object-contain cursor-pointer",
+                        selected ? "border-blue-500 border-2" : ""
+                      )}
+                    />
+                  )}
+                </Tab>
+              ))}
+            </Tab.List>
+          </Tab.Group>
+        </div> */}
 
         {/* Product Details */}
         <div className="flex flex-col gap-8 p-4">
@@ -513,7 +551,6 @@ export default function ProductInsightPage({
               </div>
             </div>
           </div>
-
 
           <div className="flex gap-4 mt-4">
             <button className="flex items-center gap-2 py-2 px-4 bg-white border-2 border-gray-300 rounded-lg">
@@ -642,12 +679,11 @@ export default function ProductInsightPage({
             </div>
           </div>
         </div> */}
-
-        
       </div>
 
       {/* Product Details Grid */}
-      <div className="bg-white rounded-xl border-[1px] border-pink-100 mb-8 max-h-[520px] no-scrollbar overflow-auto px-4 py-12 flex flex-col gap-4">
+      <div className="bg-white rounded-xl border-[1px] border-pink-100 mb-8  no-scrollbar overflow-auto px-4 py-12 flex flex-col gap-4">
+        {/* <div className="bg-white rounded-xl border-[1px] border-pink-100 mb-8 max-h-[520px] no-scrollbar overflow-auto px-4 py-12 flex flex-col gap-4"> */}
         <div>
           <h1 className="text-2xl font-semibold">Product Description</h1>
         </div>

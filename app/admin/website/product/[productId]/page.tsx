@@ -142,11 +142,7 @@ export default async function ProductFormPage({
               imageUrl={service?.logo || ""}
             /> */}
             {/* Image */}
-            <ImageProductForm
-              productId={product?.id || ""}
-              // @ts-ignore
-              imageUrl={product?.images || ""}
-            />
+            <ImageProductForm initialData={product} />
           </div>
           {/* Name  and Description*/}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

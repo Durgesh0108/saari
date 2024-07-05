@@ -26,7 +26,7 @@ import ImageUpload from "@/components/ui/image-upload";
 const formSchema = z.object({
   name: z.string().min(2),
   hexCode: z.string().min(2),
-  bannerUrl: z.string().min(2),
+  bannerUrl: z.string().min(2).optional(),
 });
 
 type ColorFormValues = z.infer<typeof formSchema>;

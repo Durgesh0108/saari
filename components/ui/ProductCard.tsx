@@ -10,6 +10,9 @@ import { cookieHandler } from "@/lib/cookieHandler";
 import axios from "axios";
 import toast from "react-hot-toast";
 
+import { Open_Sans } from "next/font/google";
+const sans = Open_Sans({ subsets: ["latin"] });
+
 export default function ProductCard({ product }) {
   const router = useRouter();
   const userId = cookieHandler.get("userId");
@@ -83,10 +86,12 @@ export default function ProductCard({ product }) {
         </div>
       </div>
       <div className="p-4">
-        <h3 className="text-xl font-semibold mb-2 line-clamp-1">
+        <h3 className="text-xl font-semibold mb-2 capitalize">
           {product.name}
         </h3>
-        <p className="text-gray-600">&#8377; {product.price}</p>
+        <p className={`text-gray-600 `}>
+          &#8377; {product.price}
+        </p>
       </div>
     </div>
   );

@@ -40,7 +40,7 @@ const formSchema = z.object({
   // size_value: z.coerce.number().min(1),
   shortDescription: z.string().min(1),
   // features: z.string().min(1),
-  images: z.object({ url: z.string() }).array(),
+  images: z.object({ url: z.string().url() }).array(),
 });
 
 type ProductFormValues = z.infer<typeof formSchema>;
@@ -84,12 +84,13 @@ export default function ProductFormPage() {
       name: "",
       shortDescription: "",
       // features: "",
-      images: [],
       // qty: 0,
     },
   });
 
   const handleSubmit = async (values: ProductFormValues) => {
+    console.log(form.getValues());
+
     try {
       setLoading(true);
       const data = {
@@ -769,7 +770,7 @@ export default function ProductFormPage() {
                     <FormItem>
                       <FormLabel>Image</FormLabel>
                       <FormControl>
-                        <ImageUpload
+                        {/* <ImageUpload
                           value={field.value.map((image) => image.url)}
                           disabled={loading}
                           onChange={(url) =>
@@ -782,6 +783,20 @@ export default function ProductFormPage() {
                               ),
                             ])
                           }
+                        /> */}
+
+                        <ImageUpload
+                          value={field.value}
+                          disabled={loading}
+                          onChange={(urls) => {
+                            field.onChange(urls);
+                          }}
+                          onRemove={(url) => {
+                            const updatedImages = field.value.filter(
+                              (image) => image.url !== url
+                            );
+                            field.onChange(updatedImages);
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
@@ -794,7 +809,7 @@ export default function ProductFormPage() {
               <div className="flex justify-end">
                 <div className="flex gap-2">
                   <Button
-                    disabled={loading}
+                    disabled={loading || !form.formState.isValid}
                     className="ml-auto"
                     type="submit"
                     variant={"success"}

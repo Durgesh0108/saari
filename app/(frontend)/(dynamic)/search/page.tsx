@@ -42,21 +42,18 @@
 //   );
 // }
 
-
-
-
-
 import SearchResultListingPage from "./_components/SearchResultListingPage";
 import prismadb from "@/lib/prisma";
 
 export default async function SearchPage({ searchParams }) {
   const query = searchParams.query || "";
-  
+
   // Split the query into individual words
   const queryWords = query.split(" ").filter(Boolean);
+  console.log({ query, queryWords });
 
   // Build the dynamic query
-  const queryConditions = queryWords.map(word => ({
+  const queryConditions = queryWords.map((word) => ({
     OR: [
       { name: { contains: word, mode: "insensitive" } },
       { category: { name: { contains: word, mode: "insensitive" } } },
@@ -68,7 +65,7 @@ export default async function SearchPage({ searchParams }) {
       { color: { name: { contains: word, mode: "insensitive" } } },
       { blouseColor: { name: { contains: word, mode: "insensitive" } } },
       { palluColor: { name: { contains: word, mode: "insensitive" } } },
-    ]
+    ],
   }));
 
   // Prisma query to fetch products based on the search query
