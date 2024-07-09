@@ -332,6 +332,7 @@ import { cookieHandler } from "@/lib/cookieHandler";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { cn } from "@/lib/utils";
+import DescriptionTab from "./Description";
 
 export default function ProductInsightPage({
   product,
@@ -687,7 +688,9 @@ export default function ProductInsightPage({
         <div>
           <h1 className="text-2xl font-semibold">Product Description</h1>
         </div>
-        <div className="w-full  h-full grid grid-cols-8 ">
+
+        <DescriptionTab product={product} />
+        {/* <div className="w-full  h-full grid grid-cols-8 ">
           <div className="col-span-8 ">
             <div className="mb-8">
               <p className="text-gray-600 mb-4">
@@ -811,7 +814,7 @@ export default function ProductInsightPage({
               ))}
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* Explore More Sections */}
