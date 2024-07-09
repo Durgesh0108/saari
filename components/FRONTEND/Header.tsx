@@ -103,12 +103,14 @@ export default async function Header() {
 
   return (
     <>
-      <Navbar
-        products={products}
-        categories={categories}
-        user={user}
-        cart={cart}
-      />
+      <div className="fixed top-0 z-50 w-full bg-white">
+        <Navbar
+          products={products}
+          categories={categories}
+          user={user}
+          cart={cart}
+        />
+      </div>
     </>
   );
 }

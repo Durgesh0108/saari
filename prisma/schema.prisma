@@ -668,7 +668,7 @@ model Pattern {
 model Color {
   id                String    @id @default(auto()) @map("_id") @db.ObjectId
   name              String    @db.String
-  bannerUrl         String    @default("https://res.cloudinary.com/dttieobbt/image/upload/v1717054596/tmbfbfvi2zx4fuznzjdd.jpg") @db.String
+  bannerUrl         String?    @default("https://res.cloudinary.com/dttieobbt/image/upload/v1717054596/tmbfbfvi2zx4fuznzjdd.jpg") @db.String
   hexCode           String    @db.String
   isArchived        Boolean?  @default(false) @db.Bool
   createdAt         DateTime  @default(now())

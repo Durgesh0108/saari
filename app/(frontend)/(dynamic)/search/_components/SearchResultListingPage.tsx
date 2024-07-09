@@ -38,14 +38,14 @@
 //   }
 
 //   const [distinctCategories, setDistinctCategories] = useState([]);
-//   const [distinctOccasions, setDistinctOccasions] = useState([]);
+//   const [distinctOccassions, setDistinctOccassions] = useState([]);
 //   const [distinctTypes, setDistinctTypes] = useState([]);
 //   const [distinctSubTypes, setDistinctSubTypes] = useState([]);
 //   const [distinctPatterns, setDistinctPatterns] = useState([]);
 //   const [distinctColors, setDistinctColors] = useState([]);
 //   const [filters, setFilters] = useState({
 //     category: [],
-//     occasion: [],
+//     occassion: [],
 //     type: [],
 //     subtype: [],
 //     pattern: [],
@@ -57,8 +57,8 @@
 //       const categories = results.map((product) => product.category.name);
 //       setDistinctCategories(Array.from(new Set(categories)));
 
-//       const occasions = results.map((product) => product.occassion.name);
-//       setDistinctOccasions(Array.from(new Set(occasions)));
+//       const occassions = results.map((product) => product.occassion.name);
+//       setDistinctOccassions(Array.from(new Set(occassions)));
 
 //       const types = results.map((product) => product.type.name);
 //       setDistinctTypes(Array.from(new Set(types)));
@@ -98,7 +98,7 @@
 //   const handleResetFilters = () => {
 //     setFilters({
 //       category: [],
-//       occasion: [],
+//       occassion: [],
 //       type: [],
 //       subtype: [],
 //       pattern: [],
@@ -114,9 +114,9 @@
 //       filters.category.includes(product.category.name);
 //     const typeFilter =
 //       !filters.type.length || filters.type.includes(product.type.name);
-//     const occasionFilter =
-//       !filters.occasion.length ||
-//       filters.occasion.includes(product.occassion.name);
+//     const occassionFilter =
+//       !filters.occassion.length ||
+//       filters.occassion.includes(product.occassion.name);
 //     const patternFilter =
 //       !filters.pattern.length || filters.pattern.includes(product.pattern.name);
 //     const subtypeFilter =
@@ -126,7 +126,7 @@
 //       colorFilter &&
 //       categoryFilter &&
 //       typeFilter &&
-//       occasionFilter &&
+//       occassionFilter &&
 //       patternFilter &&
 //       subtypeFilter
 //     );
@@ -267,24 +267,24 @@
 
 //               <AccordionItem value="item-2">
 //                 <AccordionTrigger className="text-xl font-medium ">
-//                   OCCASION
+//                   OCCASsION
 //                 </AccordionTrigger>
 //                 <AccordionContent className="text-lg font-medium">
 //                   <div>
-//                     {distinctOccasions.map((occasion) => (
-//                       <div key={occasion} className="flex items-center">
+//                     {distinctOccassions.map((occassion) => (
+//                       <div key={occassion} className="flex items-center">
 //                         <input
 //                           type="checkbox"
-//                           id={occasion}
-//                           name="occasion"
-//                           value={occasion}
-//                           checked={filters.occasion.includes(occasion)}
+//                           id={occassion}
+//                           name="occassion"
+//                           value={occassion}
+//                           checked={filters.occassion.includes(occassion)}
 //                           onChange={(e) =>
-//                             handleFilterChange("occasion", e.target.value)
+//                             handleFilterChange("occassion", e.target.value)
 //                           }
 //                         />
-//                         <label htmlFor={occasion} className="ml-2">
-//                           {occasion}
+//                         <label htmlFor={occassion} className="ml-2">
+//                           {occassion}
 //                         </label>
 //                       </div>
 //                     ))}
@@ -539,24 +539,24 @@
 
 //                   <AccordionItem value="item-2">
 //                     <AccordionTrigger className="text-xl font-medium ">
-//                       OCCASION
+//                       OCCASsION
 //                     </AccordionTrigger>
 //                     <AccordionContent className="text-lg font-medium">
 //                       <div>
-//                         {distinctOccasions.map((occasion) => (
-//                           <div key={occasion} className="flex items-center">
+//                         {distinctOccassions.map((occassion) => (
+//                           <div key={occassion} className="flex items-center">
 //                             <input
 //                               type="checkbox"
-//                               id={occasion}
-//                               name="occasion"
-//                               value={occasion}
-//                               checked={filters.occasion.includes(occasion)}
+//                               id={occassion}
+//                               name="occassion"
+//                               value={occassion}
+//                               checked={filters.occassion.includes(occassion)}
 //                               onChange={(e) =>
-//                                 handleFilterChange("occasion", e.target.value)
+//                                 handleFilterChange("occassion", e.target.value)
 //                               }
 //                             />
-//                             <label htmlFor={occasion} className="ml-2">
-//                               {occasion}
+//                             <label htmlFor={occassion} className="ml-2">
+//                               {occassion}
 //                             </label>
 //                           </div>
 //                         ))}
@@ -666,37 +666,70 @@ import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+const MAX = 100000;
+const MIN = 0;
+const marks = [
+  {
+    value: MIN,
+    label: "",
+  },
+  {
+    value: MAX,
+    label: "",
+  },
+];
+
 export default function SearchResultListingPage({ results }) {
+  // const [filters, setFilters] = useState({
+  //   category: [],
+  //   occassion: [],
+  //   type: [],
+  //   subtype: [],
+  //   pattern: [],
+  //   color: [],
+  // });
+
   const [filters, setFilters] = useState({
     category: [],
-    occasion: [],
-    type: [],
-    subtype: [],
-    pattern: [],
     color: [],
+    type: [],
+    occassion: [],
+    pattern: [],
+    subtype: [],
+    priceRange: [MIN, MAX], // Add price range to filters
   });
+
+  
+
+  const handleRemoveFilter = (filterType, value) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [filterType]: prevFilters[filterType].filter((item) => item !== value),
+    }));
+  };
+
+  // const handleRemoveFilter = (filterType, valueToRemove) => {
+  //   setFilters((prevFilters) => ({
+  //     ...prevFilters,
+  //     [filterType]: prevFilters[filterType].filter(
+  //       (value) => value !== valueToRemove
+  //     ),
+  //   }));
+  // };
 
   const handleResetFilters = () => {
     setFilters({
       category: [],
-      occasion: [],
-      type: [],
-      subtype: [],
-      pattern: [],
       color: [],
+      type: [],
+      occassion: [],
+      pattern: [],
+      subtype: [],
+      priceRange: [MIN, MAX],
     });
   };
 
-  const handleRemoveFilter = (filterType, valueToRemove) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [filterType]: prevFilters[filterType].filter(
-        (value) => value !== valueToRemove
-      ),
-    }));
-  };
-
-  const filteredResults = results.filter((product) => {
+  const filteredProducts = results.filter((product) => {
     const colorFilter =
       !filters.color.length || filters.color.includes(product.color.name);
     const categoryFilter =
@@ -704,23 +737,66 @@ export default function SearchResultListingPage({ results }) {
       filters.category.includes(product.category.name);
     const typeFilter =
       !filters.type.length || filters.type.includes(product.type.name);
-    const occasionFilter =
-      !filters.occasion.length ||
-      filters.occasion.includes(product.occassion.name);
+    const occassionFilter =
+      !filters.occassion.length ||
+      filters.occassion.includes(product.occassion.name);
     const patternFilter =
       !filters.pattern.length || filters.pattern.includes(product.pattern.name);
     const subtypeFilter =
-      !filters.subtype.length || filters.subtype.includes(product.SubType.name);
+      !filters.subtype.length || filters.subtype.includes(product.subType.name);
+    const priceFilter =
+      product.price >= filters.priceRange[0] &&
+      product.price <= filters.priceRange[1];
 
     return (
       colorFilter &&
       categoryFilter &&
       typeFilter &&
-      occasionFilter &&
+      occassionFilter &&
       patternFilter &&
-      subtypeFilter
+      subtypeFilter &&
+      priceFilter
     );
   });
+
+  // const handleResetFilters = () => {
+  //   setFilters({
+  //     category: [],
+  //     occassion: [],
+  //     type: [],
+  //     subtype: [],
+  //     pattern: [],
+  //     color: [],
+  //   });
+  // };
+
+  
+
+  // const filteredResults = results.filter((product) => {
+  //   const colorFilter =
+  //     !filters.color.length || filters.color.includes(product.color.name);
+  //   const categoryFilter =
+  //     !filters.category.length ||
+  //     filters.category.includes(product.category.name);
+  //   const typeFilter =
+  //     !filters.type.length || filters.type.includes(product.type.name);
+  //   const occassionFilter =
+  //     !filters.occassion.length ||
+  //     filters.occassion.includes(product.occassion.name);
+  //   const patternFilter =
+  //     !filters.pattern.length || filters.pattern.includes(product.pattern.name);
+  //   const subtypeFilter =
+  //     !filters.subtype.length || filters.subtype.includes(product.SubType.name);
+
+  //   return (
+  //     colorFilter &&
+  //     categoryFilter &&
+  //     typeFilter &&
+  //     occassionFilter &&
+  //     patternFilter &&
+  //     subtypeFilter
+  //   );
+  // });
 
   const [filterIsOpen, setFilterIsOpen] = useState(false);
 
@@ -757,8 +833,7 @@ export default function SearchResultListingPage({ results }) {
                 Search Result
               </h1>
             </div>
-            <div className="mb-4 flex flex-wrap gap-2 px-4">
-              {/* Display active filters */}
+            {/* <div className="mb-4 flex flex-wrap gap-2 px-4">
               {Object.entries(filters).map(([filterType, values]) =>
                 values.map((value) => (
                   <div
@@ -775,11 +850,11 @@ export default function SearchResultListingPage({ results }) {
                   </div>
                 ))
               )}
-            </div>
+            </div> */}
             <div>
               {/* Display filtered results */}
-              {filteredResults.length > 0 ? (
-                <ProductListing products={filteredResults} />
+              {filteredProducts.length > 0 ? (
+                <ProductListing products={filteredProducts} />
               ) : (
                 <div className="py-12 px-4 h-screen overflow-auto no-scrollbar">
                   <NoProduct />
@@ -849,11 +924,11 @@ export default function SearchResultListingPage({ results }) {
           </div>
           {/* Display filtered results on mobile */}
           <div className="col-span-6 border-2 p-4">
-            {filteredResults.length > 0 ? (
-              <ProductListing products={filteredResults} />
+            {filteredProducts.length > 0 ? (
+              <ProductListing products={filteredProducts} />
             ) : (
               <div className="py-12 px-4 h-screen overflow-auto no-scrollbar">
-                {filteredResults.length === 0 && <NoProduct />}
+                {filteredProducts.length === 0 && <NoProduct />}
               </div>
             )}
           </div>

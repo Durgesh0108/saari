@@ -1,20 +1,33 @@
-import Image from "next/image";
-import React from "react";
+// Loader.js
+"use client";
 
-export default function Loader() {
+import React from 'react';
+
+const Loader = () => {
   return (
-    <div className="my-32">
-      <div className="relative flex justify-center items-center animate-bounce">
-        {/* <div className="absolute animate-spin rounded h-32 w-32 border-t-4 border-b-4 border-purple-500"></div> */}
-        <Image
-          src="https://res.cloudinary.com/dttieobbt/image/upload/v1715673113/Probiz5_fevicon_ogoblo.png"
-          className=" h-28 w-28"
-          height={200}
-          alt="Loader"
-          width={200}
-          loading="lazy"
-        />
-      </div>
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+      <div className="loader"></div>
+      <style jsx>{`
+        .loader {
+          border: 16px solid #f3f3f3;
+          border-top: 16px solid #3498db;
+          border-radius: 50%;
+          width: 120px;
+          height: 120px;
+          animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
+        }
+      `}</style>
     </div>
   );
-}
+};
+
+export default Loader;

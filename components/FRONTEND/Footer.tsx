@@ -12,7 +12,7 @@ import {
 
 const Footer = () => {
   return (
-    <div className="bottom-0">
+    <div className="bottom-0 relative top-20 ">
       <div id="footer" className="footer">
         <div className="footer-main bg-surface">
           <div className="container">
