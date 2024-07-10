@@ -4,26 +4,38 @@ import Link from "next/link";
 const DescriptionTab = ({ product }) => {
   const [selectedCategory, setSelectedCategory] = useState(1);
 
+  let description = [
+    { key: "Category", value: product.category.name },
+    { key: "Fabric", value: product.fabric.name },
+    { key: "Color", value: product.color.name },
+    { key: "Occassion", value: product.occassion.name },
+    { key: "Design", value: product.pattern.name },
+    ...product.description,
+  ];
+  console.log(product);
+  console.log(product.description);
+  console.log(description);
+
   return (
     <div className="relative flex">
       {/* Left Side - Fabrics */}
       <div className="w-1/4 flex flex-col border-r border-gray-200">
         <div
-          className={`cursor-pointer p-2 hover:text-pink-500 `}
+          className={`cursor-pointer p-2 hover:text-pink-500 font-bold`}
           onMouseEnter={() => setSelectedCategory(1)}
           onMouseLeave={() => setSelectedCategory(selectedCategory)}
         >
           Product Specs
         </div>
         <div
-          className={`cursor-pointer p-2 hover:text-pink-500 `}
+          className={`cursor-pointer p-2 hover:text-pink-500 font-bold`}
           onMouseEnter={() => setSelectedCategory(2)}
           onMouseLeave={() => setSelectedCategory(selectedCategory)}
         >
           Description
         </div>
         <div
-          className={`cursor-pointer p-2 hover:text-pink-500 `}
+          className={`cursor-pointer p-2 hover:text-pink-500 font-bold`}
           onMouseEnter={() => setSelectedCategory(3)}
           onMouseLeave={() => setSelectedCategory(selectedCategory)}
         >
@@ -35,21 +47,25 @@ const DescriptionTab = ({ product }) => {
       {selectedCategory !== null && (
         <div className="w-3/4 flex p-2">
           {selectedCategory === 1 && (
-            <div className="w-full  h-full grid grid-cols-8 ">
-              <div className="col-span-8 ">
-                <div className="grid grid-cols-2">
-                  {product?.description?.map((desc, index) => (
-                    <div className="w-full grid grid-cols-2  " key={index}>
-                      <p className=" p-4 text-xl font-medium">{desc.key}:</p>
-                      <p className=" p-4 bg-[#fdf6ee] text-xl font-medium">
-                        {desc.value}
-                      </p>
+            <div className="w-full h-full grid grid-cols-8">
+              <div className="col-span-8">
+                <div className="grid grid-cols-2  gap-x-24 ">
+                  {/* {product?.description?.map((desc, index) => ( */}
+                  {description.map((desc, index) => (
+                    <div key={index} className=" flex flex-col gap-8">
+                      <div className="w-full grid grid-cols-2">
+                        <p className="p-1 text-lg font-medium">{desc.key}:</p>
+                        <p className="p-1 pl-3 bg-[#faf2e8] text-lg font-medium ">
+                          {desc.value}
+                        </p>
+                      </div>
                     </div>
                   ))}
                 </div>
               </div>
             </div>
           )}
+
           {selectedCategory === 2 && (
             <div className="w-full  h-full grid grid-cols-8 ">
               <div className="col-span-8 ">
@@ -74,28 +90,6 @@ const DescriptionTab = ({ product }) => {
               <div className="col-span-8 ">
                 <div className="flex flex-col gap-2">
                   <div className="text-xl">
-                    <span className="font-medium text-gray-800">
-                      Saree Color:{" "}
-                    </span>
-                    <span>Pista Green</span>
-                  </div>
-                  <div className="text-xl">
-                    <span className="font-medium text-gray-800">Fabric: </span>
-                    <span>Pure Silk</span>
-                  </div>
-                  <div className="text-xl">
-                    <span className="font-medium text-gray-800">
-                      Wash Care:{" "}
-                    </span>
-                    <span>Dry clean only</span>
-                  </div>
-                  <div className="text-xl">
-                    <span className="font-medium text-gray-800">
-                      Occasion:{" "}
-                    </span>
-                    <span>Traditional Wear/ Special Wear</span>
-                  </div>
-                  <div className="text-xl">
                     <span className="font-medium text-gray-800">Note: </span>
                     <span>
                       Product color may slightly vary due to photographic
@@ -103,7 +97,7 @@ const DescriptionTab = ({ product }) => {
                     </span>
                   </div>
                 </div>
-                <div className="mt-8">
+                {/* <div className="mt-8">
                   <h2 className="text-xl font-semibold text-gray-800 mb-2">
                     Saree measurements
                   </h2>
@@ -127,8 +121,8 @@ const DescriptionTab = ({ product }) => {
                       <span>85 centimeters</span>
                     </div>
                   </div>
-                </div>
-                <div className="mt-8">
+                </div> */}
+                <div className="mt-4">
                   <h2 className="text-xl font-semibold text-gray-800 mb-2">
                     Instructions
                   </h2>
@@ -139,7 +133,7 @@ const DescriptionTab = ({ product }) => {
                     resolution used to access the product.
                   </p>
                 </div>
-                <div className="mt-8">
+                <div className="mt-4">
                   <h2 className="text-xl font-semibold text-gray-800 mb-2">
                     Shipping & Returns
                   </h2>
@@ -164,7 +158,7 @@ const DescriptionTab = ({ product }) => {
                     </li>
                   </ul>
                 </div>
-                <div className="mt-8">
+                <div className="mt-4">
                   <h2 className="text-xl font-semibold text-gray-800 mb-2">
                     Care Instructions
                   </h2>

@@ -699,8 +699,6 @@ export default function SearchResultListingPage({ results }) {
     priceRange: [MIN, MAX], // Add price range to filters
   });
 
-  
-
   const handleRemoveFilter = (filterType, value) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
@@ -770,8 +768,6 @@ export default function SearchResultListingPage({ results }) {
   //   });
   // };
 
-  
-
   // const filteredResults = results.filter((product) => {
   //   const colorFilter =
   //     !filters.color.length || filters.color.includes(product.color.name);
@@ -802,9 +798,9 @@ export default function SearchResultListingPage({ results }) {
 
   const toggleFilter = () => setFilterIsOpen((current) => !current);
 
-  if (!results || results.length === 0) {
-    return <NoProduct />;
-  }
+  // if (!results || results.length === 0) {
+  //   return <NoProduct />;
+  // }
 
   return (
     <div className="no-scrollbar z-10">

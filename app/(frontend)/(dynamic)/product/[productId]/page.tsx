@@ -14,6 +14,10 @@ export default async function ProductPage({ params }) {
       occassion: true,
       pattern: true,
       type: true,
+      fabric: true,
+      blouseColor: true,
+      palluColor: true,
+      SubType: true,
     },
   });
 
@@ -29,6 +33,10 @@ export default async function ProductPage({ params }) {
       occassion: true,
       pattern: true,
       type: true,
+      fabric: true,
+      blouseColor: true,
+      palluColor: true,
+      SubType: true,
     },
   });
 
@@ -44,6 +52,10 @@ export default async function ProductPage({ params }) {
       occassion: true,
       pattern: true,
       type: true,
+      fabric: true,
+      blouseColor: true,
+      palluColor: true,
+      SubType: true,
     },
   });
 
@@ -59,6 +71,10 @@ export default async function ProductPage({ params }) {
       occassion: true,
       pattern: true,
       type: true,
+      fabric: true,
+      blouseColor: true,
+      palluColor: true,
+      SubType: true,
     },
   });
   return (
