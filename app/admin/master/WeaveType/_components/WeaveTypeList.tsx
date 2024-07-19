@@ -10,26 +10,32 @@ import axios from "axios";
 import { Pencil, Trash } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { UpdateOccassionForm } from "./UpdateOccassionForm";
-import { Occassion } from "@prisma/client";
 import Image from "next/image";
+import { Pattern } from "@prisma/client";
+import Header from "@/components/ui/header";
+import { UpdateWeaveTypeForm } from "./UpdateWeaveTypeForm";
 
-export default function OccassionList() {
-  const [occassion, setOccassion] = useState<Occassion[]>([]);
-
+export default function WeaveTypeList({ weaves }) {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [deleteId, setDeleteId] = useState<string>("");
   const [initialdata, setInitialData] = useState([]);
+  const [Weaves, setWeaves] = useState(weaves);
+  const [WeaveTypes, setWeaveTypes] = useState([]);
+
+  const [selectedWeave, setSelectedWeave] = useState<string | undefined>(
+    Weaves[0].id
+  );
 
   const handleDelete = async (id: string) => {
     try {
       setLoading(true);
-      await axios.delete(`/api/occassion/${id}`);
+      await axios.delete(`/api/weaveType/${id}`);
       location.reload();
-      toast.success("Occassion Deleted Successfully");
+      toast.success("Weave Type Deleted Successfully");
     } catch (error: any) {
+      console.log(error);
       toast.error("Something went wrong.");
     } finally {
       setLoading(false);
@@ -37,32 +43,50 @@ export default function OccassionList() {
     }
   };
 
+  const handleWeaveChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedWeave(e.target.value);
+  };
+
   useEffect(() => {
-    const fetchOccassion = async () => {
-      const brandRes = await fetch(`/api/occassion/`, {
-        next: { revalidate: 60 },
-      });
-
-      const brand = await brandRes.json();
-      setOccassion(brand);
-    };
-
-    fetchOccassion();
-  }, []);
+    if (selectedWeave) {
+      const SelectWeave = Weaves.find((weave) => weave.id === selectedWeave);
+      console.log(SelectWeave);
+      setWeaveTypes(SelectWeave.WeaveSubType ? SelectWeave.WeaveSubType : []);
+    }
+  }, [selectedWeave, Weaves]);
 
   return (
-    <Card className="p-4">
+    <Card className="p-8">
       <AlertModal
         isOpen={open}
         onClose={() => setOpen(false)}
         onConfirm={() => handleDelete(deleteId)}
         loading={loading}
       />
+      <div className="grid grid-cols-1 gap-4 mb-4">
+        <div>
+          <Header>Weave Type List</Header>
+        </div>
+        <select
+          name="category"
+          id="category"
+          // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800"
+          className="p-2 border-black border-[1px] rounded-lg"
+          onChange={handleWeaveChange}
+        >
+          {Weaves.length === 0 && <option>No Weave Available</option>}
+          {Weaves.map((weave) => (
+            <option value={weave.id} key={weave.id} className="px-4 py-1">
+              {weave.name}
+            </option>
+          ))}
+        </select>
+      </div>
       <div className="flex flex-col gap-2">
         {isUpdating && (
           <>
-            <UpdateOccassionForm
-              initialData={initialdata}
+            <UpdateWeaveTypeForm
+              initialdata={initialdata}
               onCancel={() => {
                 setIsUpdating(false);
                 setEditId("");
@@ -70,19 +94,12 @@ export default function OccassionList() {
             />
           </>
         )}
-        {occassion.length === 0 && <p>No Occassion Available</p>}
-        {occassion.map((occass) => (
+        {WeaveTypes.length === 0 && <p>No Weave Type Available</p>}
+        {WeaveTypes.map((weaveType) => (
           <>
-            <ListCard key={occass.id} className={"group flex items-center"}>
+            <ListCard key={weaveType.id} className={"group flex items-center"}>
               <div className="flex gap-4 items-center">
-                <Image
-                  src={occass.imageUrl}
-                  width={40}
-                  height={30}
-                  alt={occass.name}
-                  loading="lazy"
-                />
-                <div>{occass.name}</div>
+                <div>{weaveType.name}</div>
               </div>
               {!isUpdating && (
                 <>
@@ -93,7 +110,7 @@ export default function OccassionList() {
                       size="sm"
                       onClick={() => {
                         setIsUpdating(true);
-                        setInitialData(occass);
+                        setInitialData(weaveType);
                       }}
                     >
                       <Pencil className="h-4 w-4" />
@@ -104,7 +121,7 @@ export default function OccassionList() {
                       size="sm"
                       onClick={() => {
                         setOpen(true);
-                        setDeleteId(occass.id);
+                        setDeleteId(weaveType.id);
                       }}
                     >
                       <Trash className="h-4 w-4" />

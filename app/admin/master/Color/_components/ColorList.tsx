@@ -20,6 +20,7 @@ export default function ColorList() {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [initialdata, setInitialData] = useState([]);
   const [deleteId, setDeleteId] = useState<string>("");
   const [EditId, setEditId] = useState<string>("");
   const [name, setName] = useState<string>("");
@@ -66,10 +67,7 @@ export default function ColorList() {
         {isUpdating && (
           <>
             <UpdateColorForm
-              name={name}
-              hexCode={hexCode}
-              bannerUrl={bannerUrl}
-              EditId={EditId}
+              initialdata={initialdata}
               onCancel={() => {
                 setIsUpdating(false);
                 setEditId("");
@@ -97,10 +95,7 @@ export default function ColorList() {
                       size="sm"
                       onClick={() => {
                         setIsUpdating(true);
-                        setEditId(col.id);
-                        setName(col.name);
-                        sethexCode(col.hexCode);
-                        setbannerUrl(col.bannerUrl);
+                        setInitialData(category);
                       }}
                     >
                       <Pencil className="h-4 w-4" />

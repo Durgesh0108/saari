@@ -26,7 +26,7 @@ import ImageUpload from "@/components/ui/image-upload";
 const formSchema = z.object({
   name: z.string().min(2),
   hexCode: z.string().min(2),
-  bannerUrl: z.string().min(2).optional(),
+  bannerUrl: z.array(z.string().url()).optional(),
 });
 
 type ColorFormValues = z.infer<typeof formSchema>;
@@ -48,9 +48,14 @@ export default function ColorForm() {
   };
 
   const onSubmit = async (data: ColorFormValues) => {
+    const values = {
+      name: data.name,
+      hexCode: data.hexCode,
+      bannerUrl: data.bannerUrl[0],
+    };
     try {
       setLoading(true);
-      const response = await axios.post(`/api/color`, data);
+      const response = await axios.post(`/api/color`, values);
       toggleEdit();
       location.reload();
       toast.success("Color Created Successfully");
@@ -127,10 +132,14 @@ export default function ColorForm() {
                         <FormLabel>Banner Image</FormLabel>
                         <FormControl>
                           <ImageUpload
-                            value={field.value ? [field.value] : []}
+                            value={field.value}
                             disabled={loading}
-                            onChange={(url) => field.onChange(url)}
-                            onRemove={() => field.onChange("")}
+                            onChange={(urls) => field.onChange(urls)}
+                            onRemove={(url) =>
+                              field.onChange(
+                                field.value.filter((image) => image !== url)
+                              )
+                            }
                           />
                         </FormControl>
                         <FormMessage />

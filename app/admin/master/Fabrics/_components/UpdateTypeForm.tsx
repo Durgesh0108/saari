@@ -24,34 +24,19 @@ import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(2),
-  imageUrl: z.string().min(2),
-  bannerUrl: z.string().min(2),
+  imageUrl: z.array(z.string().url()),
+  bannerUrl: z.array(z.string().url()).optional(),
 });
 
 type TypeFormValues = z.infer<typeof formSchema>;
 
-interface TypeUpdateFormProps {
-  initialData: Type;
-  name: string;
-  imageUrl: string;
-  bannerUrl: string;
-  onCancel: () => void;
-  EditId: string;
-}
-
-export const UpdateTypeForm: React.FC<TypeUpdateFormProps> = ({
-  name,
-  imageUrl,
-  bannerUrl,
-  onCancel,
-  EditId,
-}) => {
+export const UpdateTypeForm = ({ initialdata, onCancel }) => {
   const form = useForm<TypeFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: name,
-      imageUrl: imageUrl,
-      bannerUrl: bannerUrl,
+      name: initialdata.name,
+      imageUrl: [initialdata.imageUrl],
+      bannerUrl: [initialdata.bannerUrl],
     },
   });
 
@@ -62,12 +47,12 @@ export const UpdateTypeForm: React.FC<TypeUpdateFormProps> = ({
   const handleUpdate = async (data: TypeFormValues) => {
     const values = {
       name: data.name,
-      imageUrl: data.imageUrl,
-      bannerUrl: data.bannerUrl,
+      imageUrl: data.imageUrl[0],
+      bannerUrl: data.bannerUrl[0],
     };
     try {
       setLoading(true);
-      await axios.patch(`/api/type/${EditId} `, values);
+      await axios.patch(`/api/type/${initialdata.id} `, values);
       router.refresh();
 
       toast.success("Saari Type Updated Successfully");
@@ -115,10 +100,14 @@ export const UpdateTypeForm: React.FC<TypeUpdateFormProps> = ({
                     <FormLabel>Type Image</FormLabel>
                     <FormControl>
                       <ImageUpload
-                        value={field.value ? [field.value] : []}
+                        value={field.value}
                         disabled={loading}
-                        onChange={(url) => field.onChange(url)}
-                        onRemove={() => field.onChange("")}
+                        onChange={(urls) => field.onChange(urls)}
+                        onRemove={(url) =>
+                          field.onChange(
+                            field.value.filter((image) => image !== url)
+                          )
+                        }
                       />
                     </FormControl>
                     <FormMessage />
@@ -135,10 +124,14 @@ export const UpdateTypeForm: React.FC<TypeUpdateFormProps> = ({
                     <FormLabel>Banner Image</FormLabel>
                     <FormControl>
                       <ImageUpload
-                        value={field.value ? [field.value] : []}
+                        value={field.value}
                         disabled={loading}
-                        onChange={(url) => field.onChange(url)}
-                        onRemove={() => field.onChange("")}
+                        onChange={(urls) => field.onChange(urls)}
+                        onRemove={(url) =>
+                          field.onChange(
+                            field.value.filter((image) => image !== url)
+                          )
+                        }
                       />
                     </FormControl>
                     <FormMessage />
@@ -146,10 +139,7 @@ export const UpdateTypeForm: React.FC<TypeUpdateFormProps> = ({
                 )}
               />
             </div>
-            {/* <EditServiceLocationForm
-              initialData={initialData.serviceAddress}
-              sendDataToParent={handleDataFromChild}
-            /> */}
+
             <div className="flex justify-end">
               <div className="flex gap-2">
                 <Button

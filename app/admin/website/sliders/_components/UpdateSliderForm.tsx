@@ -22,26 +22,16 @@ import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
-  imageUrl: z.string().min(2),
+  imageUrl: z.array(z.string().url()),
 });
 
 type SliderFormValues = z.infer<typeof formSchema>;
 
-interface SliderUpdateFormProps {
-  imageUrl: string;
-  onCancel: () => void;
-  EditId: string;
-}
-
-export const UpdateSliderForm: React.FC<SliderUpdateFormProps> = ({
-  imageUrl,
-  onCancel,
-  EditId,
-}) => {
+export const UpdateSliderForm = ({ initialData, onCancel }) => {
   const form = useForm<SliderFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      imageUrl: imageUrl,
+      imageUrl: [initialData.imageUrl],
     },
   });
 
@@ -51,11 +41,11 @@ export const UpdateSliderForm: React.FC<SliderUpdateFormProps> = ({
 
   const handleUpdate = async (data: SliderFormValues) => {
     const values = {
-      imageUrl: data.imageUrl,
+      imageUrl: data.imageUrl[0],
     };
     try {
       setLoading(true);
-      await axios.patch(`/api/website/slider/${EditId} `, values);
+      await axios.patch(`/api/website/slider/${initialData.id} `, values);
       router.refresh();
 
       toast.success("Slider Updated Successfully");
@@ -85,10 +75,14 @@ export const UpdateSliderForm: React.FC<SliderUpdateFormProps> = ({
                     {/* <FormLabel>Name</FormLabel> */}
                     <FormControl>
                       <ImageUpload
-                        value={field.value ? [field.value] : []}
+                        value={field.value}
                         disabled={loading}
-                        onChange={(url) => field.onChange(url)}
-                        onRemove={() => field.onChange("")}
+                        onChange={(urls) => field.onChange(urls)}
+                        onRemove={(url) =>
+                          field.onChange(
+                            field.value.filter((image) => image !== url)
+                          )
+                        }
                       />
                     </FormControl>
                     <FormMessage />

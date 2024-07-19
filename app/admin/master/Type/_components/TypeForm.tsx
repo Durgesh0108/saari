@@ -25,8 +25,8 @@ import ImageUpload from "@/components/ui/image-upload";
 
 const formSchema = z.object({
   name: z.string().min(2),
-  imageUrl: z.string().min(2),
-  bannerUrl: z.string().min(2),
+  imageUrl: z.array(z.string().url()),
+  bannerUrl: z.array(z.string().url()).optional(),
 });
 
 type TypeFormValues = z.infer<typeof formSchema>;
@@ -34,10 +34,12 @@ type TypeFormValues = z.infer<typeof formSchema>;
 export default function TypeForm() {
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [categories, setCategories] = useState([]);
   const [SelectedCategory, setSelectedCategory] = useState<string | undefined>(
     ""
   );
+  const [SelectedFabric, setSelectedFabric] = useState<string | undefined>("");
+  const [categories, setCategories] = useState([]);
+  const [Fabrics, setFabrics] = useState([]);
 
   const form = useForm<TypeFormValues>({
     resolver: zodResolver(formSchema),
@@ -56,6 +58,7 @@ export default function TypeForm() {
       imageUrl: values.imageUrl,
       bannerUrl: values.bannerUrl,
       categoryId: SelectedCategory,
+      fabricId: SelectedFabric,
     };
     try {
       setLoading(true);
@@ -69,7 +72,6 @@ export default function TypeForm() {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     const fetchCategory = async () => {
       const categoryRes = await fetch(`/api/category`);
@@ -80,10 +82,25 @@ export default function TypeForm() {
     fetchCategory();
   }, []);
 
+  useEffect(() => {
+    const fetchFabrics = async () => {
+      if (SelectedCategory) {
+        const fabricRes = await fetch(
+          `/api/category/${SelectedCategory}/fabric`
+        );
+        const Fabric = await fabricRes.json();
+        setFabrics(Fabric);
+      }
+    };
+
+    fetchFabrics();
+  }, [SelectedCategory]);
+
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (e.target.value !== "") {
-      setSelectedCategory(e.target.value);
-    }
+    setSelectedCategory(e.target.value);
+  };
+  const handleFabricChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedFabric(e.target.value);
   };
 
   return (
@@ -128,6 +145,28 @@ export default function TypeForm() {
                       </option>
                     ))}
                   </select>
+                  <select
+                    name="category"
+                    id="category"
+                    // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800"
+                    className="p-2 border-black border-[1px] rounded-lg"
+                    onChange={handleFabricChange}
+                  >
+                    {Fabrics.length === 0 ? (
+                      <option>No Fabric Available</option>
+                    ) : (
+                      <option>Please Select A Fabric</option>
+                    )}
+                    {Fabrics.map((fabric) => (
+                      <option
+                        value={fabric.id}
+                        key={fabric.id}
+                        className="px-4 py-1"
+                      >
+                        {fabric.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
                 <div className="md:grid gap-8">
                   <FormField
@@ -157,10 +196,14 @@ export default function TypeForm() {
                         <FormLabel>Type Image</FormLabel>
                         <FormControl>
                           <ImageUpload
-                            value={field.value ? [field.value] : []}
+                            value={field.value}
                             disabled={loading}
-                            onChange={(url) => field.onChange(url)}
-                            onRemove={() => field.onChange("")}
+                            onChange={(urls) => field.onChange(urls)}
+                            onRemove={(url) =>
+                              field.onChange(
+                                field.value.filter((image) => image !== url)
+                              )
+                            }
                           />
                         </FormControl>
                         <FormMessage />
@@ -177,10 +220,14 @@ export default function TypeForm() {
                         <FormLabel>Banner Image</FormLabel>
                         <FormControl>
                           <ImageUpload
-                            value={field.value ? [field.value] : []}
+                            value={field.value}
                             disabled={loading}
-                            onChange={(url) => field.onChange(url)}
-                            onRemove={() => field.onChange("")}
+                            onChange={(urls) => field.onChange(urls)}
+                            onRemove={(url) =>
+                              field.onChange(
+                                field.value.filter((image) => image !== url)
+                              )
+                            }
                           />
                         </FormControl>
                         <FormMessage />

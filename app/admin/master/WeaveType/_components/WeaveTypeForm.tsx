@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/Card";
 
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -25,17 +25,16 @@ import ImageUpload from "@/components/ui/image-upload";
 
 const formSchema = z.object({
   name: z.string().min(2),
-  imageUrl: z.array(z.string().url()),
-  bannerUrl: z.array(z.string().url()).optional(),
 });
 
-type CategoryFormValues = z.infer<typeof formSchema>;
+type WeaveTypeFormValues = z.infer<typeof formSchema>;
 
-export default function CategoryForm() {
+export default function WeaveTypeForm({ weave }) {
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [SelectedWeave, setSelectedWeave] = useState<string | undefined>("");
 
-  const form = useForm<CategoryFormValues>({
+  const form = useForm<WeaveTypeFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
@@ -46,18 +45,17 @@ export default function CategoryForm() {
     setIsEditing(!isEditing);
   };
 
-  const onSubmit = async (data: CategoryFormValues) => {
+  const onSubmit = async (data: WeaveTypeFormValues) => {
     const values = {
       name: data.name,
-      imageUrl: data.imageUrl[0],
-      bannerUrl: data.bannerUrl[0],
+      weaveId: SelectedWeave,
     };
     try {
       setLoading(true);
-      const response = await axios.post(`/api/category`, values);
+      const response = await axios.post(`/api/weaveType`, values);
       toggleEdit();
       location.reload();
-      toast.success("Category Created Successfully");
+      toast.success("Weave Type Created Successfully");
     } catch (error: any) {
       console.log(error);
       toast.error("Something Went Wrong");
@@ -65,11 +63,17 @@ export default function CategoryForm() {
       setLoading(false);
     }
   };
+
+  const handleWeaveChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (e.target.value !== "") {
+      setSelectedWeave(e.target.value);
+    }
+  };
   return (
     <Card className="p-8">
       <div className="flex flex-col gap-8">
         <div className="flex justify-between items-center">
-          <Header>Category</Header>
+          <Header>Weave Type</Header>
           {!isEditing && (
             <Button className="flex" onClick={() => setIsEditing(true)}>
               <Plus />
@@ -84,6 +88,30 @@ export default function CategoryForm() {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-4 w-full"
               >
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <select
+                    name="category"
+                    id="category"
+                    // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800"
+                    className="p-2 border-black border-[1px] rounded-lg"
+                    onChange={handleWeaveChange}
+                  >
+                    {weave.length === 0 ? (
+                      <option>No Weave Available</option>
+                    ) : (
+                      <option>Please Select A Weave</option>
+                    )}
+                    {weave.map((category) => (
+                      <option
+                        value={category.id}
+                        key={category.id}
+                        className="px-4 py-1"
+                      >
+                        {category.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
                 <div className="md:grid gap-8">
                   <FormField
                     control={form.control}
@@ -94,56 +122,8 @@ export default function CategoryForm() {
                         <FormControl>
                           <Input
                             disabled={loading}
-                            placeholder="Pattern name"
+                            placeholder="Weave Type name"
                             {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div className="md:grid gap-8">
-                  <FormField
-                    control={form.control}
-                    name="imageUrl"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Category Image</FormLabel>
-                        <FormControl>
-                          <ImageUpload
-                            value={field.value}
-                            disabled={loading}
-                            onChange={(urls) => field.onChange(urls)}
-                            onRemove={(url) =>
-                              field.onChange(
-                                field.value.filter((image) => image !== url)
-                              )
-                            }
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div className="md:grid gap-8">
-                  <FormField
-                    control={form.control}
-                    name="bannerUrl"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Banner Image</FormLabel>
-                        <FormControl>
-                          <ImageUpload
-                            value={field.value}
-                            disabled={loading}
-                            onChange={(urls) => field.onChange(urls)}
-                            onRemove={(url) =>
-                              field.onChange(
-                                field.value.filter((image) => image !== url)
-                              )
-                            }
                           />
                         </FormControl>
                         <FormMessage />

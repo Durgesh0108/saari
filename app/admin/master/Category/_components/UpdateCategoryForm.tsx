@@ -23,33 +23,19 @@ import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(2),
-  imageUrl: z.string().min(2),
-  bannerUrl: z.string().min(2),
+  imageUrl: z.array(z.string().url()),
+  bannerUrl: z.array(z.string().url()).optional(),
 });
 
 type CategoryFormValues = z.infer<typeof formSchema>;
 
-interface CategoryUpdateFormProps {
-  name: string;
-  imageUrl: string;
-  bannerUrl: string;
-  onCancel: () => void;
-  EditId: string;
-}
-
-export const UpdateCategoryForm: React.FC<CategoryUpdateFormProps> = ({
-  name,
-  imageUrl,
-  bannerUrl,
-  onCancel,
-  EditId,
-}) => {
+export const UpdateCategoryForm = ({ initialdata, onCancel }) => {
   const form = useForm<CategoryFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: name,
-      imageUrl: imageUrl,
-      bannerUrl: bannerUrl,
+      name: initialdata.name,
+      imageUrl: [initialdata.imageUrl],
+      bannerUrl: [initialdata.bannerUrl],
     },
   });
 
@@ -60,12 +46,12 @@ export const UpdateCategoryForm: React.FC<CategoryUpdateFormProps> = ({
   const handleUpdate = async (data: CategoryFormValues) => {
     const values = {
       name: data.name,
-      imageUrl: data.imageUrl,
-      bannerUrl: data.bannerUrl,
+      imageUrl: data.imageUrl[0],
+      bannerUrl: data.bannerUrl[0],
     };
     try {
       setLoading(true);
-      await axios.patch(`/api/category/${EditId} `, values);
+      await axios.patch(`/api/category/${initialdata.id} `, values);
       router.refresh();
 
       toast.success("Category Updated Successfully");
@@ -114,10 +100,14 @@ export const UpdateCategoryForm: React.FC<CategoryUpdateFormProps> = ({
                     <FormLabel>Category Image</FormLabel>
                     <FormControl>
                       <ImageUpload
-                        value={field.value ? [field.value] : []}
+                        value={field.value}
                         disabled={loading}
-                        onChange={(url) => field.onChange(url)}
-                        onRemove={() => field.onChange("")}
+                        onChange={(urls) => field.onChange(urls)}
+                        onRemove={(url) =>
+                          field.onChange(
+                            field.value.filter((image) => image !== url)
+                          )
+                        }
                       />
                     </FormControl>
                     <FormMessage />
@@ -134,10 +124,14 @@ export const UpdateCategoryForm: React.FC<CategoryUpdateFormProps> = ({
                     <FormLabel>Banner Image</FormLabel>
                     <FormControl>
                       <ImageUpload
-                        value={field.value ? [field.value] : []}
+                        value={field.value}
                         disabled={loading}
-                        onChange={(url) => field.onChange(url)}
-                        onRemove={() => field.onChange("")}
+                        onChange={(urls) => field.onChange(urls)}
+                        onRemove={(url) =>
+                          field.onChange(
+                            field.value.filter((image) => image !== url)
+                          )
+                        }
                       />
                     </FormControl>
                     <FormMessage />

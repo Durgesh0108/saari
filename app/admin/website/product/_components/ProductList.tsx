@@ -17,13 +17,14 @@ import TableExportButton from "./TableExportButtontoCSV";
 import { AlertModal } from "@/components/modal/alert-modal";
 import Link from "next/link";
 import { Product } from "@prisma/client";
+import Image from "next/image";
 
 const ProductsListPage = ({ Products }) => {
   const router = useRouter();
   // const [Products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [selectedColumns, setSelectedColumns] = useState<Option[]>([
-    { value: "id", label: "ID" },
+    { value: "image", label: "Image" },
     { value: "name", label: "Name" },
     { value: "category", label: "Category" },
     { value: "fabric", label: "Fabric" },
@@ -353,6 +354,7 @@ const ProductsListPage = ({ Products }) => {
             id="columnFilter"
             options={[
               { value: "id", label: "ID" },
+              { value: "image", label: "Image" },
               { value: "name", label: "Name" },
               { value: "category", label: "Category" },
               { value: "fabric", label: "Fabric" },
@@ -459,33 +461,42 @@ const ProductsListPage = ({ Products }) => {
                       key={`${product.id}-${col.value}`}
                       className="border border-gray-400 px-4 py-2 text-center"
                     >
-                      {col.value === "name" && product.name
-                        ? product.name
-                        : col.value === "id" && product.id
-                        ? product.id
-                        : col.value === "category" && product?.category
-                        ? product?.category.name
-                        : col.value === "fabric" && product?.fabric
-                        ? product?.fabric.name
-                        : col.value === "occassion" && product?.occassion
-                        ? product?.occassion.name
-                        : col.value === "pattern" && product?.pattern
-                        ? product?.pattern.name
-                        : col.value === "type" && product?.type
-                        ? product?.type.name
-                        : col.value === "subType" && product?.SubType
-                        ? product?.SubType.name
-                        : col.value === "color" && product?.color
-                        ? product?.color?.name
-                        : col.value === "qty" && product.qty
-                        ? product.qty
-                        : col.value === "price" && product.price
-                        ? product.price
-                        : col.value === "createdAt"
-                        ? new Date(product.createdAt).toLocaleDateString()
-                        : col.value === "updatedAt"
-                        ? new Date(product.updatedAt).toLocaleDateString()
-                        : "-"}
+                      {col.value === "name" && product.name ? (
+                        product.name
+                      ) : col.value === "image" && product.images ? (
+                        <Image
+                          src={product.images[0].url}
+                          alt="image"
+                          height={100}
+                          width={100}
+                        />
+                      ) : col.value === "id" && product.id ? (
+                        product.id
+                      ) : col.value === "category" && product?.category ? (
+                        product?.category.name
+                      ) : col.value === "fabric" && product?.fabric ? (
+                        product?.fabric.name
+                      ) : col.value === "occassion" && product?.occassion ? (
+                        product?.occassion.name
+                      ) : col.value === "pattern" && product?.pattern ? (
+                        product?.pattern.name
+                      ) : col.value === "type" && product?.type ? (
+                        product?.type.name
+                      ) : col.value === "subType" && product?.SubType ? (
+                        product?.SubType.name
+                      ) : col.value === "color" && product?.color ? (
+                        product?.color?.name
+                      ) : col.value === "qty" && product.qty ? (
+                        product.qty
+                      ) : col.value === "price" && product.price ? (
+                        product.price
+                      ) : col.value === "createdAt" ? (
+                        new Date(product.createdAt).toLocaleDateString()
+                      ) : col.value === "updatedAt" ? (
+                        new Date(product.updatedAt).toLocaleDateString()
+                      ) : (
+                        "-"
+                      )}
                     </td>
                   ))}
                 </tr>

@@ -151,12 +151,6 @@
 //   );
 // };
 
-
-
-
-
-
-
 // @ts-nocheck
 
 "use client";
@@ -181,7 +175,7 @@ import ImageUpload from "@/components/ui/image-upload";
 import Image from "next/image";
 
 const formSchema = z.object({
-  images: z.object({ url: z.string().url() }).array(),
+  images: z.array(z.string().url()),
 });
 
 type ImageProductForm = z.infer<typeof formSchema>;
@@ -190,10 +184,13 @@ export const ImageProductForm = ({ initialData }) => {
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
+  const initialImages = initialData.images.map((image) => image.url);
+
   const form = useForm<ImageProductForm>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      images: initialData.images,
+      // images: initialData.images,
+      images: initialImages,
     },
   });
 
@@ -201,17 +198,16 @@ export const ImageProductForm = ({ initialData }) => {
     setIsEditing(!isEditing);
   };
 
+  console.log("image form Initial data:", initialData.images);
+
   const onSubmit = async (values: ImageProductForm) => {
     try {
       setLoading(true);
 
       // Create the correct format for the backend
       const data = {
-        images: values.images.map((image) => ({ url: image.url })),
+        images: values.images.map((url) => ({ url })),
       };
-
-      console.log({ data, values });
-
       const response = await axios.patch(
         `/api/website/product/${initialData.id}/image`,
         data
@@ -271,15 +267,12 @@ export const ImageProductForm = ({ initialData }) => {
                       <ImageUpload
                         value={field.value}
                         disabled={loading}
-                        onChange={(urls) => {
-                          console.log("onChange URLs:", urls); // Debugging
-                          field.onChange(urls);
-                        }}
-                        onRemove={(url) => {
-                          const updatedImages = field.value.filter((image) => image.url !== url);
-                          console.log("onRemove URLs:", updatedImages); // Debugging
-                          field.onChange(updatedImages);
-                        }}
+                        onChange={(urls) => field.onChange(urls)}
+                        onRemove={(url) =>
+                          field.onChange(
+                            field.value.filter((image) => image !== url)
+                          )
+                        }
                       />
                     </FormControl>
                     <FormMessage />

@@ -25,11 +25,8 @@ export default function FabricList() {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [initialdata, setInitialData] = useState([]);
   const [deleteId, setDeleteId] = useState<string>("");
-  const [EditId, setEditId] = useState<string>("");
-  const [name, setName] = useState<string>("");
-  const [imageUrl, setImageUrl] = useState<string>("");
-  const [bannerUrl, setbannerUrl] = useState<string>("");
 
   const handleDelete = async (id: string) => {
     try {
@@ -123,10 +120,7 @@ export default function FabricList() {
         {isUpdating && (
           <>
             <UpdateTypeForm
-              name={name}
-              imageUrl={imageUrl}
-              bannerUrl={bannerUrl}
-              EditId={EditId}
+              initialdata={initialdata}
               onCancel={() => {
                 setIsUpdating(false);
                 setEditId("");
@@ -157,10 +151,7 @@ export default function FabricList() {
                       size="sm"
                       onClick={() => {
                         setIsUpdating(true);
-                        setEditId(fabric.id);
-                        setName(fabric.name);
-                        setImageUrl(fabric.imageUrl);
-                        setbannerUrl(fabric.bannerUrl);
+                        setInitialData(fabric);
                       }}
                     >
                       <Pencil className="h-4 w-4" />

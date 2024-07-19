@@ -21,8 +21,7 @@ export default function SliderList() {
   const [open, setOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [deleteId, setDeleteId] = useState<string>("");
-  const [EditId, setEditId] = useState<string>("");
-  const [imageUrl, setImageUrl] = useState<string>("");
+  const [initialdata, setInitialData] = useState([]);
 
   const handleDelete = async (id: string) => {
     try {
@@ -64,8 +63,7 @@ export default function SliderList() {
         {isUpdating && (
           <>
             <UpdateSliderForm
-              imageUrl={imageUrl}
-              EditId={EditId}
+              initialData={initialdata}
               onCancel={() => {
                 setIsUpdating(false);
                 setEditId("");
@@ -96,8 +94,7 @@ export default function SliderList() {
                       size="sm"
                       onClick={() => {
                         setIsUpdating(true);
-                        setEditId(slider.id);
-                        setImageUrl(slider.imageUrl);
+                        setInitialData(slider);
                       }}
                     >
                       <Pencil className="h-4 w-4" />

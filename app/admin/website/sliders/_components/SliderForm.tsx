@@ -24,7 +24,7 @@ import { toast } from "react-hot-toast";
 import ImageUpload from "@/components/ui/image-upload";
 
 const formSchema = z.object({
-  imageUrl: z.string().min(2),
+  imageUrl: z.array(z.string().url()),
 });
 
 type SliderFormValues = z.infer<typeof formSchema>;
@@ -42,9 +42,12 @@ export default function SliderForm() {
   };
 
   const onSubmit = async (data: SliderFormValues) => {
+    const values = {
+      imageUrl: data.imageUrl[0],
+    };
     try {
       setLoading(true);
-      const response = await axios.post(`/api/website/slider`, data);
+      const response = await axios.post(`/api/website/slider`, values);
       toggleEdit();
       location.reload();
       toast.success("Slider Created Successfully");
@@ -83,10 +86,14 @@ export default function SliderForm() {
                         {/* <FormLabel>Name</FormLabel> */}
                         <FormControl>
                           <ImageUpload
-                            value={field.value ? [field.value] : []}
+                            value={field.value}
                             disabled={loading}
-                            onChange={(url) => field.onChange(url)}
-                            onRemove={() => field.onChange("")}
+                            onChange={(urls) => field.onChange(urls)}
+                            onRemove={(url) =>
+                              field.onChange(
+                                field.value.filter((image) => image !== url)
+                              )
+                            }
                           />
                         </FormControl>
                         <FormMessage />

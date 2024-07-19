@@ -24,35 +24,29 @@ import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(2),
-  imageUrl: z.string().min(2),
-  bannerUrl: z.string().min(2),
+  imageUrl: z.array(z.string().url()),
+  bannerUrl: z.array(z.string().url()).optional(),
 });
 
 type SubTypeFormValues = z.infer<typeof formSchema>;
 
 interface TypeUpdateFormProps {
   initialData: SubType;
-  name: string;
-  imageUrl: string;
-  bannerUrl: string;
+
   onCancel: () => void;
-  EditId: string;
 }
 
-export const UpdateSubTypeForm: React.FC<TypeUpdateFormProps> = ({
+export const UpdateSubTypeForm = ({
   initialData,
-  name,
-  imageUrl,
-  bannerUrl,
+
   onCancel,
-  EditId,
 }) => {
   const form = useForm<SubTypeFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: initialData.name,
-      imageUrl: initialData.imageUrl,
-      bannerUrl: initialData.bannerUrl,
+      imageUrl: [initialData.imageUrl],
+      bannerUrl: [initialData.bannerUrl],
     },
   });
 
@@ -72,8 +66,8 @@ export const UpdateSubTypeForm: React.FC<TypeUpdateFormProps> = ({
   const handleUpdate = async (data: SubTypeFormValues) => {
     const values = {
       name: data.name,
-      imageUrl: data.imageUrl,
-      bannerUrl: data.bannerUrl,
+      imageUrl: data.imageUrl[0],
+      bannerUrl: data.bannerUrl[0],
       typeId: selectedType,
     };
     try {
@@ -176,7 +170,9 @@ export const UpdateSubTypeForm: React.FC<TypeUpdateFormProps> = ({
                 className="p-2 border-black border-[1px] rounded-lg"
                 onChange={handleFabricChange}
               >
-                {Fabrics.length === 0 ? <option>No Fabric Available</option> : (
+                {Fabrics.length === 0 ? (
+                  <option>No Fabric Available</option>
+                ) : (
                   <option>Please Select a Fabric</option>
                 )}
                 {Fabrics.map((fabric) => (
@@ -196,7 +192,9 @@ export const UpdateSubTypeForm: React.FC<TypeUpdateFormProps> = ({
                 className="p-2 border-black border-[1px] rounded-lg"
                 onChange={handleTypeChange}
               >
-                {Types.length === 0 ? <option>No Types Available</option> : (
+                {Types.length === 0 ? (
+                  <option>No Types Available</option>
+                ) : (
                   <option>Please Select a Type</option>
                 )}
 
@@ -235,10 +233,14 @@ export const UpdateSubTypeForm: React.FC<TypeUpdateFormProps> = ({
                     <FormLabel>Type Image</FormLabel>
                     <FormControl>
                       <ImageUpload
-                        value={field.value ? [field.value] : []}
+                        value={field.value}
                         disabled={loading}
-                        onChange={(url) => field.onChange(url)}
-                        onRemove={() => field.onChange("")}
+                        onChange={(urls) => field.onChange(urls)}
+                        onRemove={(url) =>
+                          field.onChange(
+                            field.value.filter((image) => image !== url)
+                          )
+                        }
                       />
                     </FormControl>
                     <FormMessage />
@@ -255,10 +257,14 @@ export const UpdateSubTypeForm: React.FC<TypeUpdateFormProps> = ({
                     <FormLabel>Banner Image</FormLabel>
                     <FormControl>
                       <ImageUpload
-                        value={field.value ? [field.value] : []}
+                        value={field.value}
                         disabled={loading}
-                        onChange={(url) => field.onChange(url)}
-                        onRemove={() => field.onChange("")}
+                        onChange={(urls) => field.onChange(urls)}
+                        onRemove={(url) =>
+                          field.onChange(
+                            field.value.filter((image) => image !== url)
+                          )
+                        }
                       />
                     </FormControl>
                     <FormMessage />

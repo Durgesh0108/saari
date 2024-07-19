@@ -181,10 +181,6 @@ export default function SubTypeList() {
           <>
             <UpdateSubTypeForm
               initialData={initialData}
-              name={name}
-              imageUrl={imageUrl}
-              bannerUrl={bannerUrl}
-              EditId={EditId}
               onCancel={() => {
                 setIsUpdating(false);
                 setEditId("");

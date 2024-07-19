@@ -40,7 +40,8 @@ const formSchema = z.object({
   // size_value: z.coerce.number().min(1),
   shortDescription: z.string().min(1),
   // features: z.string().min(1),
-  images: z.object({ url: z.string().url() }).array(),
+  // images: z.object({ url: z.string() }).array(),
+  images: z.array(z.string().url()),
 });
 
 type ProductFormValues = z.infer<typeof formSchema>;
@@ -770,34 +771,33 @@ export default function ProductFormPage() {
                     <FormItem>
                       <FormLabel>Image</FormLabel>
                       <FormControl>
-                        {/* <ImageUpload
-                          value={field.value.map((image) => image.url)}
-                          disabled={loading}
-                          onChange={(url) =>
-                            field.onChange([...field.value, { url }])
-                          }
-                          onRemove={(url) =>
-                            field.onChange([
-                              ...field.value.filter(
-                                (current) => current.url !== url
-                              ),
-                            ])
-                          }
-                        /> */}
-
                         <ImageUpload
                           value={field.value}
                           disabled={loading}
-                          onChange={(urls) => {
-                            field.onChange(urls);
-                          }}
-                          onRemove={(url) => {
-                            const updatedImages = field.value.filter(
-                              (image) => image.url !== url
-                            );
-                            field.onChange(updatedImages);
-                          }}
+                          onChange={(urls) => field.onChange(urls)}
+                          onRemove={(url) =>
+                            field.onChange(
+                              field.value.filter((image) => image !== url)
+                            )
+                          }
                         />
+                        {/* <ImageUpload
+                          value={field.value.map(
+                            (image: { url: string }) => image.url
+                          )} // Ensure correct mapping
+                          disabled={loading}
+                          onChange={(urls) =>
+                            field.onChange(urls.map((url) => ({ url })))
+                          } // Ensure correct mapping
+                          onRemove={(url) =>
+                            field.onChange(
+                              field.value.filter(
+                                (current: { url: string }) =>
+                                  current.url !== url
+                              )
+                            )
+                          }
+                        /> */}
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -809,7 +809,7 @@ export default function ProductFormPage() {
               <div className="flex justify-end">
                 <div className="flex gap-2">
                   <Button
-                    disabled={loading || !form.formState.isValid}
+                    disabled={loading}
                     className="ml-auto"
                     type="submit"
                     variant={"success"}

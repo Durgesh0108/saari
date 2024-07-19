@@ -25,32 +25,18 @@ import { useRouter } from "next/navigation";
 const formSchema = z.object({
   name: z.string().min(2),
   hexCode: z.string().min(2),
-  bannerUrl: z.string().min(2),
+  bannerUrl: z.array(z.string().url()).optional(),
 });
 
 type ColorFormValues = z.infer<typeof formSchema>;
 
-interface ColorUpdateFormProps {
-  name: string;
-  hexCode: string;
-  bannerUrl: string;
-  onCancel: () => void;
-  EditId: string;
-}
-
-export const UpdateColorForm: React.FC<ColorUpdateFormProps> = ({
-  name,
-  hexCode,
-  bannerUrl,
-  onCancel,
-  EditId,
-}) => {
+export const UpdateColorForm = ({ initialdata, onCancel }) => {
   const form = useForm<ColorFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: name,
-      hexCode: hexCode,
-      bannerUrl: bannerUrl,
+      name: initialdata.name,
+      hexCode: initialdata.hexCode,
+      bannerUrl: [initialdata.bannerUrl],
     },
   });
 
@@ -62,12 +48,12 @@ export const UpdateColorForm: React.FC<ColorUpdateFormProps> = ({
     const values = {
       name: data.name,
       hexCode: data.hexCode,
-      bannerUrl: data.bannerUrl,
+      bannerUrl: data.bannerUrl[0],
     };
     try {
       setLoading(true);
-      await axios.patch(`/api/color/${EditId} `, values);
-      router.refresh();
+      await axios.patch(`/api/color/${initialdata.id} `, values);
+      location.reload();
 
       toast.success("Color Updated Successfully");
     } catch (error: any) {
@@ -75,7 +61,6 @@ export const UpdateColorForm: React.FC<ColorUpdateFormProps> = ({
       toast.error("Something went wrong.");
     } finally {
       setLoading(false);
-      location.reload();
     }
   };
 
@@ -134,10 +119,14 @@ export const UpdateColorForm: React.FC<ColorUpdateFormProps> = ({
                     <FormLabel>Banner Image</FormLabel>
                     <FormControl>
                       <ImageUpload
-                        value={field.value ? [field.value] : []}
+                        value={field.value}
                         disabled={loading}
-                        onChange={(url) => field.onChange(url)}
-                        onRemove={() => field.onChange("")}
+                        onChange={(urls) => field.onChange(urls)}
+                        onRemove={(url) =>
+                          field.onChange(
+                            field.value.filter((image) => image !== url)
+                          )
+                        }
                       />
                     </FormControl>
                     <FormMessage />
@@ -145,10 +134,7 @@ export const UpdateColorForm: React.FC<ColorUpdateFormProps> = ({
                 )}
               />
             </div>
-            {/* <EditServiceLocationForm
-              initialData={initialData.serviceAddress}
-              sendDataToParent={handleDataFromChild}
-            /> */}
+
             <div className="flex justify-end">
               <div className="flex gap-2">
                 <Button

@@ -25,17 +25,15 @@ import ImageUpload from "@/components/ui/image-upload";
 
 const formSchema = z.object({
   name: z.string().min(2),
-  imageUrl: z.array(z.string().url()),
-  bannerUrl: z.array(z.string().url()).optional(),
 });
 
-type CategoryFormValues = z.infer<typeof formSchema>;
+type WeaveFormValues = z.infer<typeof formSchema>;
 
-export default function CategoryForm() {
+export default function WeaveForm() {
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
-  const form = useForm<CategoryFormValues>({
+  const form = useForm<WeaveFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
@@ -46,18 +44,16 @@ export default function CategoryForm() {
     setIsEditing(!isEditing);
   };
 
-  const onSubmit = async (data: CategoryFormValues) => {
+  const onSubmit = async (data: WeaveFormValues) => {
     const values = {
       name: data.name,
-      imageUrl: data.imageUrl[0],
-      bannerUrl: data.bannerUrl[0],
     };
     try {
       setLoading(true);
-      const response = await axios.post(`/api/category`, values);
+      const response = await axios.post(`/api/weave`, values);
       toggleEdit();
       location.reload();
-      toast.success("Category Created Successfully");
+      toast.success("Weave Created Successfully");
     } catch (error: any) {
       console.log(error);
       toast.error("Something Went Wrong");
@@ -69,7 +65,7 @@ export default function CategoryForm() {
     <Card className="p-8">
       <div className="flex flex-col gap-8">
         <div className="flex justify-between items-center">
-          <Header>Category</Header>
+          <Header>Weave</Header>
           {!isEditing && (
             <Button className="flex" onClick={() => setIsEditing(true)}>
               <Plus />
@@ -94,56 +90,8 @@ export default function CategoryForm() {
                         <FormControl>
                           <Input
                             disabled={loading}
-                            placeholder="Pattern name"
+                            placeholder="Weave name"
                             {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div className="md:grid gap-8">
-                  <FormField
-                    control={form.control}
-                    name="imageUrl"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Category Image</FormLabel>
-                        <FormControl>
-                          <ImageUpload
-                            value={field.value}
-                            disabled={loading}
-                            onChange={(urls) => field.onChange(urls)}
-                            onRemove={(url) =>
-                              field.onChange(
-                                field.value.filter((image) => image !== url)
-                              )
-                            }
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div className="md:grid gap-8">
-                  <FormField
-                    control={form.control}
-                    name="bannerUrl"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Banner Image</FormLabel>
-                        <FormControl>
-                          <ImageUpload
-                            value={field.value}
-                            disabled={loading}
-                            onChange={(urls) => field.onChange(urls)}
-                            onRemove={(url) =>
-                              field.onChange(
-                                field.value.filter((image) => image !== url)
-                              )
-                            }
                           />
                         </FormControl>
                         <FormMessage />

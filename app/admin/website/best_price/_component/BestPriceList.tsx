@@ -21,11 +21,7 @@ export default function BestPriceList() {
   const [open, setOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [deleteId, setDeleteId] = useState<string>("");
-  const [EditId, setEditId] = useState<string>("");
-  const [imageUrl, setImageUrl] = useState<string>("");
-  const [Text, setText] = useState<string>("");
-  const [Min, setMin] = useState<string>("");
-  const [Max, setMax] = useState<string>("");
+  const [initialdata, setInitialData] = useState([]);
 
   const handleDelete = async (id: string) => {
     try {
@@ -67,11 +63,7 @@ export default function BestPriceList() {
         {isUpdating && (
           <>
             <UpdateBestPriceForm
-              imageUrl={imageUrl}
-              max={Max}
-              min={Min}
-              name={Text}
-              EditId={EditId}
+              initialData={initialData}
               onCancel={() => {
                 setIsUpdating(false);
                 setEditId("");
@@ -103,11 +95,7 @@ export default function BestPriceList() {
                       size="sm"
                       onClick={() => {
                         setIsUpdating(true);
-                        setEditId(bestPrice.id);
-                        setImageUrl(bestPrice.imageUrl);
-                        setMin(bestPrice.min);
-                        setMax(bestPrice.max);
-                        setText(bestPrice.name);
+                        setInitialData(bestPrice);
                       }}
                     >
                       <Pencil className="h-4 w-4" />
@@ -118,7 +106,7 @@ export default function BestPriceList() {
                       size="sm"
                       onClick={() => {
                         setOpen(true);
-                        setDeleteId(slider.id);
+                        setDeleteId(bestPrice.id);
                       }}
                     >
                       <Trash className="h-4 w-4" />

@@ -22,10 +22,7 @@ export default function CategoryList() {
   const [open, setOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [deleteId, setDeleteId] = useState<string>("");
-  const [EditId, setEditId] = useState<string>("");
-  const [name, setName] = useState<string>("");
-  const [imageUrl, setImageUrl] = useState<string>("");
-  const [bannerUrl, setBannerUrl] = useState<string>("");
+  const [initialdata, setInitialData] = useState([]);
 
   const handleDelete = async (id: string) => {
     try {
@@ -67,10 +64,7 @@ export default function CategoryList() {
         {isUpdating && (
           <>
             <UpdateCategoryForm
-              name={name}
-              imageUrl={imageUrl}
-              bannerUrl={bannerUrl}
-              EditId={EditId}
+              initialdata={initialdata}
               onCancel={() => {
                 setIsUpdating(false);
                 setEditId("");
@@ -101,10 +95,7 @@ export default function CategoryList() {
                       size="sm"
                       onClick={() => {
                         setIsUpdating(true);
-                        setEditId(category.id);
-                        setName(category.name);
-                        setImageUrl(category.imageUrl);
-                        setBannerUrl(category.bannerUrl);
+                        setInitialData(category);
                       }}
                     >
                       <Pencil className="h-4 w-4" />

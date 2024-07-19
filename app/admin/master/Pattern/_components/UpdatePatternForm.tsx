@@ -24,33 +24,19 @@ import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(2),
-  imageUrl: z.string().min(2),
-  bannerUrl: z.string().min(2),
+  imageUrl: z.array(z.string().url()),
+  bannerUrl: z.array(z.string().url()).optional(),
 });
 
 type PatternFormValues = z.infer<typeof formSchema>;
 
-interface PatternUpdateFormProps {
-  name: string;
-  imageUrl: string;
-  bannerUrl: string;
-  onCancel: () => void;
-  EditId: string;
-}
-
-export const UpdatePatternForm: React.FC<PatternUpdateFormProps> = ({
-  name,
-  imageUrl,
-  bannerUrl,
-  onCancel,
-  EditId,
-}) => {
+export const UpdatePatternForm = ({ initialData, onCancel }) => {
   const form = useForm<PatternFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: name,
-      imageUrl: imageUrl,
-      bannerUrl: bannerUrl,
+      name: initialData.name,
+      imageUrl: [initialData.imageUrl],
+      bannerUrl: [initialData.bannerUrl],
     },
   });
 
@@ -61,12 +47,12 @@ export const UpdatePatternForm: React.FC<PatternUpdateFormProps> = ({
   const handleUpdate = async (data: PatternFormValues) => {
     const values = {
       name: data.name,
-      imageUrl: data.imageUrl,
-      bannerUrl: data.bannerUrl,
+      imageUrl: data.imageUrl[0],
+      bannerUrl: data.bannerUrl[0],
     };
     try {
       setLoading(true);
-      await axios.patch(`/api/pattern/${EditId} `, values);
+      await axios.patch(`/api/pattern/${initialData.id} `, values);
       router.refresh();
       toast.success("Pattern Updated Successfully");
       location.reload();
@@ -114,10 +100,14 @@ export const UpdatePatternForm: React.FC<PatternUpdateFormProps> = ({
                     <FormLabel>Pattern Image</FormLabel>
                     <FormControl>
                       <ImageUpload
-                        value={field.value ? [field.value] : []}
+                        value={field.value}
                         disabled={loading}
-                        onChange={(url) => field.onChange(url)}
-                        onRemove={() => field.onChange("")}
+                        onChange={(urls) => field.onChange(urls)}
+                        onRemove={(url) =>
+                          field.onChange(
+                            field.value.filter((image) => image !== url)
+                          )
+                        }
                       />
                     </FormControl>
                     <FormMessage />
@@ -134,10 +124,14 @@ export const UpdatePatternForm: React.FC<PatternUpdateFormProps> = ({
                     <FormLabel>Banner Image</FormLabel>
                     <FormControl>
                       <ImageUpload
-                        value={field.value ? [field.value] : []}
+                        value={field.value}
                         disabled={loading}
-                        onChange={(url) => field.onChange(url)}
-                        onRemove={() => field.onChange("")}
+                        onChange={(urls) => field.onChange(urls)}
+                        onRemove={(url) =>
+                          field.onChange(
+                            field.value.filter((image) => image !== url)
+                          )
+                        }
                       />
                     </FormControl>
                     <FormMessage />

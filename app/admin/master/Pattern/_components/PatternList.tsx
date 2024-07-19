@@ -27,10 +27,7 @@ export default function PatternList() {
   const [open, setOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [deleteId, setDeleteId] = useState<string>("");
-  const [EditId, setEditId] = useState<string>("");
-  const [name, setName] = useState<string>("");
-  const [imageUrl, setImageUrl] = useState<string>("");
-  const [bannerUrl, setbannerUrl] = useState<string>("");
+  const [initialdata, setInitialData] = useState([]);
 
   const handleDelete = async (id: string) => {
     try {
@@ -127,10 +124,7 @@ export default function PatternList() {
         {isUpdating && (
           <>
             <UpdatePatternForm
-              name={name}
-              imageUrl={imageUrl}
-              bannerUrl={bannerUrl}
-              EditId={EditId}
+              initialData={initialData}
               onCancel={() => {
                 setIsUpdating(false);
                 setEditId("");
@@ -160,11 +154,8 @@ export default function PatternList() {
                       disabled={loading}
                       size="sm"
                       onClick={() => {
+                        setInitialData(pattern);
                         setIsUpdating(true);
-                        setEditId(pattern.id);
-                        setName(pattern.name);
-                        setImageUrl(pattern.imageUrl);
-                        setbannerUrl(pattern.bannerUrl)
                       }}
                     >
                       <Pencil className="h-4 w-4" />

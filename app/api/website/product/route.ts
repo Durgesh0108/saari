@@ -15,6 +15,8 @@ export async function POST(req: Request) {
     // }
     const images = body.images;
 
+    console.log(images, body);
+
     const product = await prismadb.product.create({
       data: {
         name: body.name,
@@ -30,12 +32,25 @@ export async function POST(req: Request) {
         blouseColorId: body.blouseColorId,
         palluColorId: body.palluColorId,
         subTypeId: body.subTypeId,
-        images: {
-          createMany: {
-            data: [...images.map((image: { url: string }) => image)],
-          },
-        },
+        // images: {
+        //   createMany: {
+        //     data: [...images.map((image: { url: string }) => image)],
+        //   },
+        // },
       },
+      include: {
+        images: true,
+      },
+    });
+
+    const imageObjects = images.map((image: any) => ({
+      url: image,
+      productId: product.id,
+    }));
+
+    // Create the images using Prisma's createMany function
+    await prismadb.image.createMany({
+      data: imageObjects,
     });
     revalidatePath("/", "layout");
     return NextResponse.json(product);

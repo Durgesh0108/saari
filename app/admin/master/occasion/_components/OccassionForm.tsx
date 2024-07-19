@@ -25,8 +25,8 @@ import ImageUpload from "@/components/ui/image-upload";
 
 const formSchema = z.object({
   name: z.string().min(2),
-  imageUrl: z.string().min(2),
-  bannerUrl: z.string().min(2),
+  imageUrl: z.array(z.string().url()),
+  bannerUrl: z.array(z.string().url()).optional(),
 });
 
 type CategoryFormValues = z.infer<typeof formSchema>;
@@ -47,9 +47,14 @@ export default function OccassionForm() {
   };
 
   const onSubmit = async (data: CategoryFormValues) => {
+    const values = {
+      name: data.name,
+      imageUrl: data.imageUrl[0],
+      bannerUrl: data.bannerUrl[0],
+    };
     try {
       setLoading(true);
-      const response = await axios.post(`/api/occassion`, data);
+      const response = await axios.post(`/api/occassion`, values);
       toggleEdit();
       location.reload();
       toast.success("Occassion Created Successfully");
@@ -106,10 +111,14 @@ export default function OccassionForm() {
                         <FormLabel>Occassion Image</FormLabel>
                         <FormControl>
                           <ImageUpload
-                            value={field.value ? [field.value] : []}
+                            value={field.value}
                             disabled={loading}
-                            onChange={(url) => field.onChange(url)}
-                            onRemove={() => field.onChange("")}
+                            onChange={(urls) => field.onChange(urls)}
+                            onRemove={(url) =>
+                              field.onChange(
+                                field.value.filter((image) => image !== url)
+                              )
+                            }
                           />
                         </FormControl>
                         <FormMessage />
@@ -126,10 +135,14 @@ export default function OccassionForm() {
                         <FormLabel>Banner Image</FormLabel>
                         <FormControl>
                           <ImageUpload
-                            value={field.value ? [field.value] : []}
+                            value={field.value}
                             disabled={loading}
-                            onChange={(url) => field.onChange(url)}
-                            onRemove={() => field.onChange("")}
+                            onChange={(urls) => field.onChange(urls)}
+                            onRemove={(url) =>
+                              field.onChange(
+                                field.value.filter((image) => image !== url)
+                              )
+                            }
                           />
                         </FormControl>
                         <FormMessage />

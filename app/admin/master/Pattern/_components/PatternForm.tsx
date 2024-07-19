@@ -25,8 +25,8 @@ import ImageUpload from "@/components/ui/image-upload";
 
 const formSchema = z.object({
   name: z.string().min(2),
-  imageUrl: z.string().min(2),
-  bannerUrl: z.string().min(2),
+  imageUrl: z.array(z.string().url()),
+  bannerUrl: z.array(z.string().url()).optional(),
 });
 
 type PatternFormValues = z.infer<typeof formSchema>;
@@ -53,8 +53,8 @@ export default function PatternForm() {
   const onSubmit = async (values: PatternFormValues) => {
     const data = {
       name: values.name,
-      imageUrl: values.imageUrl,
-      bannerUrl: values.bannerUrl,
+      imageUrl: values.imageUrl[0],
+      bannerUrl: values.bannerUrl[0],
       categoryId: SelectedCategory,
     };
     try {
@@ -155,10 +155,14 @@ export default function PatternForm() {
                         <FormLabel>Pattern Image</FormLabel>
                         <FormControl>
                           <ImageUpload
-                            value={field.value ? [field.value] : []}
+                            value={field.value}
                             disabled={loading}
-                            onChange={(url) => field.onChange(url)}
-                            onRemove={() => field.onChange("")}
+                            onChange={(urls) => field.onChange(urls)}
+                            onRemove={(url) =>
+                              field.onChange(
+                                field.value.filter((image) => image !== url)
+                              )
+                            }
                           />
                         </FormControl>
                         <FormMessage />
@@ -175,10 +179,14 @@ export default function PatternForm() {
                         <FormLabel>Banner Image</FormLabel>
                         <FormControl>
                           <ImageUpload
-                            value={field.value ? [field.value] : []}
+                            value={field.value}
                             disabled={loading}
-                            onChange={(url) => field.onChange(url)}
-                            onRemove={() => field.onChange("")}
+                            onChange={(urls) => field.onChange(urls)}
+                            onRemove={(url) =>
+                              field.onChange(
+                                field.value.filter((image) => image !== url)
+                              )
+                            }
                           />
                         </FormControl>
                         <FormMessage />

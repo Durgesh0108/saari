@@ -22,7 +22,7 @@ import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
-  imageUrl: z.string().min(2),
+  imageUrl: z.array(z.string().url()),
   min: z.string().min(0),
   max: z.string().min(2),
   name: z.string().min(2),
@@ -30,30 +30,14 @@ const formSchema = z.object({
 
 type BestPriceFormValues = z.infer<typeof formSchema>;
 
-interface BestPriceUpdateFormProps {
-  imageUrl: string;
-  min: string;
-  max: string;
-  name: string;
-  onCancel: () => void;
-  EditId: string;
-}
-
-export const UpdateBestPriceForm: React.FC<BestPriceUpdateFormProps> = ({
-  imageUrl,
-  min,
-  max,
-  name,
-  onCancel,
-  EditId,
-}) => {
+export const UpdateBestPriceForm = ({ initialData, onCancel }) => {
   const form = useForm<BestPriceFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      imageUrl: imageUrl,
-      min: min,
-      max: max,
-      name: name,
+      imageUrl: [initialData.imageUrl],
+      min: initialData.min,
+      max: initialData.max,
+      name: initialData.name,
     },
   });
 
@@ -63,14 +47,14 @@ export const UpdateBestPriceForm: React.FC<BestPriceUpdateFormProps> = ({
 
   const handleUpdate = async (data: BestPriceFormValues) => {
     const values = {
-      imageUrl: data.imageUrl,
+      imageUrl: data.imageUrl[0],
       min: data.min,
       max: data.max,
       name: data.name,
     };
     try {
       setLoading(true);
-      await axios.patch(`/api/website/best_price/${EditId} `, values);
+      await axios.patch(`/api/website/best_price/${initialData.id} `, values);
       router.refresh();
 
       toast.success("BestPrice Updated Successfully");
@@ -115,10 +99,14 @@ export const UpdateBestPriceForm: React.FC<BestPriceUpdateFormProps> = ({
                     <FormLabel>Image</FormLabel>
                     <FormControl>
                       <ImageUpload
-                        value={field.value ? [field.value] : []}
+                        value={field.value}
                         disabled={loading}
-                        onChange={(url) => field.onChange(url)}
-                        onRemove={() => field.onChange("")}
+                        onChange={(urls) => field.onChange(urls)}
+                        onRemove={(url) =>
+                          field.onChange(
+                            field.value.filter((image) => image !== url)
+                          )
+                        }
                       />
                     </FormControl>
                     <FormMessage />

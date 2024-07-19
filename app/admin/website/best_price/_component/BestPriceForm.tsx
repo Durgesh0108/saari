@@ -24,7 +24,7 @@ import { toast } from "react-hot-toast";
 import ImageUpload from "@/components/ui/image-upload";
 
 const formSchema = z.object({
-  imageUrl: z.string().min(2),
+  imageUrl: z.array(z.string().url()),
   min: z.string().min(0),
   max: z.string().min(2),
   name: z.string().min(2),
@@ -45,9 +45,15 @@ export default function BestPrice() {
   };
 
   const onSubmit = async (data: BestPriceValues) => {
+    const values = {
+      imageUrl: data.imageUrl[0],
+      min: data.min,
+      max: data.max,
+      name: data.name,
+    };
     try {
       setLoading(true);
-      const response = await axios.post(`/api/website/best_price`, data);
+      const response = await axios.post(`/api/website/best_price`, values);
       toggleEdit();
       location.reload();
       toast.success("Best Price Created Successfully");
@@ -105,10 +111,14 @@ export default function BestPrice() {
                         <FormLabel>Image</FormLabel>
                         <FormControl>
                           <ImageUpload
-                            value={field.value ? [field.value] : []}
+                            value={field.value}
                             disabled={loading}
-                            onChange={(url) => field.onChange(url)}
-                            onRemove={() => field.onChange("")}
+                            onChange={(urls) => field.onChange(urls)}
+                            onRemove={(url) =>
+                              field.onChange(
+                                field.value.filter((image) => image !== url)
+                              )
+                            }
                           />
                         </FormControl>
                         <FormMessage />

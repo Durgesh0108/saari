@@ -68,6 +68,7 @@ export default async function ProductFormPage({
       fabric: true,
     },
   });
+  console.log(product);
 
   return (
     <div className="flex flex-col gap-4">

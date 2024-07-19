@@ -53,6 +53,14 @@ const sideBarList = [
         name: "Color",
         location: "/admin/master/Color",
       },
+      {
+        name: "Weave",
+        location: "/admin/master/Weave",
+      },
+      {
+        name: "Weave Type",
+        location: "/admin/master/WeaveType",
+      },
     ],
   },
   {

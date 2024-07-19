@@ -27,10 +27,6 @@ export default function TypeList() {
   const [open, setOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [deleteId, setDeleteId] = useState<string>("");
-  const [EditId, setEditId] = useState<string>("");
-  const [name, setName] = useState<string>("");
-  const [imageUrl, setImageUrl] = useState<string>("");
-  const [bannerUrl, setbannerUrl] = useState<string>("");
   const [initialData, setInitialData] = useState<string>("");
   const [Fabrics, setFabrics] = useState([]);
 
@@ -180,10 +176,6 @@ export default function TypeList() {
                       size="sm"
                       onClick={() => {
                         setIsUpdating(true);
-                        setEditId(type.id);
-                        setName(type.name);
-                        setImageUrl(type.imageUrl);
-                        setbannerUrl(type.bannerUrl);
                         setInitialData(type);
                       }}
                     >
