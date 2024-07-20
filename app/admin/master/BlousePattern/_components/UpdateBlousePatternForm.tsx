@@ -25,10 +25,10 @@ const formSchema = z.object({
   name: z.string().min(2),
 });
 
-type WeaveTypeFormValues = z.infer<typeof formSchema>;
+type BlousePatternFormValues = z.infer<typeof formSchema>;
 
-export const UpdateWeaveTypeForm = ({ initialdata, onCancel }) => {
-  const form = useForm<WeaveTypeFormValues>({
+export const UpdateBlousePatternForm = ({ initialdata, onCancel }) => {
+  const form = useForm<BlousePatternFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: initialdata.name,
@@ -39,16 +39,16 @@ export const UpdateWeaveTypeForm = ({ initialdata, onCancel }) => {
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
-  const handleUpdate = async (data: WeaveTypeFormValues) => {
+  const handleUpdate = async (data: BlousePatternFormValues) => {
     const values = {
       name: data.name,
     };
     try {
       setLoading(true);
-      await axios.patch(`/api/weaveType/${initialdata.id} `, values);
+      await axios.patch(`/api/blousePattern/${initialdata.id} `, values);
       router.refresh();
 
-      toast.success("Weave Type Updated Successfully");
+      toast.success("Blouse Pattern Updated Successfully");
     } catch (error: any) {
       console.log(error);
       toast.error("Something went wrong.");
@@ -76,7 +76,7 @@ export const UpdateWeaveTypeForm = ({ initialdata, onCancel }) => {
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="Weave Type name"
+                        placeholder="Blouse Pattern name"
                         {...field}
                       />
                     </FormControl>

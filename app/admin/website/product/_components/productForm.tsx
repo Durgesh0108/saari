@@ -33,31 +33,37 @@ import {
 import { colors } from "@mui/material";
 
 const formSchema = z.object({
-  name: z.string().min(1),
-  qty: z.coerce.number().min(1),
-  // price: z.coerce.number().min(1),
-  // offer_price: z.coerce.number().min(1),
-  // size_value: z.coerce.number().min(1),
-  shortDescription: z.string().min(1),
-  // features: z.string().min(1),
-  // images: z.object({ url: z.string() }).array(),
-  images: z.array(z.string().url()),
+  name: z.string().nonempty("Name is required"),
+  shortDescription: z.string().nonempty("Short description is required"),
+  qty: z.number().min(1, "Quantity must be at least 1"),
+  images: z.array(z.string().url("Must be a valid URL")),
 });
 
-type ProductFormValues = z.infer<typeof formSchema>;
-
-export default function ProductFormPage() {
+const ProductFormPage = ({ Category, Color, Occassion, Weave }) => {
   const router = useRouter();
 
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [Occassions, setOccassions] = useState<Occassion[]>([]);
-  const [Fabrics, setFabrics] = useState<Fabric[]>([]);
-  const [Patterns, setPatterns] = useState<Pattern[]>([]);
-  const [Types, setTypes] = useState<Type[]>([]);
-  const [SubTypes, setSubTypes] = useState([]);
-  const [Colors, setColors] = useState<Color[]>([]);
+  const [weaves, setWeaves] = useState(Weave);
+  const [weaveTypes, setWeaveTypes] = useState([]);
+  const [categories, setCategories] = useState<Category[]>(Category);
+  const [occassions, setOccassions] = useState<Occassion[]>(Occassion);
+  const [fabrics, setFabrics] = useState<Fabric[]>([]);
+  const [patterns, setPatterns] = useState<Pattern[]>([]);
+  const [types, setTypes] = useState<Type[]>([]);
+  const [subTypes, setSubTypes] = useState<SubType[]>([]);
+  const [colors, setColors] = useState<Color[]>(Color);
 
-  //////////////
+  const [borders, setBorders] = useState([]);
+  const [palluMotifs, setPalluMotifs] = useState([]);
+  const [zaris, setZaris] = useState([]);
+  const [sareeMotifs, setSareeMotifs] = useState([]);
+  const [buttiTypes, setButtiTypes] = useState([]);
+  const [blousePatterns, setBlousePatterns] = useState([]);
+
+  const [selectedWeave, setSelectedWeave] = useState<string | null>(null);
+  const [selectedWeaveType, setSelectedWeaveType] = useState<string | null>(
+    null
+  );
+
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedOccassion, setSelectedOccassion] = useState<string | null>(
     null
@@ -65,16 +71,37 @@ export default function ProductFormPage() {
   const [selectedPattern, setSelectedPattern] = useState<string | null>(null);
   const [selectedFabric, setSelectedFabric] = useState<string | null>(null);
   const [selectedType, setSelectedType] = useState<string | null>(null);
-  const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [selectedSubType, setSelectedSubType] = useState<string | null>(null);
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [selectedBlouseColor, setSelectedBlouseColor] = useState<string | null>(
     null
   );
   const [selectedPalluColor, setSelectedPalluColor] = useState<string | null>(
     null
   );
+  const [selectedZariColor, setSelectedZariColor] = useState<string | null>(
+    null
+  );
+  const [selectedBorderColor, setSelectedBorderColor] = useState<string | null>(
+    null
+  );
 
-  const [price, setPrice] = useState<number | 0>();
+  const [selectedBorder, setSelectedBorder] = useState<string | null>(null);
+  const [selectedPalluMotif, setSelectedPalluMotif] = useState<string | null>(
+    null
+  );
+  const [selectedZari, setSelectedZari] = useState<string | null>(null);
+  const [selectedSareeMotif, setSelectedSareeMotif] = useState<string | null>(
+    null
+  );
+  const [selectedButtiType, setSelectedButtiType] = useState<string | null>(
+    null
+  );
+  const [selectedBlousePattern, setSelectedBlousePattern] = useState<
+    string | null
+  >(null);
+
+  const [price, setPrice] = useState<number | 0>(0);
 
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -84,8 +111,8 @@ export default function ProductFormPage() {
     defaultValues: {
       name: "",
       shortDescription: "",
-      // features: "",
-      // qty: 0,
+      qty: 1,
+      images: [],
     },
   });
 
@@ -105,21 +132,23 @@ export default function ProductFormPage() {
         blouseColorId:
           selectedBlouseColor === null ? null : selectedBlouseColor,
         palluColorId: selectedPalluColor === null ? null : selectedPalluColor,
+        borderColorId:
+          selectedBorderColor === null ? null : selectedBorderColor,
+        zariColorId: selectedZariColor === null ? null : selectedZariColor,
+        weaveId: selectedWeave === null ? null : selectedWeave,
+        weaveTypeId: selectedWeaveType === null ? null : selectedWeaveType,
+        borderId: selectedBorder === null ? null : selectedBorder,
+        palluMotifId: selectedPalluMotif === null ? null : selectedPalluMotif,
+        zariId: selectedZari === null ? null : selectedZari,
+        sareeMotifId: selectedSareeMotif === null ? null : selectedSareeMotif,
+        buttiTypeId: selectedButtiType === null ? null : selectedButtiType,
+        blousePatternId:
+          selectedBlousePattern === null ? null : selectedBlousePattern,
         name: values.name,
         qty: values.qty,
         price: price,
         shortDescription: values.shortDescription,
         images: values.images,
-        // size_value: values.size_value,
-        // features: values.features,
-        // discountId: selectedDiscount === null ? null : selectedDiscount,
-        // offer_price: selectedDiscount ? new_offer_price : price,
-        // sizeId: selectedSize === null ? null : selectedSize,
-        // colorId: selectedColor === null ? null : selectedColor,
-        // PersonCategoryId:
-        //   selectedPersonCategory === null ? null : selectedPersonCategory,
-        // materialId: selectedMaterial === null ? null : selectedMaterial,
-        // patternId: selectedPattern === null ? null : selectedPattern,
       };
       const response = await axios.post(`/api/website/product`, data);
       toast.success("Product Added Successfully");
@@ -134,137 +163,91 @@ export default function ProductFormPage() {
 
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    // Check if the input is a valid number or empty string
     if (/^\d*$/.test(value) || value === "") {
       setPrice(value === "" ? 0 : parseInt(value, 10));
     }
-    // setPrice(value);
   };
-
-  // Category
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const categoryRes = await fetch(`/api/category`);
-      const category = await categoryRes.json();
-      setCategories(category);
-    };
-
-    fetchCategories();
-  }, []);
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCategory(e.target.value);
+    const categoryId = e.target.value;
+    setSelectedCategory(categoryId);
+    setSelectedFabric(null);
+    setSelectedPattern(null);
+    setSelectedType(null);
+    setSelectedSubType(null);
+    setSelectedBorder(null);
+    setSelectedPalluMotif(null);
+    setSelectedZari(null);
+    setSelectedSareeMotif(null);
+    setSelectedButtiType(null);
+    setSelectedBlousePattern(null);
+    if (categoryId) {
+      const selectedCategory = categories.find(
+        (category) => category.id === categoryId
+      );
+      if (selectedCategory) {
+        setFabrics(selectedCategory.Fabric || []);
+        setPatterns(selectedCategory.Pattern || []);
+
+        setBorders(selectedCategory.Border || []);
+        setPalluMotifs(selectedCategory.PalluMotif || []);
+        setZaris(selectedCategory.Zari || []);
+        setSareeMotifs(selectedCategory.SareeMotif || []);
+        setButtiTypes(selectedCategory.ButtiType || []);
+        setBlousePatterns(selectedCategory.BlousePattern || []);
+      }
+    } else {
+      setFabrics([]);
+      setPatterns([]);
+      setBorders([]);
+      setPalluMotifs([]);
+      setZaris([]);
+      setSareeMotifs([]);
+      setButtiTypes([]);
+      setBlousePatterns([]);
+    }
   };
-  //
-
-  // Occassion
-
-  useEffect(() => {
-    const fetchOccassion = async () => {
-      const OccassionRes = await fetch(`/api/occassion`);
-      const Occassion = await OccassionRes.json();
-      setOccassions(Occassion);
-    };
-
-    fetchOccassion();
-  }, []);
 
   const handleOccassionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedOccassion(e.target.value);
   };
 
-  //
-
-  //Fabric
-
-  useEffect(() => {
-    const fetchFabric = async () => {
-      if (selectedCategory) {
-        const fabricRes = await fetch(
-          `/api/category/${selectedCategory}/fabric`
-        );
-        const Fabric = await fabricRes.json();
-        setFabrics(Fabric);
-      }
-    };
-
-    fetchFabric();
-  }, [selectedCategory]);
-
   const handleFabricChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedFabric(e.target.value);
-  };
-  //
-
-  //Pattern
-
-  useEffect(() => {
-    const fetchPatterns = async () => {
-      if (selectedCategory) {
-        const PatternRes = await fetch(
-          `/api/category/${selectedCategory}/pattern`
-        );
-        const Pattern = await PatternRes.json();
-        setPatterns(Pattern);
+    const fabricId = e.target.value;
+    setSelectedFabric(fabricId);
+    setSelectedType(null);
+    setSelectedSubType(null);
+    if (fabricId) {
+      const selectedFabric = fabrics.find((fabric) => fabric.id === fabricId);
+      if (selectedFabric) {
+        setTypes(selectedFabric.Type || []);
       }
-    };
-
-    fetchPatterns();
-  }, [selectedCategory]);
+    } else {
+      setTypes([]);
+    }
+  };
 
   const handlePatternChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedPattern(e.target.value);
   };
-  //
-
-  // Brands
-
-  useEffect(() => {
-    const fetchTypes = async () => {
-      if (selectedFabric) {
-        const TypeRes = await fetch(`/api/fabric/${selectedFabric}/type`);
-        const Types = await TypeRes.json();
-        setTypes(Types);
-      }
-      // setSelectedCategory(data[0]?.id);
-    };
-
-    fetchTypes();
-  }, [selectedFabric]);
 
   const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedType(e.target.value);
-  };
-
-  // SubType
-
-  useEffect(() => {
-    const fetchSubTypes = async () => {
+    const typeId = e.target.value;
+    setSelectedType(typeId);
+    setSelectedSubType(null);
+    if (typeId) {
+      const selectedType = types.find((type) => type.id === typeId);
       if (selectedType) {
-        const subTypeRes = await fetch(`/api/type/${selectedType}/subType`);
-        const SubType = await subTypeRes.json();
-        setSubTypes(SubType);
+        setSubTypes(selectedType.SubType || []);
       }
-    };
-
-    fetchSubTypes();
-  }, [selectedType]);
+    } else {
+      setSubTypes([]);
+    }
+  };
 
   const handleSubTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedSubType(e.target.value);
   };
-
-  // Colors
-
-  useEffect(() => {
-    const fetchColors = async () => {
-      const ColorRes = await fetch(`/api/color`);
-      const Colors = await ColorRes.json();
-      setColors(Colors);
-    };
-
-    fetchColors();
-  }, []);
 
   const handleColorChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedColor(e.target.value);
@@ -277,6 +260,121 @@ export default function ProductFormPage() {
   const handlePalluColorChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedPalluColor(e.target.value);
   };
+
+  const handleZariColorChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedZariColor(e.target.value);
+  };
+
+  const handleBorderColorChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedBorderColor(e.target.value);
+  };
+
+  const handleWeaveChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const weaveId = e.target.value;
+    setSelectedWeave(weaveId);
+    setSelectedWeaveType(null);
+    if (weaveId) {
+      const selectedWeave = weaves.find((weave) => weave.id === weaveId);
+      console.log(selectedWeave);
+      if (selectedWeave) {
+        setWeaveTypes(selectedWeave.WeaveType || []);
+      }
+    } else {
+      setWeaveTypes([]);
+    }
+  };
+
+  const handleWeaveTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedWeaveType(e.target.value);
+  };
+
+  const handleBorderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedBorder(e.target.value);
+  };
+
+  const handlePalluMotifTypeChange = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setSelectedPalluMotif(e.target.value);
+  };
+
+  const handleZariChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedZari(e.target.value);
+  };
+
+  const handleSareeMotifChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedSareeMotif(e.target.value);
+  };
+
+  const handleButtiTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedButtiType(e.target.value);
+  };
+
+  const handleBlousePatternChange = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setSelectedBlousePattern(e.target.value);
+  };
+
+  useEffect(() => {
+    if (selectedWeave) {
+      const weave = weaves.find((weave) => weave.id === selectedWeave);
+      if (weave) {
+        setWeaveTypes(weave.WeaveType || []);
+      }
+    } else {
+      setWeaveTypes([]);
+    }
+  }, [selectedWeave, weaves]);
+
+  useEffect(() => {
+    if (selectedCategory) {
+      const category = categories.find(
+        (category) => category.id === selectedCategory
+      );
+      if (category) {
+        setFabrics(category.Fabric || []);
+        setPatterns(category.Pattern || []);
+        setBorders(category.Border || []);
+        setPalluMotifs(category.PalluMotif || []);
+        setZaris(category.Zari || []);
+        setSareeMotifs(category.SareeMotif || []);
+        setButtiTypes(category.ButtiType || []);
+        setBlousePatterns(category.BlousePattern || []);
+      }
+    } else {
+      setFabrics([]);
+      setPatterns([]);
+      setBorders([]);
+      setPalluMotifs([]);
+      setZaris([]);
+      setSareeMotifs([]);
+      setButtiTypes([]);
+      setBlousePatterns([]);
+    }
+  }, [selectedCategory, categories]);
+
+  useEffect(() => {
+    if (selectedFabric) {
+      const fabric = fabrics.find((fabric) => fabric.id === selectedFabric);
+      if (fabric) {
+        setTypes(fabric.Type || []);
+      }
+    } else {
+      setTypes([]);
+    }
+  }, [selectedFabric, fabrics]);
+
+  useEffect(() => {
+    if (selectedType) {
+      const type = types.find((type) => type.id === selectedType);
+      if (type) {
+        setSubTypes(type.SubType || []);
+      }
+    } else {
+      setSubTypes([]);
+    }
+  }, [selectedType, types]);
   //
 
   // let new_offer_price: number = price || 0;
@@ -315,6 +413,61 @@ export default function ProductFormPage() {
             >
               {/* Categories and Brand */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Weave */}
+                <div className="flex flex-col gap-2">
+                  <FormLabel>Weave</FormLabel>
+                  <select
+                    name="category"
+                    id="category"
+                    // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800 "
+                    className="p-2 border-black border-[1px] rounded-lg"
+                    onChange={handleWeaveChange}
+                  >
+                    {weaves.length === 0 ? (
+                      <option>No Weave Available</option>
+                    ) : (
+                      <option>Please Select Weave</option>
+                    )}
+                    {weaves.map((weave) => (
+                      <option
+                        value={weave.id}
+                        key={weave.id}
+                        className="px-4 py-1"
+                      >
+                        {weave.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                {/* Weave Type*/}
+                {selectedWeave === weaveTypes[0]?.weaveId && (
+                  <div className="flex flex-col gap-2">
+                    <FormLabel>Weave Type</FormLabel>
+                    <select
+                      name="category"
+                      id="category"
+                      // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800 "
+                      className="p-2 border-black border-[1px] rounded-lg"
+                      onChange={handleWeaveTypeChange}
+                    >
+                      {weaveTypes.length === 0 ? (
+                        <option>No Weave Type Available</option>
+                      ) : (
+                        <option>Please Select Weave Type</option>
+                      )}
+                      {weaveTypes.map((weavetype) => (
+                        <option
+                          value={weavetype.id}
+                          key={weavetype.id}
+                          className="px-4 py-1"
+                        >
+                          {weavetype.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+                {/* Category */}
                 <div className="flex flex-col gap-2">
                   <FormLabel>Category</FormLabel>
                   <select
@@ -340,6 +493,7 @@ export default function ProductFormPage() {
                     ))}
                   </select>
                 </div>
+                {/* Occassion */}
                 <div className="flex flex-col gap-2">
                   <FormLabel>Occassion</FormLabel>
                   <select
@@ -349,12 +503,12 @@ export default function ProductFormPage() {
                     className="p-2 border-black border-[1px] rounded-lg"
                     onChange={handleOccassionChange}
                   >
-                    {Occassions.length === 0 ? (
+                    {occassions.length === 0 ? (
                       <option>No Occassion Available</option>
                     ) : (
                       <option>Please Select Occassion</option>
                     )}
-                    {Occassions.map((occasion) => (
+                    {occassions.map((occasion) => (
                       <option
                         value={occasion.id}
                         key={occasion.id}
@@ -365,7 +519,8 @@ export default function ProductFormPage() {
                     ))}
                   </select>
                 </div>
-                {selectedCategory === Fabrics[0]?.categoryId && (
+                {/* Fabric */}
+                {selectedCategory === fabrics[0]?.categoryId && (
                   <div className="flex flex-col gap-2">
                     <FormLabel>Fabric</FormLabel>
                     <select
@@ -375,12 +530,12 @@ export default function ProductFormPage() {
                       className="p-2 border-black border-[1px] rounded-lg"
                       onChange={handleFabricChange}
                     >
-                      {Fabrics.length === 0 ? (
+                      {fabrics.length === 0 ? (
                         <option>No Fabric Available</option>
                       ) : (
                         <option>Please Select Fabric</option>
                       )}
-                      {Fabrics.map((fabric) => (
+                      {fabrics.map((fabric) => (
                         <option
                           value={fabric.id}
                           key={fabric.id}
@@ -392,8 +547,8 @@ export default function ProductFormPage() {
                     </select>
                   </div>
                 )}
-
-                {selectedCategory === Types[0]?.categoryId && (
+                {/* Types */}
+                {selectedCategory === types[0]?.categoryId && (
                   <div className="flex flex-col gap-2">
                     <FormLabel>Type</FormLabel>
                     <select
@@ -403,12 +558,12 @@ export default function ProductFormPage() {
                       className="p-2 border-black border-[1px] rounded-lg"
                       onChange={handleTypeChange}
                     >
-                      {Types.length === 0 ? (
+                      {types.length === 0 ? (
                         <option>No Type Available</option>
                       ) : (
                         <option>Please Select Type</option>
                       )}
-                      {Types.map((type) => (
+                      {types.map((type) => (
                         <option
                           value={type.id}
                           key={type.id}
@@ -420,7 +575,8 @@ export default function ProductFormPage() {
                     </select>
                   </div>
                 )}
-                {selectedType === SubTypes[0]?.typeId && (
+                {/* Sub Types */}
+                {selectedType === subTypes[0]?.typeId && (
                   <div className="flex flex-col gap-2">
                     <FormLabel>Sub Type</FormLabel>
                     <select
@@ -430,12 +586,12 @@ export default function ProductFormPage() {
                       className="p-2 border-black border-[1px] rounded-lg"
                       onChange={handleSubTypeChange}
                     >
-                      {SubTypes.length === 0 ? (
+                      {subTypes.length === 0 ? (
                         <option>No Sub Type Available</option>
                       ) : (
                         <option>Please Select Type</option>
                       )}
-                      {SubTypes.map((type) => (
+                      {subTypes.map((type) => (
                         <option
                           value={type.id}
                           key={type.id}
@@ -447,7 +603,8 @@ export default function ProductFormPage() {
                     </select>
                   </div>
                 )}
-                {selectedCategory === Patterns[0]?.categoryId && (
+                {/* Pattern */}
+                {selectedCategory === patterns[0]?.categoryId && (
                   <div className="flex flex-col gap-2">
                     <FormLabel>Pattern</FormLabel>
                     <select
@@ -457,12 +614,12 @@ export default function ProductFormPage() {
                       className="p-2 border-black border-[1px] rounded-lg"
                       onChange={handlePatternChange}
                     >
-                      {Patterns.length === 0 ? (
+                      {patterns.length === 0 ? (
                         <option>No Pattern Available</option>
                       ) : (
                         <option>Please Select Pattern</option>
                       )}
-                      {Patterns.map((pattern) => (
+                      {patterns.map((pattern) => (
                         <option
                           value={pattern.id}
                           key={pattern.id}
@@ -584,60 +741,7 @@ export default function ProductFormPage() {
                 </div> */}
               </div>
               {/* Size */}
-              {/* {selectedCategory === Patterns[0]?.categoryId && (
-                <>
-                  <div className="grid grid-cols-1 md:grid-cols-2  gap-4">
-                    <div className="flex flex-col gap-4 mt-1">
-                      <FormLabel>Unit</FormLabel>
-                      <select
-                        name="category"
-                        id="category"
-                        className="p-2 border-black border-[1px] rounded-lg"
-                        onChange={handleSizeChange}
-                      >
-                        {sizes.length === 0 ? (
-                          <option>No Sizes Available</option>
-                        ) : (
-                          <option>Please Select Size</option>
-                        )}
-                        {sizes.map((size) => (
-                          <option
-                            value={size.id}
-                            key={size.id}
-                            className="px-4 py-1"
-                          >
-                            {size.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className="md:grid gap-8 ">
-                      <FormField
-                        control={form.control}
-                        name="size_value"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Size</FormLabel>
-                            <FormControl>
-                              <div className="flex items-center relative">
-                                <Input
-                                  disabled={loading}
-                                  placeholder="Size"
-                                  {...field}
-                                />
-                                <span className="absolute right-4 lg:right-16 md:right-8">
-                                  {Size?.name}
-                                </span>
-                              </div>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                  </div>
-                </>
-              )} */}
+
               {/* Descriptions */}
               <div className="grid grid-cols-1 gap-4">
                 <div className="md:grid gap-8 ">
@@ -659,28 +763,181 @@ export default function ProductFormPage() {
                     )}
                   />
                 </div>
-                {/* <div className="md:grid gap-8 ">
-                  <FormField
-                    control={form.control}
-                    name="features"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Features</FormLabel>
-                        <FormControl>
-                          <Input
-                            disabled={loading}
-                            placeholder="Features"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div> */}
               </div>
 
               {/* Dropdowns */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {/* Border */}
+                {selectedCategory === borders[0]?.categoryId && (
+                  <div className="flex flex-col gap-2">
+                    <FormLabel>Border</FormLabel>
+                    <select
+                      name="category"
+                      id="category"
+                      // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800 "
+                      className="p-2 border-black border-[1px] rounded-lg"
+                      onChange={handleBorderChange}
+                    >
+                      {borders.length === 0 ? (
+                        <option>No Border Available</option>
+                      ) : (
+                        <option>Please Select Border</option>
+                      )}
+                      {borders.map((border) => (
+                        <option
+                          value={border.id}
+                          key={border.id}
+                          className="px-4 py-1"
+                        >
+                          {border.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+                {/* Pallu Motif */}
+                {selectedCategory === palluMotifs[0]?.categoryId && (
+                  <div className="flex flex-col gap-2">
+                    <FormLabel>Pallu Motif</FormLabel>
+                    <select
+                      name="category"
+                      id="category"
+                      // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800 "
+                      className="p-2 border-black border-[1px] rounded-lg"
+                      onChange={handlePalluMotifTypeChange}
+                    >
+                      {palluMotifs.length === 0 ? (
+                        <option>No Pallu Motif Available</option>
+                      ) : (
+                        <option>Please Select Pallu Motif</option>
+                      )}
+                      {palluMotifs.map((pallu) => (
+                        <option
+                          value={pallu.id}
+                          key={pallu.id}
+                          className="px-4 py-1"
+                        >
+                          {pallu.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+                {/* Zari */}
+                {selectedCategory === zaris[0]?.categoryId && (
+                  <div className="flex flex-col gap-2">
+                    <FormLabel>Zari</FormLabel>
+                    <select
+                      name="category"
+                      id="category"
+                      // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800 "
+                      className="p-2 border-black border-[1px] rounded-lg"
+                      onChange={handleZariChange}
+                    >
+                      {zaris.length === 0 ? (
+                        <option>No Zari Available</option>
+                      ) : (
+                        <option>Please Select Zari</option>
+                      )}
+                      {zaris.map((zaris) => (
+                        <option
+                          value={zaris.id}
+                          key={zaris.id}
+                          className="px-4 py-1"
+                        >
+                          {zaris.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+                {/* Saree Motif */}
+                {selectedCategory === sareeMotifs[0]?.categoryId && (
+                  <div className="flex flex-col gap-2">
+                    <FormLabel>Saree Motif</FormLabel>
+                    <select
+                      name="category"
+                      id="category"
+                      // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800 "
+                      className="p-2 border-black border-[1px] rounded-lg"
+                      onChange={handleSareeMotifChange}
+                    >
+                      {sareeMotifs.length === 0 ? (
+                        <option>No Saree Motif Available</option>
+                      ) : (
+                        <option>Please Select Saree Motif</option>
+                      )}
+                      {sareeMotifs.map((sareemotif) => (
+                        <option
+                          value={sareemotif.id}
+                          key={sareemotif.id}
+                          className="px-4 py-1"
+                        >
+                          {sareemotif.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+                {/* Butti Type */}
+                {selectedCategory === buttiTypes[0]?.categoryId && (
+                  <div className="flex flex-col gap-2">
+                    <FormLabel>Butti type</FormLabel>
+                    <select
+                      name="category"
+                      id="category"
+                      // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800 "
+                      className="p-2 border-black border-[1px] rounded-lg"
+                      onChange={handleButtiTypeChange}
+                    >
+                      {buttiTypes.length === 0 ? (
+                        <option>No Butti Type Available</option>
+                      ) : (
+                        <option>Please Select Butti Type</option>
+                      )}
+                      {buttiTypes.map((buttitype) => (
+                        <option
+                          value={buttitype.id}
+                          key={buttitype.id}
+                          className="px-4 py-1"
+                        >
+                          {buttitype.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+                {/* Blouse Pattern */}
+                {selectedCategory === blousePatterns[0]?.categoryId && (
+                  <div className="flex flex-col gap-2">
+                    <FormLabel>Blouse Pattern</FormLabel>
+                    <select
+                      name="category"
+                      id="category"
+                      // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800 "
+                      className="p-2 border-black border-[1px] rounded-lg"
+                      onChange={handleBlousePatternChange}
+                    >
+                      {blousePatterns.length === 0 ? (
+                        <option>No Blouse Pattern Available</option>
+                      ) : (
+                        <option>Please Select Blouse Pattern</option>
+                      )}
+                      {blousePatterns.map((blousePattern) => (
+                        <option
+                          value={blousePattern.id}
+                          key={blousePattern.id}
+                          className="px-4 py-1"
+                        >
+                          {blousePattern.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+              </div>
+
+              {/* Color Dropdowns */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {/* Color */}
                 <div className="flex flex-col gap-2">
@@ -692,12 +949,12 @@ export default function ProductFormPage() {
                     className="p-2 border-black border-[1px] rounded-lg"
                     onChange={handleColorChange}
                   >
-                    {Colors.length === 0 ? (
+                    {colors.length === 0 ? (
                       <option>No Colors Available</option>
                     ) : (
                       <option>Please Select Color</option>
                     )}
-                    {Colors.map((color) => (
+                    {colors.map((color) => (
                       <option
                         value={color.id}
                         key={color.id}
@@ -718,12 +975,12 @@ export default function ProductFormPage() {
                     className="p-2 border-black border-[1px] rounded-lg"
                     onChange={handleBlouseColorChange}
                   >
-                    {Colors.length === 0 ? (
+                    {colors.length === 0 ? (
                       <option>No Colors Available</option>
                     ) : (
                       <option>Please Select Color</option>
                     )}
-                    {Colors.map((color) => (
+                    {colors.map((color) => (
                       <option
                         value={color.id}
                         key={color.id}
@@ -744,12 +1001,65 @@ export default function ProductFormPage() {
                     className="p-2 border-black border-[1px] rounded-lg"
                     onChange={handlePalluColorChange}
                   >
-                    {Colors.length === 0 ? (
+                    {colors.length === 0 ? (
                       <option>No Colors Available</option>
                     ) : (
                       <option>Please Select Color</option>
                     )}
-                    {Colors.map((color) => (
+                    {colors.map((color) => (
+                      <option
+                        value={color.id}
+                        key={color.id}
+                        className="px-4 py-1"
+                      >
+                        {color.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                {/* Zari Color */}
+                <div className="flex flex-col gap-2">
+                  <FormLabel>Zari Color</FormLabel>
+                  <select
+                    name="category"
+                    id="category"
+                    // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800 "
+                    className="p-2 border-black border-[1px] rounded-lg"
+                    onChange={handleZariColorChange}
+                  >
+                    {colors.length === 0 ? (
+                      <option>No Colors Available</option>
+                    ) : (
+                      <option>Please Select Color</option>
+                    )}
+                    {colors.map((color) => (
+                      <option
+                        value={color.id}
+                        key={color.id}
+                        className="px-4 py-1"
+                      >
+                        {color.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Border Color */}
+                <div className="flex flex-col gap-2">
+                  <FormLabel>Border Color</FormLabel>
+                  <select
+                    name="category"
+                    id="category"
+                    // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800 "
+                    className="p-2 border-black border-[1px] rounded-lg"
+                    onChange={handleBorderColorChange}
+                  >
+                    {colors.length === 0 ? (
+                      <option>No Colors Available</option>
+                    ) : (
+                      <option>Please Select Color</option>
+                    )}
+                    {colors.map((color) => (
                       <option
                         value={color.id}
                         key={color.id}
@@ -833,4 +1143,6 @@ export default function ProductFormPage() {
       )}
     </div>
   );
-}
+};
+
+export default ProductFormPage;

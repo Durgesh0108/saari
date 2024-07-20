@@ -61,6 +61,30 @@ const sideBarList = [
         name: "Weave Type",
         location: "/admin/master/WeaveType",
       },
+      {
+        name: "Border",
+        location: "/admin/master/Border",
+      },
+      {
+        name: "Pallu Motif",
+        location: "/admin/master/PalluMotif",
+      },
+      {
+        name: "Zari",
+        location: "/admin/master/Zari",
+      },
+      {
+        name: "BlousePattern",
+        location: "/admin/master/BlousePattern",
+      },
+      {
+        name: "SareeMotif",
+        location: "/admin/master/SareeMotif",
+      },
+      {
+        name: "Butti Type",
+        location: "/admin/master/ButtiType",
+      },
     ],
   },
   {

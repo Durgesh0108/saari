@@ -4,11 +4,11 @@ import WeaveTypeForm from "./_components/WeaveTypeForm";
 import WeaveTypeList from "./_components/WeaveTypeList";
 
 export default async function OccassionPage() {
-  const weaveType = await prismadb.weaveSubType.findMany({});
+  const weaveType = await prismadb.weaveType.findMany({});
 
   const weaves = await prismadb.weave.findMany({
     include: {
-      WeaveSubType: true,
+      WeaveType: true,
     },
   });
 

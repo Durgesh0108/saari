@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     // }
     const images = body.images;
 
-    console.log(images, body);
+    // console.log(images, body);
 
     const product = await prismadb.product.create({
       data: {
@@ -32,6 +32,17 @@ export async function POST(req: Request) {
         blouseColorId: body.blouseColorId,
         palluColorId: body.palluColorId,
         subTypeId: body.subTypeId,
+        borderColorId: body.borderColorId,
+        zariColorId: body.zariColorId,
+        weaveId: body.weaveId,
+        weaveTypeId: body.weaveTypeId,
+        borderId: body.borderId,
+        palluMotifId: body.palluMotifId,
+        zariId: body.zariId,
+        sareeMotifId: body.sareeMotifId,
+        buttiTypeId: body.buttiTypeId,
+        blousePatternId: body.blousePatternId,
+
         // images: {
         //   createMany: {
         //     data: [...images.map((image: { url: string }) => image)],

@@ -614,17 +614,23 @@ model CartItem {
 }
 
 model Category {
-  id         String    @id @default(auto()) @map("_id") @db.ObjectId
-  name       String    @db.String
-  imageUrl   String    @db.String
-  bannerUrl  String?   @default("https://res.cloudinary.com/dttieobbt/image/upload/v1717054596/tmbfbfvi2zx4fuznzjdd.jpg") @db.String
-  isArchived Boolean?  @default(false) @db.Bool
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  Pattern    Pattern[]
-  Type       Type[]
-  Product    Product[]
-  Fabric     Fabric[]
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  name          String          @db.String
+  imageUrl      String          @db.String
+  bannerUrl     String?         @default("https://res.cloudinary.com/dttieobbt/image/upload/v1717054596/tmbfbfvi2zx4fuznzjdd.jpg") @db.String
+  isArchived    Boolean?        @default(false) @db.Bool
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  Pattern       Pattern[]
+  Type          Type[]
+  Product       Product[]
+  Fabric        Fabric[]
+  Border        Border[]
+  PalluMotif    PalluMotif[]
+  Zari          Zari[]
+  BlousePattern BlousePattern[]
+  SareeMotif    SareeMotif[]
+  ButtiType     ButtiType[]
 }
 
 model Fabric {
@@ -676,6 +682,9 @@ model Color {
   productsAsPrimary Product[] @relation("ProductColor")
   productsAsBlouse  Product[] @relation("ProductBlouseColor")
   productsAsPallu   Product[] @relation("ProductPalluColor")
+  ProductAsBorder   Product[] @relation("ProductBorderColor")
+  ProductAsZari     Product[] @relation("ProductZariColor")
+  Product           Product[]
 }
 
 model Type {
@@ -708,36 +717,66 @@ model SubType {
 }
 
 model Product {
-  id               String         @id @default(auto()) @map("_id") @db.ObjectId
-  name             String         @db.String
+  id               String        @id @default(auto()) @map("_id") @db.ObjectId
+  name             String        @db.String
   images           Image[]
   description      Description[]
-  shortDescription String?        @db.String
+  shortDescription String?       @db.String
   qty              Int
   price            Int
-  categoryId       String?        @db.ObjectId
-  category         Category?      @relation(fields: [categoryId], references: [id])
-  occassionId      String?        @db.ObjectId
-  occassion        Occassion?     @relation(fields: [occassionId], references: [id])
-  fabricId         String?        @db.ObjectId
-  fabric           Fabric?        @relation(fields: [fabricId], references: [id])
-  patternId        String?        @db.ObjectId
-  pattern          Pattern?       @relation(fields: [patternId], references: [id])
-  typeId           String?        @db.ObjectId
-  type             Type?          @relation(fields: [typeId], references: [id])
-  subTypeId        String?        @db.ObjectId
-  SubType          SubType?       @relation(fields: [subTypeId], references: [id])
-  colorId          String?        @db.ObjectId
-  color            Color?         @relation("ProductColor", fields: [colorId], references: [id])
-  blouseColorId    String?        @db.ObjectId
-  blouseColor      Color?         @relation("ProductBlouseColor", fields: [blouseColorId], references: [id])
-  palluColorId     String?        @db.ObjectId
-  palluColor       Color?         @relation("ProductPalluColor", fields: [palluColorId], references: [id])
-  isArchived       Boolean?       @default(false) @db.Bool
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
-  CartItem         CartItem[]
-  OrderProduct     OrderProduct[]
+  categoryId       String?       @db.ObjectId
+  category         Category?     @relation(fields: [categoryId], references: [id])
+  occassionId      String?       @db.ObjectId
+  occassion        Occassion?    @relation(fields: [occassionId], references: [id])
+  fabricId         String?       @db.ObjectId
+  fabric           Fabric?       @relation(fields: [fabricId], references: [id])
+  patternId        String?       @db.ObjectId
+  pattern          Pattern?      @relation(fields: [patternId], references: [id])
+  typeId           String?       @db.ObjectId
+  type             Type?         @relation(fields: [typeId], references: [id])
+  subTypeId        String?       @db.ObjectId
+  SubType          SubType?      @relation(fields: [subTypeId], references: [id])
+  colorId          String?       @db.ObjectId
+  color            Color?        @relation("ProductColor", fields: [colorId], references: [id])
+  blouseColorId    String?       @db.ObjectId
+  blouseColor      Color?        @relation("ProductBlouseColor", fields: [blouseColorId], references: [id])
+  palluColorId     String?       @db.ObjectId
+  palluColor       Color?        @relation("ProductPalluColor", fields: [palluColorId], references: [id])
+  borderColorId    String?       @db.ObjectId
+  borderColor      Color?        @relation("ProductBorderColor", fields: [borderColorId], references: [id])
+  zariColorId      String?       @db.ObjectId
+  zariColor        Color?        @relation("ProductZariColor", fields: [zariColorId], references: [id])
+
+  weaveId String? @db.ObjectId
+  weave   Weave?  @relation(fields: [weaveId], references: [id])
+
+  weaveTypeId String?    @db.ObjectId
+  weaveType   WeaveType? @relation(fields: [weaveTypeId], references: [id])
+
+  borderId String? @db.ObjectId
+  border   Border? @relation(fields: [borderId], references: [id])
+
+  palluMotifId String?     @db.ObjectId
+  palluMotif   PalluMotif? @relation(fields: [palluMotifId], references: [id])
+
+  zariId String? @db.ObjectId
+  zari   Zari?   @relation(fields: [zariId], references: [id])
+
+  sareeMotifId String?     @db.ObjectId
+  sareeMotif   SareeMotif? @relation(fields: [sareeMotifId], references: [id])
+
+  buttiTypeId String?    @db.ObjectId
+  buttiType   ButtiType? @relation(fields: [buttiTypeId], references: [id])
+
+  blousePatternId String?        @db.ObjectId
+  blousePattern   BlousePattern? @relation(fields: [blousePatternId], references: [id])
+
+  isArchived   Boolean?       @default(false) @db.Bool
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  CartItem     CartItem[]
+  OrderProduct OrderProduct[]
+  Color        Color?         @relation(fields: [colorId], references: [id])
 }
 
 model Image {
@@ -805,51 +844,88 @@ model BestPrice {
 }
 
 model Weave {
-  id           String         @id @default(auto()) @map("_id") @db.ObjectId
-  name         String         @db.String
-  isArchived   Boolean?       @default(false) @db.Bool
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  WeaveSubType WeaveSubType[]
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  name       String      @db.String
+  isArchived Boolean?    @default(false) @db.Bool
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  WeaveType  WeaveType[]
+  Product    Product[]
 }
 
-model WeaveSubType {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  name       String   @db.String
-  weaveId    String?  @db.ObjectId
-  Weave      Weave?   @relation(fields: [weaveId], references: [id])
-  isArchived Boolean? @default(false) @db.Bool
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+model WeaveType {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  name       String    @db.String
+  weaveId    String?   @db.ObjectId
+  Weave      Weave?    @relation(fields: [weaveId], references: [id])
+  isArchived Boolean?  @default(false) @db.Bool
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  Product    Product[]
 }
 
 model Border {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  name       String   @db.String
-  isArchived Boolean? @default(false) @db.Bool
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  name       String    @db.String
+  categoryId String?   @db.ObjectId
+  category   Category? @relation(fields: [categoryId], references: [id])
+  isArchived Boolean?  @default(false) @db.Bool
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  Product    Product[]
 }
+
 model PalluMotif {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  name       String   @db.String
-  isArchived Boolean? @default(false) @db.Bool
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  name       String    @db.String
+  categoryId String?   @db.ObjectId
+  category   Category? @relation(fields: [categoryId], references: [id])
+  isArchived Boolean?  @default(false) @db.Bool
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  Product    Product[]
 }
 
 model Zari {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  name       String   @db.String
-  isArchived Boolean? @default(false) @db.Bool
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  name       String    @db.String
+  categoryId String?   @db.ObjectId
+  category   Category? @relation(fields: [categoryId], references: [id])
+  isArchived Boolean?  @default(false) @db.Bool
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  Product    Product[]
 }
 
 model BlousePattern {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  name       String   @db.String
-  isArchived Boolean? @default(false) @db.Bool
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  name       String    @db.String
+  categoryId String?   @db.ObjectId
+  category   Category? @relation(fields: [categoryId], references: [id])
+  isArchived Boolean?  @default(false) @db.Bool
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  Product    Product[]
+}
+
+model SareeMotif {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  name       String    @db.String
+  categoryId String?   @db.ObjectId
+  category   Category? @relation(fields: [categoryId], references: [id])
+  isArchived Boolean?  @default(false) @db.Bool
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  Product    Product[]
+}
+
+model ButtiType {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  name       String    @db.String
+  categoryId String?   @db.ObjectId
+  category   Category? @relation(fields: [categoryId], references: [id])
+  isArchived Boolean?  @default(false) @db.Bool
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  Product    Product[]
 }

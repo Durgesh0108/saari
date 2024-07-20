@@ -25,10 +25,10 @@ const formSchema = z.object({
   name: z.string().min(2),
 });
 
-type WeaveTypeFormValues = z.infer<typeof formSchema>;
+type ZariFormValues = z.infer<typeof formSchema>;
 
-export const UpdateWeaveTypeForm = ({ initialdata, onCancel }) => {
-  const form = useForm<WeaveTypeFormValues>({
+export const UpdateZariForm = ({ initialdata, onCancel }) => {
+  const form = useForm<ZariFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: initialdata.name,
@@ -39,16 +39,16 @@ export const UpdateWeaveTypeForm = ({ initialdata, onCancel }) => {
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
-  const handleUpdate = async (data: WeaveTypeFormValues) => {
+  const handleUpdate = async (data: ZariFormValues) => {
     const values = {
       name: data.name,
     };
     try {
       setLoading(true);
-      await axios.patch(`/api/weaveType/${initialdata.id} `, values);
+      await axios.patch(`/api/zari/${initialdata.id} `, values);
       router.refresh();
 
-      toast.success("Weave Type Updated Successfully");
+      toast.success("Zari Updated Successfully");
     } catch (error: any) {
       console.log(error);
       toast.error("Something went wrong.");
@@ -76,7 +76,7 @@ export const UpdateWeaveTypeForm = ({ initialdata, onCancel }) => {
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="Weave Type name"
+                        placeholder="Zari name"
                         {...field}
                       />
                     </FormControl>

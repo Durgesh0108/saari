@@ -4,16 +4,57 @@ import Link from "next/link";
 const DescriptionTab = ({ product }) => {
   const [selectedCategory, setSelectedCategory] = useState(1);
 
+  //     blouseColor: true,
+  //     palluColor: true,
+  //     borderColor: true,
+  //     Color: true,
+  //     zariColor: true,
+
   let description = [
-    { key: "Category", value: product.category.name },
-    { key: "Fabric", value: product.fabric.name },
-    { key: "Color", value: product.color.name },
-    { key: "Occassion", value: product.occassion.name },
-    { key: "Design", value: product.pattern.name },
-    ...product.description,
+    {
+      key: "Category",
+      value: product.category ? product.category.name : "N/A",
+    },
+    { key: "Fabric", value: product.fabric ? product.fabric.name : "N/A" },
+    { key: "Color", value: product.color ? product.color.name : "N/A" },
+    {
+      key: "Occassion",
+      value: product.occassion ? product.occassion.name : "N/A",
+    },
+    { key: "Design", value: product.pattern ? product.pattern.name : "N/A" },
+    { key: "Type", value: product.type ? product.type.name : "N/A" },
+    {
+      key: "Sub Type",
+      value: product.SubType ? product.SubType.name : "N/A",
+    },
+
+    { key: "Border", value: product.border ? product.border.name : "N/A" },
+    {
+      key: "Blouse Pattern",
+      value: product.blousePattern ? product.blousePattern.name : "N/A",
+    },
+    {
+      key: "Butti Type",
+      value: product.buttiType ? product.buttiType.name : "N/A",
+    },
+    {
+      key: "Pallu Motif",
+      value: product.palluMotif ? product.palluMotif.name : "N/A",
+    },
+    {
+      key: "Saree Motif",
+      value: product.sareeMotif ? product.sareeMotif.name : "N/A",
+    },
+    { key: "Weave", value: product.weave ? product.weave.name : "N/A" },
+    {
+      key: "Weave Type",
+      value: product.weaveType ? product.weaveType.name : "N/A",
+    },
+    { key: "Zari", value: product.zari ? product.zari.name : "N/A" },
+    // ...product.description,
   ];
+
   console.log(product);
-  console.log(product.description);
   console.log(description);
 
   return (

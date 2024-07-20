@@ -6,7 +6,7 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    const requiredFields = ["name"];
+    const requiredFields = ["name", "categoryId"];
 
     for (const field of requiredFields) {
       if (!body[field]) {
@@ -14,13 +14,13 @@ export async function POST(req: Request) {
       }
     }
 
-    const weaveType = await prismadb.weaveType.create({
+    const palluMotif = await prismadb.palluMotif.create({
       data: {
         ...body,
       },
     });
     revalidatePath("/", "layout");
-    return NextResponse.json(weaveType);
+    return NextResponse.json(palluMotif);
   } catch (error) {
     return new NextResponse("Internal Error", { status: 500 });
   }
@@ -28,13 +28,12 @@ export async function POST(req: Request) {
 
 export async function GET(req: Request) {
   try {
-    const weaveTypes = await prismadb.weaveType.findMany({
+    const palluMotif = await prismadb.palluMotif.findMany({
       orderBy: {
-        name: "desc",
-        // name: "asc",
+        name: "asc",
       },
     });
-    return NextResponse.json(weaveTypes);
+    return NextResponse.json(palluMotif);
   } catch (error) {
     return new NextResponse("Internal Error", { status: 500 });
   }

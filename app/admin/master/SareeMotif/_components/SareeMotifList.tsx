@@ -13,27 +13,27 @@ import toast from "react-hot-toast";
 import Image from "next/image";
 import { Pattern } from "@prisma/client";
 import Header from "@/components/ui/header";
-import { UpdateWeaveTypeForm } from "./UpdateWeaveTypeForm";
+import { UpdateSareeMotifForm } from "./UpdateSareeMotifForm";
 
-export default function WeaveTypeList({ weaves }) {
+export default function ZariList({ categories }) {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [deleteId, setDeleteId] = useState<string>("");
   const [initialdata, setInitialData] = useState([]);
-  const [Weaves, setWeaves] = useState(weaves);
-  const [WeaveTypes, setWeaveTypes] = useState([]);
+  const [category, setCategory] = useState(categories);
+  const [SareeMotif, setSareeMotif] = useState([]);
 
-  const [selectedWeave, setSelectedWeave] = useState<string | undefined>(
-    Weaves[0].id
+  const [SelectedCategory, setSelectedCategory] = useState<string | undefined>(
+    category[0].id
   );
 
   const handleDelete = async (id: string) => {
     try {
       setLoading(true);
-      await axios.delete(`/api/weaveType/${id}`);
+      await axios.delete(`/api/sareeMotif/${id}`);
       location.reload();
-      toast.success("Weave Type Deleted Successfully");
+      toast.success("Saree Motif Deleted Successfully");
     } catch (error: any) {
       console.log(error);
       toast.error("Something went wrong.");
@@ -43,16 +43,18 @@ export default function WeaveTypeList({ weaves }) {
     }
   };
 
-  const handleWeaveChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedWeave(e.target.value);
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCategory(e.target.value);
   };
 
   useEffect(() => {
-    if (selectedWeave) {
-      const SelectWeave = Weaves.find((weave) => weave.id === selectedWeave);
-      setWeaveTypes(SelectWeave.WeaveType ? SelectWeave.WeaveType : []);
+    if (SelectedCategory) {
+      const SelectCategory = category.find(
+        (category) => category.id === SelectedCategory
+      );
+      setSareeMotif(SelectCategory.SareeMotif ? SelectCategory.SareeMotif : []);
     }
-  }, [selectedWeave, Weaves]);
+  }, [SelectedCategory, category]);
 
   return (
     <Card className="p-8">
@@ -64,19 +66,19 @@ export default function WeaveTypeList({ weaves }) {
       />
       <div className="grid grid-cols-1 gap-4 mb-4">
         <div>
-          <Header>Weave Type List</Header>
+          <Header>Saree Motif List</Header>
         </div>
         <select
           name="category"
           id="category"
           // className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800"
           className="p-2 border-black border-[1px] rounded-lg"
-          onChange={handleWeaveChange}
+          onChange={handleCategoryChange}
         >
-          {Weaves.length === 0 && <option>No Weave Available</option>}
-          {Weaves.map((weave) => (
-            <option value={weave.id} key={weave.id} className="px-4 py-1">
-              {weave.name}
+          {category.length === 0 && <option>No category Available</option>}
+          {category.map((cate) => (
+            <option value={cate.id} key={cate.id} className="px-4 py-1">
+              {cate.name}
             </option>
           ))}
         </select>
@@ -84,7 +86,7 @@ export default function WeaveTypeList({ weaves }) {
       <div className="flex flex-col gap-2">
         {isUpdating && (
           <>
-            <UpdateWeaveTypeForm
+            <UpdateSareeMotifForm
               initialdata={initialdata}
               onCancel={() => {
                 setIsUpdating(false);
@@ -93,12 +95,12 @@ export default function WeaveTypeList({ weaves }) {
             />
           </>
         )}
-        {WeaveTypes.length === 0 && <p>No Weave Type Available</p>}
-        {WeaveTypes.map((weaveType) => (
+        {SareeMotif.length === 0 && <p>No Saree Motif Available</p>}
+        {SareeMotif.map((sareemotif) => (
           <>
-            <ListCard key={weaveType.id} className={"group flex items-center"}>
+            <ListCard key={sareemotif.id} className={"group flex items-center"}>
               <div className="flex gap-4 items-center">
-                <div>{weaveType.name}</div>
+                <div>{sareemotif.name}</div>
               </div>
               {!isUpdating && (
                 <>
@@ -109,7 +111,7 @@ export default function WeaveTypeList({ weaves }) {
                       size="sm"
                       onClick={() => {
                         setIsUpdating(true);
-                        setInitialData(weaveType);
+                        setInitialData(sareemotif);
                       }}
                     >
                       <Pencil className="h-4 w-4" />
@@ -120,7 +122,7 @@ export default function WeaveTypeList({ weaves }) {
                       size="sm"
                       onClick={() => {
                         setOpen(true);
-                        setDeleteId(weaveType.id);
+                        setDeleteId(sareemotif.id);
                       }}
                     >
                       <Trash className="h-4 w-4" />

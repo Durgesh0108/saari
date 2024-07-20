@@ -28,6 +28,7 @@ import { EditProductDescriptionForm } from "./_components/EditDescriptionForm";
 import { LocationProductForm } from "./_components/LocationForm";
 import { ImageProductForm } from "./_components/ImageForm";
 import { CategoriesProductForm } from "./_components/EditCategories";
+import { ColorProductForm } from "./_components/EditColor";
 // import Image from "next/image";
 
 const DisabledInput = ({ text, value, placeholder, disabled }) => {
@@ -66,9 +67,106 @@ export default async function ProductFormPage({
       blouseColor: true,
       palluColor: true,
       fabric: true,
+      blousePattern: true,
+      border: true,
+      borderColor: true,
+      buttiType: true,
+      Color: true,
+      palluMotif: true,
+      sareeMotif: true,
+      weave: true,
+      weaveType: true,
+      zari: true,
+      zariColor: true,
     },
   });
-  console.log(product);
+
+  const Weave = await prismadb.weave.findMany({
+    include: {
+      WeaveType: {
+        orderBy: {
+          name: "asc",
+        },
+      },
+    },
+    orderBy: {
+      name: "asc",
+    },
+  });
+
+  const Category = await prismadb.category.findMany({
+    include: {
+      BlousePattern: {
+        orderBy: {
+          name: "asc",
+        },
+      },
+      Border: {
+        orderBy: {
+          name: "asc",
+        },
+      },
+      ButtiType: {
+        orderBy: {
+          name: "asc",
+        },
+      },
+      Fabric: {
+        include: {
+          Type: {
+            include: {
+              SubType: {
+                orderBy: {
+                  name: "asc",
+                },
+              },
+            },
+            orderBy: {
+              name: "asc",
+            },
+          },
+        },
+        orderBy: {
+          name: "asc",
+        },
+      },
+      PalluMotif: {
+        orderBy: {
+          name: "asc",
+        },
+      },
+      Pattern: {
+        orderBy: {
+          name: "asc",
+        },
+      },
+      SareeMotif: {
+        orderBy: {
+          name: "asc",
+        },
+      },
+      Type: {
+        include: {
+          SubType: {
+            orderBy: {
+              name: "asc",
+            },
+          },
+        },
+        orderBy: {
+          name: "asc",
+        },
+      },
+      Zari: {
+        orderBy: {
+          name: "asc",
+        },
+      },
+    },
+  });
+
+  const Color = await prismadb.color.findMany({});
+  const Occassion = await prismadb.occassion.findMany({});
 
   return (
     <div className="flex flex-col gap-4">
@@ -132,6 +230,16 @@ export default async function ProductFormPage({
               <CategoriesProductForm
                 productId={product.id}
                 initialdata={product}
+                Category={Category}
+                Occassion={Occassion}
+                Weave={Weave}
+              />
+            )}
+            {product && (
+              <ColorProductForm
+                productId={product.id}
+                initialdata={product}
+                Color={Color}
               />
             )}
           </div>
