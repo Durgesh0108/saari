@@ -427,11 +427,6 @@
 //   );
 // }
 
-
-
-
-
-
 // @ts-nocheck
 
 "use client";
@@ -492,6 +487,8 @@ export default function Navbar({ products, categories, user, cart }) {
           <div className="loader">Loading...</div>
         </div>
       )}
+
+      {/* Desktop */}
       <div className="hidden w-full bg-white container px-8 py-4 lg:grid grid-cols-12 items-center">
         <div className="col-span-2">
           <LinkComponent link={"/"} className="flex items-center">
@@ -505,7 +502,9 @@ export default function Navbar({ products, categories, user, cart }) {
                 <div>
                   <Link href={`/category/${category.id}`}>{category.name}</Link>
                 </div>
-                <div className={`duration-300 w-0 group-hover:w-full rounded-full border-b-2 border-b-black`}></div>
+                <div
+                  className={`duration-300 w-0 group-hover:w-full rounded-full border-b-2 border-b-black`}
+                ></div>
                 <div className="absolute z-50 group-hover:flex flex-col top-[2.4rem] left-0 w-full bg-white py-1 px-4 text-gray-800 shadow-xl hidden">
                   <DropdownMenu Fabrics={category.Fabric} />
                 </div>
@@ -513,7 +512,9 @@ export default function Navbar({ products, categories, user, cart }) {
             ))}
             <div className="group flex flex-col items-center">
               <div>The Silk</div>
-              <div className={`duration-300 w-0 group-hover:w-full rounded-full border-b-2 border-b-black`}></div>
+              <div
+                className={`duration-300 w-0 group-hover:w-full rounded-full border-b-2 border-b-black`}
+              ></div>
               <div className="absolute z-50 top-10 left-0 w-full bg-white pt-8 pb-4 px-4 text-gray-800 shadow-xl hidden group-hover:block">
                 <h1>What is Silk?</h1>
                 <p>
@@ -564,8 +565,10 @@ export default function Navbar({ products, categories, user, cart }) {
           </div>
         </div>
       </div>
-      {/* <div>
-        <nav className="fixed top-0 z-50 bg-white w-full text-black lg:hidden p-4 border-b">
+
+      {/* Mobile */}
+      <div className="block lg:hidden ">
+        <nav className="fixed top-0 z-50 bg-white w-full text-black  p-4 border-b">
           <div className={cn("items-center justify-between lg:hidden flex")}>
             <div className="grid grid-cols-12 w-full items-center">
               <div className="col-span-3">
@@ -635,7 +638,9 @@ export default function Navbar({ products, categories, user, cart }) {
                                 >
                                   <AccordionTrigger className="text-xl font-medium py-2">
                                     <div className="group/type w-fit">
-                                      <Link href={`/products?categoryId=${cate.id}`}>
+                                      <Link
+                                        href={`/products?categoryId=${cate.id}`}
+                                      >
                                         <div>{type.name}</div>
                                         <div
                                           className={`duration-300 w-0 group-hover/type:w-full rounded-full border-b-2 border-b-black`}
@@ -643,11 +648,13 @@ export default function Navbar({ products, categories, user, cart }) {
                                       </Link>
                                     </div>
                                   </AccordionTrigger>
-                                  <AccordionContent className="text-lg font-medium pb-2">
+                                  {/* <AccordionContent className="text-lg font-medium pb-2">
                                     <div className="ml-4">
                                       {type.Fabric.map((fabr, index) => (
                                         <div key={index} className="py-2 group">
-                                          <Link href={`/products?categoryId=${cate.id}`}>
+                                          <Link
+                                            href={`/products?categoryId=${cate.id}`}
+                                          >
                                             <div>{fabr.name}</div>
                                             <div
                                               className={`duration-300 w-0 group-hover:w-full rounded-full border-b-2 border-b-black`}
@@ -656,7 +663,7 @@ export default function Navbar({ products, categories, user, cart }) {
                                         </div>
                                       ))}
                                     </div>
-                                  </AccordionContent>
+                                  </AccordionContent> */}
                                 </AccordionItem>
                               </div>
                             ))}
@@ -670,7 +677,7 @@ export default function Navbar({ products, categories, user, cart }) {
             </div>
           </div>
         </div>
-      </div> */}
+      </div>
     </>
   );
 }

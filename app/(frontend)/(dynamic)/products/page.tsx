@@ -48,6 +48,16 @@ export default async function Products({ params, searchParams }) {
       blouseColor: true,
       palluColor: true,
       fabric: true,
+      blousePattern: true,
+      border: true,
+      borderColor: true,
+      buttiType: true,
+      palluMotif: true,
+      sareeMotif: true,
+      weave: true,
+      weaveType: true,
+      zari: true,
+      zariColor: true,
     },
   });
 

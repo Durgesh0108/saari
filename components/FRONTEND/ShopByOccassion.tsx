@@ -636,7 +636,7 @@ const ShopByOccassion = ({ occassion, products }) => {
               )}
             </div>
 
-            {propertyList.properties.length >
+            {/* {propertyList.properties.length >
               propertyList.propertyOnPage.length && (
               <div className="mt-6 flex justify-center">
                 <button
@@ -646,7 +646,7 @@ const ShopByOccassion = ({ occassion, products }) => {
                   Show More
                 </button>
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>

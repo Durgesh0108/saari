@@ -265,17 +265,28 @@ const marks = [
 export default function ProductsList({ Types, products }) {
   const params = useParams();
 
-  const [distinctColors, setDistinctColors] = useState([]);
+  const [distinctFabrics, setDistinctFabrics] = useState([]);
+  const [distinctWeaves, setDistinctWeaves] = useState([]);
   const [distinctTypes, setDistinctTypes] = useState([]);
-  const [distinctCategories, setDistinctCategories] = useState([]);
+  const [distinctMotifs, setDistinctMotifs] = useState([]);
   const [distinctOccassions, setDistinctOccassions] = useState([]);
-  const [distinctPatterns, setDistinctPatterns] = useState([]);
+  const [distinctColors, setDistinctColors] = useState([]);
+  const [distinctZaris, setDistinctZaris] = useState([]);
+  const [distinctpalluMotifs, setDistinctpalluMotifs] = useState([]);
+  const [distinctBorders, setDistinctBorders] = useState([]);
+  const [distinctCategories, setDistinctCategories] = useState([]);
   const [distinctSubTypes, setDistinctSubTypes] = useState([]);
+  const [distinctPatterns, setDistinctPatterns] = useState([]);
   const [filters, setFilters] = useState({
-    category: [],
-    color: [],
+    fabric: [],
+    weave: [],
     type: [],
     occassion: [],
+    color: [],
+    zari: [],
+    palluMotif: [],
+    border: [],
+    category: [],
     pattern: [],
     subtype: [],
     priceRange: [MIN, MAX], // Add price range to filters
@@ -283,23 +294,65 @@ export default function ProductsList({ Types, products }) {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const colors = products.map((product) => product.color.name);
-      setDistinctColors(Array.from(new Set(colors)));
+      const Fabrics = results
+        .map((product) => product.fabric?.name)
+        .filter((name) => name);
+      setDistinctFabrics(Array.from(new Set(Fabrics)));
 
-      const categories = products.map((product) => product.category.name);
-      setDistinctCategories(Array.from(new Set(categories)));
+      const Weaves = results
+        .map((product) => product.weave?.name)
+        .filter((name) => name);
+      setDistinctWeaves(Array.from(new Set(Weaves)));
 
-      const occassions = products.map((product) => product.occassion.name);
-      setDistinctOccassions(Array.from(new Set(occassions)));
-
-      const types = products.map((product) => product.type.name);
+      const types = results
+        .map((product) => product.type?.name)
+        .filter((name) => name);
       setDistinctTypes(Array.from(new Set(types)));
 
-      const patterns = products.map((product) => product.pattern.name);
-      setDistinctPatterns(Array.from(new Set(patterns)));
+      // const Motifs = results
+      //   .map((product) => product.motif?.name)
+      //   .filter((name) => name);
+      // setDistinctMotifs(Array.from(new Set(Motifs)));
 
-      const subtypes = products.map((product) => product.SubType.name);
+      const occassions = results
+        .map((product) => product.occassion?.name)
+        .filter((name) => name);
+      setDistinctOccassions(Array.from(new Set(occassions)));
+
+      const colors = results
+        .map((product) => product.color?.name)
+        .filter((name) => name);
+      setDistinctColors(Array.from(new Set(colors)));
+
+      const Zaris = results
+        .map((product) => product.zari?.name)
+        .filter((name) => name);
+      setDistinctZaris(Array.from(new Set(Zaris)));
+
+      const palluMotif = results
+        .map((product) => product.palluMotif?.name)
+        .filter((name) => name);
+      setDistinctpalluMotif(Array.from(new Set(palluMotif)));
+
+      const Borders = results
+        .map((product) => product.border?.name)
+        .filter((name) => name);
+      setDistinctBorders(Array.from(new Set(Borders)));
+
+      const categories = results
+        .map((product) => product.category?.name)
+        .filter((name) => name);
+      setDistinctCategories(Array.from(new Set(categories)));
+
+      const subtypes = results
+        .map((product) => product.SubType?.name)
+        .filter((name) => name);
       setDistinctSubTypes(Array.from(new Set(subtypes)));
+
+      const patterns = results
+        .map((product) => product.pattern?.name)
+        .filter((name) => name);
+      setDistinctPatterns(Array.from(new Set(patterns)));
     };
 
     fetchProducts();
@@ -333,40 +386,84 @@ export default function ProductsList({ Types, products }) {
 
   const handleResetFilters = () => {
     setFilters({
-      category: [],
-      color: [],
+      fabric: [],
+      weave: [],
       type: [],
       occassion: [],
+      color: [],
+      zari: [],
+      palluMotif: [],
+      border: [],
+      category: [],
       pattern: [],
       subtype: [],
       priceRange: [MIN, MAX],
     });
   };
 
+  // fabric: [],
+  //   weave: [],
+  //   type: [],
+  //   occassion: [],
+  //   color: [],
+  //   zari: [],
+  //   palluMotif: [],
+  //   border: [],
+  //   category: [],
+  //   pattern: [],
+  //   subtype: [],
+
   const filteredProducts = products.filter((product) => {
-    const colorFilter =
-      !filters.color.length || filters.color.includes(product.color.name);
-    const categoryFilter =
-      !filters.category.length ||
-      filters.category.includes(product.category.name);
+    const fabricFilter =
+      !filters.fabric.length || filters.fabric.includes(product.fabric.name);
+
+    const weaveFilter =
+      !filters.weave.length || filters.weave.includes(product.weave.name);
+
     const typeFilter =
       !filters.type.length || filters.type.includes(product.type.name);
+
     const occassionFilter =
       !filters.occassion.length ||
       filters.occassion.includes(product.occassion.name);
+
+    const colorFilter =
+      !filters.color.length || filters.color.includes(product.color.name);
+
+    const zariFilter =
+      !filters.zari.length || filters.zari.includes(product.zari.name);
+
+    // const palluMotifFilter =
+    //   !filters.palluMotif.length ||
+    //   filters.palluMotif.includes(product.palluMotif.name);
+
+    const borderFilter =
+      !filters.border.length || filters.border.includes(product.border.name);
+
+    const categoryFilter =
+      !filters.category.length ||
+      filters.category.includes(product.category.name);
+
     const patternFilter =
       !filters.pattern.length || filters.pattern.includes(product.pattern.name);
+
     const subtypeFilter =
       !filters.subtype.length || filters.subtype.includes(product.subType.name);
+
     const priceFilter =
       product.price >= filters.priceRange[0] &&
       product.price <= filters.priceRange[1];
 
     return (
-      colorFilter &&
-      categoryFilter &&
+      fabricFilter &&
+      weaveFilter &&
       typeFilter &&
       occassionFilter &&
+      colorFilter &&
+      zariFilter &&
+      // palluDesignFilter &&
+      borderFilter &&
+      categoryFilter &&
       patternFilter &&
       subtypeFilter &&
       priceFilter
