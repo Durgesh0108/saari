@@ -36,7 +36,7 @@ export const UpdateColorForm = ({ initialdata, onCancel }) => {
     defaultValues: {
       name: initialdata.name,
       hexCode: initialdata.hexCode,
-      bannerUrl: [initialdata.bannerUrl],
+      bannerUrl: [initialdata.bannerUrl || ""],
     },
   });
 
@@ -48,7 +48,7 @@ export const UpdateColorForm = ({ initialdata, onCancel }) => {
     const values = {
       name: data.name,
       hexCode: data.hexCode,
-      bannerUrl: data.bannerUrl[0],
+      bannerUrl: data.bannerUrl ? data.bannerUrl[0] : "",
     };
     try {
       setLoading(true);

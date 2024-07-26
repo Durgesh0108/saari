@@ -514,7 +514,11 @@ const ProductsListPage = ({ Products }) => {
               <li key={number} className="mx-1">
                 <button
                   onClick={() => paginate(number + 1)}
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded "
+                  className={`${
+                    currentPage === number + 1
+                      ? "bg-blue-500 text-white"
+                      : "border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white"
+                  } font-bold py-2 px-4 rounded-full focus:outline-none`}
                 >
                   {number + 1}
                 </button>

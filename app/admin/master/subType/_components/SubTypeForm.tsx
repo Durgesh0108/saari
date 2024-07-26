@@ -61,8 +61,8 @@ export default function SubTypeForm() {
   const onSubmit = async (values: SubTypeFormValues) => {
     const data = {
       name: values.name,
-      imageUrl: values.imageUrl[0],
-      bannerUrl: values.bannerUrl[0],
+      imageUrl: values.imageUrl ? values.imageUrl[0] : "",
+      bannerUrl: values.bannerUrl ? values.bannerUrl[0] : "",
       typeId: SelectedType,
     };
     try {

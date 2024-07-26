@@ -60,7 +60,11 @@ export default async function ProductFormPage({
       color: true,
       occassion: true,
       description: true,
-      images: true,
+      images: {
+        orderBy: {
+          position: "asc",
+        },
+      },
       pattern: true,
       type: true,
       SubType: true,

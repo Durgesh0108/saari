@@ -3,6 +3,7 @@ import FilterByColor from "./_component/Color";
 import ShopByCategory from "./_component/Category";
 import ShopByPattern from "./_component/Pattern";
 import prismadb from "@/lib/prisma";
+import DressStyleComponent from "./_component/DressStyle";
 
 export default async function CategoryPage({ params }) {
   const types = await prismadb.type.findMany({
@@ -25,7 +26,11 @@ export default async function CategoryPage({ params }) {
       category: true,
       color: true,
       description: true,
-      images: true,
+      images: {
+        orderBy: {
+          position: "asc",
+        },
+      },
       occassion: true,
       pattern: true,
       type: true,
@@ -52,6 +57,8 @@ export default async function CategoryPage({ params }) {
     },
   });
 
+  const DressStyles = await prismadb.dressStyle.findMany({});
+
   return (
     <>
       {/* *************************************** */}
@@ -61,6 +68,7 @@ export default async function CategoryPage({ params }) {
           <ShopByOccassion occassion={occassion} products={product} />
           <FilterByColor color={Color} products={product} />
           {/* <ShopByPattern/> */}
+          <DressStyleComponent DressStyles={DressStyles} />
         </div>
       </div>
     </>

@@ -173,6 +173,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-hot-toast";
 import ImageUpload from "@/components/ui/image-upload";
 import Image from "next/image";
+import { ImagesList } from "./ImageList";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   images: z.array(z.string().url()),
@@ -183,6 +185,9 @@ type ImageProductForm = z.infer<typeof formSchema>;
 export const ImageProductForm = ({ initialData }) => {
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  const router = useRouter();
 
   const initialImages = initialData.images.map((image) => image.url);
 
@@ -197,8 +202,6 @@ export const ImageProductForm = ({ initialData }) => {
   const toggleEdit = () => {
     setIsEditing(!isEditing);
   };
-
-  console.log("image form Initial data:", initialData.images);
 
   const onSubmit = async (values: ImageProductForm) => {
     try {
@@ -222,6 +225,43 @@ export const ImageProductForm = ({ initialData }) => {
     }
   };
 
+  // const onReorder = async (updateData: { id: string; position: number }[]) => {
+  //   try {
+  //     setIsUpdating(true);
+
+  //     await axios.put(`/api/courses/${courseId}/chapters/reorder`, {
+  //       list: updateData,
+  //     });
+
+  //     toast.success("Chapters Reordered");
+  //     router.refresh();
+  //   } catch {
+  //     toast.error("Something went wrong");
+  //   } finally {
+  //     setIsUpdating(false);
+  //   }
+  // };
+
+  // onReorder function to handle API call
+  const onReorder = async (updateData: { id: string; position: number }[]) => {
+    try {
+      setIsUpdating(true);
+
+      console.log("Reorder", updateData);
+
+      await axios.put(`/api/website/product/${initialData.id}/image/reorder`, {
+        list: updateData,
+      });
+
+      toast.success("Images Reordered");
+      router.refresh();
+    } catch {
+      toast.error("Something went wrong");
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
   return (
     <div className="border bg-slate-100 rounded-md p-4">
       <div className="text-sm lg:text-base font-medium flex items-center justify-between">
@@ -238,15 +278,9 @@ export const ImageProductForm = ({ initialData }) => {
         </Button>
       </div>
       {!isEditing && (
-        <div className="relative aspect-video mt-2">
+        <div className="relative  mt-2">
           {initialData.images.length > 0 && (
-            <Image
-              alt="Upload"
-              fill
-              className="object-cover rounded-md"
-              src={initialData.images[0].url || ""}
-              loading="lazy"
-            />
+            <ImagesList items={initialData.images} onReorder={onReorder} />
           )}
         </div>
       )}

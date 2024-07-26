@@ -49,7 +49,11 @@ export default async function Home() {
       },
       color: true,
       description: true,
-      images: true,
+      images: {
+        orderBy: {
+          position: "asc",
+        },
+      },
       occassion: true,
       pattern: true,
       type: true,
@@ -82,7 +86,11 @@ export default async function Home() {
       },
       color: true,
       description: true,
-      images: true,
+      images: {
+        orderBy: {
+          position: "asc",
+        },
+      },
       occassion: true,
       pattern: true,
       type: true,

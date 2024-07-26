@@ -10,7 +10,11 @@ export default async function ProductPage({ params }) {
       category: true,
       color: true,
       description: true,
-      images: true,
+      images: {
+        orderBy: {
+          position: "asc",
+        },
+      },
       occassion: true,
       pattern: true,
       type: true,
@@ -39,7 +43,11 @@ export default async function ProductPage({ params }) {
       category: true,
       color: true,
       description: true,
-      images: true,
+      images: {
+        orderBy: {
+          position: "asc",
+        },
+      },
       occassion: true,
       pattern: true,
       type: true,
@@ -68,7 +76,11 @@ export default async function ProductPage({ params }) {
       category: true,
       color: true,
       description: true,
-      images: true,
+      images: {
+        orderBy: {
+          position: "asc",
+        },
+      },
       occassion: true,
       pattern: true,
       type: true,
@@ -97,7 +109,11 @@ export default async function ProductPage({ params }) {
       category: true,
       color: true,
       description: true,
-      images: true,
+      images: {
+        orderBy: {
+          position: "asc",
+        },
+      },
       occassion: true,
       pattern: true,
       type: true,

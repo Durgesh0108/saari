@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import { Type } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -21,22 +20,23 @@ import ImageUpload from "@/components/ui/image-upload";
 import Header from "@/components/ui/header";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { Editor } from "@/components/editor";
 
 const formSchema = z.object({
   name: z.string().min(2),
-  imageUrl: z.array(z.string().url()),
-  bannerUrl: z.array(z.string().url()).optional(),
+  description: z.string().min(2),
+  videoUrl: z.string().min(2),
 });
 
-type TypeFormValues = z.infer<typeof formSchema>;
+type DressStyleFormValues = z.infer<typeof formSchema>;
 
-export const UpdateTypeForm = ({ initialdata, onCancel }) => {
-  const form = useForm<TypeFormValues>({
+export const UpdateDressStyleForm = ({ initialdata, onCancel }) => {
+  const form = useForm<DressStyleFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: initialdata.name,
-      imageUrl: [initialdata.imageUrl],
-      bannerUrl: [initialdata.bannerUrl],
+      description: initialdata.description,
+      videoUrl: initialdata.videoUrl,
     },
   });
 
@@ -44,20 +44,20 @@ export const UpdateTypeForm = ({ initialdata, onCancel }) => {
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
-  const handleUpdate = async (data: TypeFormValues) => {
+  const handleUpdate = async (data: DressStyleFormValues) => {
     const values = {
       name: data.name,
-      imageUrl: data.imageUrl[0],
-      bannerUrl: data.bannerUrl[0],
+      description: data.description,
+      videoUrl: data.videoUrl,
     };
     try {
       setLoading(true);
-      await axios.patch(`/api/type/${initialdata.id} `, values);
-      router.refresh();
+      await axios.patch(`/api/dressStyle/${initialdata.id} `, values);
 
-      toast.success("Saari Type Updated Successfully");
+      toast.success("Dress Style Updated Successfully");
       location.reload();
     } catch (error: any) {
+      console.log(error);
       toast.error("Something went wrong.");
     } finally {
       setLoading(false);
@@ -82,7 +82,7 @@ export const UpdateTypeForm = ({ initialdata, onCancel }) => {
                     <FormControl>
                       <Input
                         disabled={loading}
-                        placeholder="Saari Type name"
+                        placeholder="Dress Style name"
                         {...field}
                       />
                     </FormControl>
@@ -91,24 +91,16 @@ export const UpdateTypeForm = ({ initialdata, onCancel }) => {
                 )}
               />
             </div>
+
             <div className="md:grid gap-8">
               <FormField
                 control={form.control}
-                name="imageUrl"
+                name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Type Image</FormLabel>
+                    <FormLabel>Description</FormLabel>
                     <FormControl>
-                      <ImageUpload
-                        value={field.value}
-                        disabled={loading}
-                        onChange={(urls) => field.onChange(urls)}
-                        onRemove={(url) =>
-                          field.onChange(
-                            field.value.filter((image) => image !== url)
-                          )
-                        }
-                      />
+                      <Editor {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -118,20 +110,15 @@ export const UpdateTypeForm = ({ initialdata, onCancel }) => {
             <div className="md:grid gap-8">
               <FormField
                 control={form.control}
-                name="bannerUrl"
+                name="videoUrl"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Banner Image</FormLabel>
+                    <FormLabel>Dress Style Video</FormLabel>
                     <FormControl>
-                      <ImageUpload
-                        value={field.value}
+                      <Input
                         disabled={loading}
-                        onChange={(urls) => field.onChange(urls)}
-                        onRemove={(url) =>
-                          field.onChange(
-                            field.value.filter((image) => image !== url)
-                          )
-                        }
+                        placeholder="Video Url"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />

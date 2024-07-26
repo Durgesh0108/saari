@@ -21,7 +21,11 @@ export default async function ProductsPage() {
       color: true,
       description: true,
       occassion: true,
-      images: true,
+      images: {
+        orderBy: {
+          position: "asc",
+        },
+      },
       pattern: true,
       SubType: true,
       type: true,

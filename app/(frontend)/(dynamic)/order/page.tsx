@@ -10,7 +10,11 @@ export default async function OrdersPage() {
         include: {
           product: {
             include: {
-              images: true,
+              images: {
+                orderBy: {
+                  position: "asc",
+                },
+              },
             },
           },
         },

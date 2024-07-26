@@ -22,6 +22,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Header from "@/components/ui/header";
 import { toast } from "react-hot-toast";
 import ImageUpload from "@/components/ui/image-upload";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(2),
@@ -34,6 +35,8 @@ type ColorFormValues = z.infer<typeof formSchema>;
 export default function ColorForm() {
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+
+  const router = useRouter();
 
   const form = useForm<ColorFormValues>({
     resolver: zodResolver(formSchema),
@@ -51,12 +54,14 @@ export default function ColorForm() {
     const values = {
       name: data.name,
       hexCode: data.hexCode,
-      bannerUrl: data.bannerUrl[0],
+      bannerUrl: data.bannerUrl ? data.bannerUrl[0] : "",
     };
     try {
       setLoading(true);
       const response = await axios.post(`/api/color`, values);
       toggleEdit();
+      // router.refresh();
+
       location.reload();
       toast.success("Color Created Successfully");
     } catch (error: any) {

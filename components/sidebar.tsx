@@ -85,6 +85,14 @@ const sideBarList = [
         name: "Butti Type",
         location: "/admin/master/ButtiType",
       },
+      {
+        name: "Dress Style",
+        location: "/admin/master/DressStyle",
+      },
+      {
+        name: "Top View",
+        location: "/admin/master/topView",
+      },
     ],
   },
   {
@@ -102,9 +110,10 @@ const sideBarList = [
         name: "Best Price",
         location: "/admin/website/best_price",
       },
+
       {
-        name: "Advertisement",
-        location: "/admin/website/advertisements",
+        name: "Attire",
+        location: "/admin/website/Attire",
       },
     ],
   },

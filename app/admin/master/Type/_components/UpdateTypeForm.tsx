@@ -53,8 +53,8 @@ export const UpdateTypeForm = ({ onCancel, initialData }) => {
   const handleUpdate = async (data: TypeFormValues) => {
     const values = {
       name: data.name,
-      imageUrl: data.imageUrl[0],
-      bannerUrl: data.bannerUrl[0],
+      imageUrl: data.imageUrl ? data.imageUrl[0] : "",
+      bannerUrl: data.bannerUrl ? data.bannerUrl[0] : "",
       categoryId: SelectedCategory,
       fabricId: SelectedFabric,
     };

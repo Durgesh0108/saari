@@ -617,7 +617,7 @@ model Category {
   id            String          @id @default(auto()) @map("_id") @db.ObjectId
   name          String          @db.String
   imageUrl      String          @db.String
-  bannerUrl     String?         @default("https://res.cloudinary.com/dttieobbt/image/upload/v1717054596/tmbfbfvi2zx4fuznzjdd.jpg") @db.String
+  bannerUrl     String?         @db.String
   isArchived    Boolean?        @default(false) @db.Bool
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
@@ -637,7 +637,7 @@ model Fabric {
   id         String    @id @default(auto()) @map("_id") @db.ObjectId
   name       String    @db.String
   imageUrl   String    @db.String
-  bannerUrl  String?   @default("https://res.cloudinary.com/dttieobbt/image/upload/v1717054596/tmbfbfvi2zx4fuznzjdd.jpg") @db.String
+  bannerUrl  String?   @db.String
   categoryId String    @db.ObjectId
   category   Category  @relation(fields: [categoryId], references: [id])
   isArchived Boolean?  @default(false) @db.Bool
@@ -651,7 +651,7 @@ model Occassion {
   id         String    @id @default(auto()) @map("_id") @db.ObjectId
   name       String    @db.String
   imageUrl   String    @db.String
-  bannerUrl  String?   @default("https://res.cloudinary.com/dttieobbt/image/upload/v1717054596/tmbfbfvi2zx4fuznzjdd.jpg") @db.String
+  bannerUrl  String?   @db.String
   Product    Product[]
   isArchived Boolean?  @default(false) @db.Bool
   createdAt  DateTime  @default(now())
@@ -662,7 +662,7 @@ model Pattern {
   id         String    @id @default(auto()) @map("_id") @db.ObjectId
   name       String    @db.String
   imageUrl   String    @db.String
-  bannerUrl  String?   @default("https://res.cloudinary.com/dttieobbt/image/upload/v1717054596/tmbfbfvi2zx4fuznzjdd.jpg") @db.String
+  bannerUrl  String?   @db.String
   categoryId String    @db.ObjectId
   category   Category  @relation(fields: [categoryId], references: [id])
   isArchived Boolean?  @default(false) @db.Bool
@@ -674,7 +674,7 @@ model Pattern {
 model Color {
   id                String    @id @default(auto()) @map("_id") @db.ObjectId
   name              String    @db.String
-  bannerUrl         String?   @default("https://res.cloudinary.com/dttieobbt/image/upload/v1717054596/tmbfbfvi2zx4fuznzjdd.jpg") @db.String
+  bannerUrl         String?   @db.String
   hexCode           String    @db.String
   isArchived        Boolean?  @default(false) @db.Bool
   createdAt         DateTime  @default(now())
@@ -684,14 +684,13 @@ model Color {
   productsAsPallu   Product[] @relation("ProductPalluColor")
   ProductAsBorder   Product[] @relation("ProductBorderColor")
   ProductAsZari     Product[] @relation("ProductZariColor")
-  Product           Product[]
 }
 
 model Type {
   id         String    @id @default(auto()) @map("_id") @db.ObjectId
   name       String    @db.String
   imageUrl   String    @db.String
-  bannerUrl  String?   @default("https://res.cloudinary.com/dttieobbt/image/upload/v1717054596/tmbfbfvi2zx4fuznzjdd.jpg") @db.String
+  bannerUrl  String?   @db.String
   categoryId String?   @db.ObjectId
   category   Category? @relation(fields: [categoryId], references: [id])
   fabricId   String?   @db.ObjectId
@@ -776,11 +775,11 @@ model Product {
   updatedAt    DateTime       @updatedAt
   CartItem     CartItem[]
   OrderProduct OrderProduct[]
-  Color        Color?         @relation(fields: [colorId], references: [id])
 }
 
 model Image {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  position  Int?
   productId String   @db.ObjectId
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   url       String   @db.String
@@ -928,4 +927,44 @@ model ButtiType {
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   Product    Product[]
+}
+
+model DressStyle {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String   @db.String
+  description String   @db.String
+  videoUrl    String   @db.String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  Attire      Attire[]
+}
+
+model TopView {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String   @db.String
+  imageUrl  String   @db.String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Attire    Attire[]
+}
+
+model Attire {
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  dressStyleId String        @db.ObjectId
+  dressstyle   DressStyle    @relation(fields: [dressStyleId], references: [id])
+  topViewId    String        @db.ObjectId
+  topView      TopView       @relation(fields: [topViewId], references: [id])
+  images       AttireImage[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model AttireImage {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  position  Int?
+  attireId  String   @db.ObjectId
+  attire    Attire   @relation(fields: [attireId], references: [id])
+  url       String   @db.String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

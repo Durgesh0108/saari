@@ -6,13 +6,13 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    const requiredFields = ["name", "imageUrl", "typeId", "bannerUrl"];
+    // const requiredFields = ["name", "imageUrl", "typeId", "bannerUrl"];
 
-    for (const field of requiredFields) {
-      if (!body[field]) {
-        return new NextResponse(`${field} is required`, { status: 400 });
-      }
-    }
+    // for (const field of requiredFields) {
+    //   if (!body[field]) {
+    //     return new NextResponse(`${field} is required`, { status: 400 });
+    //   }
+    // }
 
     const subType = await prismadb.subType.create({
       data: {

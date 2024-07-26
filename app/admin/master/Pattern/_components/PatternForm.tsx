@@ -53,8 +53,8 @@ export default function PatternForm() {
   const onSubmit = async (values: PatternFormValues) => {
     const data = {
       name: values.name,
-      imageUrl: values.imageUrl[0],
-      bannerUrl: values.bannerUrl[0],
+      imageUrl: values.imageUrl ? values.imageUrl[0] : "",
+      bannerUrl: values.bannerUrl ? values.bannerUrl[0] : "",
       categoryId: SelectedCategory,
     };
     try {

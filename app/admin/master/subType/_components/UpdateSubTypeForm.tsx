@@ -66,8 +66,8 @@ export const UpdateSubTypeForm = ({
   const handleUpdate = async (data: SubTypeFormValues) => {
     const values = {
       name: data.name,
-      imageUrl: data.imageUrl[0],
-      bannerUrl: data.bannerUrl[0],
+      imageUrl: data.imageUrl ? data.imageUrl[0] : "",
+      bannerUrl: data.bannerUrl ? data.bannerUrl[0] : "",
       typeId: selectedType,
     };
     try {

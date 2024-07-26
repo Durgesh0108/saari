@@ -12,7 +12,7 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Category, Type } from "@prisma/client";
 import Image from "next/image";
-import { UpdateTypeForm } from "./UpdateTypeForm";
+import { UpdateFabricForm } from "./UpdateFabricForm";
 import Header from "@/components/ui/header";
 
 export default function FabricList() {
@@ -31,9 +31,9 @@ export default function FabricList() {
   const handleDelete = async (id: string) => {
     try {
       setLoading(true);
-      await axios.delete(`/api/type/${id}`);
+      await axios.delete(`/api/fabric/${id}`);
       location.reload();
-      toast.success("saari Type Deleted Successfully");
+      toast.success("Fabric Deleted Successfully");
     } catch (error: any) {
       console.log(error);
       toast.error("Something went wrong.");
@@ -119,7 +119,7 @@ export default function FabricList() {
       <div className="flex flex-col gap-2">
         {isUpdating && (
           <>
-            <UpdateTypeForm
+            <UpdateFabricForm
               initialdata={initialdata}
               onCancel={() => {
                 setIsUpdating(false);

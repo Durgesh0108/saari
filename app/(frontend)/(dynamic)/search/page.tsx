@@ -32,7 +32,11 @@ export default async function SearchPage({ searchParams }) {
       category: true,
       color: true,
       description: true,
-      images: true,
+      images: {
+        orderBy: {
+          position: "asc",
+        },
+      },
       occassion: true,
       pattern: true,
       type: true,
@@ -52,8 +56,6 @@ export default async function SearchPage({ searchParams }) {
       zariColor: true,
     },
   });
-
-  console.log({ results });
 
   return (
     <>

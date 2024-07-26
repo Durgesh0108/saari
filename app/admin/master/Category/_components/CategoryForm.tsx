@@ -49,9 +49,11 @@ export default function CategoryForm() {
   const onSubmit = async (data: CategoryFormValues) => {
     const values = {
       name: data.name,
-      imageUrl: data.imageUrl[0],
-      bannerUrl: data.bannerUrl[0],
+      imageUrl: data.imageUrl ? data.imageUrl[0] : "",
+      bannerUrl: data.bannerUrl ? data.bannerUrl[0] : "",
     };
+
+    console.log(values);
     try {
       setLoading(true);
       const response = await axios.post(`/api/category`, values);
@@ -94,7 +96,7 @@ export default function CategoryForm() {
                         <FormControl>
                           <Input
                             disabled={loading}
-                            placeholder="Pattern name"
+                            placeholder="Category name"
                             {...field}
                           />
                         </FormControl>

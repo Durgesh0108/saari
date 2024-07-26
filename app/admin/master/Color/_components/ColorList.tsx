@@ -95,7 +95,7 @@ export default function ColorList() {
                       size="sm"
                       onClick={() => {
                         setIsUpdating(true);
-                        setInitialData(category);
+                        setInitialData(col);
                       }}
                     >
                       <Pencil className="h-4 w-4" />

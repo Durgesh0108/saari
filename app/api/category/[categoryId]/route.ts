@@ -7,7 +7,6 @@ export async function GET(
   { params }: { params: { categoryId: string } }
 ) {
   try {
-
     const category = await prismadb.category.findUnique({
       where: {
         id: params.categoryId,

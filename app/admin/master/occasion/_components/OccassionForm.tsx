@@ -49,8 +49,8 @@ export default function OccassionForm() {
   const onSubmit = async (data: CategoryFormValues) => {
     const values = {
       name: data.name,
-      imageUrl: data.imageUrl[0],
-      bannerUrl: data.bannerUrl[0],
+      imageUrl: data.imageUrl ? data.imageUrl[0] : "",
+      bannerUrl: data.bannerUrl ? data.bannerUrl[0] : "",
     };
     try {
       setLoading(true);

@@ -6,13 +6,13 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    const requiredFields = ["name", "hexCode"];
+    // const requiredFields = ["name", "hexCode"];
 
-    for (const field of requiredFields) {
-      if (!body[field]) {
-        return new NextResponse(`${field} is required`, { status: 400 });
-      }
-    }
+    // for (const field of requiredFields) {
+    //   if (!body[field]) {
+    //     return new NextResponse(`${field} is required`, { status: 400 });
+    //   }
+    // }
 
     const color = await prismadb.color.create({
       data: {

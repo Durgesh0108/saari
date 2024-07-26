@@ -53,8 +53,8 @@ export default function FabricForm() {
   const onSubmit = async (values: FabricFormValues) => {
     const data = {
       name: values.name,
-      imageUrl: values.imageUrl[0],
-      bannerUrl: values.bannerUrl[0],
+      imageUrl: values.imageUrl ? values.imageUrl[0] : "",
+      bannerUrl: values.bannerUrl ? values.bannerUrl[0] : "",
       categoryId: SelectedCategory,
     };
     try {
