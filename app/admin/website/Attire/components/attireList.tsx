@@ -18,10 +18,10 @@ export default function AttireList({ attires, DressStyles, TopViews }) {
   const [open, setOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [deleteId, setDeleteId] = useState<string>("");
-  const [initialdata, setInitialData] = useState([]);
   const [dressStyles, setDressStyles] = useState(DressStyles);
   const [topViews, setTopViews] = useState(TopViews);
   const [attire, setAttire] = useState([]);
+  const [initialdata, setInitialData] = useState([]);
 
   const [SelectedDressStyle, setSelectedDressStyle] = useState<
     string | undefined
@@ -74,7 +74,7 @@ export default function AttireList({ attires, DressStyles, TopViews }) {
         {isUpdating && (
           <>
             <AttireImageUpdateForm
-              initialData={initialData}
+              initialData={initialdata}
               onCancel={() => {
                 setIsUpdating(false);
                 setEditId("");
@@ -133,6 +133,7 @@ export default function AttireList({ attires, DressStyles, TopViews }) {
                   loading="lazy"
                   className="object-contain h-full w-full"
                 />
+                {/* <AttireImageUpdateForm initialData={}/> */}
                 {/* <div>{attire.name}</div> */}
               </div>
               {!isUpdating && (

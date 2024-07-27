@@ -441,7 +441,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+
 import UserProfile from "./User";
 import { cn } from "@/lib/utils";
 import {
@@ -453,31 +453,33 @@ import {
 import DropdownMenu from "@/components/FRONTEND/DropDownMenu";
 import { SearchModal } from "@/components/modal/search-modal";
 import LinkComponent from "@/components/ui/LinkComponent";
+import { useRouter } from "next/navigation";
+import { useFrontAuthMiddleware } from "@/app/(frontend)/middleware";
+import { cookieHandler } from "@/lib/cookieHandler";
 
-export default function Navbar({ products, categories, user, cart }) {
+export default function Navbar({ products, categories, users, cart }) {
   const [sideBarIsOpen, setSideBarIsOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   // const router = useRouter();
 
-  // useEffect(() => {
-  //   const handleRouteChangeStart = () => setIsLoading(true);
-  //   const handleRouteChangeComplete = () => setIsLoading(false);
+  useFrontAuthMiddleware();
 
-  //   router.events.on("routeChangeStart", handleRouteChangeStart);
-  //   router.events.on("routeChangeComplete", handleRouteChangeComplete);
-  //   router.events.on("routeChangeError", handleRouteChangeComplete);
+  const router = useRouter();
 
-  //   return () => {
-  //     router.events.off("routeChangeStart", handleRouteChangeStart);
-  //     router.events.off("routeChangeComplete", handleRouteChangeComplete);
-  //     router.events.off("routeChangeError", handleRouteChangeComplete);
-  //   };
-  // }, [router.events]);
+  const userId = cookieHandler.get("userId");
+  const [user, setUser] = useState<User>(null);
+
+  useEffect(() => {
+    const currentUser = users.find((user) => user.id === userId);
+    setUser(currentUser || null);
+  }, [users, userId]);
 
   const openSearchModal = () => setIsOpen(true);
   const closeSearchModal = () => setIsOpen(false);
   const toggleSideBar = () => setSideBarIsOpen((current) => !current);
+
+  console.log("navbar", user);
 
   return (
     <>
@@ -556,7 +558,7 @@ export default function Navbar({ products, categories, user, cart }) {
               <div className="relative py-2">
                 <div className="-top-[1px] absolute left-3">
                   <p className="flex h-2 w-2 items-center justify-center rounded-full bg-pink-500 p-2 text-sm text-white">
-                    {cart ? cart.length : 0}
+                    {user?.cartItems.length > 0 ? user?.cartItems.length : 0}
                   </p>
                 </div>
                 <ShoppingCart />

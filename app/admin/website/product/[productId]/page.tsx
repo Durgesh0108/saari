@@ -75,7 +75,6 @@ export default async function ProductFormPage({
       border: true,
       borderColor: true,
       buttiType: true,
-      Color: true,
       palluMotif: true,
       sareeMotif: true,
       weave: true,
@@ -190,46 +189,6 @@ export default async function ProductFormPage({
         <Card className={"p-8 grid grid-cols-1 gap-4"}>
           {/* Categories  */}
           <div className="grid grid-cols-1  gap-4">
-            {/* {product?.category && (
-              <DisabledInput
-                text={"Category"}
-                value={product?.category.name}
-                disabled={true}
-                placeholder={"Category"}
-              />
-            )}
-            {product?.occassion && (
-              <DisabledInput
-                text={"Occassion"}
-                value={product?.occassion.name}
-                disabled={true}
-                placeholder={"Occassion"}
-              />
-            )}
-            {product?.pattern && (
-              <DisabledInput
-                text={"Pattern"}
-                value={product?.pattern.name}
-                disabled={true}
-                placeholder={"Pattern"}
-              />
-            )}
-            {product?.type && (
-              <DisabledInput
-                text={"Type"}
-                value={product?.type.name}
-                disabled={true}
-                placeholder={"Type"}
-              />
-            )}
-            {product?.color && (
-              <DisabledInput
-                text={"Color"}
-                value={product?.color.name}
-                disabled={true}
-                placeholder={"Color"}
-              />
-            )} */}
             {product && (
               <CategoriesProductForm
                 productId={product.id}
@@ -249,11 +208,6 @@ export default async function ProductFormPage({
           </div>
           {/* Image and Logo */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Logo*/}
-            {/* <LogoServiceForm
-              serviceId={service?.id || ""}
-              imageUrl={service?.logo || ""}
-            /> */}
             {/* Image */}
             <ImageProductForm initialData={product} />
           </div>
@@ -310,73 +264,6 @@ export default async function ProductFormPage({
               ))}
             </div>
           </div>
-          {/* Services Form */}
-          <div className="grid grid-cols-1  gap-4">
-            {/* <div className="flex flex-col gap-4">
-              <EnquiryServiceForm serviceId={service?.id || ""} />
-              <div className="grid grid-cols-1 md:grid-cols-2  gap-2 ">
-                {service?.EnquiryService.map((enquiryService) => (
-                  <ListCard
-                    className={"flex flex-col items-center"}
-                    key={service.id}
-                  >
-                    <EditEnquiryServiceForm
-                      initialData={enquiryService}
-                      serviceId={service.id}
-                      enquiryserviceId={enquiryService.id}
-                    />
-                  </ListCard>
-                ))}
-              </div>
-            </div> */}
-            {/* Feature Form */}
-            {/* <div className="flex flex-col gap-4">
-              <ServiceFeatureForm serviceId={service?.id || ""} />
-              <div className="flex flex-col gap-2">
-                {service?.ServiceFeatures.map((feature) => (
-                  <ListCard className={"w-full p-2"} key={feature.id}>
-                    <EditFeatureServiceForm
-                      initialData={feature}
-                      serviceId={service.id}
-                      featureserviceId={feature.id}
-                    />
-                  </ListCard>
-                ))}
-              </div>
-            </div> */}
-          </div>
-          {/* Contact Form */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* <div className="flex flex-col gap-4">
-              <ServiceContactForm serviceId={service?.id || ""} />
-              <div className="flex flex-col gap-2">
-                {service?.ServiceContactForm.map((contact) => (
-                  <ListCard
-                    className={"w-full p-2 flex flex-col"}
-                    key={service.id}
-                  >
-                    <EditContactServiceForm
-                      initialData={contact}
-                      serviceId={service.id}
-                      contactserviceId={contact.id}
-                    />
-                    
-                  </ListCard>
-                ))}
-              </div>
-            </div> */}
-          </div>
-          {/* Map Url */}
-          {/* <iframe
-            src={service?.mapUrl}
-            // @ts-ignore
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-            style={{}}
-            width="600"
-            height="450"
-          ></iframe> */}
         </Card>
         {/* )} */}
       </div>

@@ -7,7 +7,6 @@ const DescriptionTab = ({ product }) => {
   //     blouseColor: true,
   //     palluColor: true,
   //     borderColor: true,
-  //     Color: true,
   //     zariColor: true,
 
   const description = [

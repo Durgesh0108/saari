@@ -29,7 +29,7 @@ const formSchema = z.object({
 
 type AttireImageUpdateForm = z.infer<typeof formSchema>;
 
-export const AttireImageUpdateForm = ({ initialData }) => {
+export const AttireImageUpdateForm = ({ initialData, onCancel }) => {
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -122,14 +122,21 @@ export const AttireImageUpdateForm = ({ initialData }) => {
         </Button>
       </div>
       {!isEditing && (
-        <div className="relative  mt-2">
-          {initialData.images.length > 0 && (
-            <AttireImagesList
-              items={initialData.images}
-              onReorder={onReorder}
-            />
-          )}
-        </div>
+        <>
+          <div className="relative  mt-2">
+            {initialData.images.length > 0 && (
+              <AttireImagesList
+                items={initialData.images}
+                onReorder={onReorder}
+              />
+            )}
+          </div>
+          <div className="flex justify-end gap-4">
+            <Button variant="destructive" onClick={onCancel}>
+              Cancel
+            </Button>
+          </div>
+        </>
       )}
       {isEditing && (
         <div className="mb-4">

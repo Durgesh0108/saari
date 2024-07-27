@@ -6,7 +6,6 @@ export default async function SearchPage({ searchParams }) {
 
   // Split the query into individual words
   const queryWords = query.split(" ").filter(Boolean);
-  console.log({ query, queryWords });
 
   // Build the dynamic query
   const queryConditions = queryWords.map((word) => ({

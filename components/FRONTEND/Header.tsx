@@ -20,17 +20,29 @@ export default async function Header() {
     userId = cookieHandler.get("userId");
   }
 
-  // Fetch user data based on userId
-  const user = userId
-    ? await prismadb.user.findUnique({
-        where: {
-          id: userId,
-        },
+  const users = await prismadb.user.findMany({
+    include: {
+      cartItems: {
         include: {
-          cartItems: true,
+          product: true,
         },
-      })
-    : null;
+      },
+      Order: true,
+      OrderProduct: true,
+    },
+  });
+
+  // Fetch user data based on userId
+  // const user = userId
+  //   ? await prismadb.user.findUnique({
+  //       where: {
+  //         id: userId,
+  //       },
+  //       include: {
+  //         cartItems: true,
+  //       },
+  //     })
+  //   : null;
 
   const cart = userId
     ? await prismadb.cartItem.findMany({
@@ -107,7 +119,7 @@ export default async function Header() {
         <Navbar
           products={products}
           categories={categories}
-          user={user}
+          users={users}
           cart={cart}
         />
       </div>

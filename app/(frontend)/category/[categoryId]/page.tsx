@@ -58,6 +58,18 @@ export default async function CategoryPage({ params }) {
   });
 
   const DressStyles = await prismadb.dressStyle.findMany({});
+  const TopViews = await prismadb.topView.findMany({});
+  const Attires = await prismadb.attire.findMany({
+    include: {
+      dressstyle: true,
+      topView: true,
+      images: {
+        orderBy: {
+          position: "asc",
+        },
+      },
+    },
+  });
 
   return (
     <>
@@ -68,7 +80,7 @@ export default async function CategoryPage({ params }) {
           <ShopByOccassion occassion={occassion} products={product} />
           <FilterByColor color={Color} products={product} />
           {/* <ShopByPattern/> */}
-          <DressStyleComponent DressStyles={DressStyles} />
+          <DressStyleComponent DressStyles={DressStyles} TopViews={TopViews} Attires={Attires} />
         </div>
       </div>
     </>

@@ -249,7 +249,7 @@ import Slider from "@mui/material/Slider";
 import Typography from "@mui/material/Typography";
 import FilterPanel from "@/components/FRONTEND/FilterPanel";
 
-const MAX = 100000;
+const MAX = 20000;
 const MIN = 0;
 const marks = [
   {

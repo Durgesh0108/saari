@@ -11,17 +11,18 @@ import {
 import { cn } from "@/lib/utils";
 import { Grip } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Image } from "@prisma/client";
+import { AttireImage } from "@prisma/client";
+
 // import Image from "next/image";
 
 interface ImagesListProps {
-  items: Image[];
+  items: AttireImage[];
   onReorder: (updateData: { id: string; position: number }[]) => void;
 }
 
 export const AttireImagesList = ({ items, onReorder }: ImagesListProps) => {
   const [isMounted, setIsMounted] = useState(false);
-  const [images, setImages] = useState<Image[]>([]);
+  const [images, setImages] = useState<AttireImage[]>([]);
 
   useEffect(() => {
     setIsMounted(true);

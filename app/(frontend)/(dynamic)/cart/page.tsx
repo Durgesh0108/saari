@@ -702,14 +702,14 @@ export default function CartPage() {
       // Initialize quantities
 
       const initialQuantities = {};
-        products.forEach((product) => {
-          initialQuantities[product.id] = product.quantity; // Use the quantity from the cart
-        });
-        setQuantities(initialQuantities);
+      products.forEach((product) => {
+        initialQuantities[product.id] = product.quantity; // Use the quantity from the cart
+      });
+      setQuantities(initialQuantities);
 
-        // Calculate totals based on initial quantities
-        calculateTotals(products, initialQuantities);
-        
+      // Calculate totals based on initial quantities
+      calculateTotals(products, initialQuantities);
+
       // const initialQuantities = {};
       // products.forEach((product) => {
       //   initialQuantities[product.id] = 1; // Default quantity is 1
@@ -879,8 +879,6 @@ export default function CartPage() {
   //     setLoading(false);
   //   }
   // };
-
-  console.log({cartProducts})
 
   return (
     <div>
