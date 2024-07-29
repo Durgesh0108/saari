@@ -609,8 +609,10 @@ const ShopByOccassion = ({ occassion, products }) => {
                           <Image
                             src={property.images[0].url}
                             alt={property.name}
-                            layout="fill"
-                            objectFit="cover"
+                            // layout="fill"
+                            fill
+                            // objectFit="cover"
+                            style={{ objectFit: 'cover' }}
                             className="w-full h-full object-cover rounded-lg group-hover:shadow-2xl transition-shadow duration-300"
                           />
                         </div>

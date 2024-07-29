@@ -27,23 +27,10 @@ export default function RootLayout({
     <>
       <html lang="en">
         <head>
-          <link rel="stylesheet" href="assets/css/swiper-bundle.min.css" />
-          {/* <link rel="stylesheet" href="assets/css/style.css" /> */}
-          {/* <link rel="stylesheet" href="dist/output-scss.css" /> */}
-
-          {/* <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
-            href="https://fonts.googleapis.com/css2?family=Hind:wght@300;400;500;600;700&display=swap"
             rel="stylesheet"
-          ></link> */}
-
-          {/* <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" />
-          <link
-            href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
-            rel="stylesheet"
-          /> */}
+            href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+          />
         </head>
         <body className={`${playfair.className} no-scrollbar`}>
           <ThemeProvider
@@ -54,15 +41,14 @@ export default function RootLayout({
           >
             <ToastProvider />
             <ModalProvider />
+
             {children}
           </ThemeProvider>
         </body>
       </html>
 
       <Script src="https://checkout.razorpay.com/v1/checkout.js" />
-      <Script src="assets/js/phosphor-icons.js" />
-      <Script src="assets/js/swiper-bundle.min.js" />
-      <Script src="assets/js/main.js" />
+      <Script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" />
       <Script
         crossOrigin="anonymous"
         src="https://unpkg.com/universal-cookie@7/umd/universalCookie.min.js"

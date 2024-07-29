@@ -34,10 +34,10 @@ export default function ShopByCategory({ types }) {
               Fine drapes, ready-to-wear styles, and more
             </div>
 
-            <div className="list-collection relative section-swiper-navigation md:mt-10 mt-6 sm:px-5 px-4 grid grid-cols-4 gap-8">
+            <div className="relative section-swiper-navigation  grid grid-cols-4 gap-2 md:gap-6 ">
               {types.map((slide, index) => (
                 <Link href={`/products?typeId=${slide.id}`} key={index}>
-                  <div
+                  {/* <div
                     className="hover:scale-110 z-50 duration-500 group "
                     key={index}
                   >
@@ -55,6 +55,23 @@ export default function ShopByCategory({ types }) {
                       />
                     </div>
                     <div className=" group-hover:scale-110 group-hover:ml-3 group-hover:font-bold duration-500 italic -mt-3 text-2xl group-hover:text-[27px]">
+                      {slide.name}
+                    </div>
+                  </div> */}
+                  <div className="group hover:scale-105 duration-300 transform transition ">
+                    <div className="hidden md:block rounded-full w-5 h-5 top-1 left-1 relative bg-[#C2915E]"></div>
+                    <div className="rounded-2xl md:rounded-none md:rounded-tl-[100px] md:rounded-br-2xl h-40 sm:h-60 md:h-80 relative overflow-hidden md:-top-5">
+                      <Image
+                        src={slide.imageUrl}
+                        alt={slide.name}
+                        // layout="fill"
+                        fill
+                        // objectFit="cover"
+                        style={{ objectFit: "cover" }}
+                        className="w-full h-full object-cover rounded-2xl md:rounded-none md:rounded-tl-[100px] md:rounded-br-2xl group-hover:shadow-2xl group-hover:shadow-slate-300"
+                      />
+                    </div>
+                    <div className="text-base  md:text-2xl transition duration-700 group-hover:font-bold group-hover:text-lg md:group-hover:text-3xl">
                       {slide.name}
                     </div>
                   </div>

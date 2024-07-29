@@ -294,62 +294,62 @@ export default function ProductsList({ Types, products }) {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const Fabrics = results
+      const Fabrics = products
         .map((product) => product.fabric?.name)
         .filter((name) => name);
       setDistinctFabrics(Array.from(new Set(Fabrics)));
 
-      const Weaves = results
+      const Weaves = products
         .map((product) => product.weave?.name)
         .filter((name) => name);
       setDistinctWeaves(Array.from(new Set(Weaves)));
 
-      const types = results
+      const types = products
         .map((product) => product.type?.name)
         .filter((name) => name);
       setDistinctTypes(Array.from(new Set(types)));
 
-      // const Motifs = results
+      // const Motifs = products
       //   .map((product) => product.motif?.name)
       //   .filter((name) => name);
       // setDistinctMotifs(Array.from(new Set(Motifs)));
 
-      const occassions = results
+      const occassions = products
         .map((product) => product.occassion?.name)
         .filter((name) => name);
       setDistinctOccassions(Array.from(new Set(occassions)));
 
-      const colors = results
+      const colors = products
         .map((product) => product.color?.name)
         .filter((name) => name);
       setDistinctColors(Array.from(new Set(colors)));
 
-      const Zaris = results
+      const Zaris = products
         .map((product) => product.zari?.name)
         .filter((name) => name);
       setDistinctZaris(Array.from(new Set(Zaris)));
 
-      const palluMotif = results
+      const palluMotif = products
         .map((product) => product.palluMotif?.name)
         .filter((name) => name);
-      setDistinctpalluMotif(Array.from(new Set(palluMotif)));
+      setDistinctpalluMotifs(Array.from(new Set(palluMotif)));
 
-      const Borders = results
+      const Borders = products
         .map((product) => product.border?.name)
         .filter((name) => name);
       setDistinctBorders(Array.from(new Set(Borders)));
 
-      const categories = results
+      const categories = products
         .map((product) => product.category?.name)
         .filter((name) => name);
       setDistinctCategories(Array.from(new Set(categories)));
 
-      const subtypes = results
+      const subtypes = products
         .map((product) => product.SubType?.name)
         .filter((name) => name);
       setDistinctSubTypes(Array.from(new Set(subtypes)));
 
-      const patterns = results
+      const patterns = products
         .map((product) => product.pattern?.name)
         .filter((name) => name);
       setDistinctPatterns(Array.from(new Set(patterns)));

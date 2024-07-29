@@ -58,11 +58,12 @@ export const AttireImageUpdateForm = ({ initialData, onCancel }) => {
         images: values.images.map((url) => ({ url })),
       };
       const response = await axios.patch(
-        `/api/website/product/${initialData.id}/image`,
+        `/api/website/attire/${initialData.id}/image`,
         data
       );
       toggleEdit();
-      toast.success("Product Updated");
+      toast.success("Attire Updated");
+      location.reload();
     } catch (error) {
       console.error(error);
       toast.error("Something went wrong");

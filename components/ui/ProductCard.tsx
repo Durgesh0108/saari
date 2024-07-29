@@ -47,8 +47,10 @@ export default function ProductCard({ product }) {
         <Image
           src={product.images[0].url}
           alt={product.name}
-          layout="fill"
-          objectFit="cover"
+          // layout="fill"
+          fill
+          // objectFit="cover"
+          style={{ objectFit: "cover" }}
           className="transition duration-300 rounded-xl md:rounded-none md:rounded-br-2xl rounded-tl-2xl md:rounded-tl-[100px] rounded-br-2xl transform"
         />
         {/* Black background overlay */}
@@ -89,9 +91,7 @@ export default function ProductCard({ product }) {
         <h3 className="text-xl font-semibold mb-2 capitalize">
           {product.name}
         </h3>
-        <p className={`text-gray-600 `}>
-          &#8377; {product.price}
-        </p>
+        <p className={`text-gray-600 `}>&#8377; {product.price}</p>
       </div>
     </div>
   );

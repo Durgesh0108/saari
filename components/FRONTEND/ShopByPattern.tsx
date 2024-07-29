@@ -158,8 +158,10 @@ const ShopByPattern = ({ Patterns }) => {
                     <Image
                       src={pattern.imageUrl}
                       alt={pattern.name}
-                      layout="fill"
-                      objectFit="cover"
+                      // layout="fill"
+                      fill
+                      // objectFit="cover"
+                      style={{ objectFit: 'cover' }}
                     />
                   </span>
                 </Link>
