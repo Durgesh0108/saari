@@ -48,16 +48,7 @@ import { useEffect } from "react";
 import { cookieHandler } from "@/lib/cookieHandler";
 import jwt from "jsonwebtoken";
 import prismadb from "@/lib/prisma";
-
-const GetUser = async (userId) => {
-  const user = await prismadb.user.findUnique({
-    where: {
-      id: userId,
-    },
-  });
-
-  return user;
-};
+import { GetUser } from "@/actions/users/getUser";
 
 export const useFrontAuthMiddleware = async () => {
   const router = useRouter();

@@ -1,0 +1,25 @@
+/* "@/public/css/helvetica.css" */
+@font-face {
+  font-family: "SF Pro Text";
+  src: url("/fonts/SF-Pro-Text.woff2") format("woff2"),
+    url("/fonts/SF-Pro-Text.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Helvetica";
+  src: url("/fonts/Helvetica.woff2") format("woff2"),
+    url("/fonts/Helvetica.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Apply the font globally or to specific classes */
+body,
+.sf-pro-font {
+  font-family: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", "Helvetica",
+    "Arial", "sans-serif";
+}

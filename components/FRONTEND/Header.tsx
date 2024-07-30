@@ -115,7 +115,7 @@ export default async function Header() {
 
   return (
     <>
-      <div className="fixed top-0 z-50 w-full bg-white">
+      <div className="fixed top-0 z-50 w-full bg-[#b11e44]">
         <Navbar
           products={products}
           categories={categories}

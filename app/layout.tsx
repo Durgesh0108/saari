@@ -32,7 +32,8 @@ export default function RootLayout({
             href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
           />
         </head>
-        <body className={`${playfair.className} no-scrollbar`}>
+        {/* <body className={`${playfair.className} no-scrollbar`}> */}
+        <body className={`no-scrollbar`}>
           <ThemeProvider
             attribute="class"
             defaultTheme="light"

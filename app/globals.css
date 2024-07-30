@@ -72,7 +72,9 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: var(--font-playfair), sans-serif;
+    /* font-family: var(--font-playfair), sans-serif; */
+    /* font-family: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", "Helvetica",
+      "Arial", sans-serif; */
   }
 }
 

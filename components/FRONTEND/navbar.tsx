@@ -28,6 +28,8 @@ import { useRouter } from "next/navigation";
 import { useFrontAuthMiddleware } from "@/app/(frontend)/middleware";
 import { cookieHandler } from "@/lib/cookieHandler";
 import LoadingLink from "../ui/LoadingLink";
+import Image from "next/image";
+import Logo from "@/public/img/logo.png";
 
 export default function Navbar({ products, categories, users, cart }) {
   const [sideBarIsOpen, setSideBarIsOpen] = useState(false);
@@ -62,36 +64,39 @@ export default function Navbar({ products, categories, users, cart }) {
         </div>
       )}
 
+      {/* <div> */}
       {/* Desktop */}
-      <div className="hidden w-full bg-white container px-8 py-4 lg:grid grid-cols-12 items-center">
-        <div className="col-span-2">
-          <LoadingLink href={"/"} className="flex items-center">
-            <div className="text-2xl font-bold uppercase">SAARI WALI</div>
-          </LoadingLink>
+
+      <div className="w-full bg-[#b11e44] container  py-4 hidden lg:grid grid-cols-12 items-center">
+        <div className="col-span-2 py-2 flex items-center">
+          <Link href={"/"} className="flex items-center   w-full">
+            <Image src={Logo} className="object-contain w-full" />
+          </Link>
         </div>
-        <div className="col-span-8 w-full relative pr-8">
-          <div className="flex justify-between p-2 text-xl">
+        <div className="col-span-8 w-full relative px-8">
+          <div className="flex justify-between items-center p-2 text-xl">
             {categories.map((category, index) => (
-              <div className="group flex flex-col items-center" key={index}>
-                <div>
-                  <LoadingLink href={`/category/${category.id}`}>
-                    {category.name}
-                  </LoadingLink>
+              <div className="group flex flex-col items-center " key={index}>
+                <div className="text-white group-hover:text-[#dcb06a] ">
+                  <Link href={`/category/${category.id}`}>{category.name}</Link>
                 </div>
                 <div
-                  className={`duration-300 w-0 group-hover:w-full rounded-full border-b-2 border-b-black`}
+                  className={`duration-300 w-0 group-hover:w-full rounded-full border-b-[1px] border-b-[#dcb06a]`}
                 ></div>
-                <div className="absolute z-50 group-hover:flex flex-col top-[2.4rem] left-0 w-full bg-white py-1 px-4 text-gray-800 shadow-xl hidden">
+                <div className="absolute z-50 group-hover:flex flex-col top-[2.4rem] left-0 w-full bg-[#b11e44] text-white py-1 px-4  shadow-xl hidden">
+                  {/* text-gray-800 */}
                   <DropdownMenu Fabrics={category.Fabric} />
                 </div>
               </div>
             ))}
-            <div className="group flex flex-col items-center">
-              <div>The Silk</div>
+            <div className="group flex flex-col items-center text-white">
+              <div className="text-white group-hover:text-[#dcb06a]">
+                The Silk
+              </div>
               <div
-                className={`duration-300 w-0 group-hover:w-full rounded-full border-b-2 border-b-black`}
+                className={`duration-300 w-0 group-hover:w-full rounded-full border-b-[1px] border-b-[#dcb06a]`}
               ></div>
-              <div className="absolute z-50 top-10 left-0 w-full bg-white pt-8 pb-4 px-4 text-gray-800 shadow-xl hidden group-hover:block">
+              <div className="absolute z-50 top-[2.4rem] left-0 w-full bg-white pt-8 pb-4 px-4 text-gray-800 shadow-xl hidden group-hover:block">
                 <h1>What is Silk?</h1>
                 <p>
                   The protein fiber of silk is composed mainly of fibroin and is
@@ -102,13 +107,23 @@ export default function Navbar({ products, categories, users, cart }) {
                 </p>
               </div>
             </div>
-            <div>Sales</div>
-            <div>Contact</div>
+            <div className="group flex flex-col items-center">
+              <div className="text-white hover:text-[#dcb06a]">Sales</div>
+              <div
+                className={`duration-300 w-0 group-hover:w-full rounded-full border-b-[1px] border-b-[#dcb06a]`}
+              ></div>
+            </div>
+            <div className="group flex flex-col items-center">
+              <div className="text-white hover:text-[#dcb06a]">Contact</div>
+              <div
+                className={`duration-300 w-0 group-hover:w-full rounded-full border-b-[1px] border-b-[#dcb06a]`}
+              ></div>
+            </div>
           </div>
         </div>
         <div className="col-span-2 justify-center flex gap-8 items-center">
           <div onClick={openSearchModal}>
-            <Search />
+            <Search className="text-white" />
           </div>
           <div>
             <Link href={"/order"}>
@@ -123,7 +138,7 @@ export default function Navbar({ products, categories, users, cart }) {
                     0
                   </p>
                 </div>
-                <Heart />
+                <Heart className="text-white" />
               </div>
             </Link>
           </div>
@@ -135,12 +150,102 @@ export default function Navbar({ products, categories, users, cart }) {
                     {user?.cartItems.length > 0 ? user?.cartItems.length : 0}
                   </p>
                 </div>
-                <ShoppingCart />
+                <ShoppingCart className="text-white" />
               </div>
             </Link>
           </div>
         </div>
       </div>
+
+      {/* <div className="w-full bg-[#b11e44] container py-4 hidden lg:grid grid-cols-12 items-center min-h-screen">
+        <div className="col-span-2 py-2 flex items-center">
+          <Link href={"/"} className="flex items-center w-full">
+
+            <Image src={Logo} className="object-contain w-full" />
+          </Link>
+        </div>
+        <div className="col-span-8 w-full relative px-8">
+          <div className="flex justify-between items-center p-2 text-xl">
+            {categories.map((category, index) => (
+              <div className="group flex flex-col items-center" key={index}>
+                <div className="text-white group-hover:text-[#dcb06a]">
+                  <Link href={`/category/${category.id}`}>{category.name}</Link>
+                </div>
+                <div
+                  className={`duration-300 w-0 group-hover:w-full rounded-full border-b-[1px] border-b-[#dcb06a]`}
+                ></div>
+                <div className="absolute z-50 group-hover:flex flex-col top-full left-0 w-full bg-white py-1 px-4 text-gray-800 shadow-xl hidden">
+                  <DropdownMenu Fabrics={category.Fabric} />
+                </div>
+              </div>
+            ))}
+            <div className="group flex flex-col items-center text-white">
+              <div className="text-white group-hover:text-[#dcb06a]">
+                The Silk
+              </div>
+              <div
+                className={`duration-300 w-0 group-hover:w-full rounded-full border-b-[1px] border-b-[#dcb06a]`}
+              ></div>
+              <div className="absolute z-50 top-full left-0 w-full bg-white pt-8 pb-4 px-4 text-gray-800 shadow-xl hidden group-hover:block">
+                <h1>What is Silk?</h1>
+                <p>
+                  The protein fiber of silk is composed mainly of fibroin and is
+                  produced by certain insect larvae to form cocoons. The
+                  best-known silk is obtained from the cocoons of the larvae of
+                  the mulberry silkworm Bombyx mori reared in captivity
+                  (sericulture).
+                </p>
+              </div>
+            </div>
+            <div className="group flex flex-col items-center">
+              <div className="text-white hover:text-[#dcb06a]">Sales</div>
+              <div
+                className={`duration-300 w-0 group-hover:w-full rounded-full border-b-[1px] border-b-[#dcb06a]`}
+              ></div>
+            </div>
+            <div className="group flex flex-col items-center">
+              <div className="text-white hover:text-[#dcb06a]">Contact</div>
+              <div
+                className={`duration-300 w-0 group-hover:w-full rounded-full border-b-[1px] border-b-[#dcb06a]`}
+              ></div>
+            </div>
+          </div>
+        </div>
+        <div className="col-span-2 justify-center flex gap-8 items-center">
+          <div onClick={openSearchModal}>
+            <Search className="text-white" />
+          </div>
+          <div>
+            <Link href={"/order"}>
+              <UserProfile />
+            </Link>
+          </div>
+          <div className="flex justify-center items-center">
+            <Link href={"/wishlist"}>
+              <div className="relative py-2">
+                <div className="-top-[1px] absolute left-3">
+                  <p className="flex h-2 w-2 items-center justify-center rounded-full bg-pink-500 p-2 text-sm text-white">
+                    0
+                  </p>
+                </div>
+                <Heart className="text-white" />
+              </div>
+            </Link>
+          </div>
+          <div className="flex justify-center items-center">
+            <Link href={"/cart"}>
+              <div className="relative py-2">
+                <div className="-top-[1px] absolute left-3">
+                  <p className="flex h-2 w-2 items-center justify-center rounded-full bg-pink-500 p-2 text-sm text-white">
+                    {user?.cartItems.length > 0 ? user?.cartItems.length : 0}
+                  </p>
+                </div>
+                <ShoppingCart className="text-white" />
+              </div>
+            </Link>
+          </div>
+        </div>
+      </div> */}
 
       {/* Mobile */}
       <div className="block lg:hidden ">
@@ -183,7 +288,7 @@ export default function Navbar({ products, categories, users, cart }) {
         </nav>
         <div
           className={cn(
-            "fixed w-64 mt-14 h-screen duration-700 bg-white md:mt-0 z-10 md:flex overflow-auto",
+            "fixed w-64 mt-14 h-screen duration-700 bg-white  z-10 md:flex overflow-auto",
             sideBarIsOpen ? "w-64" : "w-0"
           )}
         >
@@ -254,6 +359,7 @@ export default function Navbar({ products, categories, users, cart }) {
           </div>
         </div>
       </div>
+      {/* </div> */}
     </>
   );
 }

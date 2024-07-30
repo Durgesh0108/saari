@@ -19,6 +19,7 @@ const config = {
         "2xl": "1400px",
       },
     },
+
     extend: {
       colors: {
         border: "hsl(var(--border))",
@@ -54,6 +55,24 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+      },
+      fontFamily: {
+        rufina: [
+          "SF Pro Text",
+          "SF Pro Icons",
+          "Helvetica Neue",
+          "Helvetica",
+          "Arial",
+          "sans-serif",
+        ],
+        SFPRO: [
+          "SF Pro Text",
+          "SF Pro Icons",
+          "Helvetica Neue",
+          "Helvetica",
+          "Arial",
+          "sans-serif",
+        ],
       },
       borderRadius: {
         lg: "var(--radius)",
