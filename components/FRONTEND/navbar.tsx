@@ -53,8 +53,6 @@ export default function Navbar({ products, categories, users, cart }) {
   const closeSearchModal = () => setIsOpen(false);
   const toggleSideBar = () => setSideBarIsOpen((current) => !current);
 
-  console.log("navbar", user);
-
   return (
     <>
       <SearchModal isOpen={isOpen} onClose={closeSearchModal} />
@@ -73,12 +71,18 @@ export default function Navbar({ products, categories, users, cart }) {
             <Image src={Logo} className="object-contain w-full" />
           </Link>
         </div>
-        <div className="col-span-8 w-full relative px-8">
-          <div className="flex justify-between items-center p-2 text-xl">
+        <div className="col-span-8 w-full relative px-8 flex justify-center">
+          <div className="flex gap-8 items-center p-2 text-xl">
             {categories.map((category, index) => (
               <div className="group flex flex-col items-center " key={index}>
                 <div className="text-white group-hover:text-[#dcb06a] ">
-                  <Link href={`/category/${category.id}`}>{category.name}</Link>
+                  {/* <Link href={`/category/${category.id}`}>{category.name}</Link> */}
+                  <div
+                    onClick={() => router.push(`/category/${category.id}`)}
+                    className="cursor-pointer"
+                  >
+                    {category.name}
+                  </div>
                 </div>
                 <div
                   className={`duration-300 w-0 group-hover:w-full rounded-full border-b-[1px] border-b-[#dcb06a]`}
@@ -89,7 +93,7 @@ export default function Navbar({ products, categories, users, cart }) {
                 </div>
               </div>
             ))}
-            <div className="group flex flex-col items-center text-white">
+            <div className="group flex flex-col items-center text-white cursor-pointer">
               <div className="text-white group-hover:text-[#dcb06a]">
                 The Silk
               </div>
@@ -107,13 +111,13 @@ export default function Navbar({ products, categories, users, cart }) {
                 </p>
               </div>
             </div>
-            <div className="group flex flex-col items-center">
+            <div className="group flex flex-col items-center cursor-pointer">
               <div className="text-white hover:text-[#dcb06a]">Sales</div>
               <div
                 className={`duration-300 w-0 group-hover:w-full rounded-full border-b-[1px] border-b-[#dcb06a]`}
               ></div>
             </div>
-            <div className="group flex flex-col items-center">
+            <div className="group flex flex-col items-center cursor-pointer">
               <div className="text-white hover:text-[#dcb06a]">Contact</div>
               <div
                 className={`duration-300 w-0 group-hover:w-full rounded-full border-b-[1px] border-b-[#dcb06a]`}
@@ -121,7 +125,7 @@ export default function Navbar({ products, categories, users, cart }) {
             </div>
           </div>
         </div>
-        <div className="col-span-2 justify-center flex gap-8 items-center">
+        <div className="col-span-2 justify-end w-full flex gap-8 items-center">
           <div onClick={openSearchModal}>
             <Search className="text-white" />
           </div>

@@ -1005,7 +1005,9 @@ export default function CartPage() {
                   <div className="value">&#8377;{total.toFixed(2)}</div>
                 </div>
                 <Button
-                  onClick={() => handleCheckout(total)}
+                  // onClick={() => handleCheckout(total)}
+                  disabled={cartProducts.length === 0}
+                  onClick={() => router.push("/checkout")}
                   className=" w-full mt-5"
                 >
                   Checkout

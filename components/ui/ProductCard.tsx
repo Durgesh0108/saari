@@ -88,7 +88,7 @@ export default function ProductCard({ product }) {
         </div>
       </div>
       <div className="p-4">
-        <h3 className="text-xl font-semibold mb-2 capitalize">
+        <h3 className="text-xl font-semibold mb-2 capitalize line-clamp-3">
           {product.name}
         </h3>
         <p className={`text-gray-600 `}>&#8377; {product.price}</p>

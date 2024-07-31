@@ -333,6 +333,8 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { cn } from "@/lib/utils";
 import DescriptionTab from "./Description";
+import ProductListing from "@/components/ui/ProductListing";
+import ProductCard from "@/components/ui/ProductCard";
 
 export default function ProductInsightPage({
   product,
@@ -378,7 +380,7 @@ export default function ProductInsightPage({
   return (
     <div className="container mx-auto">
       {/* Product Images */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white rounded-xl border-[1px] border-pink-100 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 bg-white rounded-xl border-[1px] border-pink-100 mb-8">
         {/* <div className="w-full flex flex-col items-center p-4">
           <Tab.Group>
             <div className="w-full ">
@@ -435,9 +437,11 @@ export default function ProductInsightPage({
             </div>
           </Tab.Group>
         </div> */}
-        <div className="p-4">
+
+        {/* ************************ */}
+        {/* <div className="p-4">
           <Tab.Group>
-            <div className="flex flex-col md:flex-row">
+            <div className="flex flex-col-reverse md:flex-row">
               <Tab.List className="flex md:flex-col gap-4 md:gap-2 overflow-x-auto no-scrollbar md:overflow-y-auto md:h-full md:w-1/4">
                 {product?.images?.map((image, index) => (
                   <Tab
@@ -483,45 +487,56 @@ export default function ProductInsightPage({
               </Tab.Panels>
             </div>
           </Tab.Group>
-        </div>
+        </div> */}
 
-        {/* <div className="flex flex-col items-center">
+        {/* ************************ */}
+
+        <div className="p-4 md:p-6">
           <Tab.Group>
-            <Tab.Panels className="w-full h-96">
-              {product.images?.map((image, index) => (
-                <Tab.Panel key={index} className="h-full w-full">
-                  <Image
-                    src={image.url}
-                    width={1000}
-                    height={1}
-                    alt={product.name}
-                    className="object-contain h-full w-full"
-                    loading="lazy"
-                  />
-                </Tab.Panel>
-              ))}
-            </Tab.Panels>
-            <Tab.List className="flex gap-4 overflow-x-auto mt-2">
-              {product.images?.map((image, index) => (
-                <Tab key={index}>
-                  {({ selected }) => (
+            <div className="flex flex-col md:flex-row">
+              <Tab.List className="flex md:flex-col gap-4 md:gap-2 overflow-x-auto no-scrollbar md:overflow-y-auto md:h-full md:w-1/4">
+                {product?.images?.map((image, index) => (
+                  <Tab
+                    key={index}
+                    className={`
+              relative w-24 h-24 md:w-32 md:h-32 rounded-md overflow-hidden 
+              ${index === currentImageIndex ? "border-2 border-blue-500" : ""}
+              cursor-pointer transition-transform transform hover:scale-105
+            `}
+                    onClick={() => setCurrentImageIndex(index)}
+                  >
                     <Image
                       src={image.url}
-                      height={100}
-                      width={100}
-                      alt={"image"}
-                      loading="lazy"
-                      className={cn(
-                        "w-full h-full object-contain cursor-pointer",
-                        selected ? "border-blue-500 border-2" : ""
-                      )}
+                      alt={product.name}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 100px) 100vw, 100px"
                     />
-                  )}
-                </Tab>
-              ))}
-            </Tab.List>
+                  </Tab>
+                ))}
+              </Tab.List>
+              <Tab.Panels className="flex-1 h-full relative">
+                {product?.images?.map((image, index) => (
+                  <Tab.Panel
+                    key={index}
+                    className="h-full w-full flex items-center justify-center bg-gray-100 p-4"
+                  >
+                    <div className="relative w-full h-full">
+                      <Image
+                        src={image.url}
+                        width={1000}
+                        height={1000}
+                        alt={product.name}
+                        className="object-cover w-full h-full rounded-lg shadow-lg"
+                        sizes="100vw"
+                      />
+                    </div>
+                  </Tab.Panel>
+                ))}
+              </Tab.Panels>
+            </div>
           </Tab.Group>
-        </div> */}
+        </div>
 
         {/* Product Details */}
         <div className="flex flex-col gap-8 p-4">
@@ -690,131 +705,6 @@ export default function ProductInsightPage({
         </div>
 
         <DescriptionTab product={product} />
-        {/* <div className="w-full  h-full grid grid-cols-8 ">
-          <div className="col-span-8 ">
-            <div className="mb-8">
-              <p className="text-gray-600 mb-4">
-                Handloom pista green pure kanjeevaram silk saree has golden
-                butti upper side and butti with checks on the lower side with
-                rama green-red border. Intricate rama green pallu and running
-                plain rama green blouse piece with border.
-              </p>
-              <p className="text-gray-600">
-                This beautiful kanjeevaram saree can be a pride possession for
-                you. Kanjeevaram has a special traditional and cultural
-                significance.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="w-full  h-full grid grid-cols-8 ">
-          <div className="col-span-8 ">
-            <div className="flex flex-col gap-2">
-              <div className="text-xl">
-                <span className="font-medium text-gray-800">Saree Color: </span>
-                <span>Pista Green</span>
-              </div>
-              <div className="text-xl">
-                <span className="font-medium text-gray-800">Fabric: </span>
-                <span>Pure Silk</span>
-              </div>
-              <div className="text-xl">
-                <span className="font-medium text-gray-800">Wash Care: </span>
-                <span>Dry clean only</span>
-              </div>
-              <div className="text-xl">
-                <span className="font-medium text-gray-800">Occasion: </span>
-                <span>Traditional Wear/ Special Wear</span>
-              </div>
-              <div className="text-xl">
-                <span className="font-medium text-gray-800">Note: </span>
-                <span>
-                  Product color may slightly vary due to photographic lighting
-                  sources or your monitor settings.
-                </span>
-              </div>
-            </div>
-            <div className="mt-8">
-              <h2 className="text-xl font-semibold text-gray-800 mb-2">
-                Saree measurements
-              </h2>
-              <div className="grid gap-2">
-                <div className="text-xl">
-                  <span className="font-medium text-gray-800">Length: </span>
-                  <span>5.24 meter</span>
-                </div>
-                <div className="text-xl">
-                  <span className="font-medium text-gray-800">Height: </span>
-                  <span>47 inches</span>
-                </div>
-                <div className="text-xl">
-                  <span className="font-medium text-gray-800">
-                    Blouse piece:{" "}
-                  </span>
-                  <span>85 centimeters</span>
-                </div>
-              </div>
-            </div>
-            <div className="mt-8">
-              <h2 className="text-xl font-semibold text-gray-800 mb-2">
-                Instructions
-              </h2>
-              <p className="text-gray-600">
-                We strive to capture photographs that are as authentic as
-                possible, no filters or other special effects are used. However,
-                colours may differ depending on the screen resolution used to
-                access the product.
-              </p>
-            </div>
-            <div className="mt-8">
-              <h2 className="text-xl font-semibold text-gray-800 mb-2">
-                Shipping & Returns
-              </h2>
-              <ul className="list-disc list-inside text-gray-600">
-                <li>
-                  Kindly note that within India we share the bill and tracking
-                  information 24hrs after the goods are shipped, and after about
-                  72 hrs if its shipped Internationally.
-                </li>
-                <li>
-                  Within India, you would receive the shipment within a week
-                  after dispatched, 10 to 15 days outside India.
-                </li>
-                <li>
-                  Please do not accept the courier if the package is torn or not
-                  in good condition.
-                </li>
-                <li>
-                  You may relax knowing that your product has passed all the
-                  quality check procedures. Please be aware that we do not
-                  accept returns and exchanges.
-                </li>
-              </ul>
-            </div>
-            <div className="mt-8">
-              <h2 className="text-xl font-semibold text-gray-800 mb-2">
-                Care Instructions
-              </h2>
-              <p className="text-gray-600">We would suggest dry clean only.</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="w-full  h-full grid grid-cols-8 ">
-          <div className="col-span-8 ">
-            <div className="grid grid-cols-2">
-              {product?.description?.map((desc, index) => (
-                <div className="w-full grid grid-cols-2  " key={index}>
-                  <p className=" p-4 text-xl font-medium">{desc.key}:</p>
-                  <p className=" p-4 bg-[#fdf6ee] text-xl font-medium">
-                    {desc.value}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div> */}
       </div>
 
       {/* Explore More Sections */}
@@ -831,10 +721,10 @@ export default function ProductInsightPage({
             View More
           </Link>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {Colorproduct.slice(0, 4).map((product, index) => (
             <Link key={index} href={`/product/${product.id}`}>
-              <div className="group">
+              {/* <div className="group">
                 <div className="group-hover:scale-105 duration-700 rounded-lg overflow-hidden relative h-80">
                   <Image
                     src={product.images[0].url}
@@ -853,9 +743,11 @@ export default function ProductInsightPage({
                     &#8377; {product.price}
                   </p>
                 </div>
-              </div>
+              </div> */}
+              <ProductCard product={product} />
             </Link>
           ))}
+          {/* <ProductListing products={Colorproduct} /> */}
         </div>
       </div>
 
@@ -872,10 +764,10 @@ export default function ProductInsightPage({
             View More
           </Link>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {Categoryproduct.slice(0, 4).map((product, index) => (
             <Link key={index} href={`/product/${product.id}`}>
-              <div className="group">
+              {/* <div className="group">
                 <div className="group-hover:scale-105 duration-700 rounded-lg overflow-hidden relative h-80">
                   <Image
                     src={product.images[0].url}
@@ -894,7 +786,8 @@ export default function ProductInsightPage({
                     &#8377; {product.price}
                   </p>
                 </div>
-              </div>
+              </div> */}
+              <ProductCard product={product} />
             </Link>
           ))}
         </div>
@@ -913,10 +806,10 @@ export default function ProductInsightPage({
             View More
           </Link>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {Occassionproduct.slice(0, 4).map((product, index) => (
             <Link key={index} href={`/product/${product.id}`}>
-              <div className="group">
+              {/* <div className="group">
                 <div className="group-hover:scale-105 duration-700 rounded-lg overflow-hidden relative h-80">
                   <Image
                     src={product.images[0].url}
@@ -935,7 +828,8 @@ export default function ProductInsightPage({
                     &#8377; {product.price}
                   </p>
                 </div>
-              </div>
+              </div> */}
+              <ProductCard product={product} />
             </Link>
           ))}
         </div>

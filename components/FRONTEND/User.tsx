@@ -35,7 +35,7 @@ export default function UserProfile() {
       <Popover>
         <PopoverTrigger>
           {/* <div className="border-[1px] border-[#a6a8a8] rounded-full p-[3px]"> */}
-          <User className="w-4 h-4 lg:w-6 lg:h-6 text-white" />
+          <User className="w-4 h-4 lg:w-6 lg:h-6 lg:text-white" />
           {/* </div> */}
           {/* <User color="#a6a8a8" className="w-4 h-4"/> */}
         </PopoverTrigger>
