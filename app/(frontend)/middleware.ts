@@ -61,24 +61,24 @@ export const useFrontAuthMiddleware = async () => {
       return;
     }
 
-    if (decoded) {
-      const { userId } = decoded;
-      const fetchUser = async () => {
-        const user = await GetUser(userId);
-        if (user) {
-          cookieHandler.set("userId", user.id);
-          cookieHandler.set("user", user.name);
-          cookieHandler.set("role", user.role);
-          if (pathname.startsWith("/admin")) {
-            // If the path starts with '/admin', check user role
-            if (user.role !== "admin") {
-              // Redirect to admin login if user is not admin
-              router.push("/admin/authentication/login");
-            }
-          }
-        }
-      };
-      fetchUser();
-    }
+    // if (decoded) {
+    //   const { userId } = decoded;
+    //   const fetchUser = async () => {
+    //     const user = await GetUser(userId);
+    //     if (user) {
+    //       cookieHandler.set("userId", user.id);
+    //       cookieHandler.set("user", user.name);
+    //       cookieHandler.set("role", user.role);
+    //       if (pathname.startsWith("/admin")) {
+    //         // If the path starts with '/admin', check user role
+    //         if (user.role !== "admin") {
+    //           // Redirect to admin login if user is not admin
+    //           router.push("/admin/authentication/login");
+    //         }
+    //       }
+    //     }
+    //   };
+    //   fetchUser();
+    // }
   }, [pathname, router]);
 };

@@ -256,7 +256,9 @@ const DescriptionTab = ({ product }) => {
           className={`cursor-pointer p-2 hover:text-pink-500 font-bold ${
             selectedCategory === 1 ? "text-pink-500" : ""
           }`}
-          onClick={() => setSelectedCategory(1)}
+          // onClick={() => setSelectedCategory(1)}
+          onMouseEnter={() => setSelectedCategory(1)}
+          onMouseLeave={() => setSelectedCategory(selectedCategory)}
         >
           Product Specs
         </div>
@@ -264,7 +266,9 @@ const DescriptionTab = ({ product }) => {
           className={`cursor-pointer p-2 hover:text-pink-500 font-bold ${
             selectedCategory === 2 ? "text-pink-500" : ""
           }`}
-          onClick={() => setSelectedCategory(2)}
+          // onClick={() => setSelectedCategory(2)}
+          onMouseEnter={() => setSelectedCategory(2)}
+          onMouseLeave={() => setSelectedCategory(selectedCategory)}
         >
           Description
         </div>
@@ -272,7 +276,9 @@ const DescriptionTab = ({ product }) => {
           className={`cursor-pointer p-2 hover:text-pink-500 font-bold ${
             selectedCategory === 3 ? "text-pink-500" : ""
           }`}
-          onClick={() => setSelectedCategory(3)}
+          // onClick={() => setSelectedCategory(3)}
+          onMouseEnter={() => setSelectedCategory(3)}
+          onMouseLeave={() => setSelectedCategory(selectedCategory)}
         >
           More
         </div>

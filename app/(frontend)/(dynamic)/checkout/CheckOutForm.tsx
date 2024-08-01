@@ -1,354 +1,4 @@
-// "use client";
-
-// import React, { useEffect, useState } from "react";
-// import { Button } from "@/components/ui/button";
-// import {
-//   Form,
-//   FormControl,
-//   FormField,
-//   FormItem,
-//   FormLabel,
-//   FormMessage,
-// } from "@/components/ui/form";
-// import { Input } from "@/components/ui/input";
-// import { useForm } from "react-hook-form";
-// import * as z from "zod";
-// import { zodResolver } from "@hookform/resolvers/zod";
-// import axios from "axios";
-// import { toast } from "react-hot-toast";
-// import { useRouter } from "next/navigation";
-// import { cookieHandler } from "@/lib/cookieHandler";
-
-// const formSchema = z.object({
-//   billing_address_1: z.string().min(2, "It is required"),
-//   billing_address_2: z.string().min(2, "It is required"),
-//   billing_city: z.string().min(2, "It is required"),
-//   billing_pincode: z.string().min(2, "It is required"),
-//   billing_state: z.string().min(2, "It is required"),
-//   billing_country: z.string().min(2, "It is required"),
-// });
-
-// type CheckOutFormValues = z.infer<typeof formSchema>;
-
-// export default function CheckOutForm() {
-//   const router = useRouter();
-//   const [loading, setLoading] = useState(false);
-
-//   const [cartProducts, setCartProducts] = useState([]);
-//   const [quantities, setQuantities] = useState({});
-//   const [subtotal, setSubtotal] = useState(0);
-//   const [shipping, setShipping] = useState(0);
-//   const [discount, setDiscount] = useState(0);
-//   const [total, setTotal] = useState(0);
-//   const [paymentError, setPaymentError] = useState("");
-
-//   const userId = cookieHandler.get("userId");
-
-//   useEffect(() => {
-//     const fetchCartProducts = async () => {
-//       const productRes = await fetch(`/api/cart/${userId}`);
-//       const products = await productRes.json();
-//       setCartProducts(products);
-
-//       // Initialize quantities
-
-//       const initialQuantities = {};
-//       products.forEach((product) => {
-//         initialQuantities[product.id] = product.quantity; // Use the quantity from the cart
-//       });
-//       setQuantities(initialQuantities);
-
-//       // Calculate totals based on initial quantities
-//       calculateTotals(products, initialQuantities);
-
-//       // const initialQuantities = {};
-//       // products.forEach((product) => {
-//       //   initialQuantities[product.id] = 1; // Default quantity is 1
-//       // });
-//       // setQuantities(initialQuantities);
-//       // calculateTotals(products, initialQuantities);
-//     };
-//     fetchCartProducts();
-//   }, [userId]);
-
-//   const calculateTotals = (products, quantities) => {
-//     const subtotal = products.reduce((acc, product) => {
-//       return acc + product.price * (quantities[product.id] || 1);
-//     }, 0);
-
-//     setSubtotal(subtotal);
-//     setTotal(subtotal + shipping - discount);
-//   };
-
-//   const form = useForm<CheckOutFormValues>({
-//     resolver: zodResolver(formSchema),
-//     defaultValues: {
-//       billing_address_1: "",
-//       billing_address_2: "",
-//       billing_city: "",
-//       billing_pincode: "",
-//       billing_state: "",
-//       billing_country: "",
-//     },
-//   });
-
-//   const handleCheckout = async (amount: number) => {
-//     try {
-//       const order = await axios.post("/api/razorpay/checkout", {
-//         amount,
-//       });
-
-//       const options = {
-//         key: "rzp_test_YZpzzVOx04hiuJ",
-//         name: "Probiz5",
-//         currency: order.data.currency, // Fix typo here
-//         amount: order.data.amount,
-//         order_id: order.data.id,
-//         description: "Understanding RazorPay Integration",
-//         image:
-//           "https://res.cloudinary.com/dttieobbt/image/upload/v1714651240/Probiz5_fevicon_01_dwtfxa.png",
-//         // "https://res.cloudinary.com/dttieobbt/image/upload/v1711453976/flf6aizdhi9m8asgtjmg.png",
-
-//         //   @ts-ignore
-//         handler: async function (response) {
-//           // if (response.length==0) return <Loading/>;
-
-//           const data = await fetch("/api/razorpay/paymentVerification", {
-//             method: "POST",
-//             // headers: {
-//             //   // Authorization: 'YOUR_AUTH_HERE'
-//             // },
-//             body: JSON.stringify({
-//               razorpay_payment_id: response.razorpay_payment_id,
-//               razorpay_order_id: response.razorpay_order_id,
-//               razorpay_signature: response.razorpay_signature,
-//               userId: userId,
-//             }),
-//           });
-
-//           const res = await data.json();
-
-//           if (res.data) {
-//             toast.success("Thank You");
-//             setCartProducts([]);
-//             // await handleSubmit(form.getValues(), extra);
-//           } else {
-//             toast.error("Payment Failed");
-//           }
-//         },
-//         // prefill: {
-//         //   name: "Durgesh Prajapati",
-//         //   email: "prajapatidurgesh1518@gmail.com",
-//         //   contact: "9653320535",
-//         // },
-//       };
-
-//       // const paymentObject = new razorpayInstance(options); // Fix here
-//       // @ts-ignore
-//       const paymentObject = window.Razorpay(options); // Fix here
-//       paymentObject.open();
-
-//       paymentObject.on("payment.failed", function (response) {
-//         toast.error(
-//           "Payment failed. Please try again. Contact support for help"
-//         );
-//       });
-//     } catch (error) {
-//       // Handle any errors that occur during the payment process
-//       console.error("Payment error:", error);
-//       // Show an error message to the user
-//       toast.error("An error occurred during payment. Please try again later.");
-//     }
-//   };
-
-//   const handleSubmit = async (values: CheckOutFormValues) => {
-//     console.log(form.getValues());
-
-//     try {
-//       //   setLoading(true);
-
-//       const response = await axios.post(`/api/website/product`, values);
-//       toast.success("Product Added Successfully");
-//       router.push(`/admin/website/product/${response.data.id}`);
-//     } catch (error: any) {
-//       console.log(error);
-//       toast.error("Something went wrong");
-//     }
-//   };
-//   return (
-//     <div>
-//       <Form {...form}>
-//         <form
-//           onSubmit={form.handleSubmit(handleSubmit)}
-//           className="space-y-4 w-full"
-//         >
-//           <div className="md:grid gap-8">
-//             <FormField
-//               control={form.control}
-//               name="billing_address_1"
-//               render={({ field }) => (
-//                 <FormItem>
-//                   <FormLabel>Billing Address 1</FormLabel>
-//                   <FormControl>
-//                     <Input
-//                       disabled={loading}
-//                       placeholder="Billing Address 1"
-//                       {...field}
-//                     />
-//                   </FormControl>
-//                   <FormMessage />
-//                 </FormItem>
-//               )}
-//             />
-//           </div>
-//           <div className="md:grid gap-8">
-//             <FormField
-//               control={form.control}
-//               name="billing_address_2"
-//               render={({ field }) => (
-//                 <FormItem>
-//                   <FormLabel>Billing Address 2</FormLabel>
-//                   <FormControl>
-//                     <Input
-//                       disabled={loading}
-//                       placeholder="Billing Address 2"
-//                       {...field}
-//                     />
-//                   </FormControl>
-//                   <FormMessage />
-//                 </FormItem>
-//               )}
-//             />
-//           </div>
-//           <div className="md:grid gap-8">
-//             <FormField
-//               control={form.control}
-//               name="billing_city"
-//               render={({ field }) => (
-//                 <FormItem>
-//                   <FormLabel>City</FormLabel>
-//                   <FormControl>
-//                     <Input disabled={loading} placeholder="City" {...field} />
-//                   </FormControl>
-//                   <FormMessage />
-//                 </FormItem>
-//               )}
-//             />
-//           </div>
-//           <div className="md:grid gap-8">
-//             <FormField
-//               control={form.control}
-//               name="billing_pincode"
-//               render={({ field }) => (
-//                 <FormItem>
-//                   <FormLabel>Pincode</FormLabel>
-//                   <FormControl>
-//                     <Input
-//                       disabled={loading}
-//                       placeholder="Pincode"
-//                       {...field}
-//                     />
-//                   </FormControl>
-//                   <FormMessage />
-//                 </FormItem>
-//               )}
-//             />
-//           </div>
-//           <div className="md:grid gap-8">
-//             <FormField
-//               control={form.control}
-//               name="billing_state"
-//               render={({ field }) => (
-//                 <FormItem>
-//                   <FormLabel>State</FormLabel>
-//                   <FormControl>
-//                     <Input disabled={loading} placeholder="State" {...field} />
-//                   </FormControl>
-//                   <FormMessage />
-//                 </FormItem>
-//               )}
-//             />
-//           </div>
-//           <div className="md:grid gap-8">
-//             <FormField
-//               control={form.control}
-//               name="billing_country"
-//               render={({ field }) => (
-//                 <FormItem>
-//                   <FormLabel>Country</FormLabel>
-//                   <FormControl>
-//                     <Input
-//                       disabled={loading}
-//                       placeholder="Country"
-//                       {...field}
-//                     />
-//                   </FormControl>
-//                   <FormMessage />
-//                 </FormItem>
-//               )}
-//             />
-//           </div>
-
-//           <div className="xl:w-1/3 xl:pl-12 w-full mt-7">
-//             <div className="checkout-block bg-surface p-6 rounded-2xl">
-//               <div className="heading">Order Summary</div>
-//               <div className="list-price">
-//                 <div className="item flex justify-between mt-5">
-//                   <div className="name">Subtotal</div>
-//                   <div className="value">&#8377;{subtotal.toFixed(2)}</div>
-//                 </div>
-//                 {/* <div className="item flex justify-between mt-3">
-//                     <div className="name">Shipping</div>
-//                     <select
-//                       onChange={handleShippingChange}
-//                       className="value"
-//                       defaultValue={shipping}
-//                     >
-//                       <option value="0">Free</option>
-//                       <option value="5">Standard: &#8377;5.00</option>
-//                       <option value="10">Express: &#8377;10.00</option>
-//                     </select>
-//                   </div>
-//                   <div className="item flex justify-between mt-3">
-//                     <div className="name">Discount</div>
-//                     <div className="value">-&#8377;{discount.toFixed(2)}</div>
-//                   </div> */}
-//               </div>
-//               <div className="item flex justify-between mt-3">
-//                 <div className="name">Total</div>
-//                 <div className="value">&#8377;{total.toFixed(2)}</div>
-//               </div>
-//               <Button
-//                 onClick={() => handleCheckout(total)}
-//                 className=" w-full mt-5"
-//               >
-//                 Checkout
-//               </Button>
-//               {paymentError && (
-//                 <div className="text-red-500 mt-3">{paymentError}</div>
-//               )}
-//             </div>
-//           </div>
-
-//           <div className="flex justify-end">
-//             <div className="flex gap-2">
-//               <Button
-//                 disabled={loading}
-//                 className="ml-auto"
-//                 type="submit"
-//                 variant={"success"}
-//               >
-//                 Pay Now
-//               </Button>
-//             </div>
-//           </div>
-//         </form>
-//       </Form>
-//     </div>
-//   );
-// }
-
-// @ts-nocheck      
+// @ts-nocheck
 
 "use client";
 
@@ -372,7 +22,7 @@ import { useRouter } from "next/navigation";
 import { cookieHandler } from "@/lib/cookieHandler";
 
 const formSchema = z.object({
-  billing_address_1: z.string().min(2, "It is required"),
+  billing_address: z.string().min(2, "It is required"),
   billing_address_2: z.string().min(2, "It is required"),
   billing_city: z.string().min(2, "It is required"),
   billing_pincode: z.string().min(2, "It is required"),
@@ -382,9 +32,10 @@ const formSchema = z.object({
 
 type CheckOutFormValues = z.infer<typeof formSchema>;
 
-export default function CheckOutForm() {
+export default function CheckOutForm({ users }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState([]);
 
   const [cartProducts, setCartProducts] = useState([]);
   const [quantities, setQuantities] = useState({});
@@ -397,21 +48,29 @@ export default function CheckOutForm() {
   const userId = cookieHandler.get("userId");
 
   useEffect(() => {
-    const fetchCartProducts = async () => {
-      const productRes = await fetch(`/api/cart/${userId}`);
-      const products = await productRes.json();
-      setCartProducts(products);
+    const currentUser = users.find((user) => user.id === userId);
+    setUser(currentUser);
+  }, [users, userId]);
+
+  useEffect(() => {
+    if (user && user.cartItems) {
+      const cartProducts = user.cartItems.map((cartItem) => ({
+        ...cartItem.product,
+        quantity: cartItem.quantity,
+      }));
+      setCartProducts(cartProducts);
 
       const initialQuantities = {};
-      products.forEach((product) => {
+      cartProducts.forEach((product) => {
         initialQuantities[product.id] = product.quantity;
       });
       setQuantities(initialQuantities);
 
-      calculateTotals(products, initialQuantities);
-    };
-    fetchCartProducts();
-  }, [userId]);
+      calculateTotals(cartProducts, initialQuantities);
+    }
+  }, [user]);
+
+  console.log("currentUser", user);
 
   const calculateTotals = (products, quantities) => {
     const subtotal = products.reduce((acc, product) => {
@@ -425,12 +84,16 @@ export default function CheckOutForm() {
   const form = useForm<CheckOutFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      billing_address_1: "",
+      billing_address: "",
       billing_address_2: "",
       billing_city: "",
       billing_pincode: "",
       billing_state: "",
       billing_country: "",
+      billing_customer_name: user.name || "",
+      billing_last_name: user.lastName || "",
+      billing_email: user.email || "",
+      billing_phone: user?.phone || "",
     },
   });
 
@@ -457,15 +120,36 @@ export default function CheckOutForm() {
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_order_id: response.razorpay_order_id,
               razorpay_signature: response.razorpay_signature,
-              userId: userId,
+              userId: user.id,
             }),
           });
 
           const res = await data.json();
 
           if (res.data) {
-            toast.success("Thank You");
-            setCartProducts([]);
+            await handleSubmit(form.getValues(), {
+              order_id: res.order.id,
+              order_date: res.order.createdAt,
+              billing_customer_name: user.name,
+              billing_last_name: user?.lastName || "Prajapati",
+              billing_email: user.email,
+              billing_phone: user?.phone || "9876543210",
+              shipping_is_billing: true,
+              order_items: [
+                cartProducts.map((product) => ({
+                  name: product.name,
+                  sku: "123456",
+                  units: product.quantity,
+                  selling_price: product.price,
+                })),
+              ],
+              payment_method: "Prepaid",
+              sub_total: total,
+              length: 10,
+              breadth: 15,
+              height: 20,
+              weight: 2.5,
+            });
           } else {
             toast.error("Payment Failed");
           }
@@ -486,17 +170,81 @@ export default function CheckOutForm() {
     }
   };
 
-  const handleSubmit = async (values: CheckOutFormValues) => {
+  const handleSubmit = async (values: CheckOutFormValues, extra) => {
+    const data = {
+      ...values,
+      ...extra,
+      order_items: cartProducts.map((item, index) => ({
+        name: item.name,
+        sku: item?.sku || `Kaushanee-${index}`,
+        units: item.quantity,
+        selling_price: item.price,
+        discount: 0, // Add other fields as needed
+        tax: "",
+        hsn: "",
+      })),
+    };
 
-        console.log({values, userName: user})
-    // try {
-    // //   const response = await axios.post(`/api/website/product`, values);
-    // //   toast.success("Product Added Successfully");
-    // //   router.push(`/admin/website/product/${response.data.id}`);
-    // } catch (error: any) {
-    //   console.log(error);
-    //   toast.error("Something went wrong");
-    // }
+    const raw = JSON.stringify({
+      order_id: data.order_id,
+      order_date: data.order_date,
+      billing_customer_name: data.billing_customer_name,
+      billing_last_name: data.billing_last_name,
+      billing_address: data.billing_address,
+      billing_address_2: data.billing_address_2,
+      billing_city: data.billing_city,
+      billing_pincode: data.billing_pincode,
+      billing_state: data.billing_state,
+      billing_country: data.billing_country,
+      billing_email: data.billing_email,
+      billing_phone: data.billing_phone,
+      shipping_is_billing: true,
+      order_items: data.order_items,
+      payment_method: data.payment_method,
+      sub_total: data.sub_total,
+      length: data.length,
+      breadth: data.breadth,
+      height: data.height,
+      weight: data.weight,
+    });
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append(
+      "Authorization",
+      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQ3Nzg4MDIsInNvdXJjZSI6InNyLWF1dGgtaW50IiwiZXhwIjoxNzIzMzcwMDM4LCJqdGkiOiI4RjFoalV1a1pMQURJZ3JhIiwiaWF0IjoxNzIyNTA2MDM4LCJpc3MiOiJodHRwczovL3NyLWF1dGguc2hpcHJvY2tldC5pbi9hdXRob3JpemUvdXNlciIsIm5iZiI6MTcyMjUwNjAzOCwiY2lkIjo0MzgxMzg5LCJ0YyI6MzYwLCJ2ZXJib3NlIjpmYWxzZSwidmVuZG9yX2lkIjowLCJ2ZW5kb3JfY29kZSI6IiJ9.wQFQBvO-QInCfki2TDcJtCgX6HOtXrAQTUzNs5TOrzA"
+    );
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    try {
+      const response = await fetch(
+        "https://apiv2.shiprocket.in/v1/external/orders/create/adhoc",
+        requestOptions
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Error Response:", errorData);
+        toast.error(`Error: ${errorData.message || "Something went wrong"}`);
+        return;
+      }
+
+      const result = await response.json();
+      console.log("Response:", result);
+
+      toast.success("Thank You For Purchasing");
+      setCartProducts([]);
+      router.push("/");
+    } catch (error) {
+      console.error("Fetch Error:", error);
+      toast.error("Something went wrong");
+    }
   };
 
   return (
@@ -507,16 +255,87 @@ export default function CheckOutForm() {
           className="space-y-4 w-full"
         >
           <div className="grid gap-6 md:grid-cols-2">
-            <FormField
+          <FormField
               control={form.control}
-              name="billing_address_1"
+              name="bill"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Billing Address 1</FormLabel>
+                  <FormLabel>Billing Address</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Billing Address 1"
+                      placeholder="Billing Address"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="billing_address"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Billing Address</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={loading}
+                      placeholder="Billing Address"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="billing_address"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Billing Address</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={loading}
+                      placeholder="Billing Address"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="billing_address"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Billing Address</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={loading}
+                      placeholder="Billing Address"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+
+
+            <FormField
+              control={form.control}
+              name="billing_address"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Billing Address</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={loading}
+                      placeholder="Billing Address"
                       {...field}
                     />
                   </FormControl>
@@ -633,10 +452,11 @@ export default function CheckOutForm() {
                 </div>
               </div>
               <Button
+                disabled={!total}
                 onClick={() => handleCheckout(total)}
                 className="w-full mt-5 bg-blue-600 hover:bg-blue-700 text-white"
               >
-                Checkout
+                Pay
               </Button>
               {paymentError && (
                 <div className="text-red-500 mt-3">{paymentError}</div>
