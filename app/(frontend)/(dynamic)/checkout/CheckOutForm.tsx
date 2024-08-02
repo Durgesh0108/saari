@@ -22,12 +22,20 @@ import { useRouter } from "next/navigation";
 import { cookieHandler } from "@/lib/cookieHandler";
 
 const formSchema = z.object({
-  billing_address: z.string().min(2, "It is required"),
-  billing_address_2: z.string().min(2, "It is required"),
-  billing_city: z.string().min(2, "It is required"),
-  billing_pincode: z.string().min(2, "It is required"),
-  billing_state: z.string().min(2, "It is required"),
-  billing_country: z.string().min(2, "It is required"),
+  billing_address: z.string().min(2, "Address is required"),
+  billing_address_2: z.string().min(2, "Address 2 is required").optional(),
+  billing_city: z.string().min(2, "City is required"),
+  billing_pincode: z.string().min(2, "Pincode is required"),
+  billing_state: z.string().min(2, "State is required"),
+  billing_country: z.string().min(2, "Country is required"),
+
+  billing_customer_name: z.string().min(2, "Name is Required"),
+  billing_last_name: z.string().min(2, "Last Name is Required"),
+  billing_email: z.string().email().min(2, "Email is Required"),
+  billing_phone: z
+    .string()
+    .min(10, "Phone Number Should be Atleast 10 Numbers")
+    .max(10, "Phone Number Should be Only 10 Numbers"),
 });
 
 type CheckOutFormValues = z.infer<typeof formSchema>;
@@ -70,8 +78,6 @@ export default function CheckOutForm({ users }) {
     }
   }, [user]);
 
-  console.log("currentUser", user);
-
   const calculateTotals = (products, quantities) => {
     const subtotal = products.reduce((acc, product) => {
       return acc + product.price * (quantities[product.id] || 1);
@@ -80,6 +86,8 @@ export default function CheckOutForm({ users }) {
     setSubtotal(subtotal);
     setTotal(subtotal + shipping - discount);
   };
+
+  console.log("user", user);
 
   const form = useForm<CheckOutFormValues>({
     resolver: zodResolver(formSchema),
@@ -90,9 +98,9 @@ export default function CheckOutForm({ users }) {
       billing_pincode: "",
       billing_state: "",
       billing_country: "",
-      billing_customer_name: user.name || "",
-      billing_last_name: user.lastName || "",
-      billing_email: user.email || "",
+      billing_customer_name: user?.name || "",
+      billing_last_name: user?.lastName || "",
+      billing_email: user?.email || "",
       billing_phone: user?.phone || "",
     },
   });
@@ -130,10 +138,10 @@ export default function CheckOutForm({ users }) {
             await handleSubmit(form.getValues(), {
               order_id: res.order.id,
               order_date: res.order.createdAt,
-              billing_customer_name: user.name,
-              billing_last_name: user?.lastName || "Prajapati",
-              billing_email: user.email,
-              billing_phone: user?.phone || "9876543210",
+              // billing_customer_name: user.name,
+              // billing_last_name: user?.lastName || "Prajapati",
+              // billing_email: user.email,
+              // billing_phone: user?.phone || "9876543210",
               shipping_is_billing: true,
               order_items: [
                 cartProducts.map((product) => ({
@@ -208,12 +216,19 @@ export default function CheckOutForm({ users }) {
       weight: data.weight,
     });
 
+    const login = await axios.post(
+      "https://apiv2.shiprocket.in/v1/external/auth/login",
+      {
+        email: "prajapati@gmail.com",
+        password: "Durgesh@1518",
+      }
+    );
+
+    const token = login.data.token;
+
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-    myHeaders.append(
-      "Authorization",
-      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQ3Nzg4MDIsInNvdXJjZSI6InNyLWF1dGgtaW50IiwiZXhwIjoxNzIzMzcwMDM4LCJqdGkiOiI4RjFoalV1a1pMQURJZ3JhIiwiaWF0IjoxNzIyNTA2MDM4LCJpc3MiOiJodHRwczovL3NyLWF1dGguc2hpcHJvY2tldC5pbi9hdXRob3JpemUvdXNlciIsIm5iZiI6MTcyMjUwNjAzOCwiY2lkIjo0MzgxMzg5LCJ0YyI6MzYwLCJ2ZXJib3NlIjpmYWxzZSwidmVuZG9yX2lkIjowLCJ2ZW5kb3JfY29kZSI6IiJ9.wQFQBvO-QInCfki2TDcJtCgX6HOtXrAQTUzNs5TOrzA"
-    );
+    myHeaders.append("Authorization", `Bearer ${token}`);
 
     var requestOptions = {
       method: "POST",
@@ -240,6 +255,43 @@ export default function CheckOutForm({ users }) {
 
       toast.success("Thank You For Purchasing");
       setCartProducts([]);
+
+      const orderInvoice = {
+        userId: user.id,
+        name: values.billing_customer_name,
+        last_name: values.billing_last_name,
+        phone: values.billing_phone,
+        email: values.billing_email,
+        order_id: result.order_id,
+        amount: extra.sub_total,
+        billing_address: `${values.billing_address}\n${values.billing_address_2}\n${values.billing_city},${values.billing_state}\n${values.billing_country},${values.billing_pincode}`,
+        items: cartProducts.map((item, index) => ({
+          name: item.name,
+          units: item.quantity,
+          rate: item.price,
+          discount: 0, // Add other fields as needed
+          subtotal: item.quantity * item.price,
+        })),
+      };
+
+      await fetch("/api/generateInvoice/order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: orderInvoice.userId,
+          billing_address: orderInvoice.billing_address,
+          order_id: orderInvoice.order_id,
+          amount: orderInvoice.amount,
+          items: orderInvoice.items,
+          discount: 0,
+          name: orderInvoice.name,
+          last_name: orderInvoice.last_name,
+          phone: orderInvoice.phone,
+          email: orderInvoice.email,
+        }),
+      });
       router.push("/");
     } catch (error) {
       console.error("Fetch Error:", error);
@@ -255,16 +307,16 @@ export default function CheckOutForm({ users }) {
           className="space-y-4 w-full"
         >
           <div className="grid gap-6 md:grid-cols-2">
-          <FormField
+            <FormField
               control={form.control}
-              name="bill"
+              name="billing_customer_name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Billing Address</FormLabel>
+                  <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Billing Address"
+                      placeholder="Customer Name"
                       {...field}
                     />
                   </FormControl>
@@ -274,14 +326,14 @@ export default function CheckOutForm({ users }) {
             />
             <FormField
               control={form.control}
-              name="billing_address"
+              name="billing_last_name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Billing Address</FormLabel>
+                  <FormLabel>Last Name</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Billing Address"
+                      placeholder="Customer Last Name"
                       {...field}
                     />
                   </FormControl>
@@ -291,14 +343,14 @@ export default function CheckOutForm({ users }) {
             />
             <FormField
               control={form.control}
-              name="billing_address"
+              name="billing_phone"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Billing Address</FormLabel>
+                  <FormLabel>Phone No.</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Billing Address"
+                      placeholder="Phone Number"
                       {...field}
                     />
                   </FormControl>
@@ -308,14 +360,14 @@ export default function CheckOutForm({ users }) {
             />
             <FormField
               control={form.control}
-              name="billing_address"
+              name="billing_email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Billing Address</FormLabel>
+                  <FormLabel>Email Id</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Billing Address"
+                      placeholder="Customer Email Id"
                       {...field}
                     />
                   </FormControl>
@@ -323,8 +375,6 @@ export default function CheckOutForm({ users }) {
                 </FormItem>
               )}
             />
-
-
 
             <FormField
               control={form.control}

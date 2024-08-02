@@ -120,10 +120,10 @@ const sideBarList = [
   {
     title: "Database",
     paths: [
-      {
-        name: "Membership Database",
-        location: "/admin/database/member",
-      },
+      // {
+      //   name: "Membership Database",
+      //   location: "/admin/database/member",
+      // },
       {
         name: "Login Customer Database",
         location: "/admin/database/user",
@@ -136,37 +136,37 @@ const sideBarList = [
       //   name: "Product Customer Database",
       //   location: "/admin/database/product_customer",
       // },
-      {
-        name: "Service Enquiry Database",
-        location: "/admin/database/service_sales_report",
-      },
+      // {
+      //   name: "Service Enquiry Database",
+      //   location: "/admin/database/service_sales_report",
+      // },
       // {
       //   name: "Service Customer Database",
       //   location: "/admin/database/service_customer",
       // },
-      {
-        name: "Ads Customer Database",
-        location: "/admin/database/ads_user",
-      },
+      // {
+      //   name: "Ads Customer Database",
+      //   location: "/admin/database/ads_user",
+      // },
     ],
   },
-  {
-    title: "Settings",
-    paths: [
-      {
-        name: "Products",
-        location: "/admin/masters/productCategory",
-      },
-      {
-        name: "Services",
-        location: "/admin/masters/services",
-      },
-      {
-        name: "Advertisement",
-        location: "/admin/masters/advertisement_master",
-      },
-    ],
-  },
+  // {
+  //   title: "Settings",
+  //   paths: [
+  //     {
+  //       name: "Products",
+  //       location: "/admin/masters/productCategory",
+  //     },
+  //     {
+  //       name: "Services",
+  //       location: "/admin/masters/services",
+  //     },
+  //     {
+  //       name: "Advertisement",
+  //       location: "/admin/masters/advertisement_master",
+  //     },
+  //   ],
+  // },
   {
     title: "Auth",
     paths: [
