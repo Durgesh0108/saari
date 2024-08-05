@@ -770,7 +770,7 @@ export async function POST(req: Request) {
 
     const mailOptions = {
       from: "drgaming143@gmail.com",
-      to: `${user.email}`,
+      to: [user.email, email].join(", "),
       subject: "Order Invoice",
       text: "Please find attached your Order Invoice.",
       attachments: [

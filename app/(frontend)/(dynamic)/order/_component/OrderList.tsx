@@ -162,7 +162,7 @@ export default function OrdersListPage({ orders }) {
                               </div>
                               <div className="w-1/4 flex items-center justify-center">
                                 <div className="text-xl text-center">
-                                  Estimated Delivery on 2nd August 2024
+                                  Estimated Delivery With 7 Days to 15 Days
                                 </div>
                               </div>
                             </div>

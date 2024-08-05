@@ -126,11 +126,11 @@ const sideBarList = [
       // },
       {
         name: "Login Customer Database",
-        location: "/admin/database/user",
+        location: "/admin/Database/user",
       },
       {
         name: "Product Sale report",
-        location: "/admin/database/product_sales_report",
+        location: "/admin/Database/product_sales_report",
       },
       // {
       //   name: "Product Customer Database",
@@ -210,16 +210,16 @@ export default function Sidebar() {
   };
 
   // useFrontAuthMiddleware();
-  // useAuthMiddleware();
+  useAuthMiddleware();
   let admin = true;
 
-  // if (role !== "admin") {
-  //   admin = false;
-  //   cookieHandler.remove("token");
-  //   cookieHandler.remove("user");
-  //   cookieHandler.remove("userId");
-  //   cookieHandler.remove("role");
-  // }
+  if (role !== "admin") {
+    admin = false;
+    cookieHandler.remove("token");
+    cookieHandler.remove("user");
+    cookieHandler.remove("userId");
+    cookieHandler.remove("role");
+  }
 
   const [sideBarIsOpen, setSideBarIsOpen] = useState(false);
 
@@ -296,7 +296,7 @@ export default function Sidebar() {
                 <h1 className="mb-2">Admin</h1>
                 {/* <ToggleTheme /> */}
               </div>
-              <h1 className="font-bold text-[0.75rem] my-4 ">Durgesh</h1>
+              <h1 className="font-bold text-[0.75rem] my-4 ">{user}</h1>
               <div className="flex flex-col gap-2 h-full pb-16">
                 <div className="flex flex-col justify-between gap-4">
                   <div className="">

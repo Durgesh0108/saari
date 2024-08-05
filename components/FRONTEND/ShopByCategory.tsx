@@ -95,7 +95,7 @@ export default function ShopByCategory({ categories }) {
                     // layout="fill"
                     fill
                     // objectFit="cover"
-                    style={{ objectFit: 'cover' }}
+                    style={{ objectFit: "cover" }}
                     className="w-full h-full object-cover rounded-2xl md:rounded-none md:rounded-tl-[100px] md:rounded-br-2xl group-hover:shadow-2xl group-hover:shadow-slate-300"
                   />
                 </div>

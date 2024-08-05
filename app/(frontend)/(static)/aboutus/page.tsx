@@ -29,16 +29,7 @@ const Page = () => {
               <div className="content md:w-5/6 w-full">
                 <div className="text-2xl font-bold">Story of the brand</div>
                 
-                <video
-                  height={315}
-                  width={560}
-                  className="border-2 border-black"
-                >
-                  <source
-                    src="https://youtu.be/NPN_kxe-G6I?si=E6dAjbF0APJQL8k_"
-                    type="video/mp4"
-                  />
-                </video>
+                
                 <div className="body1  md:mt-7 mt-5 flex flex-col gap-6">
                   <p>
                     Launched in 2017, Taneira, from the house of TATA, is home

@@ -80,7 +80,9 @@ export default async function Header() {
   const categories = await prismadb.category.findMany({
     where: {
       name: {
-        not: "Gift Card",
+        // not: "Gift Card",
+        notIn: ["Gift Card", "Kurta Set"],
+        // not: "Kurta Set"
       },
     },
     include: {

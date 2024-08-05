@@ -87,8 +87,6 @@ export default function CheckOutForm({ users }) {
     setTotal(subtotal + shipping - discount);
   };
 
-  console.log("user", user);
-
   const form = useForm<CheckOutFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -143,14 +141,14 @@ export default function CheckOutForm({ users }) {
               // billing_email: user.email,
               // billing_phone: user?.phone || "9876543210",
               shipping_is_billing: true,
-              order_items: [
-                cartProducts.map((product) => ({
-                  name: product.name,
-                  sku: "123456",
-                  units: product.quantity,
-                  selling_price: product.price,
-                })),
-              ],
+              // order_items: [
+              //   cartProducts.map((product) => ({
+              //     name: product.name,
+              //     sku: "123456",
+              //     units: product.quantity,
+              //     selling_price: product.price,
+              //   })),
+              // ],
               payment_method: "Prepaid",
               sub_total: total,
               length: 10,

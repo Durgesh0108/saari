@@ -24,8 +24,14 @@ export default async function Home() {
 
   const categories = await prismadb.category.findMany({
     orderBy: {
-      name: "desc",
+      // name: "desc",
       // name: "asc",
+      createdAt: "asc",
+    },
+    where: {
+      name: {
+        not: "Kurta Set",
+      },
     },
   });
 
