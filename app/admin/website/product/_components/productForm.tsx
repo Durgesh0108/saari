@@ -35,7 +35,7 @@ import { colors } from "@mui/material";
 const formSchema = z.object({
   name: z.string().nonempty("Name is required"),
   shortDescription: z.string().nonempty("Short description is required"),
-  qty: z.number().min(1, "Quantity must be at least 1"),
+  qty: z.coerce.number().min(1, "Quantity must be at least 1"),
   images: z.array(z.string().url("Must be a valid URL")),
 });
 

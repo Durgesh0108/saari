@@ -60,7 +60,7 @@ export default function ProductCard({ product }) {
           }`}
         ></div>
         {/* Overlay icons */}
-        <div
+        {/* <div
           className={`absolute inset-0 flex items-center justify-center text-white opacity-0 transition-opacity duration-300 ${
             hovered ? "opacity-100" : ""
           }`}
@@ -85,7 +85,7 @@ export default function ProductCard({ product }) {
               </span>
             </button>
           </div>
-        </div>
+        </div> */}
       </div>
       <div className="p-4">
         <h3 className="text-xl font-semibold mb-2 capitalize line-clamp-3">

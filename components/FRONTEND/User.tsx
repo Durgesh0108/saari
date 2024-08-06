@@ -6,7 +6,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CircleUserRound, LogOut, User } from "lucide-react";
+import {
+  Boxes,
+  CircleUserRound,
+  Folders,
+  LogOut,
+  Package,
+  User,
+} from "lucide-react";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
@@ -42,7 +49,15 @@ export default function UserProfile() {
         <PopoverContent className="border-none">
           {token ? (
             <>
-              <div className="flex flex-col m-auto">
+              <div className="flex flex-col gap-4 m-auto">
+                <Link href={"/order"} className="w-full">
+                  <Button className="flex gap-4 w-full">
+                    {/* <Folders /> */}
+                    {/* <Boxes /> */}
+                    <Package />
+                    <span>Orders</span>
+                  </Button>
+                </Link>
                 <Button className="flex gap-4" onClick={onLogout}>
                   <span>Logout</span>
                   <LogOut />

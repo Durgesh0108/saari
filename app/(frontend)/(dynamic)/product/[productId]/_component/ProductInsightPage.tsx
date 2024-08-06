@@ -48,7 +48,6 @@ export default function ProductInsightPage({
           productId: id,
           quantity: 1,
         });
-        console.log(response);
         toast.success("Added To Cart");
       }
     } catch (error) {
@@ -139,10 +138,10 @@ export default function ProductInsightPage({
           </div>
 
           <div className="flex gap-4 mt-4">
-            <button className="flex items-center gap-2 py-2 px-4 bg-white border-2 border-gray-300 rounded-lg">
+            {/* <button className="flex items-center gap-2 py-2 px-4 bg-white border-2 border-gray-300 rounded-lg">
               <Heart className="w-6 h-6 text-red-500" />
               <span>Add To Wishlist</span>
-            </button>
+            </button> */}
             <button
               onClick={() => addToCart(product.id)}
               className="flex items-center gap-2 py-2 px-4 bg-pink-500 text-white font-bold rounded-lg"

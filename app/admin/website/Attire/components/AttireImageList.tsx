@@ -92,6 +92,8 @@ export const AttireImagesList = ({ items, onReorder }: ImagesListProps) => {
                     </div>
                     <Image
                       alt="Upload"
+                      width={1000}
+                      height={1000}
                       className="object-cover rounded-md h-24 w-24"
                       src={image.url || ""}
                       loading="lazy"

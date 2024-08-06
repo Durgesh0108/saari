@@ -80,13 +80,13 @@ export default function Navbar({ products, categories, users, cart }) {
             {categories.map((category, index) => (
               <div className="group flex flex-col items-center " key={index}>
                 <div className="text-white group-hover:text-[#dcb06a] ">
-                  {/* <Link href={`/category/${category.id}`}>{category.name}</Link> */}
-                  <div
+                  <Link href={`/category/${category.id}`}>{category.name}</Link>
+                  {/* <div
                     onClick={() => router.push(`/category/${category.id}`)}
                     className="cursor-pointer"
                   >
                     {category.name}
-                  </div>
+                  </div> */}
                 </div>
                 <div
                   className={`duration-300 w-0 group-hover:w-full rounded-full border-b-[1px] border-b-[#dcb06a]`}
@@ -134,11 +134,11 @@ export default function Navbar({ products, categories, users, cart }) {
             <Search className="text-white" />
           </div>
           <div>
-            <Link href={"/order"}>
+            {/* <Link href={"/order"}> */}
               <UserProfile />
-            </Link>
+            {/* </Link> */}
           </div>
-          <div className="flex justify-center items-center">
+          {/* <div className="flex justify-center items-center">
             <Link href={"/wishlist"}>
               <div className="relative py-2">
                 <div className="-top-[1px] absolute left-3">
@@ -149,7 +149,7 @@ export default function Navbar({ products, categories, users, cart }) {
                 <Heart className="text-white" />
               </div>
             </Link>
-          </div>
+          </div> */}
           <div className="flex justify-center items-center">
             <Link href={"/cart"}>
               <div className="relative py-2">

@@ -151,7 +151,7 @@ const FilterByColor = ({ color, products }) => {
       <div className="flex flex-wrap -mx-4">
         <div className="w-full md:w-1/12 px-4 mb-8">
           <div className="h-full flex flex-col gap-2">
-            {uniqueColor.map((color, index) => (
+            {uniqueColor.slice(0, 6).map((color, index) => (
               <button
                 key={index}
                 className={`flex justify-center items-center rounded-lg p-2 transition-transform duration-300 ${

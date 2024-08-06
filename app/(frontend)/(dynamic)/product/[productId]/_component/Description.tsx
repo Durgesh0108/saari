@@ -81,7 +81,7 @@ const DescriptionTab = ({ product }) => {
         {selectedCategory === 1 && (
           <div className="w-full h-full grid grid-cols-8">
             <div className="col-span-8">
-              <div className="grid grid-cols-2  gap-x-24 ">
+              <div className="grid grid-cols-1 lg:grid-cols-2  gap-x-24 ">
                 {/* {product?.description?.map((desc, index) => ( */}
                 {filteredDescription.map((desc, index) => (
                   <div key={index} className=" flex flex-col gap-8">

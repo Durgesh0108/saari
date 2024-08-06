@@ -7,7 +7,7 @@ const nextConfig = {
 		JWT_SECRET: "secret",
 	},
 	experimental: {
-		middleware: true,
+		// middleware: true,
 		missingSuspenseWithCSRBailout: false,
 	},
 	typescript: {

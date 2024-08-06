@@ -218,6 +218,10 @@ export default async function ProductFormPage({
               name={product?.name || ""}
               productId={product?.id || ""}
             />
+            <PriceProductForm
+              productId={product?.id || ""}
+              price={product?.price || 0}
+            />
             <InventryProductForm
               qty={product?.qty || 0}
               productId={product?.id || ""}
@@ -237,12 +241,7 @@ export default async function ProductFormPage({
               description={service?.description || ""}
             /> */}
           </div>
-          {/* <PriceProductForm
-            productId={product?.id || ""}
-            //   discount={product?.Discount?.discount || 0}
-            price={product?.price || 0}
-            offer_price={product?.offer_price || 0}
-          /> */}
+
           {/* <LocationProductForm
             service_location={product?.location || ""}
             productId={product?.id || ""}

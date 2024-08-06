@@ -20,16 +20,16 @@ const DropdownMenu = ({ Fabrics }) => {
             onMouseEnter={() => setSelectedCategory(index)}
             onMouseLeave={() => setSelectedCategory(selectedCategory)}
           >
-            {/* <Link href={`/products?fabricId=${category.id}`}>
+            <Link href={`/products?fabricId=${category.id}`}>
               {category.name}
-            </Link> */}
+            </Link>
 
-            <div
+            {/* <div
               onClick={() => router.push(`/products?fabricId=${category.id}`)}
               className="cursor-pointer"
             >
               {category.name}
-            </div>
+            </div> */}
           </div>
         ))}
       </div>
@@ -41,29 +41,29 @@ const DropdownMenu = ({ Fabrics }) => {
             {Fabrics[selectedCategory].Type.map((type, idx) => (
               <div className="flex flex-col gap-4" key={idx}>
                 <div className="">
-                  {/* <Link href={`/products?typeId=${type.id}`}>{type.name}</Link> */}
-                  <div
+                  <Link href={`/products?typeId=${type.id}`}>{type.name}</Link>
+                  {/* <div
                     onClick={() => router.push(`/products?typeId=${type.id}`)}
                     className="cursor-pointer"
                   >
                     {type.name}
-                  </div>
+                  </div> */}
                 </div>
                 <div>
                   {type.SubType.map((subtype, index) => (
                     <div key={index} className="text-lg">
-                      {/* <Link href={`/products?subTypeId=${subtype.id}`}>
+                      <Link href={`/products?subTypeId=${subtype.id}`}>
                         {subtype.name}
-                      </Link> */}
+                      </Link>
 
-                      <div
+                      {/* <div
                         onClick={() =>
                           router.push(`/products?subTypeId=${subtype.id}`)
                         }
                         className="cursor-pointer"
                       >
                         {subtype.name}
-                      </div>
+                      </div> */}
                     </div>
                   ))}
                 </div>
