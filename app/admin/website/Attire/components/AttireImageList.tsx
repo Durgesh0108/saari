@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { Grip } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { AttireImage } from "@prisma/client";
+import Image from "next/image";
 
 // import Image from "next/image";
 
@@ -89,7 +90,7 @@ export const AttireImagesList = ({ items, onReorder }: ImagesListProps) => {
                     >
                       <Grip className="h-5 w-5" />
                     </div>
-                    <img
+                    <Image
                       alt="Upload"
                       className="object-cover rounded-md h-24 w-24"
                       src={image.url || ""}

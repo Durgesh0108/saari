@@ -68,7 +68,11 @@ export default function Navbar({ products, categories, users, cart }) {
       <div className="w-full bg-[#b11e44] container  py-4 hidden lg:grid grid-cols-12 items-center">
         <div className="col-span-2 py-2 flex items-center">
           <Link href={"/"} className="flex items-center   w-full">
-            <Image src={Logo} className="object-contain w-full" />
+            <Image
+              src={Logo}
+              alt="Kaunshanee"
+              className="object-contain w-full"
+            />
           </Link>
         </div>
         <div className="col-span-8 w-full relative px-8 flex justify-center">

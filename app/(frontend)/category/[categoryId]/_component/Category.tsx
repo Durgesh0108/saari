@@ -14,6 +14,8 @@ import Link from "next/link";
 
 import { Nunito_Sans } from "next/font/google";
 import { useParams, useRouter } from "next/navigation";
+import Header1 from "@/components/ui/Header1";
+import Header2 from "@/components/ui/Header2";
 const nunito = Nunito_Sans({ subsets: ["latin"] });
 
 export default function ShopByCategory({ types }) {
@@ -25,14 +27,15 @@ export default function ShopByCategory({ types }) {
       {types.length >= 1 && (
         <div className=" my-8 ">
           <div className="container px-8 flex flex-col gap-y-4 ">
-            <div
+            {/* <div
               className={`font-medium text-[#afafaf] text-2xl ${nunito.className}`}
-            >
-              Shop By Category
-            </div>
-            <div className="font-medium text-5xl italic  ">
-              Fine drapes, ready-to-wear styles, and more
-            </div>
+            > */}
+            <Header1>Shop By Category</Header1>
+            {/* </div> */}
+
+            {/* <div className="font-medium text-5xl italic  "> */}
+            <Header2>Fine drapes, ready-to-wear styles, and more</Header2>
+            {/* </div> */}
 
             <div className="relative section-swiper-navigation  grid grid-cols-4 gap-2 md:gap-6 ">
               {types.map((slide, index) => (
