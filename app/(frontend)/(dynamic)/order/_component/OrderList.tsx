@@ -35,7 +35,7 @@ export default function OrdersListPage({ orders }) {
         </div>
         <h2 className="text-2xl font-semibold mb-2">No Orders Yet</h2>
         <p className="text-gray-600 mb-4">
-          It looks like you haven't placed any orders yet. Explore our products
+          It looks like you haven&apos;t placed any orders yet. Explore our products
           and place your first order!
         </p>
         <button

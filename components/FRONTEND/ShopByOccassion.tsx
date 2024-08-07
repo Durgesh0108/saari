@@ -612,11 +612,11 @@ const ShopByOccassion = ({ occassion, products }) => {
                             // layout="fill"
                             fill
                             // objectFit="cover"
-                            style={{ objectFit: 'cover' }}
+                            style={{ objectFit: "cover" }}
                             className="w-full h-full object-cover rounded-lg group-hover:shadow-2xl transition-shadow duration-300"
                           />
                         </div>
-                        <div className="mt-2 text-lg md:text-xl line-clamp-1">
+                        <div className="mt-2 text-lg md:text-xl line-clamp-2 p-2">
                           {property.name}
                         </div>
                       </Link>

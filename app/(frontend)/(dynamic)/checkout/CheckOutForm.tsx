@@ -55,26 +55,25 @@ export default function CheckOutForm({ users }) {
 
   const userId = cookieHandler.get("userId");
 
-  if (!userId) {
-    cookieHandler.remove("userId");
-    cookieHandler.remove("token");
-    cookieHandler.remove("role");
-    cookieHandler.remove("user");
-    toast.error("Please Login To Continue");
-    router.push("/Login");
-    return null;
-  }
-
   useEffect(() => {
-    const currentUser = users.find((user) => user.id === userId);
-    setUser(currentUser);
-  }, [users, userId]);
+    if (!userId) {
+      cookieHandler.remove("userId");
+      cookieHandler.remove("token");
+      cookieHandler.remove("role");
+      cookieHandler.remove("user");
+      toast.error("Please Login To Continue");
+      router.push("/Login");
+      return;
+    }
 
-  if (!user) {
-    toast.error("Invalid User");
-    router.push("/Login");
-    return null;
-  }
+    const currentUser = users.find((user) => user.id === userId);
+    if (!currentUser) {
+      toast.error("Invalid User");
+      router.push("/Login");
+      return;
+    }
+    setUser(currentUser);
+  }, [users, userId, router]);
 
   useEffect(() => {
     if (user && user.cartItems) {

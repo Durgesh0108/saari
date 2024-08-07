@@ -22,7 +22,7 @@ const marks = [
   },
 ];
 
-export default function SearchResultListingPage({ results }) {
+export default function SearchResultListingPage({ results, similarResults }) {
   // const [filters, setFilters] = useState({
   //   category: [],
   //   occassion: [],
@@ -246,12 +246,13 @@ export default function SearchResultListingPage({ results }) {
             handleResetFilters={handleResetFilters}
           />
           <div className="col-span-6 p-4">
-            <div className="flex items-center justify-between">
-              <h1 className="text-3xl font-bold m-4 ml-0 uppercase px-4">
-                Search Result
-              </h1>
-            </div>
-            {/* <div className="mb-4 flex flex-wrap gap-2 px-4">
+            <div className="specified">
+              <div className="flex items-center justify-between">
+                <h1 className="text-3xl font-bold m-4 ml-0 uppercase px-4">
+                  Search Result
+                </h1>
+              </div>
+              {/* <div className="mb-4 flex flex-wrap gap-2 px-4">
               {Object.entries(filters).map(([filterType, values]) =>
                 values.map((value) => (
                   <div
@@ -269,15 +270,34 @@ export default function SearchResultListingPage({ results }) {
                 ))
               )}
             </div> */}
-            <div>
-              {/* Display filtered results */}
-              {filteredProducts.length > 0 ? (
-                <ProductListing products={filteredProducts} />
-              ) : (
-                <div className="py-12 px-4 h-screen overflow-auto no-scrollbar">
-                  <NoProduct />
-                </div>
-              )}
+              <div>
+                {/* Display filtered results */}
+                {filteredProducts.length > 0 ? (
+                  <ProductListing products={filteredProducts} />
+                ) : (
+                  <div className="py-12 px-4 h-screen overflow-auto no-scrollbar">
+                    <NoProduct />
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="similar">
+              <div className="flex items-center justify-between">
+                <h1 className="text-3xl font-bold m-4 ml-0 uppercase px-4">
+                  Similar Result
+                </h1>
+              </div>
+
+              <div>
+                {/* Display filtered results */}
+                {similarResults.length > 0 ? (
+                  <ProductListing products={similarResults} />
+                ) : (
+                  <div className="py-12 px-4 h-screen overflow-auto no-scrollbar">
+                    <NoProduct />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
