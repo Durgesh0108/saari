@@ -398,6 +398,8 @@ import {
   ProductEnquiryEmailsByBrand,
   getProductEnquiryEmails,
 } from "@/actions/EnquiryEmail/productEmail/ServerProductEnquiryEmail";
+import { Pencil } from "lucide-react";
+import Link from "next/link";
 
 const AdminOrdersListPage = ({ orders }) => {
   const [ProductOrders, setProductOrders] = useState(orders);
@@ -629,6 +631,7 @@ const AdminOrdersListPage = ({ orders }) => {
             <table className="w-full border-collapse border border-gray-400">
               <thead>
                 <tr>
+                  <th>Buttons</th>
                   {selectedColumns.map((col) => (
                     <th
                       key={col.value}
@@ -642,6 +645,27 @@ const AdminOrdersListPage = ({ orders }) => {
               <tbody>
                 {currentItems.map((order) => (
                   <tr key={order.id}>
+                    <td className="border border-gray-400 px-4 py-2 text-center">
+                      <div className="flex gap-2">
+                        <Link
+                          href={`/admin/Database/product_sales_report/${order.id}`}
+                        >
+                          <Button variant={"success"} size="sm">
+                            <Pencil className="h-4 w-4" />
+                          </Button>
+                        </Link>
+                        {/* <Button
+                          onClick={() => {
+                            setOpen(true);
+                            setDeleteId(order.id);
+                          }}
+                          variant="destructive"
+                          size="sm"
+                        >
+                          <Trash className="h-4 w-4" />
+                        </Button> */}
+                      </div>
+                    </td>
                     {selectedColumns.map((col) => (
                       <td
                         key={`${order.id}-${col.value}`}

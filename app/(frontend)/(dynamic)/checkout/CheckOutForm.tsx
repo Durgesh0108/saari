@@ -49,6 +49,7 @@ export default function CheckOutForm({ users }) {
   const [quantities, setQuantities] = useState({});
   const [subtotal, setSubtotal] = useState(0);
   const [shipping, setShipping] = useState(0);
+  const [shipRocket, setshipRocket] = useState(0);
   const [discount, setDiscount] = useState(0);
   const [total, setTotal] = useState(0);
   const [paymentError, setPaymentError] = useState("");
@@ -90,6 +91,14 @@ export default function CheckOutForm({ users }) {
       setQuantities(initialQuantities);
 
       calculateTotals(cartProducts, initialQuantities);
+
+      const shiprocketValues = calculateShiprocket(cartProducts);
+      setshipRocket({
+        length: shiprocketValues.totalLength,
+        width: shiprocketValues.totalWidth,
+        height: shiprocketValues.totalHeight,
+        weight: shiprocketValues.totalWeight,
+      });
     }
   }, [user]);
 
@@ -99,7 +108,33 @@ export default function CheckOutForm({ users }) {
     }, 0);
 
     setSubtotal(subtotal);
-    setTotal(subtotal + shipping - discount);
+    // setTotal(subtotal + shipping - discount);
+    setTotal(subtotal);
+  };
+
+  const calculateShiprocket = (products) => {
+    const totalLength = products.reduce((acc, product) => {
+      return acc + (product.shiplength || 0) * (product.quantity || 1);
+    }, 0);
+
+    const totalWidth = products.reduce((acc, product) => {
+      return acc + (product.shipwidth || 0) * (product.quantity || 1);
+    }, 0);
+
+    const totalHeight = products.reduce((acc, product) => {
+      return acc + (product.shipheight || 0) * (product.quantity || 1);
+    }, 0);
+
+    const totalWeight = products.reduce((acc, product) => {
+      return acc + (product.shipweight || 0) * (product.quantity || 1);
+    }, 0);
+
+    return {
+      totalLength,
+      totalWidth,
+      totalHeight,
+      totalWeight,
+    };
   };
 
   const form = useForm<CheckOutFormValues>({
@@ -151,25 +186,13 @@ export default function CheckOutForm({ users }) {
             await handleSubmit(form.getValues(), {
               order_id: res.order.id,
               order_date: res.order.createdAt,
-              // billing_customer_name: user.name,
-              // billing_last_name: user?.lastName || "Prajapati",
-              // billing_email: user.email,
-              // billing_phone: user?.phone || "9876543210",
               shipping_is_billing: true,
-              // order_items: [
-              //   cartProducts.map((product) => ({
-              //     name: product.name,
-              //     sku: "123456",
-              //     units: product.quantity,
-              //     selling_price: product.price,
-              //   })),
-              // ],
               payment_method: "Prepaid",
               sub_total: total,
-              length: 10,
-              breadth: 15,
-              height: 20,
-              weight: 2.5,
+              length: shipping.length,
+              breadth: shipping.width,
+              height: shipping.height,
+              weight: shipping.weight,
             });
           } else {
             toast.error("Payment Failed");
@@ -223,11 +246,14 @@ export default function CheckOutForm({ users }) {
       order_items: data.order_items,
       payment_method: data.payment_method,
       sub_total: data.sub_total,
-      length: data.length,
-      breadth: data.breadth,
-      height: data.height,
-      weight: data.weight,
+      length: shipRocket.length,
+      breadth: shipRocket.width,
+      height: shipRocket.height,
+      weight: shipRocket.weight,
     });
+
+    console.log("ShipRocket Dimensions:", shipRocket);
+    console.log("Payload Data:", raw);
 
     const login = await axios.post(
       "https://apiv2.shiprocket.in/v1/external/auth/login",

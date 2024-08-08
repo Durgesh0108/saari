@@ -63,6 +63,33 @@ export async function PATCH(
       data: {
         ...body,
       },
+      include: {
+        category: true,
+        color: true,
+        description: true,
+        images: {
+          orderBy: {
+            position: "asc",
+          },
+        },
+        occassion: true,
+        pattern: true,
+        type: true,
+        fabric: true,
+        blouseColor: true,
+        palluColor: true,
+        SubType: true,
+        blousePattern: true,
+        border: true,
+        borderColor: true,
+        buttiType: true,
+        palluMotif: true,
+        sareeMotif: true,
+        weave: true,
+        weaveType: true,
+        zari: true,
+        zariColor: true,
+      },
     });
     revalidatePath("/", "layout");
     return NextResponse.json(product);

@@ -24,9 +24,6 @@ import {Card} from "@/components/ui/Card";
 import ImageUpload from "@/components/ui/image-upload";
 import {
   Description,
-  EnquiryService,
-  ServiceContactForm,
-  ServiceFeatures,
 } from "@prisma/client";
 import Image from "next/image";
 

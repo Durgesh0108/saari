@@ -129,6 +129,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         weaveType: true,
         zari: true,
         zariColor: true,
+        
       },
     });
 
