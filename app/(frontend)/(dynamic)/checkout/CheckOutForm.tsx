@@ -20,6 +20,7 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { cookieHandler } from "@/lib/cookieHandler";
+import prismadb from "@/lib/prisma";
 
 const formSchema = z.object({
   billing_address: z.string().min(2, "Address is required"),
@@ -290,7 +291,10 @@ export default function CheckOutForm({ users }) {
       }
 
       const result = await response.json();
-      console.log("Response:", result);
+
+      await axios.patch(`/api/order/${data.order_id}`, {
+        shipRocketOrderId: result.order_id,
+      });
 
       toast.success("Thank You For Purchasing");
       setCartProducts([]);

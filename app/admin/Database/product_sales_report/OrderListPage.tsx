@@ -398,8 +398,10 @@ import {
   ProductEnquiryEmailsByBrand,
   getProductEnquiryEmails,
 } from "@/actions/EnquiryEmail/productEmail/ServerProductEnquiryEmail";
-import { Pencil } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import Link from "next/link";
+import { AlertModal } from "@/components/modal/alert-modal";
+import toast from "react-hot-toast";
 
 const AdminOrdersListPage = ({ orders }) => {
   const [ProductOrders, setProductOrders] = useState(orders);
@@ -418,6 +420,11 @@ const AdminOrdersListPage = ({ orders }) => {
   const [itemsPerPage, setItemsPerPage] = useState<number>(5);
   const [SelectedBrand, setSelectedBrand] = useState();
   const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const [deleteId, setDeleteId] = useState<string>("");
 
   const handleColumnChange = (selected: Option[]) => {
     setSelectedColumns(selected);
@@ -525,8 +532,31 @@ const AdminOrdersListPage = ({ orders }) => {
     setFilteredOrders(filtered);
   };
 
+  const handleDelete = (orderId: string) => {
+    axios
+      .delete(`/api/order/${orderId}`)
+      .then((response) => {
+        if (response.status === 200) {
+          toast.success("Order deleted successfully");
+          location.reload();
+        } else {
+          console.error("Failed to delete Order:", response.data.error);
+          toast.error("Failed to delete order");
+        }
+      })
+      .catch((error) => {
+        console.error("Error deleting order:", error);
+      });
+  };
+
   return (
     <>
+      <AlertModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        onConfirm={() => handleDelete(deleteId)}
+        loading={loading}
+      />
       <Card className={"p-8"}>
         <div className="container mx-auto p-4">
           <div className="flex flex-col md:flex-row mb-4 justify-between">
@@ -654,7 +684,7 @@ const AdminOrdersListPage = ({ orders }) => {
                             <Pencil className="h-4 w-4" />
                           </Button>
                         </Link>
-                        {/* <Button
+                        <Button
                           onClick={() => {
                             setOpen(true);
                             setDeleteId(order.id);
@@ -662,8 +692,8 @@ const AdminOrdersListPage = ({ orders }) => {
                           variant="destructive"
                           size="sm"
                         >
-                          <Trash className="h-4 w-4" />
-                        </Button> */}
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
                       </div>
                     </td>
                     {selectedColumns.map((col) => (
