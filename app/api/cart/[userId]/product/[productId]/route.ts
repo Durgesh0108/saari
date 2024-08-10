@@ -66,8 +66,6 @@ export async function PUT(
       data: { quantity: parseInt(quantity) },
     });
 
-    console.log({ updatedCartItem });
-
     return NextResponse.json(user.cartItems);
   } catch (error) {
     console.log("[CART_DELETE]", error);
